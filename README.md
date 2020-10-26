@@ -1,0 +1,2 @@
+# commitSyndrome
+GAJUGA application
