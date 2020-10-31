@@ -13,6 +13,7 @@ class CustomHeader extends StatefulWidget {
 class _CustomHeaderState extends State<CustomHeader> {
   @override
   Widget build(BuildContext context) {
+
     void _openDrawer() {}
 
     void _gotoCart() {}
@@ -38,7 +39,13 @@ class _CustomHeaderState extends State<CustomHeader> {
           ),
         ],
       ),
-      body: widget.body,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Color.fromRGBO(234, 230, 218, 1.0),
+        padding: EdgeInsets.only(top: 10),
+        child: widget.body,
+      )
     );
   }
 }

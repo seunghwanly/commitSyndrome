@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:gajuga_user/component/body/sub_menu.dart';
+import 'package:gajuga_user/util/box_shadow.dart';
+import '../../util/locale.dart';
 import '../../util/title.dart';
+import '../../util/box_shadow.dart';
 
 Widget totalMenu() {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
@@ -47,12 +50,6 @@ Widget totalMenu() {
 Widget _listItem(String title, AssetImage image, String desc, int cost,
     BuildContext context) {
 
-  String toLocaleString(int number) {
-    return new NumberFormat('###,###,###,###')
-        .format(number)
-        .replaceAll(' ', '');
-  }
-
   return Container(
     width: 160,
     height: 280,
@@ -86,7 +83,13 @@ Widget _listItem(String title, AssetImage image, String desc, int cost,
         GestureDetector(
           onTap: () {
             Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(title + ' pressed !'),
+              content: Text('메뉴 '+title + ' 가 장바구니에 담겼습니다 :)', style: TextStyle(fontWeight: FontWeight.bold),),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Color.fromRGBO(218, 155, 104, 1.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20)
+              ),
+              
             ));
           },
           child: Container(
@@ -96,13 +99,7 @@ Widget _listItem(String title, AssetImage image, String desc, int cost,
             decoration: BoxDecoration(
                 color: Color.fromRGBO(218, 155, 104, 1.0),
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.16),
-                    offset: Offset(0, 3),
-                    blurRadius: 6,
-                  )
-                ]),
+                boxShadow: [ customeBoxShadow() ]),
             child: Text(
               "장바구니 담기",
               style: TextStyle(
@@ -136,12 +133,7 @@ Widget favoriteMenu() {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.16),
-                    offset: Offset(0, 3),
-                    blurRadius: 6)
-              ]),
+              boxShadow: [ customeBoxShadow() ]),
           child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -149,9 +141,7 @@ Widget favoriteMenu() {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                     onTap: () {
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text(data[index] + ' pressed !'),
-                      ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SubmenuScreen(item: data[index], cost:12900)));
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 30, top: 10, right: 30),
