@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../util/title.dart';
+import '../../util/title.dart';
 
 Widget totalMenu() {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
