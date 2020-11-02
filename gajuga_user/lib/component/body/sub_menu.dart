@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../header/custom_header.dart';
+import '../header/header.dart';
 import '../../util/box_shadow.dart';
 import '../../util/box_button.dart';
-import '../../util/locale.dart';
-import '../../util/title.dart';
+import '../../util/to_locale.dart';
+import '../../util/to_text.dart';
+import './sub_menu_modal.dart';
 
 class SubmenuScreen extends StatefulWidget {
+
   final item, cost;
 
   SubmenuScreen({@required this.item, @required this.cost});
@@ -15,7 +17,9 @@ class SubmenuScreen extends StatefulWidget {
 }
 
 class SubmenuScreenState extends State<SubmenuScreen> {
+
   int count = 1;
+  final option1 = null, option2 = null;
 
   void handleCount(bool isAdded) {
     setState(() {
@@ -38,7 +42,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         makeTitle('세부', ' 메뉴'),
         imageCard(),
         countCard(),
-        optionCard(),
+        optionCard(context, option1, option2),
         totalCostCard(),
         bottomCard()
       ],
@@ -117,12 +121,10 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         true);
   }
 
-  Widget optionCard() {
+  Widget optionCard(BuildContext c, final option1, final option2) {
     return GestureDetector(
       onTap: () {
-        Scaffold.of(this.context).showSnackBar(new SnackBar(
-          content: Text('준비중입니다... :)'),
-        ));
+        showSubMenuModal(c, option1, option2);
       },
       child: customBoxContainer(
           340,

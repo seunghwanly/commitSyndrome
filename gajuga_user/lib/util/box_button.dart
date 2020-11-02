@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './box_shadow.dart';
+import 'box_shadow.dart';
 
 Container minusButton(double size) {
   return Container(

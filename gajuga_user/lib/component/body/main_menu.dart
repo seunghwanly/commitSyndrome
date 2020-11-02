@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/sub_menu.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
-import '../../util/locale.dart';
-import '../../util/title.dart';
+import '../../util/to_locale.dart';
+import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 
 Widget totalMenu() {

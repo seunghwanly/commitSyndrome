@@ -4,6 +4,9 @@ PODS:
     - FirebaseAnalytics (= 6.8.0)
   - Firebase/CoreOnly (6.31.0):
     - FirebaseCore (= 6.10.1)
+  - firebase_analytics (0.0.1):
+    - Firebase/Core
+    - Flutter
   - firebase_core (0.0.1):
     - Firebase/Core
     - Flutter
@@ -66,6 +69,7 @@ PODS:
   - PromisesObjC (1.2.10)
 
 DEPENDENCIES:
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
 
@@ -83,6 +87,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
@@ -90,6 +96,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: 87483fa19acfdf99244523f2389e931927b91457
+  firebase_analytics: bd50d8f5d3f42dcab6da67944a849062470b0a19
   firebase_core: ce5006bb48508ee4e71e0f429a3f519bb8ee2961
   FirebaseAnalytics: 0ca9aa2af7cc4dc92392b7a78bfc49feaa2eb60f
   FirebaseCore: 6fb954e350af0885803d5aa49865d15d9a6b264c

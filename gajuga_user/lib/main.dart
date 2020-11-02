@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'component/header/custom_header.dart';
+import 'component/header/header.dart';
 import 'component/body/main_menu.dart';
 
 void main() => runApp(MainScreen());
