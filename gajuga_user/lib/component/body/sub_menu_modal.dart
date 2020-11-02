@@ -66,10 +66,13 @@ class SubMenuModalState extends State<SubMenuModal> {
 
   Column selectSize() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text("옵션1에대한선택", style: TextStyle(color: darkblue)),
+        Container(
+          margin: EdgeInsets.only(top:5, bottom:5),
+          child: Text("옵션1에대한선택", style: TextStyle(color: darkblue)),
+        ),
         customRow("옵션1", "option1", checkedOption1, 300),
         customRow("옵션2", "option2", checkedOption2, 800),
       ],
@@ -81,7 +84,10 @@ class SubMenuModalState extends State<SubMenuModal> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text("옵션2에대한선택", style: TextStyle(color: darkblue)),
+        Container(
+          margin: EdgeInsets.only(top:5, bottom:5),
+          child: Text("옵션2에대한선택", style: TextStyle(color: darkblue)),
+        ),
         customRow("옵션1", "option1", checkedOption1, 300),
         customRow("옵션2", "option2", checkedOption2, 800),
       ],
@@ -107,7 +113,11 @@ class SubMenuModalState extends State<SubMenuModal> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   makeText("추가사항", darkblue, 0),
-                  Container(
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
                     width: 30,
                     height: 30,
                     decoration: BoxDecoration(
@@ -117,6 +127,7 @@ class SubMenuModalState extends State<SubMenuModal> {
                       image: AssetImage('images/icon/close.png'),
                       fit: BoxFit.contain,
                     ),
+                  ),
                   )
                 ],
               ),
