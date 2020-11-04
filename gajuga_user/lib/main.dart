@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'component/header/header.dart';
 import 'component/body/main_menu.dart';
+import './util/palette.dart';
 
 void main() => runApp(MainScreen());
 
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
         title: "GAJUGA.",
         theme: ThemeData(
-          primaryColor: Color.fromRGBO(234, 230, 218, 1.0),
+          primaryColor:pale,
         ),
         themeMode: ThemeMode.light,
         home: CustomHeader(
@@ -20,7 +22,12 @@ class MainScreen extends StatelessWidget {
 }
 
 Widget mainBody() {
+
   return ListView(
-    children: [totalMenu(), favoriteMenu()],
+    children: [
+      TotalMenuWidget(),
+    //  totalMenu(), 
+      FavoriteMenuWidget()
+    ],
   );
 }
