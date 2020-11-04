@@ -5,12 +5,13 @@ import '../../util/box_button.dart';
 import '../../util/to_locale.dart';
 import '../../util/to_text.dart';
 import './sub_menu_modal.dart';
+import '../../util/palette.dart';
 
 class SubmenuScreen extends StatefulWidget {
 
   final item, cost;
 
-  SubmenuScreen({@required this.item, @required this.cost});
+  SubmenuScreen({ this.item, this.cost});
 
   @override
   SubmenuScreenState createState() => SubmenuScreenState();
@@ -19,7 +20,7 @@ class SubmenuScreen extends StatefulWidget {
 class SubmenuScreenState extends State<SubmenuScreen> {
 
   int count = 1;
-  final option1 = null, option2 = null;
+  final bool option1 = null, option2 = null;
 
   void handleCount(bool isAdded) {
     setState(() {
@@ -34,31 +35,32 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  //main build -----------------------------------------------------------------
     return CustomHeader(
         body: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         makeTitle('세부', ' 메뉴'),
-        imageCard(),
-        countCard(),
+        imageCard(context),
+        countCard(context),
         optionCard(context, option1, option2),
-        totalCostCard(),
-        bottomCard()
+        totalCostCard(context),
+        bottomCard(context)
       ],
     ));
   }
 
-  Widget imageCard() {
+  Widget imageCard(BuildContext c) {
     return customBoxContainer(
-        340,
-        340,
+        // 340,
+        MediaQuery.of(c).size.width * 0.9,
+        MediaQuery.of(c).size.width * 0.9,
         Column(
           children: [
             Container(
               child: Container(
-                width: 340,
-                height: 220,
+                width: MediaQuery.of(c).size.width * 0.9,
+                height: MediaQuery.of(c).size.height * 0.27,
               ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -78,13 +80,13 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     margin: EdgeInsets.only(bottom: 10),
                     child: Text(widget.item,
                         style: TextStyle(
-                            color: Color.fromRGBO(33, 33, 31, 1.0),
+                            color: darkblue,
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
                   ),
                   Text("이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..",
                       style: TextStyle(
-                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          color: lightgrey,
                           fontWeight: FontWeight.normal,
                           fontSize: 14))
                 ],
@@ -95,10 +97,10 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         false);
   }
 
-  Widget countCard() {
+  Widget countCard(BuildContext c) {
     return customBoxContainer(
-        340,
-        60,
+        MediaQuery.of(c).size.width * 0.9, //iphone X - 340
+        MediaQuery.of(c).size.height * 0.07, //iphone X - 60
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,7 +113,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(33, 33, 31, 1.0))),
+                    color: darkblue)
+                    ),
             GestureDetector(
               child: plusButton(30),
               onTap: () => handleCount(true),
@@ -127,22 +130,22 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         showSubMenuModal(c, option1, option2);
       },
       child: customBoxContainer(
-          340,
-          80,
+          MediaQuery.of(c).size.width * 0.9, //iphone X  - 340
+          MediaQuery.of(c).size.height * 0.1, //iphone X - 80
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('추가사항',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color.fromRGBO(33, 33, 31, 1.0)),
+                      fontSize: 18,
+                      color: darkblue),
                   textAlign: TextAlign.center),
               Text('>',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: Color.fromRGBO(33, 33, 31, 1.0)),
+                      fontSize: 18,
+                      color: darkblue),
                   textAlign: TextAlign.center),
             ],
           ),
@@ -150,23 +153,23 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     );
   }
 
-  Widget totalCostCard() {
+  Widget totalCostCard(BuildContext c) {
     return customBoxContainer(
-        340,
-        60,
+        MediaQuery.of(c).size.width * 0.9, //iphone X - 340
+        MediaQuery.of(c).size.height * 0.07, //iphone X - 60
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('총 금액',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Color.fromRGBO(33, 33, 31, 1.0)),
                 textAlign: TextAlign.center),
             Text(toLocaleString(widget.cost) + '원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Color.fromRGBO(218, 155, 104, 1.0)),
                 textAlign: TextAlign.center),
           ],
@@ -174,12 +177,12 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         true);
   }
 
-  Widget bottomCard() {
+  Widget bottomCard(BuildContext c) {
     return Container(
         margin: EdgeInsets.only(bottom: 20),
         child: customBoxContainer(
-            340,
-            60,
+            MediaQuery.of(c).size.width * 0.9, //iphone X - 340
+            MediaQuery.of(c).size.height * 0.07, //iphone X - 60
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -189,19 +192,19 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.only(left: 40, right: 20),
-                    width: 170,
-                    height: 60,
+                    padding: EdgeInsets.only(left: 30, right: 20),
+                    width: MediaQuery.of(c).size.width * 0.45, // iphone X - 170
+                    height: MediaQuery.of(c).size.height * 0.07, //iphone X - 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
                           bottomLeft: Radius.circular(30)),
-                      color: Color.fromRGBO(33, 33, 31, 1.0),
+                      color: darkblue,
                     ),
                     child: Text('장바구니담기',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.white),
                         textAlign: TextAlign.center),
                   ),
@@ -210,23 +213,23 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                   onTap: () {
                     final snackBar = SnackBar(content: Text("Tap"));
 
-                    Scaffold.of(context).showSnackBar(snackBar);
+                    Scaffold.of(c).showSnackBar(snackBar);
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.only(left: 20, right: 40),
-                    width: 170,
-                    height: 60,
+                    padding: EdgeInsets.only(left: 20, right: 30),
+                    width: MediaQuery.of(c).size.width * 0.45, // iphone X - 170
+                    height: MediaQuery.of(c).size.height * 0.07, //iphone X - 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
-                      color: Color.fromRGBO(218, 155, 104, 1.0),
+                      color: orange,
                     ),
-                    child: Text('바로결제 및 주문',
+                    child: Text('바로결제및주문',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.white),
                         textAlign: TextAlign.center),
                   ),
