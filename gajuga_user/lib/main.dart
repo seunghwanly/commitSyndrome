@@ -8,13 +8,9 @@ void main() => runApp(MainScreen());
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         title: "GAJUGA.",
-        theme: ThemeData(
-          primaryColor:pale,
-          canvasColor: Colors.transparent
-        ),
+        theme: ThemeData(primaryColor: pale, canvasColor: Colors.transparent),
         themeMode: ThemeMode.light,
         home: CustomHeader(
           body: mainBody(),
@@ -23,11 +19,10 @@ class MainScreen extends StatelessWidget {
 }
 
 Widget mainBody() {
-
   return ListView(
     children: [
       TotalMenuWidget(),
-    //  totalMenu(), 
+      //  totalMenu(),
       FavoriteMenuWidget()
     ],
   );
