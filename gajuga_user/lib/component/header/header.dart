@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/order_history.dart';
 import 'package:gajuga_user/util/palette.dart';
 import 'package:gajuga_user/util/to_text.dart';
+import 'package:gajuga_user/component/body/login.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -45,7 +46,7 @@ class _CustomHeaderState extends State<CustomHeader> {
       drawer: Drawer(
         child: Container(
           decoration: BoxDecoration(
-            color: pale,
+              color: pale,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(30),
                   bottomRight: Radius.circular(30))),
@@ -55,18 +56,35 @@ class _CustomHeaderState extends State<CustomHeader> {
               DrawerHeader(
                 child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(33, 33, 31, 0.7),
+                    color: Color.fromRGBO(33, 33, 31, 0.7),
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         bottomRight: Radius.circular(30))),
               ),
+
+              /*--------------------로그인 테스트-------------------------*/
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginWidget()));
+                },
+                child: Text(
+                  "로그인",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              /*--------------------로그인 테스트-------------------------*/
+
               ListTile(
                 title: makeTitle('주문', '내역'),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => OrderHistory()));
                 },
-              )
+              ),
             ],
           ),
         ),
