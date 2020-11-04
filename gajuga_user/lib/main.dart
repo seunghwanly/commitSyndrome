@@ -13,6 +13,7 @@ class MainScreen extends StatelessWidget {
         title: "GAJUGA.",
         theme: ThemeData(
           primaryColor:pale,
+          canvasColor: Colors.transparent
         ),
         themeMode: ThemeMode.light,
         home: CustomHeader(

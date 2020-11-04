@@ -24,3 +24,15 @@ Container customBoxContainer(double w, double h, final c, bool needPadding) {
     child: c
   );
 }
+
+Container customBoxContainerWithMargin(double w, double h, final c, bool needPadding, double marginVertical, double marginHorizontal) {
+  return Container(
+    alignment: Alignment.center,
+    width: w,
+    height: h,
+    decoration: customBoxDecoration(),
+    padding: needPadding ? EdgeInsets.all(20) : null,
+    child: c,
+    margin: EdgeInsets.only(top: marginVertical, bottom: marginVertical, left: marginHorizontal, right: marginHorizontal),
+  );
+}
