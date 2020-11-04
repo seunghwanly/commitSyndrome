@@ -5,6 +5,7 @@ import '../../util/to_locale.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
+import '../body/category_menu.dart';
 
 class TotalMenuWidget extends StatelessWidget {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
@@ -16,7 +17,37 @@ class TotalMenuWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.65,
         child: Column(
           children: <Widget>[
-            makeTitle('전체', ' 메뉴'),
+            // makeTitle('전체', ' 메뉴'),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CategoryMenu()));
+              },
+              child: Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      '전체 ',
+                      style: TextStyle(
+                          color: Color.fromRGBO(218, 155, 104, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      '메뉴',
+                      style: TextStyle(
+                          color: Color.fromRGBO(33, 33, 31, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
+                      textAlign: TextAlign.left,
+                    )
+                  ],
+                ),
+              ),
+            ),
             Stack(
               children: <Widget>[
                 Container(
@@ -176,8 +207,7 @@ class FavoriteMenuWidget extends StatelessWidget {
                             Text(
                               "메뉴 " + data[index],
                               style: TextStyle(
-                                  color: darkblue,
-                                  fontWeight: FontWeight.bold),
+                                  color: darkblue, fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
