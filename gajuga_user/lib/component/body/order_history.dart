@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../header/header.dart';
-import '../../model/order_history_model.dart';
+import './order_history_modal.dart';
 import '../../util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
 import 'package:intl/intl.dart';
+
 
 class OrderHistory extends StatefulWidget {
   //OrderHistory ({  });
@@ -19,6 +21,7 @@ class OrderHistoryState extends State<OrderHistory> {
     {
       'customer': '01012341234',
       'order_time': '2020-11-02',
+      'order_number' : 'A-88',
       'content': [
         {
           'name': 'cheese pizza',
@@ -35,6 +38,7 @@ class OrderHistoryState extends State<OrderHistory> {
     {
       'customer': '01012341234',
       'order_time': '2020-11-01',
+      'order_number' : 'A-84',
       'content': [
         {
           'name': 'gorgonzola pizza',
@@ -46,6 +50,7 @@ class OrderHistoryState extends State<OrderHistory> {
     {
       'customer': '01012341234',
       'order_time': '2020-10-31',
+      'order_number' : 'A-79',
       'content': [
         {
           'name': 'gorgonzola pizza',
@@ -57,6 +62,7 @@ class OrderHistoryState extends State<OrderHistory> {
     {
       'customer': '01012341234',
       'order_time': '2020-10-28',
+      'order_number' : 'A-64',
       'content': [
         {
           'name': 'gorgonzola pizza',
@@ -76,6 +82,7 @@ class OrderHistoryState extends State<OrderHistory> {
         itemCount: data.length,
         itemBuilder: (BuildContext context, int index) {
           var orders = new Map<String, dynamic>.from(data[index]);
+
           int totalCost = 0;
 
           for(int i=0; i<orders['content'].length; ++i) {
@@ -119,6 +126,11 @@ class OrderHistoryState extends State<OrderHistory> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            makeTextSize(
+                                '주문번호 ' + orders['order_number'].toString(),
+                                darkgrey,
+                                20.0,
+                                14),
                             makeTextSize(orders['content'][0]['name'] + (orders['content'].length - 1 > 0 ? ' 외 ' + (orders['content'].length - 1).toString() + '개' : ''), darkblue,
                                 20.0, 14),
                             makeTextSize(
@@ -135,7 +147,9 @@ class OrderHistoryState extends State<OrderHistory> {
                   Container(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showOrderHistoryModal(context, orders);
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.35,
                         height: MediaQuery.of(context).size.height * 0.04,
