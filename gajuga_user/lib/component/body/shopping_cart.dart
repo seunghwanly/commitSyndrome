@@ -4,6 +4,9 @@ import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
+import '../../util/dash_Rect.dart';
+import 'package:flutter/material.dart';
+import 'package:fdottedline/fdottedline.dart';
 
 class ShoppingCart extends StatelessWidget {
   final List<String> data = <String>['피자', '파스타', '음료'];
@@ -37,15 +40,16 @@ class ShoppingCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _trash() {}
     return CustomHeader(
       body:
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            makeTitle('장바구니', ' 메뉴'),
             Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.03),
+              margin: EdgeInsets.only(top: 20),
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width * 0.7,
               height: MediaQuery.of(context).size.height * 0.70,
@@ -59,7 +63,6 @@ class ShoppingCart extends StatelessWidget {
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      makeTitleSize('피자', ' PIZZA', 30, 26, true),
                       ListView.builder(
                         itemCount: data.length,
                         shrinkWrap: true,
@@ -79,10 +82,133 @@ class ShoppingCart extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      CircleAvatar(
-                                        radius: 30,
-                                        backgroundImage:
-                                            AssetImage('images/C.png'),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage:
+                                                AssetImage('images/C.png'),
+                                          ),
+                                          Container(
+                                              width: 80,
+                                              height: 35,
+                                              margin: EdgeInsets.only(top: 5),
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    customeBoxShadow()
+                                                  ],
+                                                  color: white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        //function()
+                                                      },
+                                                      child: Container(
+                                                        width: 15,
+                                                        height: 15,
+                                                        decoration: BoxDecoration(
+                                                            boxShadow: [
+                                                              customeBoxShadow()
+                                                            ],
+                                                            color: orange,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            new Text(
+                                                              "-",
+                                                              style: TextStyle(
+                                                                  color: white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 13),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '1',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  Container(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        //function()
+                                                      },
+                                                      child: Container(
+                                                        width: 15,
+                                                        height: 15,
+                                                        decoration: BoxDecoration(
+                                                            boxShadow: [
+                                                              customeBoxShadow()
+                                                            ],
+                                                            color: orange,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            new Text(
+                                                              "+",
+                                                              style: TextStyle(
+                                                                  color: white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 13),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+
+                                          //여기
+                                        ],
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -119,29 +245,23 @@ class ShoppingCart extends StatelessWidget {
                                           onTap: () {
                                             //function()
                                           },
-                                          child: Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                boxShadow: [customeBoxShadow()],
-                                                color: orange,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                new Text(
-                                                  "+",
-                                                  style: TextStyle(
-                                                      color: white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 28),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              // ImageIcon(
+                                              //   AssetImage(
+                                              //       '../../../images/icon/trash-outline.png'),
+                                              //   color: Colors.black87,
+                                              //   size: 35,
+                                              // ),
+                                              new IconButton(
+                                                  icon: Icon(
+                                                      Icons.restore_from_trash),
+                                                  color: Colors.black87,
+                                                  iconSize: 35,
+                                                  onPressed: _trash),
+                                            ],
                                           ),
                                         ),
                                       ),

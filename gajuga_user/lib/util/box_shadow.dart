@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../util/dash_Rect.dart';
 
 BoxShadow customeBoxShadow() {
   return BoxShadow(
@@ -50,11 +49,7 @@ Container customStrikeBoxContainer(double w, double h, final c,
     height: h,
     decoration: BoxDecoration(color: Colors.black12),
     padding: needPadding ? EdgeInsets.all(20) : null,
-    child: DashedRect(
-      color: Colors.red,
-      strokeWidth: 2.0,
-      gap: 3.0,
-    ),
+    child: c,
     margin: EdgeInsets.only(
         top: marginVertical,
         bottom: marginVertical,
