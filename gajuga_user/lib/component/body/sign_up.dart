@@ -66,16 +66,8 @@ class SignUpWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       )),
-                  //로그인 기능 수정 필요
                   onPressed: () {
-                    if (userName == 'dart' && password == 'flutter') {
-                      Scaffold.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(SnackBar(content: Text('로그인 성공')));
-                    } else
-                      Scaffold.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(SnackBar(content: Text('로그인 실패')));
+                    showIdConfirm(context, userName);
                   }),
             )
           ]),
@@ -171,16 +163,8 @@ class SignUpWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       )),
-                  //로그인 기능 수정 필요
                   onPressed: () {
-                    if (userName == 'dart' && password == 'flutter') {
-                      Scaffold.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(SnackBar(content: Text('로그인 성공')));
-                    } else
-                      Scaffold.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(SnackBar(content: Text('로그인 실패')));
+                    showPhoneConfirm(context, phone);
                   }),
             )
           ]),
@@ -206,41 +190,279 @@ class SignUpWidget extends StatelessWidget {
             height: 40.0,
           ),
           Container(
-              padding: EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: orange,
-                borderRadius: BorderRadius.circular(25.0),
-                boxShadow: ([
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.16),
-                    offset: Offset(0, 3),
-                    blurRadius: 6,
-                  )
-                ]),
-              ),
-              child: Center(
-                  child: FlatButton(
-                      padding: EdgeInsets.fromLTRB(120.0, 10.0, 120.0, 10.0),
-                      color: orange,
-                      child: Text('회원가입',
-                          style: TextStyle(
-                            color: white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0,
-                          )),
-                      //로그인 기능 수정 필요
-                      onPressed: () {
-                        if (userName == 'dart' && password == 'flutter') {
-                          Scaffold.of(context)
-                            ..removeCurrentSnackBar()
-                            ..showSnackBar(SnackBar(content: Text('로그인 성공')));
-                        } else
-                          Scaffold.of(context)
-                            ..removeCurrentSnackBar()
-                            ..showSnackBar(SnackBar(content: Text('로그인 실패')));
-                      }))),
+            padding: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              color: orange,
+              borderRadius: BorderRadius.circular(25.0),
+              boxShadow: ([
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.16),
+                  offset: Offset(0, 3),
+                  blurRadius: 6,
+                )
+              ]),
+            ),
+            child: Center(
+              child: FlatButton(
+                  padding: EdgeInsets.fromLTRB(120.0, 10.0, 120.0, 10.0),
+                  color: orange,
+                  child: Text('회원가입',
+                      style: TextStyle(
+                        color: white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      )),
+                  onPressed: () {
+                    showSignUpSuccess(context);
+                  }),
+            ),
+          ),
         ]),
       ),
     );
   }
+}
+
+void showIdConfirm(BuildContext context, String id) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: new Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Text(
+                "GAJUGA 알림",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          content: new SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 40.0),
+                    child: Column(children: <Widget>[
+                      Text(
+                        id,
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "는 사용가능한 아이디 입니다.",
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ]),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                    decoration: BoxDecoration(
+                      color: orange,
+                      borderRadius: BorderRadius.circular(25.0),
+                      boxShadow: ([
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.16),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
+                        )
+                      ]),
+                    ),
+                    child: FlatButton(
+                        child: Text('사용하기',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            )),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  ),
+                ]),
+          ),
+        );
+      });
+}
+
+void showPhoneConfirm(BuildContext context, String phone) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: new Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Text(
+                "GAJUGA 알림",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          content: new SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 40.0),
+                    child: Column(children: <Widget>[
+                      Text(
+                        phone,
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "로 인증번호가 전송되었습니다.",
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ]),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                    decoration: BoxDecoration(
+                      color: orange,
+                      borderRadius: BorderRadius.circular(25.0),
+                      boxShadow: ([
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.16),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
+                        )
+                      ]),
+                    ),
+                    child: FlatButton(
+                        child: Text('확인',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            )),
+                        //로그인 기능 수정 필요
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  ),
+                ]),
+          ),
+        );
+      });
+}
+
+void showSignUpSuccess(BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: new Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Text(
+                "GAJUGA 알림",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          content: new SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 40.0),
+                    child: Column(children: <Widget>[
+                      Text(
+                        "회원가입이",
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "성공적으로 되었습니다.",
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ]),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                    decoration: BoxDecoration(
+                      color: orange,
+                      borderRadius: BorderRadius.circular(25.0),
+                      boxShadow: ([
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.16),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
+                        )
+                      ]),
+                    ),
+                    child: FlatButton(
+                        child: Text('확인',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            )),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginWidget()));
+                        }),
+                  ),
+                ]),
+          ),
+        );
+      });
 }
