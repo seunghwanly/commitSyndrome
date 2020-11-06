@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_user/component/body/sub_menu.dart';
+import '../body/shopping_cart.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
@@ -38,8 +38,6 @@ class CategoryMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _showReciept() {}
-
     return CustomHeader(
         body: Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -286,20 +284,25 @@ class CategoryMenu extends StatelessWidget {
             //   turns: new AlwaysStoppedAnimation(45 / 360),
             //   child:  Image(image: AssetImage('images/icon/close_white.png')),
             //   ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '장바구니 바로가기',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.justify,
-                ),
-              ],
-            )),
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ShoppingCart()));
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '장바구니 바로가기',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ],
+                ))),
       ],
     ));
   }
