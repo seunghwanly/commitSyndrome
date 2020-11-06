@@ -47,7 +47,12 @@ Container customStrikeBoxContainer(double w, double h, final c,
     alignment: Alignment.center,
     width: w,
     height: h,
-    decoration: BoxDecoration(color: Colors.black12),
+    decoration: BoxDecoration(
+      border: Border(
+        bottom: BorderSide(width: 0.6, color: Colors.black38),
+      ),
+      color: Colors.white,
+    ),
     padding: needPadding ? EdgeInsets.all(20) : null,
     child: c,
     margin: EdgeInsets.only(

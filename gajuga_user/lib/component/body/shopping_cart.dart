@@ -11,30 +11,30 @@ import 'package:fdottedline/fdottedline.dart';
 class ShoppingCart extends StatelessWidget {
   final List<String> data = <String>['피자', '파스타', '음료'];
 
-  final menudata = [
+  final orderdata = [
     {
       'Imageurl': 'image1.jpg',
       'name': '고르곤졸라 피자',
       'description': '메뉴에 대한 간략한 설명입니다.',
       'cost': 12900,
+      'size': 'Large',
+      'addcost': 2000,
     },
     {
-      'Imageurl': 'image2.jpg',
+      'Imageurl': 'image1.jpg',
       'name': '치즈 피자',
       'description': '메뉴에 대한 간략한 설명입니다.',
       'cost': 11900,
+      'size': 'Regular',
+      'addcost': 0,
     },
     {
-      'Imageurl': 'image3.jpg',
-      'name': '페퍼로니 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 11900,
-    },
-    {
-      'Imageurl': 'image3.jpg',
+      'Imageurl': 'image1.jpg',
       'name': '포테이토 피자',
       'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 13900,
+      'cost': 12900,
+      'size': 'Large',
+      'addcost': 2000,
     },
   ];
 
@@ -49,10 +49,11 @@ class ShoppingCart extends StatelessWidget {
           children: <Widget>[
             makeTitle('장바구니', ' 메뉴'),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.01),
               alignment: Alignment.topCenter,
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.height * 0.70,
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.65,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [customeBoxShadow()],
@@ -68,13 +69,13 @@ class ShoppingCart extends StatelessWidget {
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
                           var menus =
-                              new Map<String, dynamic>.from(menudata[index]);
+                              new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
-                              MediaQuery.of(context).size.width * 0.6,
-                              MediaQuery.of(context).size.height * 0.13,
+                              MediaQuery.of(context).size.width * 0.7,
+                              MediaQuery.of(context).size.height * 0.18,
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Row(
@@ -84,19 +85,19 @@ class ShoppingCart extends StatelessWidget {
                                     children: [
                                       Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceEvenly,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
                                           CircleAvatar(
-                                            radius: 30,
+                                            radius: 25,
                                             backgroundImage:
                                                 AssetImage('images/C.png'),
                                           ),
                                           Container(
                                               width: 80,
                                               height: 35,
-                                              margin: EdgeInsets.only(top: 5),
+                                              margin: EdgeInsets.only(top: 10),
                                               padding: EdgeInsets.all(5),
                                               decoration: BoxDecoration(
                                                   boxShadow: [
@@ -115,7 +116,7 @@ class ShoppingCart extends StatelessWidget {
                                                 children: [
                                                   Container(
                                                     alignment:
-                                                        Alignment.centerRight,
+                                                        Alignment.centerLeft,
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         //function()
@@ -135,6 +136,9 @@ class ShoppingCart extends StatelessWidget {
                                                         child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
                                                                   .center,
                                                           children: [
                                                             new Text(
@@ -214,26 +218,28 @@ class ShoppingCart extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
+                                          makeThreeTitle('피자 ', 'PIZZA ',
+                                              '/ ' + menus['name'].toString()),
                                           makeTextSize(
-                                              menus['name'].toString(),
-                                              Color.fromRGBO(33, 33, 31, 1.0),
-                                              20.0,
-                                              14),
-                                          makeTextSize(
-                                              menus['description'].toString(),
+                                              '크기 : ' +
+                                                  menus['size'].toString(),
                                               Color.fromRGBO(
                                                   119, 119, 119, 1.0),
                                               20.0,
                                               14),
                                           makeTextSize(
-                                              menus['cost'].toString() + '원',
-                                              Color.fromRGBO(51, 51, 51, 1.0),
+                                              '추가요금 : ' +
+                                                  menus['addcost'].toString() +
+                                                  '원',
+                                              Color.fromRGBO(
+                                                  119, 119, 119, 1.0),
                                               20.0,
                                               14),
                                         ],
                                       ),
+                                      //요기
                                     ],
                                   ),
                                   Row(
@@ -245,9 +251,11 @@ class ShoppingCart extends StatelessWidget {
                                           onTap: () {
                                             //function()
                                           },
-                                          child: Row(
+                                          child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
                                             children: [
                                               // ImageIcon(
                                               //   AssetImage(
@@ -255,12 +263,36 @@ class ShoppingCart extends StatelessWidget {
                                               //   color: Colors.black87,
                                               //   size: 35,
                                               // ),
+                                              // Container()
                                               new IconButton(
                                                   icon: Icon(
                                                       Icons.restore_from_trash),
                                                   color: Colors.black87,
                                                   iconSize: 35,
                                                   onPressed: _trash),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    '가격 : ' +
+                                                        (menus['cost'] +
+                                                                menus[
+                                                                    'addcost'])
+                                                            .toString() +
+                                                        '원',
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            10, 10, 5, 1.0),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 17),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -285,6 +317,11 @@ class ShoppingCart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
+              padding: EdgeInsets.only(
+                left: 28,
+                top: 18,
+                right: 28,
+              ),
               alignment: Alignment.bottomCenter,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.06,
@@ -294,29 +331,104 @@ class ShoppingCart extends StatelessWidget {
                       topLeft: const Radius.circular(30.0),
                       topRight: const Radius.circular(30.0)),
                   color: Color.fromRGBO(0, 0, 0, 1.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '총 주문금액',
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '42,700 Won',
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                        textAlign: TextAlign.right,
+                      ),
+                      Text(
+                        '부가세(VAT)가 포함된 금액입니다.',
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1.0),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  alignment: Alignment.bottomCenter,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(15),
-                      boxShadow: [customeBoxShadow()],
-                      color: Color.fromRGBO(255, 255, 255, 1.0)),
-                ),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    decoration: BoxDecoration(
+                        // borderRadius: BorderRadius.circular(15),
+                        boxShadow: [customeBoxShadow()],
+                        color: Color.fromRGBO(255, 255, 255, 1.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '더 담으러 가기',
+                          style: TextStyle(
+                              color: Color.fromRGBO(33, 33, 31, 1.0),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )),
                 Container(
-                  alignment: Alignment.bottomCenter,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(15),
-                      boxShadow: [customeBoxShadow()],
-                      color: Color.fromRGBO(247, 230, 0, 1.0)),
-                ),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    decoration: BoxDecoration(
+                        // borderRadius: BorderRadius.circular(15),
+                        boxShadow: [customeBoxShadow()],
+                        color: Color.fromRGBO(247, 230, 0, 1.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '카카오페이',
+                          style: TextStyle(
+                              color: Color.fromRGBO(33, 33, 31, 1.0),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          '주문하기',
+                          style: TextStyle(
+                              color: Color.fromRGBO(33, 33, 31, 1.0),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )),
               ],
             )
           ],
