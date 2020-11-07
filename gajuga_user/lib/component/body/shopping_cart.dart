@@ -4,9 +4,7 @@ import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
-import '../../util/dash_Rect.dart';
-import 'package:flutter/material.dart';
-import 'package:fdottedline/fdottedline.dart';
+import '../body/approval_order.dart';
 
 class ShoppingCart extends StatelessWidget {
   final List<String> data = <String>['피자', '파스타', '음료'];
@@ -429,35 +427,43 @@ class ShoppingCart extends StatelessWidget {
                       ],
                     )),
                 Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * (50 / 812),
-                    decoration: BoxDecoration(
-                        // borderRadius: BorderRadius.circular(15),
-                        boxShadow: [customeBoxShadow()],
-                        color: Color.fromRGBO(247, 230, 0, 1.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '카카오페이',
-                          style: TextStyle(
-                              color: Color.fromRGBO(33, 33, 31, 1.0),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          '주문하기',
-                          style: TextStyle(
-                              color: Color.fromRGBO(33, 33, 31, 1.0),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * (50 / 812),
+                  decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.circular(15),
+                      boxShadow: [customeBoxShadow()],
+                      color: Color.fromRGBO(247, 230, 0, 1.0)),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ApprovalOrder()));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '카카오페이',
+                            style: TextStyle(
+                                color: Color.fromRGBO(33, 33, 31, 1.0),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            '주문하기',
+                            style: TextStyle(
+                                color: Color.fromRGBO(33, 33, 31, 1.0),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      )),
+                )
               ],
             )
           ],
