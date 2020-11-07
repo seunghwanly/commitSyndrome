@@ -54,7 +54,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     return customBoxContainer(
         // 340,
         MediaQuery.of(c).size.width * 0.9,
-        MediaQuery.of(c).size.width * 0.65,
+        MediaQuery.of(c).size.height * 0.3,
         Column(
           children: [
             Container(
@@ -73,7 +73,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
             ),
             Container(
               height: MediaQuery.of(c).size.height * 0.2 * 0.6,
-              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -112,7 +112,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
             ),
             Text(count.toString(),
                 style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: darkblue)
                     ),
@@ -139,13 +139,13 @@ class SubmenuScreenState extends State<SubmenuScreen> {
               Text('추가사항',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                       color: darkblue),
                   textAlign: TextAlign.center),
               Text('>',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                       color: darkblue),
                   textAlign: TextAlign.center),
             ],
@@ -164,13 +164,13 @@ class SubmenuScreenState extends State<SubmenuScreen> {
             Text('총 금액',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 16,
                     color: Color.fromRGBO(33, 33, 31, 1.0)),
                 textAlign: TextAlign.center),
             Text(toLocaleString(widget.cost) + '원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 16,
                     color: Color.fromRGBO(218, 155, 104, 1.0)),
                 textAlign: TextAlign.center),
           ],
@@ -205,9 +205,9 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     child: Text('장바구니담기',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                             color: Colors.white),
-                        textAlign: TextAlign.center),
+                        textAlign: TextAlign.left),
                   ),
                 ),
                 GestureDetector(
@@ -230,9 +230,9 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     child: Text('바로결제및주문',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                             color: Colors.white),
-                        textAlign: TextAlign.center),
+                        textAlign: TextAlign.right),
                   ),
                 )
               ],
