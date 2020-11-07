@@ -32,87 +32,8 @@ class SubMenuModalState extends State<SubMenuModal> {
     ]
   };
 
-  var checkedOption = [false, false];
-
-  Container customRow(String optionDesc, String optionDesc2, bool option,
-      int cost, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 5, bottom: 5),
-      height: MediaQuery.of(context).size.height * 0.04,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              CustomCheckbox(
-                  isChecked: option,
-                  iconSize: 20.0,
-                  size: 30.0,
-                  selectedColor: orange,
-                  selectedIconColor: white),
-              Row(
-                children: [
-                  Text(
-                    optionDesc,
-                    style: TextStyle(
-                        color: darkblue,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.left,
-                  ),
-                  Text(
-                    "  " + optionDesc2,
-                    style: TextStyle(
-                        color: darkgrey,
-                        fontSize: 10,
-                        fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Text(
-            "+" + toLocaleString(cost) + "원",
-            style: TextStyle(
-                color: darkblue, fontSize: 14, fontWeight: FontWeight.w600),
-            textAlign: TextAlign.end,
-          )
-        ],
-      ),
-    );
-  }
-
-  // Column selectSize() {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     crossAxisAlignment: CrossAxisAlignment.stretch,
-  //     children: [
-  //       Container(
-  //         margin: EdgeInsets.only(top: 5, bottom: 5),
-  //         child: Text("옵션1에대한선택", style: TextStyle(color: darkblue)),
-  //       ),
-  //       customRow("옵션1", "option1", checkedOption1, 300),
-  //       customRow("옵션2", "option2", checkedOption2, 800),
-  //     ],
-  //   );
-  // }
-
-  // Column selectCrust() {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     crossAxisAlignment: CrossAxisAlignment.stretch,
-  //     children: [
-  //       Container(
-  //         margin: EdgeInsets.only(top: 5, bottom: 5),
-  //         child: Text("옵션2에대한선택", style: TextStyle(color: darkblue)),
-  //       ),
-  //       customRow("옵션1", "option1", checkedOption1, 300),
-  //       customRow("옵션2", "option2", checkedOption2, 800),
-  //     ],
-  //   );
-  // }
-
   Container listOption(final option, BuildContext context, int optionNum) {
+
     var opt = Option.fromJson(option);
     List<Sub> subOpt = opt.sub;
 
@@ -127,18 +48,12 @@ class SubMenuModalState extends State<SubMenuModal> {
               margin: EdgeInsets.only(top: 5, bottom: 5),
               child: Text(opt.category, style: TextStyle(color: darkblue)),
             ),
-            new ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: subOpt.length,
-              itemBuilder: (BuildContext context, int index) {
-                return customRow(
-                      subOpt[index].name + ' / ' + subOpt[index].eng_name,
-                      subOpt[index].detail,
-                      checkedOption[optionNum],
-                      subOpt[index].cost,
-                      context);
-              },
+            CustomCheckboxGroup(
+              optionList: subOpt,
+              size: 30,
+              iconSize: 24,
+              selectedColor: orange,
+              selectedIconColor: white,
             )
           ],
         ));
