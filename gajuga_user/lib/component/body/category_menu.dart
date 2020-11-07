@@ -40,7 +40,7 @@ class CategoryMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomHeader(
         body: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -178,8 +178,12 @@ class CategoryMenu extends StatelessWidget {
                         child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        makeTitleSize('피자', ' PIZZA',
-                            MediaQuery.of(context).size.width * 0.04, 20, true),
+                        makeTitleSize(
+                            '피자',
+                            ' PIZZA',
+                            MediaQuery.of(context).size.width * 0.04,
+                            MediaQuery.of(context).size.width * (20 / 375),
+                            true),
                         ListView.builder(
                           itemCount: data.length,
                           shrinkWrap: true,
@@ -188,9 +192,11 @@ class CategoryMenu extends StatelessWidget {
                                 new Map<String, dynamic>.from(menudata[index]);
                             return customBoxContainerWithMargin(
                                 MediaQuery.of(context).size.width * 0.9,
-                                MediaQuery.of(context).size.height * 0.14,
+                                MediaQuery.of(context).size.height *
+                                    (120 / 812),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
@@ -237,8 +243,7 @@ class CategoryMenu extends StatelessWidget {
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
                                           alignment: Alignment.centerRight,
@@ -247,8 +252,14 @@ class CategoryMenu extends StatelessWidget {
                                               //showOrderHistoryModal(context, menus);
                                             },
                                             child: Container(
-                                              width: 35,
-                                              height: 35,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (35 / 375),
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (35 / 375),
                                               decoration: BoxDecoration(
                                                   boxShadow: [
                                                     customeBoxShadow()

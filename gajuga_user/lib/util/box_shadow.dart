@@ -61,7 +61,7 @@ Container customStrikeBoxContainer(
       // color: Colors.white,
     ),
     padding: needPadding
-        ? EdgeInsets.all(MediaQuery.of(context).size.width * (0 / 375))
+        ? EdgeInsets.only(left: 5, right: 1, top: 15, bottom: 15)
         : null,
     child: c,
     margin: EdgeInsets.only(

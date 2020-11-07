@@ -248,7 +248,7 @@ class ShoppingCart extends StatelessWidget {
                                               MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  (20 / 375),
+                                                  (15 / 375),
                                               14),
                                           makeTextSize(
                                               '추가요금 : ' +
@@ -259,7 +259,7 @@ class ShoppingCart extends StatelessWidget {
                                               MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  (20 / 375),
+                                                  (15 / 375),
                                               14),
                                         ],
                                       ),
@@ -330,7 +330,7 @@ class ShoppingCart extends StatelessWidget {
                                 ],
                               ),
                               true,
-                              5,
+                              0,
                               5,
                               context);
                         },

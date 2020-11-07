@@ -123,7 +123,7 @@ Widget makeThreeTitle(
     @required String left, @required String center, @required String right) {
   return Container(
     alignment: Alignment.centerLeft,
-    margin: EdgeInsets.only(left: 20),
+    margin: EdgeInsets.only(left: 15),
     child: Row(
       children: [
         Text(
@@ -131,7 +131,7 @@ Widget makeThreeTitle(
           style: TextStyle(
               color: Color.fromRGBO(33, 33, 31, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: 17),
+              fontSize: 15),
           textAlign: TextAlign.left,
         ),
         Text(
