@@ -73,8 +73,7 @@ class OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-    void _showReciept() {}
-
+    
     return CustomHeader(
       body: ListView.builder(
         itemCount: data.length,
@@ -153,18 +152,13 @@ class OrderHistoryState extends State<OrderHistory> {
                         showOrderHistoryModal(context, orders);
                       },
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.34,
+                        width: MediaQuery.of(context).size.width * 0.32,
                         height: MediaQuery.of(context).size.height * 0.04,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            new IconButton(
-                                icon: Icon(Icons.receipt),
-                                color: white,
-                                iconSize: 15,
-                                alignment: Alignment.centerLeft,
-                                onPressed: _showReciept),
+                            new Icon(Icons.receipt, color: white, size: 15,),
                             new Text(
                               "전자영수증보기",
                               style: TextStyle(

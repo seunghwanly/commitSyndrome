@@ -72,6 +72,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                   )),
             ),
             Container(
+              height: MediaQuery.of(c).size.height * 0.27 * 0.5,
               padding: EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

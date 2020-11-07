@@ -46,6 +46,7 @@ class _CustomHeaderState extends State<CustomHeader> {
       drawer: Drawer(
         child: Container(
             height: MediaQuery.of(context).size.height,
+            padding: EdgeInsets.only(bottom: 20.0),
             decoration: BoxDecoration(
                 color: pale,
                 borderRadius: BorderRadius.only(
@@ -57,7 +58,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                 Column(
                   children: [
                     DrawerHeader(
-                      child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
+                      child: makeTitleSize("GAJUGA", ' 가주가', 10, 24, false),
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(33, 33, 31, 0.7),
                           borderRadius: BorderRadius.only(
@@ -65,7 +66,14 @@ class _CustomHeaderState extends State<CustomHeader> {
                               bottomRight: Radius.circular(30))),
                     ),
                     ListTile(
-                      title: makeTitle('주문', '내역'),
+                      leading: Icon(Icons.receipt, color: darkblue, size: 30),
+                      // title: makeTitle('주문', '내역'),
+                      title:
+                          makeTextSizepadding('주문 내역', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(' e-Reciept / History',
+                          style: TextStyle(color: lightgrey, fontSize: 12)),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
                         Navigator.push(
                             context,
@@ -76,8 +84,10 @@ class _CustomHeaderState extends State<CustomHeader> {
                   ],
                 ),
                 ListTile(
-                  title: makeTitle('로그인', '로그아웃'),
-                  subtitle: Text('       김관우 in the area'),
+                  leading: Icon(Icons.power_settings_new),
+                  title:
+                      makeTextSizepadding('로그인/로그아웃', darkblue, 0.0, 0.0, 16),
+                  subtitle: Text('김관우 in the area'),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoginWidget()));
