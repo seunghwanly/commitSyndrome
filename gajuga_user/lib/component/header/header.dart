@@ -45,49 +45,46 @@ class _CustomHeaderState extends State<CustomHeader> {
       ),
       drawer: Drawer(
         child: Container(
-          decoration: BoxDecoration(
-              color: pale,
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  bottomRight: Radius.circular(30))),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(33, 33, 31, 0.7),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30))),
-              ),
-
-              /*--------------------로그인 테스트-------------------------*/
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginWidget()));
-                },
-                child: Text(
-                  "로그인",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                color: pale,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    bottomRight: Radius.circular(30))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    DrawerHeader(
+                      child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(33, 33, 31, 0.7),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                    ),
+                    ListTile(
+                      title: makeTitle('주문', '내역'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderHistory()));
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              /*--------------------로그인 테스트-------------------------*/
-
-              ListTile(
-                title: makeTitle('주문', '내역'),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => OrderHistory()));
-                },
-              ),
-            ],
-          ),
-        ),
+                ListTile(
+                  title: makeTitle('로그인', '로그아웃'),
+                  subtitle: Text('       김관우 in the area'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginWidget()));
+                  },
+                )
+              ],
+            )),
       ),
       // floatingActionButton: Container(width: 30, height: 30, color: Colors.red,),
     );
