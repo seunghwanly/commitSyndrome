@@ -5,8 +5,14 @@ import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
+import '../body/order_state.dart';
 
 class ApprovalOrder extends StatelessWidget {
+  void _goOrderState(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => OrderState()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomHeader(
@@ -98,9 +104,9 @@ class ApprovalOrder extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.refresh_sharp),
+                    icon: Icon(Icons.refresh),
                     color: Color.fromRGBO(0, 0, 0, 1.0),
-                    //onPressed: _gotoCart,
+                    onPressed: () => _goOrderState(context),
                     iconSize: MediaQuery.of(context).size.width * (40 / 375),
                     alignment: Alignment.centerRight,
                   ),
@@ -123,7 +129,7 @@ class ApprovalOrder extends StatelessWidget {
                     style: TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1.0),
                         fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width / 25),
+                        fontSize: MediaQuery.of(context).size.width / 21),
                     textAlign: TextAlign.center,
                   ),
                   Text(
@@ -131,7 +137,7 @@ class ApprovalOrder extends StatelessWidget {
                     style: TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1.0),
                         fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width / 25),
+                        fontSize: MediaQuery.of(context).size.width / 21),
                     textAlign: TextAlign.center,
                   ),
                 ],
