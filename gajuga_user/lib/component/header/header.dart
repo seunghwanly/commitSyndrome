@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/order_history.dart';
+import 'package:gajuga_user/main.dart';
 import 'package:gajuga_user/util/palette.dart';
 import 'package:gajuga_user/util/to_text.dart';
 import 'package:gajuga_user/component/body/login.dart';
@@ -64,6 +65,22 @@ class _CustomHeaderState extends State<CustomHeader> {
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(30),
                               bottomRight: Radius.circular(30))),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.home, color: darkblue, size: 30),
+                      // title: makeTitle('주문', '내역'),
+                      title:
+                          makeTextSizepadding('메인 화면', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(' main / home',
+                          style: TextStyle(color: lightgrey, fontSize: 12)),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainScreen()));
+                      },
                     ),
                     ListTile(
                       leading: Icon(Icons.receipt, color: darkblue, size: 30),

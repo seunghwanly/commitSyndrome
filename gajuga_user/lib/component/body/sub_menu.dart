@@ -8,17 +8,15 @@ import './sub_menu_modal.dart';
 import '../../util/palette.dart';
 
 class SubmenuScreen extends StatefulWidget {
-
   final item, cost;
 
-  SubmenuScreen({ this.item, this.cost});
+  SubmenuScreen({this.item, this.cost});
 
   @override
   SubmenuScreenState createState() => SubmenuScreenState();
 }
 
 class SubmenuScreenState extends State<SubmenuScreen> {
-
   int count = 1;
   final bool option1 = null, option2 = null;
 
@@ -35,7 +33,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {  //main build -----------------------------------------------------------------
+  Widget build(BuildContext context) {
+    //main build -----------------------------------------------------------------
     return CustomHeader(
         body: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,13 +53,15 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     return customBoxContainer(
         // 340,
         MediaQuery.of(c).size.width * 0.9,
-        MediaQuery.of(c).size.height * 0.3,
-        Column(
+        MediaQuery.of(c).size.width * 0.9,
+        // MediaQuery.of(c).size.height * 0.3,
+        SingleChildScrollView(
+            child: Column(
           children: [
             Container(
               child: Container(
                 width: MediaQuery.of(c).size.width * 0.9,
-                height: MediaQuery.of(c).size.height * 0.18,
+                height: MediaQuery.of(c).size.height * 0.3,
               ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -72,7 +73,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                   )),
             ),
             Container(
-              height: MediaQuery.of(c).size.height * 0.2 * 0.6,
+              height: MediaQuery.of(c).size.height * 0.2 * 0.7,
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +86,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                             fontWeight: FontWeight.bold,
                             fontSize: 14)),
                   ),
-                  Text("이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..어끝까지 50글자에요",
+                  Text(
+                      "이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..어끝까지 50글자에요",
                       style: TextStyle(
                           color: lightgrey,
                           fontWeight: FontWeight.normal,
@@ -94,7 +96,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
               ),
             )
           ],
-        ),
+        )),
         false);
   }
 
@@ -114,8 +116,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: darkblue)
-                    ),
+                    color: darkblue)),
             GestureDetector(
               child: plusButton(30),
               onTap: () => handleCount(true),
@@ -195,7 +196,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(left: 30, right: 20),
                     width: MediaQuery.of(c).size.width * 0.45, // iphone X - 170
-                    height: MediaQuery.of(c).size.height * 0.07, //iphone X - 60,
+                    height:
+                        MediaQuery.of(c).size.height * 0.07, //iphone X - 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
@@ -220,7 +222,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(left: 20, right: 30),
                     width: MediaQuery.of(c).size.width * 0.45, // iphone X - 170
-                    height: MediaQuery.of(c).size.height * 0.07, //iphone X - 60,
+                    height:
+                        MediaQuery.of(c).size.height * 0.07, //iphone X - 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),
