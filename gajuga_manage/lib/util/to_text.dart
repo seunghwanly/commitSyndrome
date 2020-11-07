@@ -54,7 +54,7 @@ Widget makeTitle(String left, String right) {
         Text(
           left,
           style: TextStyle(
-            color: Color.fromRGBO(218, 155, 104, 1.0),
+            color: Color.fromRGBO(33, 33, 31, 1.0),
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -63,7 +63,7 @@ Widget makeTitle(String left, String right) {
         Text(
           right,
           style: TextStyle(
-            color: Color.fromRGBO(33, 33, 31, 1.0),
+            color: Color.fromRGBO(218, 155, 104, 1.0),
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
