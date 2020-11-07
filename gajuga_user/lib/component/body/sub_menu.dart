@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
 import '../../util/box_button.dart';
@@ -18,7 +19,37 @@ class SubmenuScreen extends StatefulWidget {
 
 class SubmenuScreenState extends State<SubmenuScreen> {
   int count = 1;
-  final bool option1 = null, option2 = null;
+  
+   final contentSize = {
+    "category": "SIZE/사이즈 선택",
+    "sub": [
+      {"name": "레귤러", "eng_name": "regular", "detail": "13inch", "cost": 0},
+      {"name": "라지", "eng_name": "large", "detail": "17inch", "cost": 4000}
+    ]
+  };
+
+  final contentDough = {
+    "category": "DOUGH/도우 선택",
+    'sub': [
+      {'name': "기본", 'eng_name': "standard", 'detail': '', 'cost': 0},
+      {'name': "치즈", 'eng_name': "cheese", 'detail': '', 'cost': 2000},
+      {'name': "고구마", 'eng_name': "sweet potato", 'detail': '', 'cost': 2000},
+    ]
+  };
+  List<String> optionSelected;
+
+  @override
+  void initState() {
+    optionSelected = new List<String>.filled(2, null);
+    super.initState();
+  }
+  
+  @override
+  void didChangeDependencies() {
+
+    super.didChangeDependencies();
+  }
+
 
   void handleCount(bool isAdded) {
     setState(() {
@@ -42,7 +73,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         makeTitle('세부', ' 메뉴'),
         imageCard(context),
         countCard(context),
-        optionCard(context, option1, option2),
+        optionCard(context, contentSize, contentDough),
         totalCostCard(context),
         bottomCard(context)
       ],
@@ -127,6 +158,10 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   }
 
   Widget optionCard(BuildContext c, final option1, final option2) {
+
+    //final String optionSelected = Provider.of<String>(c);
+    // String optionSelected = Consumer<String>()
+
     return GestureDetector(
       onTap: () {
         showSubMenuModal(c, option1, option2);
@@ -137,7 +172,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('추가사항',
+              Text('추가사항 : ' ,//+ optionSelected, // + optionSelected[0] + ' , ' + optionSelected[1]
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

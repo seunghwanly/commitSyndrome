@@ -31,7 +31,8 @@ dependencies:
   cupertino_icons: ^0.1.3
   intl: "^0.16.1"
   fdottedline: ^1.0.1
-
+  provider: ^3.0.0+1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

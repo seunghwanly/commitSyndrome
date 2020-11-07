@@ -6,6 +6,7 @@ import '../../util/to_locale.dart';
 import '../../model/option_model.dart';
 
 class SubMenuModal extends StatefulWidget {
+  
   final option1, option2;
 
   SubMenuModal({this.option1, this.option2});
@@ -14,23 +15,7 @@ class SubMenuModal extends StatefulWidget {
   SubMenuModalState createState() => SubMenuModalState();
 }
 
-class SubMenuModalState extends State<SubMenuModal> {
-  final contentSize = {
-    "category": "SIZE/사이즈 선택",
-    "sub": [
-      {"name": "레귤러", "eng_name": "regular", "detail": "13inch", "cost": 0},
-      {"name": "라지", "eng_name": "large", "detail": "17inch", "cost": 4000}
-    ]
-  };
-
-  final contentDough = {
-    "category": "DOUGH/도우 선택",
-    'sub': [
-      {'name': "기본", 'eng_name': "standard", 'detail': '', 'cost': 0},
-      {'name': "치즈", 'eng_name': "cheese", 'detail': '', 'cost': 2000},
-      {'name': "고구마", 'eng_name': "sweet potato", 'detail': '', 'cost': 2000},
-    ]
-  };
+class SubMenuModalState extends State<SubMenuModal> { 
 
   Container listOption(final option, BuildContext context, int optionNum) {
 
@@ -98,9 +83,9 @@ class SubMenuModalState extends State<SubMenuModal> {
             ],
           ),
           Divider(),
-          listOption(contentSize, context, 0),
+          listOption(widget.option1, context, 0),
           Divider(),
-          listOption(contentDough, context, 1),
+          listOption(widget.option2, context, 1),
         ],
       ),
     ));
