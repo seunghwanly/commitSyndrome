@@ -144,25 +144,26 @@ class OrderHistoryState extends State<OrderHistory> {
                   ),
                   Container(
                     alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
+                    child: FlatButton(
+                      color: orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      onPressed: () {
                         showOrderHistoryModal(context, orders);
                       },
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.34,
                         height: MediaQuery.of(context).size.height * 0.04,
-                        decoration: BoxDecoration(
-                            boxShadow: [customeBoxShadow()],
-                            color: orange,
-                            borderRadius: BorderRadius.circular(20)),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             new IconButton(
                                 icon: Icon(Icons.receipt),
                                 color: white,
                                 iconSize: 15,
+                                alignment: Alignment.centerLeft,
                                 onPressed: _showReciept),
                             new Text(
                               "전자영수증보기",

@@ -90,9 +90,12 @@ class TotalMenuWidget extends StatelessWidget {
 
   Widget _listItem(String title, AssetImage image, String desc, int cost,
       BuildContext context) {
+    double itemWidth = MediaQuery.of(context).size.width * 0.45;
+    double itemHeight = MediaQuery.of(context).size.width * 0.35;
+
     return Container(
-      width: 160,
-      height: 280,
+      width: itemWidth,
+      height: itemHeight,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
@@ -123,27 +126,38 @@ class TotalMenuWidget extends StatelessWidget {
               style:
                   TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
               textAlign: TextAlign.center),
-          GestureDetector(
-            onTap: () {
+          FlatButton(
+            color: orange,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            onPressed: () {
               Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    FlatButton(
+                      onPressed: () {  Scaffold.of(context).hideCurrentSnackBar(); },
+                      child: Text('닫기', style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.right,),
+                    )
+                  ],
                 ),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: orange,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
+                elevation: 10.0,
               ));
             },
             child: Container(
               alignment: Alignment.center,
-              height: 25,
-              width: 110,
-              decoration: BoxDecoration(
-                  color: orange,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [customeBoxShadow()]),
+              height: itemHeight * 0.09,
+              width: itemWidth * 0.6,
               child: Text(
                 "장바구니 담기",
                 style: TextStyle(

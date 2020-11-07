@@ -82,62 +82,63 @@ class LoginWidget extends StatelessWidget {
                             height: 40.0,
                           ),
                           Container(
-                            padding: EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                              color: orange,
-                              borderRadius: BorderRadius.circular(25.0),
-                              boxShadow: ([
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.16),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                )
-                              ]),
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                if (userName == 'dart' &&
-                                    password == 'flutter') {
-                                  Scaffold.of(context)
-                                    ..removeCurrentSnackBar()
-                                    ..showSnackBar(
-                                        SnackBar(content: Text('로그인 성공')));
-                                } else
-                                  Scaffold.of(context)
-                                    ..removeCurrentSnackBar()
-                                    ..showSnackBar(
-                                        SnackBar(content: Text('로그인 실패')));
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height: MediaQuery.of(context).size.height * 0.07,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: orange
-                                ),
-                                child: Text('로그인',
-                                    style: TextStyle(
-                                      color: white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24.0,
-                                    )),
+                              padding: EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: orange,
+                                borderRadius: BorderRadius.circular(25.0),
+                                boxShadow: ([
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.16),
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6,
+                                  )
+                                ]),
                               ),
-                            ),
-                          ),
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                color: orange,
+                                onPressed: () {
+                                  if (userName == 'dart' &&
+                                      password == 'flutter') {
+                                    Scaffold.of(context)
+                                      ..removeCurrentSnackBar()
+                                      ..showSnackBar(
+                                          SnackBar(content: Text('로그인 성공')));
+                                  } else
+                                    Scaffold.of(context)
+                                      ..removeCurrentSnackBar()
+                                      ..showSnackBar(
+                                          SnackBar(content: Text('로그인 실패')));
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  child: Text('로그인',
+                                      style: TextStyle(
+                                        color: white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22.0,
+                                      )),
+                                ),
+                              )),
                           SizedBox(
                             height: 40.0,
                           ),
                           Container(
                               child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 '아이디 찾기',
                                 style: TextStyle(
                                     color: Color.fromRGBO(119, 119, 119, 1.0),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 22),
+                                    fontSize: 18),
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(
@@ -148,7 +149,7 @@ class LoginWidget extends StatelessWidget {
                                 style: TextStyle(
                                     color: Color.fromRGBO(119, 119, 119, 1.0),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 22),
+                                    fontSize: 18),
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(
@@ -159,7 +160,7 @@ class LoginWidget extends StatelessWidget {
                                 style: TextStyle(
                                     color: Color.fromRGBO(119, 119, 119, 1.0),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 22),
+                                    fontSize: 18),
                                 textAlign: TextAlign.left,
                               )
                             ],
@@ -180,7 +181,7 @@ class LoginWidget extends StatelessWidget {
                                 style: TextStyle(
                                     color: Color.fromRGBO(119, 119, 119, 1.0),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    fontSize: 16),
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(
@@ -200,7 +201,7 @@ class LoginWidget extends StatelessWidget {
                                         color:
                                             Color.fromRGBO(218, 155, 104, 1.0),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                        fontSize: 16),
                                     // textAlign: TextAlign.left,
                                   )),
                             ],
