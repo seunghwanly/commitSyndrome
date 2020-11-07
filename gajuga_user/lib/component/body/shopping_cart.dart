@@ -51,12 +51,13 @@ class ShoppingCart extends StatelessWidget {
                   top: MediaQuery.of(context).size.height * 0.01),
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width * 0.95,
-              height: MediaQuery.of(context).size.height * 0.62,
+              height: MediaQuery.of(context).size.height * 0.61,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [customeBoxShadow()],
                   color: Color.fromRGBO(255, 255, 255, 1.0)),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SingleChildScrollView(
                       child: Column(
@@ -70,7 +71,7 @@ class ShoppingCart extends StatelessWidget {
                               new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
                               MediaQuery.of(context).size.width * 0.94,
-                              MediaQuery.of(context).size.height * 0.18,
+                              MediaQuery.of(context).size.height * 0.2,
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -234,7 +235,7 @@ class ShoppingCart extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           makeThreeTitle(
                                               '피자 ',
@@ -253,7 +254,7 @@ class ShoppingCart extends StatelessWidget {
                                               MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  28),
+                                                  30),
                                           makeTextSize(
                                               '추가요금 : ' +
                                                   menus['addcost'].toString() +
@@ -267,7 +268,7 @@ class ShoppingCart extends StatelessWidget {
                                               MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  28),
+                                                  30),
 
                                           makeThreeTitle(
                                               '가격 : ' +

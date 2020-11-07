@@ -123,7 +123,8 @@ Widget makeThreeTitle(@required String left, @required String center,
     @required String right, @required BuildContext context) {
   return Container(
     alignment: Alignment.centerLeft,
-    margin: EdgeInsets.only(left: 15),
+    margin:
+        EdgeInsets.only(left: MediaQuery.of(context).size.width * (15 / 375)),
     child: Row(
       children: [
         Text(
@@ -131,7 +132,7 @@ Widget makeThreeTitle(@required String left, @required String center,
           style: TextStyle(
               color: Color.fromRGBO(33, 33, 31, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width / 26),
+              fontSize: MediaQuery.of(context).size.width / 28),
           textAlign: TextAlign.left,
         ),
         Text(
@@ -139,7 +140,7 @@ Widget makeThreeTitle(@required String left, @required String center,
           style: TextStyle(
               color: Color.fromRGBO(218, 155, 104, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width / 26),
+              fontSize: MediaQuery.of(context).size.width / 28),
           textAlign: TextAlign.left,
         ),
         Text(
@@ -147,7 +148,7 @@ Widget makeThreeTitle(@required String left, @required String center,
           style: TextStyle(
               color: Color.fromRGBO(33, 33, 31, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width / 26),
+              fontSize: MediaQuery.of(context).size.width / 28),
           textAlign: TextAlign.left,
         ),
       ],

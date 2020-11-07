@@ -66,7 +66,7 @@ class CategoryMenu extends StatelessWidget {
                             '피자',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 20,
+                              fontSize: MediaQuery.of(context).size.width / 22,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.justify,
@@ -75,7 +75,7 @@ class CategoryMenu extends StatelessWidget {
                             'PIZZA',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 13,
+                              fontSize: MediaQuery.of(context).size.width / 34,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.justify,
@@ -103,7 +103,7 @@ class CategoryMenu extends StatelessWidget {
                             '파스타',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 20,
+                              fontSize: MediaQuery.of(context).size.width / 23,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.justify,
@@ -112,7 +112,7 @@ class CategoryMenu extends StatelessWidget {
                             'PASTA',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 13,
+                              fontSize: MediaQuery.of(context).size.width / 34,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.justify,
@@ -140,7 +140,7 @@ class CategoryMenu extends StatelessWidget {
                             '음료',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 20,
+                              fontSize: MediaQuery.of(context).size.width / 22,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.justify,
@@ -149,7 +149,7 @@ class CategoryMenu extends StatelessWidget {
                             'BEVERAGE',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 12,
+                              fontSize: MediaQuery.of(context).size.width / 36,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.justify,
@@ -190,7 +190,7 @@ class CategoryMenu extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             var menus =
                                 new Map<String, dynamic>.from(menudata[index]);
-                            return customBoxContainerWithMargin(
+                            return customBoxContainerCategory(
                                 MediaQuery.of(context).size.width * 0.9,
                                 MediaQuery.of(context).size.height *
                                     (120 / 812),
@@ -201,12 +201,15 @@ class CategoryMenu extends StatelessWidget {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
                                         CircleAvatar(
-                                          radius: 38,
+                                          radius: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              12,
                                           backgroundImage:
                                               AssetImage('images/A.png'),
                                         ),
@@ -224,20 +227,29 @@ class CategoryMenu extends StatelessWidget {
                                                         .size
                                                         .height *
                                                     0.01,
-                                                14),
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    26),
                                             makeTextSizepadding(
                                                 menus['description'].toString(),
                                                 Color.fromRGBO(
                                                     119, 119, 119, 1.0),
                                                 20.0,
                                                 0,
-                                                14),
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    30),
                                             makeTextSizepadding(
                                                 menus['cost'].toString() + '원',
                                                 Color.fromRGBO(51, 51, 51, 1.0),
                                                 20.0,
                                                 0,
-                                                14),
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    28),
                                           ],
                                         ),
                                       ],
@@ -255,19 +267,18 @@ class CategoryMenu extends StatelessWidget {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  (35 / 375),
+                                                  (30 / 375),
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  (35 / 375),
+                                                  (30 / 375),
                                               decoration: BoxDecoration(
                                                   boxShadow: [
                                                     customeBoxShadow()
                                                   ],
                                                   color: orange,
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
+                                                      BorderRadius.circular(7)),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -277,8 +288,12 @@ class CategoryMenu extends StatelessWidget {
                                                     style: TextStyle(
                                                         color: white,
                                                         fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 28),
+                                                            FontWeight.w600,
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            14),
                                                     textAlign: TextAlign.center,
                                                   )
                                                 ],
@@ -291,8 +306,8 @@ class CategoryMenu extends StatelessWidget {
                                   ],
                                 ),
                                 true,
-                                15,
-                                5);
+                                MediaQuery.of(context).size.height / 50,
+                                MediaQuery.of(context).size.width / 50);
                           },
                         ),
                       ],
@@ -310,10 +325,12 @@ class CategoryMenu extends StatelessWidget {
                 //     EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                 //alignment: Alignment.bottomCenter,
 
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.height * 0.06,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)),
                     boxShadow: [customeBoxShadow()],
                     color: Color.fromRGBO(218, 155, 104, 1.0)),
                 // child: new RotationTransition(
@@ -334,7 +351,7 @@ class CategoryMenu extends StatelessWidget {
                           '장바구니 바로가기',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 20,
+                            fontSize: MediaQuery.of(context).size.width / 22,
                             color: Colors.white,
                           ),
                           textAlign: TextAlign.center,

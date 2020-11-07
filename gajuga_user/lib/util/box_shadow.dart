@@ -41,6 +41,31 @@ Container customBoxContainerWithMargin(double w, double h, final c,
   );
 }
 
+Container customBoxContainerCategory(double w, double h, final c,
+    bool needPadding, double marginVertical, double marginHorizontal) {
+  return Container(
+    alignment: Alignment.center,
+    width: w,
+    height: h,
+    decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [customeBoxShadow()]),
+    padding: needPadding
+        ? EdgeInsets.only(
+            left: 5,
+            right: 10,
+          )
+        : null,
+    child: c,
+    margin: EdgeInsets.only(
+        top: marginVertical,
+        bottom: marginVertical,
+        left: marginHorizontal,
+        right: marginHorizontal),
+  );
+}
+
 Container customStrikeBoxContainer(
     double w,
     double h,
@@ -56,14 +81,21 @@ Container customStrikeBoxContainer(
     decoration: BoxDecoration(
       // borderRadius: BorderRadius.circular(10),
       border: Border(
-        bottom: BorderSide(width: 0.6, color: Colors.black38),
-      ),
+          //bottom: BorderSide(width: 0.6, color: Colors.black38),
+          ),
       // color: Colors.white,
     ),
     padding: needPadding
-        ? EdgeInsets.only(left: 5, right: 1, top: 15, bottom: 15)
+        ? EdgeInsets.only(left: 5, right: 1, top: 0, bottom: 0)
         : null,
-    child: c,
+    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      c,
+      Divider(
+        indent: MediaQuery.of(context).size.width * (20 / 375),
+        endIndent: MediaQuery.of(context).size.width * (20 / 375),
+        thickness: 2,
+      ),
+    ]),
     margin: EdgeInsets.only(
         top: marginVertical,
         bottom: marginVertical,
