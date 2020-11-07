@@ -54,13 +54,13 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     return customBoxContainer(
         // 340,
         MediaQuery.of(c).size.width * 0.9,
-        MediaQuery.of(c).size.width * 0.9,
+        MediaQuery.of(c).size.width * 0.65,
         Column(
           children: [
             Container(
               child: Container(
                 width: MediaQuery.of(c).size.width * 0.9,
-                height: MediaQuery.of(c).size.height * 0.27,
+                height: MediaQuery.of(c).size.height * 0.18,
               ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -72,24 +72,24 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                   )),
             ),
             Container(
-              height: MediaQuery.of(c).size.height * 0.27 * 0.5,
-              padding: EdgeInsets.all(20),
+              height: MediaQuery.of(c).size.height * 0.2 * 0.6,
+              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: EdgeInsets.only(bottom: 5.0),
                     child: Text(widget.item,
                         style: TextStyle(
                             color: darkblue,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16)),
+                            fontSize: 14)),
                   ),
-                  Text("이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..",
+                  Text("이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..어끝까지 50글자에요",
                       style: TextStyle(
                           color: lightgrey,
                           fontWeight: FontWeight.normal,
-                          fontSize: 14))
+                          fontSize: 12))
                 ],
               ),
             )
