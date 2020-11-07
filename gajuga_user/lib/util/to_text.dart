@@ -131,7 +131,7 @@ Widget makeThreeTitle(@required String left, @required String center,
           style: TextStyle(
               color: Color.fromRGBO(33, 33, 31, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width / 23),
+              fontSize: MediaQuery.of(context).size.width / 26),
           textAlign: TextAlign.left,
         ),
         Text(
@@ -139,7 +139,7 @@ Widget makeThreeTitle(@required String left, @required String center,
           style: TextStyle(
               color: Color.fromRGBO(218, 155, 104, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width / 23),
+              fontSize: MediaQuery.of(context).size.width / 26),
           textAlign: TextAlign.left,
         ),
         Text(
@@ -147,7 +147,7 @@ Widget makeThreeTitle(@required String left, @required String center,
           style: TextStyle(
               color: Color.fromRGBO(33, 33, 31, 1.0),
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width / 23),
+              fontSize: MediaQuery.of(context).size.width / 26),
           textAlign: TextAlign.left,
         ),
       ],

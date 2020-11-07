@@ -92,7 +92,6 @@ class ShoppingCart extends StatelessWidget {
                                                     .size
                                                     .width *
                                                 (25 / 375),
-                                            
                                             backgroundImage:
                                                 AssetImage('images/C.png'),
                                           ),
@@ -251,7 +250,10 @@ class ShoppingCart extends StatelessWidget {
                                                       .size
                                                       .width *
                                                   (15 / 375),
-                                              14),
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  28),
                                           makeTextSize(
                                               '추가요금 : ' +
                                                   menus['addcost'].toString() +
@@ -262,9 +264,54 @@ class ShoppingCart extends StatelessWidget {
                                                       .size
                                                       .width *
                                                   (15 / 375),
-                                              14),
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  28),
+
+                                          makeThreeTitle(
+                                              '가격 : ' +
+                                                  (menus['cost'] +
+                                                          menus['addcost'])
+                                                      .toString() +
+                                                  '원',
+                                              '',
+                                              '',
+                                              context),
+                                          // Container(
+                                          //     width: 150,
+                                          //     height: 20,
+                                          //     color: Colors.black12,
+                                          //     child: Column(
+                                          //       crossAxisAlignment:
+                                          //           CrossAxisAlignment.end,
+                                          //       mainAxisAlignment:
+                                          //           MainAxisAlignment.end,
+                                          //       children: [
+                                          //         Text(
+                                          //           '가격 : ' +
+                                          //               (menus['cost'] +
+                                          //                       menus[
+                                          //                           'addcost'])
+                                          //                   .toString() +
+                                          //               '원',
+                                          //           style: TextStyle(
+                                          //               color: Color.fromRGBO(
+                                          //                   10, 10, 5, 1.0),
+                                          //               fontWeight:
+                                          //                   FontWeight.bold,
+                                          //               fontSize: MediaQuery.of(
+                                          //                           context)
+                                          //                       .size
+                                          //                       .width /
+                                          //                   22),
+                                          //           textAlign: TextAlign.center,
+                                          //         ),
+                                          //       ],
+                                          //     )),
                                         ],
                                       ),
+
                                       //요기
                                     ],
                                   ),
@@ -298,35 +345,8 @@ class ShoppingCart extends StatelessWidget {
                                                       MediaQuery.of(context)
                                                               .size
                                                               .width *
-                                                          (35 / 375),
+                                                          (30 / 375),
                                                   onPressed: _trash),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    '가격 : ' +
-                                                        (menus['cost'] +
-                                                                menus[
-                                                                    'addcost'])
-                                                            .toString() +
-                                                        '원',
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            10, 10, 5, 1.0),
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            22),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
-                                              ),
                                             ],
                                           ),
                                         ),
@@ -378,7 +398,7 @@ class ShoppingCart extends StatelessWidget {
                         style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                            fontSize: MediaQuery.of(context).size.width / 24),
                         textAlign: TextAlign.left,
                       ),
                     ],
@@ -392,7 +412,7 @@ class ShoppingCart extends StatelessWidget {
                         style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                            fontSize: MediaQuery.of(context).size.width / 25),
                         textAlign: TextAlign.right,
                       ),
                       Text(
@@ -400,7 +420,7 @@ class ShoppingCart extends StatelessWidget {
                         style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1.0),
                             fontWeight: FontWeight.normal,
-                            fontSize: 10),
+                            fontSize: MediaQuery.of(context).size.width / 40),
                         textAlign: TextAlign.right,
                       ),
                     ],
@@ -429,7 +449,7 @@ class ShoppingCart extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(33, 33, 31, 1.0),
                               fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width / 18),
+                              fontSize: MediaQuery.of(context).size.width / 22),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -459,7 +479,7 @@ class ShoppingCart extends StatelessWidget {
                                 color: Color.fromRGBO(33, 33, 31, 1.0),
                                 fontWeight: FontWeight.bold,
                                 fontSize:
-                                    MediaQuery.of(context).size.width / 18),
+                                    MediaQuery.of(context).size.width / 24),
                             textAlign: TextAlign.center,
                           ),
                           Text(
@@ -468,7 +488,7 @@ class ShoppingCart extends StatelessWidget {
                                 color: Color.fromRGBO(33, 33, 31, 1.0),
                                 fontWeight: FontWeight.bold,
                                 fontSize:
-                                    MediaQuery.of(context).size.width / 18),
+                                    MediaQuery.of(context).size.width / 24),
                             textAlign: TextAlign.center,
                           ),
                         ],
