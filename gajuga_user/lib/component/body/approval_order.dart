@@ -98,7 +98,7 @@ class ApprovalOrder extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.refresh_sharp),
+                    icon: Icon(Icons.refresh),
                     color: Color.fromRGBO(0, 0, 0, 1.0),
                     //onPressed: _gotoCart,
                     iconSize: MediaQuery.of(context).size.width * (40 / 375),

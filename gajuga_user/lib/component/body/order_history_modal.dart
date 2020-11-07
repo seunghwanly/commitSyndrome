@@ -126,8 +126,8 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                              mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                             children: [
-                              makeTextSize('상품 합계', darkblue, 0.0, 20),
-                              makeTextSize(toLocaleString(totalCost) + ' 원', darkblue, 0.0, 20),
+                              makeTextSize('상품 합계', darkblue, 0.0, 18),
+                              makeTextSize(toLocaleString(totalCost) + ' 원', darkblue, 0.0, 18),
                             ],
                           ),
                         ), //total cost
@@ -138,8 +138,8 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                              mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                             children: [
-                              makeTextSize('결제 합계', orange, 0.0, 20),
-                              makeTextSize(toLocaleString(totalCost) + ' 원', orange, 0.0, 20),
+                              makeTextSize('결제 합계', orange, 0.0, 18),
+                              makeTextSize(toLocaleString(totalCost) + ' 원', orange, 0.0, 18),
                             ],
                           ),
                         ),//paid cost

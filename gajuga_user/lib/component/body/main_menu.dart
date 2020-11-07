@@ -91,7 +91,7 @@ class TotalMenuWidget extends StatelessWidget {
   Widget _listItem(String title, AssetImage image, String desc, int cost,
       BuildContext context) {
     double itemWidth = MediaQuery.of(context).size.width * 0.45;
-    double itemHeight = MediaQuery.of(context).size.width * 0.35;
+    double itemHeight = MediaQuery.of(context).size.height * 0.35;
 
     return Container(
       width: itemWidth,
@@ -137,20 +137,29 @@ class TotalMenuWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    Container(
+                      alignment: Alignment.centerLeft,
+                        height: itemHeight * 0.1,
+                      child: Text(
                       '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    ),
                     FlatButton(
                       onPressed: () {  Scaffold.of(context).hideCurrentSnackBar(); },
-                      child: Text('닫기', style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.right,),
+                      child: Container(
+                        height: itemHeight * 0.1,
+                        width: itemWidth * 0.2,
+                        alignment: Alignment.centerRight,
+                        child: Text('닫기', style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.right,),
+                      )
                     )
                   ],
                 ),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: orange,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(30)),
                 elevation: 10.0,
               ));
             },
