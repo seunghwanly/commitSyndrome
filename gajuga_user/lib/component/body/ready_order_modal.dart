@@ -3,7 +3,7 @@ import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/box_shadow.dart';
 
-showApprovalModal(BuildContext c) {
+showReadyModal(BuildContext c) {
   return showDialog(
       context: c,
       builder: (BuildContext context) {

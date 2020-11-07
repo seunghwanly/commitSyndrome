@@ -5,7 +5,7 @@ import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
-import '../body/approval_order_modal.dart';
+import 'ready_order_modal.dart';
 
 class OrderState extends StatelessWidget {
   @override
@@ -117,7 +117,7 @@ class OrderState extends StatelessWidget {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        showApprovalModal(context);
+                        showReadyModal(context);
                       },
                       child: Container(
                           alignment: Alignment.center,
