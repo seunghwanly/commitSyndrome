@@ -52,7 +52,7 @@ class ShoppingCart extends StatelessWidget {
               margin: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.01),
               alignment: Alignment.topCenter,
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.95,
               height: MediaQuery.of(context).size.height * 0.65,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
@@ -71,7 +71,7 @@ class ShoppingCart extends StatelessWidget {
                           var menus =
                               new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
-                              MediaQuery.of(context).size.width * 0.7,
+                              MediaQuery.of(context).size.width * 0.92,
                               MediaQuery.of(context).size.height * 0.18,
                               Row(
                                 mainAxisAlignment:
@@ -90,15 +90,33 @@ class ShoppingCart extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                         children: [
                                           CircleAvatar(
-                                            radius: 25,
+                                            radius: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                (25 / 375),
                                             backgroundImage:
                                                 AssetImage('images/C.png'),
                                           ),
                                           Container(
-                                              width: 80,
-                                              height: 35,
-                                              margin: EdgeInsets.only(top: 10),
-                                              padding: EdgeInsets.all(5),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (80 / 375),
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  (35 / 812),
+                                              margin: EdgeInsets.only(
+                                                top: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    (10 / 812),
+                                              ),
+                                              padding: EdgeInsets.all(
+                                                  MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      (5 / 375)),
                                               decoration: BoxDecoration(
                                                   boxShadow: [
                                                     customeBoxShadow()
@@ -227,7 +245,10 @@ class ShoppingCart extends StatelessWidget {
                                                   menus['size'].toString(),
                                               Color.fromRGBO(
                                                   119, 119, 119, 1.0),
-                                              20.0,
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (20 / 375),
                                               14),
                                           makeTextSize(
                                               '추가요금 : ' +
@@ -235,7 +256,10 @@ class ShoppingCart extends StatelessWidget {
                                                   '원',
                                               Color.fromRGBO(
                                                   119, 119, 119, 1.0),
-                                              20.0,
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (20 / 375),
                                               14),
                                         ],
                                       ),
@@ -268,7 +292,11 @@ class ShoppingCart extends StatelessWidget {
                                                   icon: Icon(
                                                       Icons.restore_from_trash),
                                                   color: Colors.black87,
-                                                  iconSize: 35,
+                                                  iconSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          (35 / 375),
                                                   onPressed: _trash),
                                               Column(
                                                 crossAxisAlignment:
@@ -302,8 +330,9 @@ class ShoppingCart extends StatelessWidget {
                                 ],
                               ),
                               true,
-                              15,
-                              20);
+                              5,
+                              5,
+                              context);
                         },
                       ),
                     ],
@@ -318,13 +347,13 @@ class ShoppingCart extends StatelessWidget {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
-                left: 28,
-                top: 18,
-                right: 28,
+                left: MediaQuery.of(context).size.width * (28 / 375),
+                top: MediaQuery.of(context).size.width * (18 / 375),
+                right: MediaQuery.of(context).size.width * (28 / 375),
               ),
               alignment: Alignment.bottomCenter,
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.06,
+              height: MediaQuery.of(context).size.height * (80 / 812),
               decoration: BoxDecoration(
                   boxShadow: [customeBoxShadow()],
                   borderRadius: BorderRadius.only(
@@ -380,7 +409,7 @@ class ShoppingCart extends StatelessWidget {
                 Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * (50 / 812),
                     decoration: BoxDecoration(
                         // borderRadius: BorderRadius.circular(15),
                         boxShadow: [customeBoxShadow()],
@@ -402,7 +431,7 @@ class ShoppingCart extends StatelessWidget {
                 Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * (50 / 812),
                     decoration: BoxDecoration(
                         // borderRadius: BorderRadius.circular(15),
                         boxShadow: [customeBoxShadow()],

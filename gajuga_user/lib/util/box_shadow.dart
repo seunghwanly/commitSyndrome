@@ -41,19 +41,28 @@ Container customBoxContainerWithMargin(double w, double h, final c,
   );
 }
 
-Container customStrikeBoxContainer(double w, double h, final c,
-    bool needPadding, double marginVertical, double marginHorizontal) {
+Container customStrikeBoxContainer(
+    double w,
+    double h,
+    final c,
+    bool needPadding,
+    double marginVertical,
+    double marginHorizontal,
+    BuildContext context) {
   return Container(
     alignment: Alignment.center,
     width: w,
     height: h,
     decoration: BoxDecoration(
+      // borderRadius: BorderRadius.circular(10),
       border: Border(
         bottom: BorderSide(width: 0.6, color: Colors.black38),
       ),
-      color: Colors.white,
+      // color: Colors.white,
     ),
-    padding: needPadding ? EdgeInsets.all(20) : null,
+    padding: needPadding
+        ? EdgeInsets.all(MediaQuery.of(context).size.width * (0 / 375))
+        : null,
     child: c,
     margin: EdgeInsets.only(
         top: marginVertical,
