@@ -51,7 +51,7 @@ class ShoppingCart extends StatelessWidget {
                   top: MediaQuery.of(context).size.height * 0.01),
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width * 0.95,
-              height: MediaQuery.of(context).size.height * 0.65,
+              height: MediaQuery.of(context).size.height * 0.62,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [customeBoxShadow()],
@@ -69,7 +69,7 @@ class ShoppingCart extends StatelessWidget {
                           var menus =
                               new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
-                              MediaQuery.of(context).size.width * 0.92,
+                              MediaQuery.of(context).size.width * 0.94,
                               MediaQuery.of(context).size.height * 0.18,
                               Row(
                                 mainAxisAlignment:
@@ -236,8 +236,11 @@ class ShoppingCart extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          makeThreeTitle('피자 ', 'PIZZA ',
-                                              '/ ' + menus['name'].toString()),
+                                          makeThreeTitle(
+                                              '피자 ',
+                                              'PIZZA ',
+                                              '/ ' + menus['name'].toString(),
+                                              context),
                                           makeTextSize(
                                               '크기 : ' +
                                                   menus['size'].toString(),
@@ -314,7 +317,11 @@ class ShoppingCart extends StatelessWidget {
                                                             10, 10, 5, 1.0),
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 17),
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            22),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ],
@@ -407,7 +414,7 @@ class ShoppingCart extends StatelessWidget {
                 Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * (50 / 812),
+                    height: MediaQuery.of(context).size.height * (70 / 812),
                     decoration: BoxDecoration(
                         // borderRadius: BorderRadius.circular(15),
                         boxShadow: [customeBoxShadow()],
@@ -421,7 +428,7 @@ class ShoppingCart extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(33, 33, 31, 1.0),
                               fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                              fontSize: MediaQuery.of(context).size.width / 18),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -429,7 +436,7 @@ class ShoppingCart extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * (50 / 812),
+                  height: MediaQuery.of(context).size.height * (70 / 812),
                   decoration: BoxDecoration(
                       // borderRadius: BorderRadius.circular(15),
                       boxShadow: [customeBoxShadow()],
@@ -441,7 +448,7 @@ class ShoppingCart extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => ApprovalOrder()));
                       },
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -450,7 +457,8 @@ class ShoppingCart extends StatelessWidget {
                             style: TextStyle(
                                 color: Color.fromRGBO(33, 33, 31, 1.0),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16),
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 18),
                             textAlign: TextAlign.center,
                           ),
                           Text(
@@ -458,7 +466,8 @@ class ShoppingCart extends StatelessWidget {
                             style: TextStyle(
                                 color: Color.fromRGBO(33, 33, 31, 1.0),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16),
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 18),
                             textAlign: TextAlign.center,
                           ),
                         ],
