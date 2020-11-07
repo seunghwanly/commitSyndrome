@@ -92,6 +92,7 @@ class ShoppingCart extends StatelessWidget {
                                                     .size
                                                     .width *
                                                 (25 / 375),
+                                            
                                             backgroundImage:
                                                 AssetImage('images/C.png'),
                                           ),
