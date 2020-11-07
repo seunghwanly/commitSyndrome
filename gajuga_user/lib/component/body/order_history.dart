@@ -157,6 +157,7 @@ class OrderHistoryState extends State<OrderHistory> {
                             borderRadius: BorderRadius.circular(20)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             new IconButton(
                                 icon: Icon(Icons.receipt),
