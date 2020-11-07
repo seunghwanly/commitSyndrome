@@ -6,8 +6,6 @@ import '../../util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
-import 'package:intl/intl.dart';
-
 
 class OrderHistory extends StatefulWidget {
   //OrderHistory ({  });
@@ -91,7 +89,7 @@ class OrderHistoryState extends State<OrderHistory> {
 
           return customBoxContainerWithMargin(
               MediaQuery.of(context).size.width * 0.8,
-              MediaQuery.of(context).size.height * 0.22,
+              MediaQuery.of(context).size.height * 0.24,
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -175,7 +175,7 @@ class FavoriteMenuWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.16,
             margin: EdgeInsets.only(left: 25, top: 15, right: 25),
-            padding: EdgeInsets.only(top: 20, bottom: 20),
+            padding: EdgeInsets.only(top: 10, bottom: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
