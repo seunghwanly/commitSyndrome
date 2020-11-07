@@ -39,12 +39,15 @@ class OrderState extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text('이미지'),
-                      Text('결제완료'),
+                      makeWhiteText('결제완료', Colors.white, 0, 0,
+                          MediaQuery.of(context).size.width / 25),
                       Text('19시35분05초'),
                     ],
                   ),
