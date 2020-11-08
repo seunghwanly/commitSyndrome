@@ -2,6 +2,7 @@ import '../body/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/util/palette.dart';
 import '../header/header.dart';
+import 'package:gajuga_user/main.dart';
 
 class LoginWidget extends StatelessWidget {
   String userName = '';
@@ -91,13 +92,12 @@ class LoginWidget extends StatelessWidget {
                       //로그인 기능 수정 필요
                       onPressed: () {
                         if (userName == 'dart' && password == 'flutter') {
-                          Scaffold.of(context)
-                            ..removeCurrentSnackBar()
-                            ..showSnackBar(SnackBar(content: Text('로그인 성공')));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainScreen()));
                         } else
-                          Scaffold.of(context)
-                            ..removeCurrentSnackBar()
-                            ..showSnackBar(SnackBar(content: Text('로그인 실패')));
+                          showLoginFail(context);
                       }))),
           SizedBox(
             height: 40.0,
@@ -178,4 +178,84 @@ class LoginWidget extends StatelessWidget {
       ),
     ));
   }
+}
+
+void showLoginFail(BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: new Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Text(
+                "GAJUGA 알림",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          content: new SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 40.0),
+                    child: Column(children: <Widget>[
+                      Text(
+                        "아이디 또는 비밀번호가",
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        "올바르지 않습니다.",
+                        style: TextStyle(
+                          color: Color.fromRGBO(119, 119, 119, 1.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ]),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                    decoration: BoxDecoration(
+                      color: orange,
+                      borderRadius: BorderRadius.circular(25.0),
+                      boxShadow: ([
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.16),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
+                        )
+                      ]),
+                    ),
+                    child: FlatButton(
+                        child: Text('확인',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            )),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  ),
+                ]),
+          ),
+        );
+      });
 }
