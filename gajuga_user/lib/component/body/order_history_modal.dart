@@ -19,7 +19,7 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
               borderRadius: BorderRadius.circular(30.0)), //this right here
           child: Container(
               height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.height * 0.4 < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.4 : MediaQuery.of(context).size.width * 0.9 ,
+              width: MediaQuery.of(context).size.height * 0.6 < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.6 : MediaQuery.of(context).size.width * 0.9 ,
               child: Stack(
                 children: <Widget>[
                   Positioned(
