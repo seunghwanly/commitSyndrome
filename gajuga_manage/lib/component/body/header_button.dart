@@ -31,6 +31,7 @@ class _HeaderButtonState extends State<HeaderButton> {
     return Column(
       children: [
         GridView.count(
+          physics: NeverScrollableScrollPhysics(),
           crossAxisCount: menuList.length,
           shrinkWrap: true,
           childAspectRatio: 2/1,
