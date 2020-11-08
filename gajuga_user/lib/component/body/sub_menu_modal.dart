@@ -7,9 +7,10 @@ import '../../model/option_model.dart';
 
 class SubMenuModal extends StatefulWidget {
   
+  List<Map<String, dynamic>> parsedOptionList;
   final option1, option2;
 
-  SubMenuModal({this.option1, this.option2});
+  SubMenuModal({this.parsedOptionList, this.option1, this.option2});
 
   @override
   SubMenuModalState createState() => SubMenuModalState();
@@ -34,6 +35,8 @@ class SubMenuModalState extends State<SubMenuModal> {
               child: Text(opt.category, style: TextStyle(color: darkblue)),
             ),
             CustomCheckboxGroup(
+              parsedOptionList: widget.parsedOptionList,
+              category: opt.category,
               optionList: subOpt,
               size: 30,
               iconSize: 24,
@@ -92,11 +95,11 @@ class SubMenuModalState extends State<SubMenuModal> {
   }
 }
 
-Future showSubMenuModal(BuildContext c, final option1, final option2) {
+Future showSubMenuModal(BuildContext c, List<Map<String, dynamic>> parsedOptionList, final option1, final option2) {
   return showModalBottomSheet(
       context: c,
       builder: (BuildContext context) {
-        return SubMenuModal(option1: option1, option2: option2);
+        return SubMenuModal(parsedOptionList: parsedOptionList, option1: option1, option2: option2);
       },
       backgroundColor: Color(0x00000000),
       );
