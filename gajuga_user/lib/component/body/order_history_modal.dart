@@ -4,10 +4,9 @@ import '../../util/palette.dart';
 import '../../util/to_locale.dart';
 
 showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
-
   int totalCost = 0;
 
-  for(int i=0; i<list['content'].length; ++i) {
+  for (int i = 0; i < list['content'].length; ++i) {
     totalCost += list['content'][i]['cost'];
   }
 
@@ -18,8 +17,11 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0)), //this right here
           child: Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.height * 0.6 < MediaQuery.of(context).size.width ? MediaQuery.of(context).size.height * 0.6 : MediaQuery.of(context).size.width * 0.9 ,
+              height: MediaQuery.of(context).size.height * 0.65,
+              width: MediaQuery.of(context).size.height * 0.4 <
+                      MediaQuery.of(context).size.width
+                  ? MediaQuery.of(context).size.height * 0.4
+                  : MediaQuery.of(context).size.width * 0.9,
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -52,37 +54,37 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                         Container(
                           margin: EdgeInsets.only(top: 10, bottom: 10),
                           child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            makeTextSize("주문 정보", darkblue, 0.0, 20.0),
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  makeTextSize('주문 번호', lightgrey, 0.0, 14),
-                                  makeTextSize(
-                                      list['order_number'], lightgrey, 0.0, 14)
-                                ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              makeTextSize("주문 정보", darkblue, 0.0, 20.0),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 15, top: 5, bottom: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    makeTextSize('주문 번호', lightgrey, 0.0, 14),
+                                    makeTextSize(list['order_number'],
+                                        lightgrey, 0.0, 14)
+                                  ],
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  makeTextSize('주문 시간', lightgrey, 0.0, 14),
-                                  makeTextSize(
-                                      list['order_time'], lightgrey, 0.0, 14)
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 15, top: 5, bottom: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    makeTextSize('주문 시간', lightgrey, 0.0, 14),
+                                    makeTextSize(
+                                        list['order_time'], lightgrey, 0.0, 14)
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ), //order info : number and orderTime
                         Divider(),
                         Container(
@@ -108,9 +110,17 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           makeTextSize(
-                                              list['content'][idx]['name'], lightgrey, 0.0, 14),
-                                          makeTextSize(toLocaleString(list['content'][idx]['cost']) + ' 원',
-                                              lightgrey, 0.0, 14)
+                                              list['content'][idx]['name'],
+                                              lightgrey,
+                                              0.0,
+                                              14),
+                                          makeTextSize(
+                                              toLocaleString(list['content']
+                                                      [idx]['cost']) +
+                                                  ' 원',
+                                              lightgrey,
+                                              0.0,
+                                              14)
                                         ],
                                       ),
                                     );
@@ -124,26 +134,26 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                         Container(
                           margin: EdgeInsets.only(top: 10, bottom: 10),
                           child: Row(
-                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               makeTextSize('상품 합계', darkblue, 0.0, 18),
-                              makeTextSize(toLocaleString(totalCost) + ' 원', darkblue, 0.0, 18),
+                              makeTextSize(toLocaleString(totalCost) + ' 원',
+                                  darkblue, 0.0, 18),
                             ],
                           ),
                         ), //total cost
                         Divider(),
-                         Container(
+                        Container(
                           margin: EdgeInsets.only(top: 10, bottom: 10),
                           child: Row(
-                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               makeTextSize('결제 합계', orange, 0.0, 18),
-                              makeTextSize(toLocaleString(totalCost) + ' 원', orange, 0.0, 18),
+                              makeTextSize(toLocaleString(totalCost) + ' 원',
+                                  orange, 0.0, 18),
                             ],
                           ),
-                        ),//paid cost
+                        ), //paid cost
                       ],
                     ),
                     padding: EdgeInsets.all(20.0),
