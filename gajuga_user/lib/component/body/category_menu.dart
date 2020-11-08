@@ -159,13 +159,15 @@ class CategoryMenu extends StatelessWidget {
                 ]),
             Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.015),
+                  top: MediaQuery.of(context).size.height * 0.03,
+                  bottom: MediaQuery.of(context).size.height * 0.03,
+                ),
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.015),
                 alignment: Alignment.topCenter,
-                width: MediaQuery.of(context).size.width * 0.93,
+                width: MediaQuery.of(context).size.width * 0.95,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(30),
                     boxShadow: [customeBoxShadow()],
                     color: Color.fromRGBO(255, 255, 255, 1.0)),
                 // child: new RotationTransition(
@@ -178,11 +180,12 @@ class CategoryMenu extends StatelessWidget {
                         child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        makeTitleSize(
+                        makePaddingTitleSize(
                             '피자',
                             ' PIZZA',
-                            MediaQuery.of(context).size.width * 0.04,
-                            MediaQuery.of(context).size.width * (20 / 375),
+                            MediaQuery.of(context).size.width * 0.06,
+                            MediaQuery.of(context).size.width * 0.02,
+                            MediaQuery.of(context).size.width * (19 / 375),
                             true),
                         ListView.builder(
                           itemCount: data.length,
@@ -191,7 +194,7 @@ class CategoryMenu extends StatelessWidget {
                             var menus =
                                 new Map<String, dynamic>.from(menudata[index]);
                             return customBoxContainerCategory(
-                                MediaQuery.of(context).size.width * 0.9,
+                                MediaQuery.of(context).size.width * 0.7,
                                 MediaQuery.of(context).size.height *
                                     (120 / 812),
                                 Row(
@@ -328,11 +331,11 @@ class CategoryMenu extends StatelessWidget {
                 //alignment: Alignment.bottomCenter,
 
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.08,
+                height: MediaQuery.of(context).size.height * 0.07,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
                     boxShadow: [customeBoxShadow()],
                     color: Color.fromRGBO(218, 155, 104, 1.0)),
                 // child: new RotationTransition(

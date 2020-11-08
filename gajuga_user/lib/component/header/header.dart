@@ -41,7 +41,7 @@ class _CustomHeaderState extends State<CustomHeader> {
         width: double.infinity,
         height: double.infinity,
         color: Color.fromRGBO(234, 230, 218, 1.0),
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 1),
         child: widget.body,
       ),
       drawer: Drawer(

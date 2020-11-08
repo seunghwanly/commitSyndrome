@@ -49,12 +49,14 @@ Container customBoxContainerCategory(double w, double h, final c,
     height: h,
     decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(30),
         boxShadow: [customeBoxShadow()]),
     padding: needPadding
         ? EdgeInsets.only(
-            left: 5,
-            right: 10,
+            top: 10,
+            bottom: 10,
+            left: 20,
+            right: 20,
           )
         : null,
     child: c,

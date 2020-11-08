@@ -181,3 +181,60 @@ Widget makeWhiteText(String title, Color color, double paddingLeft,
     padding: EdgeInsets.only(left: paddingLeft, bottom: paddingBottom),
   );
 }
+
+Widget makePaddingTitleSize(String left, String right, double marginLeft,
+    double padding, double size, bool reverse) {
+  if (!reverse) {
+    return Container(
+      margin: EdgeInsets.only(left: marginLeft),
+      padding: EdgeInsets.only(top: 0, bottom: padding),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              left,
+              style: TextStyle(
+                  color: Color.fromRGBO(218, 155, 104, 1.0),
+                  fontWeight: FontWeight.bold,
+                  fontSize: size),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              right,
+              style: TextStyle(
+                  color: Color.fromRGBO(33, 33, 31, 1.0),
+                  fontWeight: FontWeight.bold,
+                  fontSize: size),
+              textAlign: TextAlign.center,
+            )
+          ]),
+    );
+  } else {
+    return Container(
+      padding: EdgeInsets.only(top: 0, bottom: padding),
+      margin: EdgeInsets.only(left: marginLeft),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              left,
+              style: TextStyle(
+                  color: Color.fromRGBO(33, 33, 31, 1.0),
+                  fontWeight: FontWeight.bold,
+                  fontSize: size),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              right,
+              style: TextStyle(
+                  color: Color.fromRGBO(218, 155, 104, 1.0),
+                  fontWeight: FontWeight.bold,
+                  fontSize: size),
+              textAlign: TextAlign.center,
+            )
+          ]),
+    );
+  }
+}
