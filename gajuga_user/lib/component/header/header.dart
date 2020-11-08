@@ -4,6 +4,7 @@ import 'package:gajuga_user/main.dart';
 import 'package:gajuga_user/util/palette.dart';
 import 'package:gajuga_user/util/to_text.dart';
 import 'package:gajuga_user/component/body/login.dart';
+import '../body/shopping_cart.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -19,7 +20,10 @@ class _CustomHeaderState extends State<CustomHeader> {
   Widget build(BuildContext context) {
     void _openDrawer() {}
 
-    void _gotoCart() {}
+    void _gotoCart() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ShoppingCart()));
+    }
 
     return Scaffold(
       appBar: AppBar(
