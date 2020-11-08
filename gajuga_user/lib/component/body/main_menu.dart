@@ -33,7 +33,7 @@ class TotalMenuWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Color.fromRGBO(218, 155, 104, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 20),
                       textAlign: TextAlign.left,
                     ),
                     Text(
@@ -41,7 +41,7 @@ class TotalMenuWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Color.fromRGBO(33, 33, 31, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 20),
                       textAlign: TextAlign.left,
                     )
                   ],
@@ -139,21 +139,26 @@ class TotalMenuWidget extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
-                        height: itemHeight * 0.1,
+                      height: itemHeight * 0.1,
                       child: Text(
-                      '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                        '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     FlatButton(
-                      onPressed: () {  Scaffold.of(context).hideCurrentSnackBar(); },
-                      child: Container(
-                        height: itemHeight * 0.1,
-                        width: itemWidth * 0.2,
-                        alignment: Alignment.centerRight,
-                        child: Text('닫기', style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.right,),
-                      )
-                    )
+                        onPressed: () {
+                          Scaffold.of(context).hideCurrentSnackBar();
+                        },
+                        child: Container(
+                          height: itemHeight * 0.1,
+                          width: itemWidth * 0.2,
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '닫기',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.right,
+                          ),
+                        ))
                   ],
                 ),
                 behavior: SnackBarBehavior.floating,
