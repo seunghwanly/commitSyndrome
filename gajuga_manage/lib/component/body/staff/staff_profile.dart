@@ -224,9 +224,9 @@ class _StaffProfileState extends State<StaffProfile> {
           Container(
             child: CircleAvatar(
               radius: 65.0,
-              backgroundImage: _profileImage != null
-                  ? Image.file(_profileImage)
-                  : AssetImage('images/default_profile.jpg'),
+              backgroundImage: _profileImage == null
+                  ? AssetImage('images/default_profile.jpg')
+                  : FileImage(_profileImage),
             ),
           ),
           Positioned(
@@ -242,7 +242,9 @@ class _StaffProfileState extends State<StaffProfile> {
               padding: EdgeInsets.all(0),
               alignment: Alignment.center,
               child: IconButton(
-                onPressed: () { },
+                onPressed: () {
+                  // getProfileImage();
+                },
                 icon: Icon(
                   Icons.camera_alt,
                   size: 20,
@@ -257,7 +259,7 @@ class _StaffProfileState extends State<StaffProfile> {
   }
 
   Future getProfileImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
 
     setState(() {
       if (pickedFile != null) {
