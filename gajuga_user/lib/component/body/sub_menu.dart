@@ -93,6 +93,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
             child: Column(
           children: [
             Container(
+              alignment: Alignment.topCenter,
               child: Container(
                   width: MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
                   height: MediaQuery.of(c).size.height * 0.3, // iphoneX - 113
@@ -106,6 +107,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                       ))),
             ),
             Container(
+              alignment: Alignment.center,
               height: MediaQuery.of(c).size.height * 0.2 * 0.7,
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Column(
