@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/menu_manage.dart';
-import 'package:gajuga_manage/component/body/staff_manage.dart';
+import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
+import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
 import 'package:gajuga_manage/component/header/header_menu.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/component/header/header.dart';

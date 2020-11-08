@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/menu_manage.dart';
-import 'package:gajuga_manage/component/body/sales_manage.dart';
-import 'package:gajuga_manage/component/body/staff_manage.dart';
-import 'package:gajuga_manage/component/body/stock_manage.dart';
+import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
+import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
+import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
+import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
