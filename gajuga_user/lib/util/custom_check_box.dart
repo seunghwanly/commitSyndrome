@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/model/option_model.dart';
+import 'package:gajuga_user/model/selected_option_model.dart';
 import 'package:provider/provider.dart';
 import './palette.dart';
 import './box_shadow.dart';
 import '../util/to_locale.dart';
 
 class CustomCheckboxGroup extends StatefulWidget {
+  final String category;
   final List<Sub> optionList;
   final double size;
   final double iconSize;
@@ -13,7 +15,9 @@ class CustomCheckboxGroup extends StatefulWidget {
   final Color selectedIconColor;
 
   CustomCheckboxGroup(
-      {this.optionList,
+      {
+      this.category,
+      this.optionList,
       this.size,
       this.iconSize,
       this.selectedColor,
@@ -39,9 +43,10 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifie
  */
   @override
   Widget build(BuildContext context) {
-    return Provider<String>.value(
-        value: this._selectedOption,
-        child: ListView.builder(
+
+    final sharedOptionList = Provider.of<OptionList>(context);
+
+    return ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: widget.optionList.length,
@@ -82,7 +87,13 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifie
                               // save state
                               this._selectedOption =
                                   widget.optionList[selectedAfterIndex].name;
-                                  notifyListeners();
+                              // save in model
+                              if(widget.category == "SIZE/사이즈 선택") {
+                                sharedOptionList.addOptionListSize(this._selectedOption, widget.optionList[selectedAfterIndex].cost);
+                              }
+                              else {
+                                sharedOptionList.addOptionListCrust(this._selectedOption, widget.optionList[selectedAfterIndex].cost);
+                              }
                             });
                           },
                           child: AnimatedContainer(
@@ -141,6 +152,6 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifie
                   ],
                 ),
               );
-            }));
+            });
   }
 }

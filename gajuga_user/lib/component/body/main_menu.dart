@@ -33,7 +33,7 @@ class TotalMenuWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Color.fromRGBO(218, 155, 104, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 20),
                       textAlign: TextAlign.left,
                     ),
                     Text(
@@ -41,7 +41,7 @@ class TotalMenuWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Color.fromRGBO(33, 33, 31, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 20),
                       textAlign: TextAlign.left,
                     )
                   ],

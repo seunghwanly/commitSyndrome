@@ -34,6 +34,7 @@ class SubMenuModalState extends State<SubMenuModal> {
               child: Text(opt.category, style: TextStyle(color: darkblue)),
             ),
             CustomCheckboxGroup(
+              category: opt.category,
               optionList: subOpt,
               size: 30,
               iconSize: 24,

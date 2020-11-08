@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_user/model/selected_option_model.dart';
 import 'package:provider/provider.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
@@ -19,8 +20,8 @@ class SubmenuScreen extends StatefulWidget {
 
 class SubmenuScreenState extends State<SubmenuScreen> {
   int count = 1;
-  
-   final contentSize = {
+
+  final contentSize = {
     "category": "SIZE/사이즈 선택",
     "sub": [
       {"name": "레귤러", "eng_name": "regular", "detail": "13inch", "cost": 0},
@@ -43,13 +44,11 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     optionSelected = new List<String>.filled(2, null);
     super.initState();
   }
-  
+
   @override
   void didChangeDependencies() {
-
     super.didChangeDependencies();
   }
-
 
   void handleCount(bool isAdded) {
     setState(() {
@@ -65,6 +64,10 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final optionSelected = Provider.of<OptionList>(context);
+    List<Map<String, dynamic>> parsedOptionList =
+        optionSelected.getOptionList();
+
     //main build -----------------------------------------------------------------
     return CustomHeader(
         body: Column(
@@ -73,8 +76,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         makeTitle('세부', ' 메뉴'),
         imageCard(context),
         countCard(context),
-        optionCard(context, contentSize, contentDough),
-        totalCostCard(context),
+        optionCard(context, parsedOptionList, contentSize, contentDough),
+        totalCostCard(context, parsedOptionList),
         bottomCard(context)
       ],
     ));
@@ -157,8 +160,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         true);
   }
 
-  Widget optionCard(BuildContext c, final option1, final option2) {
-
+  Widget optionCard(BuildContext c, List<Map<String, dynamic>> parsedOptionList, final option1, final option2) {
     //final String optionSelected = Provider.of<String>(c);
     // String optionSelected = Consumer<String>()
 
@@ -172,12 +174,27 @@ class SubmenuScreenState extends State<SubmenuScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('추가사항 : ' ,//+ optionSelected, // + optionSelected[0] + ' , ' + optionSelected[1]
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: darkblue),
-                  textAlign: TextAlign.center),
+              Row(
+                children: [
+                  Text('추가사항 : ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: darkblue),
+                      textAlign: TextAlign.center),
+                  Text(
+                    ' ' +
+                        parsedOptionList[0]['selected'] +
+                        ' , ' +
+                        parsedOptionList[1]['selected'],
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                        color: lightgrey),
+                  )
+                ],
+              ),
               Text('>',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -190,7 +207,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     );
   }
 
-  Widget totalCostCard(BuildContext c) {
+  Widget totalCostCard(BuildContext c, List<Map<String, dynamic>> parsedOptionList) {
     return customBoxContainer(
         MediaQuery.of(c).size.width * 0.9, //iphone X - 340
         MediaQuery.of(c).size.height * 0.07, //iphone X - 60
@@ -203,7 +220,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     fontSize: 16,
                     color: Color.fromRGBO(33, 33, 31, 1.0)),
                 textAlign: TextAlign.center),
-            Text(toLocaleString(widget.cost) + '원',
+            Text(toLocaleString(widget.cost + parsedOptionList[0]['addedCost'] + parsedOptionList[1]['addedCost']) + '원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
