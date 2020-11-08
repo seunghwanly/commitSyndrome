@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
-import 'package:gajuga_manage/util/header_button.dart';
+import 'package:gajuga_manage/component/body/header_button.dart';
 
 class HeaderMenu extends StatefulWidget {
   @override

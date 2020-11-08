@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/main_menu.dart';
 import 'package:gajuga_manage/component/body/menu_manage.dart';
 import 'package:gajuga_manage/component/header/header_menu.dart';
 import 'package:gajuga_manage/util/palette.dart';
@@ -30,11 +29,7 @@ Widget mainBody() {
   return Column(
     children: [
       HeaderMenu(),
-      SizedBox(height: 20),
       MenuManage(),
-      // TotalMenuWidget(),
-      //  totalMenu(),
-      // FavoriteMenuWidget()
     ],
   );
 }

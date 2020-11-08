@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/menu_list.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -65,6 +66,8 @@ class _MenuManageState extends State<MenuManage> {
               indent: 14,
               color: darkgrey,
             ),
+            SizedBox(height: 10),
+            MenuList(),
           ],
         ),
       ),

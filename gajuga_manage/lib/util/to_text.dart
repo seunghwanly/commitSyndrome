@@ -171,3 +171,32 @@ Widget makeThreeTitle(String left, String center, String right) {
     ),
   );
 }
+
+Widget makeSubTitle(String left, String right) {
+  return Container(
+    alignment: Alignment.centerLeft,
+    margin: EdgeInsets.only(left: 15),
+    child: Row(
+      children: [
+        Text(
+          left,
+          style: TextStyle(
+            color: Color.fromRGBO(33, 33, 31, 1.0),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        Text(
+          right,
+          style: TextStyle(
+            color: Color.fromRGBO(218, 155, 104, 1.0),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          textAlign: TextAlign.left,
+        ),
+      ],
+    ),
+  );
+}
