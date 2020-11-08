@@ -6,8 +6,6 @@ import '../../util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
-import 'package:intl/intl.dart';
-
 
 class OrderHistory extends StatefulWidget {
   //OrderHistory ({  });
@@ -75,8 +73,7 @@ class OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-    void _showReciept() {}
-
+    
     return CustomHeader(
       body: ListView.builder(
         itemCount: data.length,
@@ -91,7 +88,7 @@ class OrderHistoryState extends State<OrderHistory> {
 
           return customBoxContainerWithMargin(
               MediaQuery.of(context).size.width * 0.8,
-              MediaQuery.of(context).size.height * 0.22,
+              MediaQuery.of(context).size.height * 0.24,
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -146,25 +143,22 @@ class OrderHistoryState extends State<OrderHistory> {
                   ),
                   Container(
                     alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
+                    child: FlatButton(
+                      color: orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      onPressed: () {
                         showOrderHistoryModal(context, orders);
                       },
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.32,
                         height: MediaQuery.of(context).size.height * 0.04,
-                        decoration: BoxDecoration(
-                            boxShadow: [customeBoxShadow()],
-                            color: orange,
-                            borderRadius: BorderRadius.circular(20)),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            new IconButton(
-                                icon: Icon(Icons.receipt),
-                                color: white,
-                                iconSize: 15,
-                                onPressed: _showReciept),
+                            new Icon(Icons.receipt, color: white, size: 15,),
                             new Text(
                               "전자영수증보기",
                               style: TextStyle(

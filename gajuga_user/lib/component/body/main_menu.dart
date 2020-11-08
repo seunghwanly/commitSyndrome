@@ -33,7 +33,7 @@ class TotalMenuWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Color.fromRGBO(218, 155, 104, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 20),
                       textAlign: TextAlign.left,
                     ),
                     Text(
@@ -41,7 +41,7 @@ class TotalMenuWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Color.fromRGBO(33, 33, 31, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 20),
                       textAlign: TextAlign.left,
                     )
                   ],
@@ -90,9 +90,12 @@ class TotalMenuWidget extends StatelessWidget {
 
   Widget _listItem(String title, AssetImage image, String desc, int cost,
       BuildContext context) {
+    double itemWidth = MediaQuery.of(context).size.width * 0.45;
+    double itemHeight = MediaQuery.of(context).size.height * 0.35;
+
     return Container(
-      width: 160,
-      height: 280,
+      width: itemWidth,
+      height: itemHeight,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
@@ -123,27 +126,52 @@ class TotalMenuWidget extends StatelessWidget {
               style:
                   TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
               textAlign: TextAlign.center),
-          GestureDetector(
-            onTap: () {
+          FlatButton(
+            color: orange,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            onPressed: () {
               Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      height: itemHeight * 0.1,
+                      child: Text(
+                        '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    FlatButton(
+                        onPressed: () {
+                          Scaffold.of(context).hideCurrentSnackBar();
+                        },
+                        child: Container(
+                          height: itemHeight * 0.1,
+                          width: itemWidth * 0.2,
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '닫기',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.right,
+                          ),
+                        ))
+                  ],
                 ),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: orange,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(30)),
+                elevation: 10.0,
               ));
             },
             child: Container(
               alignment: Alignment.center,
-              height: 25,
-              width: 110,
-              decoration: BoxDecoration(
-                  color: orange,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [customeBoxShadow()]),
+              height: itemHeight * 0.09,
+              width: itemWidth * 0.6,
               child: Text(
                 "장바구니 담기",
                 style: TextStyle(
@@ -175,7 +203,7 @@ class FavoriteMenuWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.16,
             margin: EdgeInsets.only(left: 25, top: 15, right: 25),
-            padding: EdgeInsets.only(top: 20, bottom: 20),
+            padding: EdgeInsets.only(top: 10, bottom: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
