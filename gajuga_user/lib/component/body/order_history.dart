@@ -92,8 +92,8 @@ class OrderHistoryState extends State<OrderHistory> {
             }
 
             return customBoxContainerWithMargin(
-                MediaQuery.of(context).size.width * 0.8,
-                MediaQuery.of(context).size.height * 0.25,
+                MediaQuery.of(context).size.width * 0.9,  // 가로 세로 1 : 2 비율
+                MediaQuery.of(context).size.width * 0.45,
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -165,7 +165,7 @@ class OrderHistoryState extends State<OrderHistory> {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.32,
-                          height: MediaQuery.of(context).size.height * 0.04,
+                          height: MediaQuery.of(context).size.width * 0.08,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
