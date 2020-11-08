@@ -7,6 +7,7 @@ import './box_shadow.dart';
 import '../util/to_locale.dart';
 
 class CustomCheckboxGroup extends StatefulWidget {
+  final List<Map<String, dynamic>> parsedOptionList;
   final String category;
   final List<Sub> optionList;
   final double size;
@@ -16,6 +17,7 @@ class CustomCheckboxGroup extends StatefulWidget {
 
   CustomCheckboxGroup(
       {
+      this.parsedOptionList,
       this.category,
       this.optionList,
       this.size,
@@ -35,6 +37,19 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifie
   @override
   void initState() {
     _isSelectedList = new List<bool>.filled(widget.optionList.length, false);
+    
+    if(widget.category == "SIZE/사이즈 선택" && widget.parsedOptionList[0]['selected'] != '') {
+      for(int i=0; i<widget.optionList.length; ++i) {
+        if(widget.optionList[i].name == widget.parsedOptionList[0]['selected'])
+          _isSelectedList[i] = true;
+      }
+    }
+    else if(widget.category == "DOUGH/도우 선택" && widget.parsedOptionList[1]['selected'] != '') {
+      for(int i=0; i<widget.optionList.length; ++i) {
+        if(widget.optionList[i].name == widget.parsedOptionList[1]['selected'])
+          _isSelectedList[i] = true;
+      }
+    }
     super.initState();
   }
 /*

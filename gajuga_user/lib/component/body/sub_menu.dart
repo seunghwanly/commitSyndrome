@@ -86,16 +86,16 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   Widget imageCard(BuildContext c) {
     return customBoxContainer(
         // 340,
-        MediaQuery.of(c).size.width * 0.9,
-        MediaQuery.of(c).size.width * 0.9,
+        MediaQuery.of(c).size.width * 0.9,  // iphoneX - 340
+        MediaQuery.of(c).size.width * 0.9,  // iphoneX - 340
         // MediaQuery.of(c).size.height * 0.3,
         SingleChildScrollView(
             child: Column(
           children: [
             Container(
               child: Container(
-                width: MediaQuery.of(c).size.width * 0.9,
-                height: MediaQuery.of(c).size.height * 0.3,
+                width: MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
+                height: MediaQuery.of(c).size.height * 0.3, // iphoneX - 113
               ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -166,7 +166,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
     return GestureDetector(
       onTap: () {
-        showSubMenuModal(c, option1, option2);
+        showSubMenuModal(c, parsedOptionList, option1, option2);
       },
       child: customBoxContainer(
           MediaQuery.of(c).size.width * 0.9, //iphone X  - 340
