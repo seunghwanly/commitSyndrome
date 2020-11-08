@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu_manage.dart';
+import 'package:gajuga_manage/component/body/staff_manage.dart';
 import 'package:gajuga_manage/component/header/header_menu.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/component/header/header.dart';
@@ -29,7 +30,8 @@ Widget mainBody() {
   return Column(
     children: [
       HeaderMenu(),
-      MenuManage(),
+      // MenuManage(),
+      StaffManage(),
     ],
   );
 }
