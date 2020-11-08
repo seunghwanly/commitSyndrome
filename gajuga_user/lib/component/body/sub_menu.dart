@@ -86,25 +86,24 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   Widget imageCard(BuildContext c) {
     return customBoxContainer(
         // 340,
-        MediaQuery.of(c).size.width * 0.9,  // iphoneX - 340
-        MediaQuery.of(c).size.width * 0.9,  // iphoneX - 340
+        MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
+        MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
         // MediaQuery.of(c).size.height * 0.3,
         SingleChildScrollView(
             child: Column(
           children: [
             Container(
               child: Container(
-                width: MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
-                height: MediaQuery.of(c).size.height * 0.3, // iphoneX - 113
-              ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
-                  image: DecorationImage(
-                    image: AssetImage('images/${widget.item}.png'),
-                    fit: BoxFit.cover,
-                  )),
+                  width: MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
+                  height: MediaQuery.of(c).size.height * 0.3, // iphoneX - 113
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)),
+                      image: DecorationImage(
+                        image: AssetImage('images/${widget.item}.png'),
+                        fit: BoxFit.cover,
+                      ))),
             ),
             Container(
               height: MediaQuery.of(c).size.height * 0.2 * 0.7,
@@ -160,7 +159,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         true);
   }
 
-  Widget optionCard(BuildContext c, List<Map<String, dynamic>> parsedOptionList, final option1, final option2) {
+  Widget optionCard(BuildContext c, List<Map<String, dynamic>> parsedOptionList,
+      final option1, final option2) {
     //final String optionSelected = Provider.of<String>(c);
     // String optionSelected = Consumer<String>()
 
@@ -207,7 +207,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     );
   }
 
-  Widget totalCostCard(BuildContext c, List<Map<String, dynamic>> parsedOptionList) {
+  Widget totalCostCard(
+      BuildContext c, List<Map<String, dynamic>> parsedOptionList) {
     return customBoxContainer(
         MediaQuery.of(c).size.width * 0.9, //iphone X - 340
         MediaQuery.of(c).size.height * 0.07, //iphone X - 60
@@ -220,7 +221,11 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     fontSize: 16,
                     color: Color.fromRGBO(33, 33, 31, 1.0)),
                 textAlign: TextAlign.center),
-            Text(toLocaleString(widget.cost + parsedOptionList[0]['addedCost'] + parsedOptionList[1]['addedCost']) + '원',
+            Text(
+                toLocaleString(widget.cost +
+                        parsedOptionList[0]['addedCost'] +
+                        parsedOptionList[1]['addedCost']) +
+                    '원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,

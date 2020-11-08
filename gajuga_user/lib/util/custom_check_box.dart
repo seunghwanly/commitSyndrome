@@ -37,7 +37,7 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifie
   @override
   void initState() {
     _isSelectedList = new List<bool>.filled(widget.optionList.length, false);
-    
+
     if(widget.category == "SIZE/사이즈 선택" && widget.parsedOptionList[0]['selected'] != '') {
       for(int i=0; i<widget.optionList.length; ++i) {
         if(widget.optionList[i].name == widget.parsedOptionList[0]['selected'])
@@ -52,10 +52,8 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifie
     }
     super.initState();
   }
-/*
-    TODO : option selected 에 대한 모델을 만들어서 그 모델을 with ChangeNotifer 로 만드는 것이 나을듯
-    Proivder 패턴 사용
- */
+  
+  
   @override
   Widget build(BuildContext context) {
 
