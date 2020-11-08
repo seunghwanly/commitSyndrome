@@ -91,8 +91,8 @@ Container customStrikeBoxContainer(
     child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       c,
       Divider(
-        indent: MediaQuery.of(context).size.width * (20 / 375),
-        endIndent: MediaQuery.of(context).size.width * (20 / 375),
+        indent: MediaQuery.of(context).size.width * (25 / 375),
+        endIndent: MediaQuery.of(context).size.width * (30 / 375),
         thickness: 2,
       ),
     ]),

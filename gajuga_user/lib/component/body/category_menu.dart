@@ -54,7 +54,7 @@ class CategoryMenu extends StatelessWidget {
                           top: MediaQuery.of(context).size.height * 0.01),
                       alignment: Alignment.topCenter,
                       width: MediaQuery.of(context).size.width * 0.2,
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.width * 0.18,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [customeBoxShadow()],
@@ -87,7 +87,7 @@ class CategoryMenu extends StatelessWidget {
                           top: MediaQuery.of(context).size.height * 0.01),
                       alignment: Alignment.topCenter,
                       width: MediaQuery.of(context).size.width * 0.2,
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.width * 0.18,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [customeBoxShadow()],
@@ -124,7 +124,7 @@ class CategoryMenu extends StatelessWidget {
                           top: MediaQuery.of(context).size.height * 0.01),
                       alignment: Alignment.topCenter,
                       width: MediaQuery.of(context).size.width * 0.2,
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.width * 0.18,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [customeBoxShadow()],
@@ -282,6 +282,8 @@ class CategoryMenu extends StatelessWidget {
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   new Text(
                                                     "+",
@@ -306,7 +308,7 @@ class CategoryMenu extends StatelessWidget {
                                   ],
                                 ),
                                 true,
-                                MediaQuery.of(context).size.height / 50,
+                                MediaQuery.of(context).size.height / 75,
                                 MediaQuery.of(context).size.width / 50);
                           },
                         ),

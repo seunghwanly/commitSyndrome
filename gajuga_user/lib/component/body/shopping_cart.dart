@@ -51,7 +51,7 @@ class ShoppingCart extends StatelessWidget {
                   top: MediaQuery.of(context).size.height * 0.01),
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width * 0.95,
-              height: MediaQuery.of(context).size.height * 0.61,
+              height: MediaQuery.of(context).size.height * 0.60,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [customeBoxShadow()],
@@ -71,7 +71,7 @@ class ShoppingCart extends StatelessWidget {
                               new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
                               MediaQuery.of(context).size.width * 0.94,
-                              MediaQuery.of(context).size.height * 0.2,
+                              MediaQuery.of(context).size.height * 0.19,
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -79,8 +79,8 @@ class ShoppingCart extends StatelessWidget {
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    // crossAxisAlignment:
+                                    //     CrossAxisAlignment.,
                                     children: [
                                       Column(
                                         mainAxisAlignment:
