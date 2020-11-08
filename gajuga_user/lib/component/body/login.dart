@@ -67,6 +67,7 @@ class LoginWidget extends StatelessWidget {
                             height: 8.0,
                           ),
                           TextField(
+                              obscureText: true,
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(15.0),
                                   filled: true,
