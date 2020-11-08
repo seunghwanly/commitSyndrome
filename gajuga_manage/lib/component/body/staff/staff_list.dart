@@ -56,10 +56,12 @@ class _StaffListState extends State<StaffList> {
               ),
             ],
           ),
+          SizedBox(height: 10),
           Container(
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             child: ListView.builder(
+              padding: EdgeInsets.all(10),
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 return _listItem(
@@ -77,12 +79,13 @@ class _StaffListState extends State<StaffList> {
   }
 
   Widget _listItem(String name, AssetImage image, BuildContext context) {
-    double itemWidth = MediaQuery.of(context).size.width * 0.15;
+    double itemWidth = MediaQuery.of(context).size.width * 0.12;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
     return Container(
       width: itemWidth,
       height: itemHeight,
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -95,7 +98,6 @@ class _StaffListState extends State<StaffList> {
         ],
       ),
       margin: EdgeInsets.only(left: 20),
-      // padding: EdgeInsets.symmetric(horizontal: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/staff/activity.dart';
 import 'package:gajuga_manage/component/body/staff/staff_list.dart';
 import 'package:gajuga_manage/component/body/staff/staff_search.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
@@ -24,21 +25,18 @@ class _StaffManageState extends State<StaffManage> {
           color: Colors.white,
         ),
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Column(
               children: [
-                Column(
-                  children: [
-                    StaffSearch(),
-                    SizedBox(height: 40),
-                    StaffList(),
-                  ],
-                ),
+                StaffSearch(),
+                SizedBox(height: 40),
+                StaffList(),
               ],
             ),
+            Activity(),
           ],
         ),
       ),
