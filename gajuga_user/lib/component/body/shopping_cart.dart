@@ -51,7 +51,7 @@ class ShoppingCart extends StatelessWidget {
                   top: MediaQuery.of(context).size.height * 0.01),
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width * 0.95,
-              height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height * 0.61,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [customeBoxShadow()],
@@ -71,7 +71,7 @@ class ShoppingCart extends StatelessWidget {
                               new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
                               MediaQuery.of(context).size.width * 0.94,
-                              MediaQuery.of(context).size.height * 0.19,
+                              MediaQuery.of(context).size.height * 0.17,
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -450,7 +450,7 @@ class ShoppingCart extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(33, 33, 31, 1.0),
                               fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width / 22),
+                              fontSize: MediaQuery.of(context).size.width / 21),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -480,7 +480,7 @@ class ShoppingCart extends StatelessWidget {
                                 color: Color.fromRGBO(33, 33, 31, 1.0),
                                 fontWeight: FontWeight.bold,
                                 fontSize:
-                                    MediaQuery.of(context).size.width / 24),
+                                    MediaQuery.of(context).size.width / 22),
                             textAlign: TextAlign.center,
                           ),
                           Text(
@@ -489,7 +489,7 @@ class ShoppingCart extends StatelessWidget {
                                 color: Color.fromRGBO(33, 33, 31, 1.0),
                                 fontWeight: FontWeight.bold,
                                 fontSize:
-                                    MediaQuery.of(context).size.width / 24),
+                                    MediaQuery.of(context).size.width / 22),
                             textAlign: TextAlign.center,
                           ),
                         ],

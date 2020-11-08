@@ -241,7 +241,7 @@ class CategoryMenu extends StatelessWidget {
                                                         .size
                                                         .width /
                                                     30),
-                                            makeTextSizepadding(
+                                            makeTextSizepaddingRight(
                                                 menus['cost'].toString() + '원',
                                                 Color.fromRGBO(51, 51, 51, 1.0),
                                                 20.0,
@@ -328,7 +328,7 @@ class CategoryMenu extends StatelessWidget {
                 //alignment: Alignment.bottomCenter,
 
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.06,
+                height: MediaQuery.of(context).size.height * 0.08,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
