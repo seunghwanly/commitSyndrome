@@ -37,6 +37,19 @@ Widget makeTextSizepadding(String title, Color color, double paddingLeft,
   );
 }
 
+Widget makeTextSizepaddingRight(String title, Color color, double paddingRight,
+    double paddingBottom, double size) {
+  return Container(
+    child: Text(
+      title,
+      style:
+          TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: size),
+      textAlign: TextAlign.right,
+    ),
+    padding: EdgeInsets.only(right: paddingRight, bottom: paddingBottom),
+  );
+}
+
 Widget makeTitle(@required String left, @required String right) {
   return Container(
     alignment: Alignment.centerLeft,
