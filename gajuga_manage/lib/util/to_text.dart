@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/util/palette.dart';
 
 Widget makeText(String title, Color color, double paddingLeft) {
   return Container(
@@ -195,6 +196,43 @@ Widget makeSubTitle(String left, String right) {
             fontSize: 18,
           ),
           textAlign: TextAlign.left,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget staffProfileText(String position, String name, String phone) {
+  return Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          position,
+          style: TextStyle(
+            color: darkgrey,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          name,
+          style: TextStyle(
+            color: orange,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 10),
+        Text(
+          phone,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 15,
+          ),
+          textAlign: TextAlign.center,
         ),
       ],
     ),
