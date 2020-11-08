@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../body/shopping_cart.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
 import '../../util/to_text.dart';
@@ -7,7 +9,12 @@ import '../../util/palette.dart';
 import '../header/header.dart';
 
 class CategoryMenu extends StatelessWidget {
+  final DBRef = FirebaseDatabase.instance.reference().child('Manager');
   final List<String> data = <String>['피자', '파스타', '음료'];
+
+  void toShoppingCart() async {
+    DBRef.child('menuData').set(menudata);
+  }
 
   final menudata = [
     {
@@ -264,7 +271,7 @@ class CategoryMenu extends StatelessWidget {
                                           alignment: Alignment.centerRight,
                                           child: GestureDetector(
                                             onTap: () {
-                                              //showOrderHistoryModal(context, menus);
+                                              toShoppingCart();
                                             },
                                             child: Container(
                                               width: MediaQuery.of(context)
@@ -329,7 +336,7 @@ class CategoryMenu extends StatelessWidget {
                 // margin:
                 //     EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                 //alignment: Alignment.bottomCenter,
-
+                margin: EdgeInsets.only(bottom: 5),
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.height * 0.07,
                 decoration: BoxDecoration(
