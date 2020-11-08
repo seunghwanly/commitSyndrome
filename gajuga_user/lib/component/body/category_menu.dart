@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_user/util/box_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../body/shopping_cart.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
+import '../../util/box_button.dart';
 import '../header/header.dart';
 
 class CategoryMenu extends StatelessWidget {
+  final DBRef = FirebaseDatabase.instance.reference().child('Manager');
   final List<String> data = <String>['피자', '파스타', '음료'];
+
+  void toShoppingCart() async {
+    DBRef.child('menuData').set(menudata);
+  }
 
   final menudata = [
     {
@@ -292,66 +299,63 @@ class CategoryMenu extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            plusButton(30),
-                                            // Row(
-                                            //   mainAxisAlignment:
-                                            //       MainAxisAlignment.end,
-                                            //   children: [
-                                            //     Container(
-                                            //       alignment:
-                                            //           Alignment.centerRight,
-                                            //       child: GestureDetector(
-                                            //         onTap: () {
-                                            //           //showOrderHistoryModal(context, menus);
-                                            //         },
-                                            //         child: Container(
-                                            //           width:
-                                            //               MediaQuery.of(context)
-                                            //                       .size
-                                            //                       .width *
-                                            //                   (30 / 375),
-                                            //           height:
-                                            //               MediaQuery.of(context)
-                                            //                       .size
-                                            //                       .width *
-                                            //                   (30 / 375),
-                                            //           decoration: BoxDecoration(
-                                            //               boxShadow: [
-                                            //                 customeBoxShadow()
-                                            //               ],
-                                            //               color: orange,
-                                            //               borderRadius:
-                                            //                   BorderRadius
-                                            //                       .circular(7)),
-                                            //           child: Row(
-                                            //             mainAxisAlignment:
-                                            //                 MainAxisAlignment
-                                            //                     .center,
-                                            //             crossAxisAlignment:
-                                            //                 CrossAxisAlignment
-                                            //                     .center,
-                                            //             children: [
-                                            //               new Text(
-                                            //                 "+",
-                                            //                 style: TextStyle(
-                                            //                     color: white,
-                                            //                     fontWeight:
-                                            //                         FontWeight
-                                            //                             .w600,
-                                            //                     fontSize: MediaQuery.of(
-                                            //                                 context)
-                                            //                             .size
-                                            //                             .width /
-                                            //                         14),
-                                            //                 // textAlign: TextAlign.center,
-                                            //               )
-                                            //             ],
-                                            //           ),
-                                            //         ),
-                                            //       ),
-                                            //     ),
-                                            //   ],
-                                            // ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: GestureDetector(
+                                                    onTap: () { toShoppingCart(); },
+                                                    child: Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              (30 / 375),
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              (30 / 375),
+                                                      decoration: BoxDecoration(
+                                                          boxShadow: [
+                                                            customeBoxShadow()
+                                                          ],
+                                                          color: orange,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(7)),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          new Text(
+                                                            "+",
+                                                            style: TextStyle(
+                                                                color: white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    14),
+                                                            // textAlign: TextAlign.center,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
                                           ],
                                         ),
                                         true,
