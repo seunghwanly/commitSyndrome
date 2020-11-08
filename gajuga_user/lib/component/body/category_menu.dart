@@ -299,7 +299,7 @@ class CategoryMenu extends StatelessWidget {
                                                                 .size
                                                                 .width /
                                                             14),
-                                                    textAlign: TextAlign.center,
+                                                    //textAlign: TextAlign.center,
                                                   )
                                                 ],
                                               ),

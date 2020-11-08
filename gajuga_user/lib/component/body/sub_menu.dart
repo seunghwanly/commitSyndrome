@@ -274,7 +274,6 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 GestureDetector(
                   onTap: () {
                     final snackBar = SnackBar(content: Text("Tap"));
-
                     Scaffold.of(c).showSnackBar(snackBar);
                   },
                   child: Container(

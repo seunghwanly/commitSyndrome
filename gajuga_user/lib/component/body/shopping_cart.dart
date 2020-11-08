@@ -441,20 +441,25 @@ class ShoppingCart extends StatelessWidget {
                         // borderRadius: BorderRadius.circular(15),
                         boxShadow: [customeBoxShadow()],
                         color: Color.fromRGBO(255, 255, 255, 1.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '더 담으러 가기',
-                          style: TextStyle(
-                              color: Color.fromRGBO(33, 33, 31, 1.0),
-                              fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width / 21),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '더 담으러 가기',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(33, 33, 31, 1.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 21),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ))),
                 Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width * 0.5,
