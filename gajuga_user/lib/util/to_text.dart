@@ -188,9 +188,10 @@ Widget makePaddingTitleSize(String left, String right, double marginLeft,
     return Container(
       margin: EdgeInsets.only(left: marginLeft),
       padding: EdgeInsets.only(top: 0, bottom: padding),
+      alignment: Alignment.topCenter,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               left,
@@ -198,7 +199,7 @@ Widget makePaddingTitleSize(String left, String right, double marginLeft,
                   color: Color.fromRGBO(218, 155, 104, 1.0),
                   fontWeight: FontWeight.bold,
                   fontSize: size),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.justify,
             ),
             Text(
               right,
@@ -206,7 +207,7 @@ Widget makePaddingTitleSize(String left, String right, double marginLeft,
                   color: Color.fromRGBO(33, 33, 31, 1.0),
                   fontWeight: FontWeight.bold,
                   fontSize: size),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.justify,
             )
           ]),
     );

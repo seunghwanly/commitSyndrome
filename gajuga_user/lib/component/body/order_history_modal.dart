@@ -18,7 +18,7 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0)), //this right here
           child: Container(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width * 0.9,
               child: Stack(
                 children: <Widget>[
@@ -36,6 +36,7 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                   ),
                   Container(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(

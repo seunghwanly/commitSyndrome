@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/custom_check_box.dart';
-import '../../util/to_locale.dart';
 import '../../model/option_model.dart';
 
+// ignore: must_be_immutable
 class SubMenuModal extends StatefulWidget {
   
   List<Map<String, dynamic>> parsedOptionList;
@@ -51,8 +51,6 @@ class SubMenuModalState extends State<SubMenuModal> {
   Widget build(BuildContext context) {
     
     return Container(
-        // height: MediaQuery.of(context).size.height * 0.9,
-        child: Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -91,7 +89,7 @@ class SubMenuModalState extends State<SubMenuModal> {
           listOption(widget.option2, context, 1),
         ],
       ),
-    ));
+    );
   }
 }
 

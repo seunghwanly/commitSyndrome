@@ -18,7 +18,7 @@ class SignUpWidget extends StatelessWidget {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
             child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              //physics: NeverScrollableScrollPhysics(),
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.85,
                 alignment: Alignment.center,

@@ -89,14 +89,13 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
         MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
         // MediaQuery.of(c).size.height * 0.3,
-        SingleChildScrollView(
-            child: Column(
+        Column(
           children: [
             Container(
               alignment: Alignment.topCenter,
               child: Container(
                   width: MediaQuery.of(c).size.width * 0.9, // iphoneX - 340
-                  height: MediaQuery.of(c).size.height * 0.3, // iphoneX - 113
+                  height: MediaQuery.of(c).size.height * 0.27, // iphoneX - 203
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
@@ -131,7 +130,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
               ),
             )
           ],
-        )),
+        ),
         false);
   }
 

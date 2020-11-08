@@ -31,7 +31,7 @@ Container customBoxContainerWithMargin(double w, double h, final c,
     width: w,
     height: h,
     decoration: customBoxDecoration(),
-    padding: needPadding ? EdgeInsets.all(20) : null,
+    padding: needPadding ? EdgeInsets.fromLTRB(20, 10, 20, 10) : null,
     child: c,
     margin: EdgeInsets.only(
         top: marginVertical,
@@ -47,10 +47,10 @@ Container customBoxContainerCategory(double w, double h, final c,
     alignment: Alignment.center,
     width: w,
     height: h,
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [customeBoxShadow()]),
+    // decoration: BoxDecoration(
+    //     color: Colors.white,
+    //     borderRadius: BorderRadius.circular(30),
+    //     boxShadow: [customeBoxShadow()]),
     padding: needPadding
         ? EdgeInsets.only(
             top: 10,
