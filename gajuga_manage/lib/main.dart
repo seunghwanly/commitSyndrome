@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_profile.dart';
@@ -15,6 +16,14 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('ko', 'KO'), // Thai
+      ],
       title: "GAJUGA.",
       theme: ThemeData(
         primaryColor: pale,

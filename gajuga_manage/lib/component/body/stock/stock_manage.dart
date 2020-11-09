@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/box_button.dart';
-import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+//date picker
+import '../../../util/date_picker.dart';
 
 class StockManage extends StatefulWidget {
   @override
@@ -17,6 +19,8 @@ class _StockManageState extends State<StockManage> {
   }
 
   void handleAdd() {}
+
+  DateTime selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +52,7 @@ class _StockManageState extends State<StockManage> {
                       flex: 4,
                       child: Container(
                           alignment: Alignment.center,
-                          child: datePicker(context)),
+                          child: datePicker(context, selectedDate)),
                     ),
                     Expanded(
                         flex: 3,
@@ -101,49 +105,42 @@ class _StockManageState extends State<StockManage> {
           )),
     );
   }
+
+  RaisedButton datePicker(BuildContext c, DateTime selectedDate) {
+    return RaisedButton(
+        onPressed: () {return customDatePicker(c);},
+        color: white,
+        splashColor: superlight,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+            side: BorderSide(color: superlight, width: 1.0)),
+        child: Container(
+          width: MediaQuery.of(c).size.width * 0.2,
+          height: MediaQuery.of(c).size.height * 0.05,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.calendar_today,
+                color: lightgrey,
+              ),
+              Text(
+                new DateTime.now()
+                    .toIso8601String()
+                    .substring(0, 10)
+                    .replaceAll('-', '/'),
+                style: TextStyle(color: lightgrey),
+              ),
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: lightgrey,
+              )
+            ],
+          ),
+        ));
+  }
 }
 
 Widget mainBody() {
   return Container();
-}
-
-RaisedButton datePicker(BuildContext c) {
-  return RaisedButton(
-      onPressed: () => showDatePicker(
-          context: c,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2020),
-          lastDate: DateTime(2021),
-          cancelText: '닫기',
-          confirmText: '확인'
-          ),
-      color: white,
-      splashColor: superlight,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-          side: BorderSide(color: superlight, width: 1.0)),
-      child: Container(
-        width: MediaQuery.of(c).size.width * 0.2,
-        height: MediaQuery.of(c).size.height * 0.05,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(
-              Icons.calendar_today,
-              color: lightgrey,
-            ),
-            Text(
-              new DateTime.now()
-                  .toIso8601String()
-                  .substring(0, 10)
-                  .replaceAll('-', '/'),
-              style: TextStyle(color: lightgrey),
-            ),
-            Icon(
-              Icons.keyboard_arrow_down,
-              color: lightgrey,
-            )
-          ],
-        ),
-      ));
 }
