@@ -49,3 +49,39 @@ Container plusButton(double size) {
     ),
   );
 }
+
+FlatButton tapButton(
+    Function onPress,
+    Color initColor,
+    Color splashColor,
+    String title,
+    Color textColor,
+    double textSize,
+    double width,
+    double height,
+    double paddingVertical,
+    double paddingHorizontal,
+    double marginHorizontal) {
+  return FlatButton(
+      onPressed: onPress,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      color: initColor,
+      splashColor: splashColor,
+      child: Container(
+        alignment: Alignment.center,
+        width: width,
+        height: height,
+        padding: EdgeInsets.symmetric(vertical: paddingVertical, horizontal: paddingHorizontal),
+        margin: EdgeInsets.only(left: marginHorizontal, right: marginHorizontal),
+        child: Text(
+          title,
+          style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: textSize),
+          textAlign: TextAlign.center,
+        ),
+      ));
+}

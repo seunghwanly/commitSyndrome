@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_profile.dart';
+import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
 import 'package:gajuga_manage/component/header/header_menu.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/component/header/header.dart';
@@ -34,7 +35,8 @@ Widget mainBody() {
       // TODO: 탭에 따라 아래쪽 화면만 바꿔줘야 함
       // MenuManage(),
       // StaffManage(),
-      StaffProfile(),
+      //StaffProfile(),
+      StockManage()
     ],
   );
 }
