@@ -1,14 +1,40 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/sub_menu.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_locale.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../body/category_menu.dart';
+import '../../model/menu_model.dart';
 
 class TotalMenuWidget extends StatelessWidget {
+  final DBRef = FirebaseDatabase.instance.reference();
   final List<String> data = <String>['A', 'B', 'C', 'D'];
+  final String userid = 'UserCode-01';
+
+  void addMenuItem(Menu menu) {
+    Ingredient tmp;
+    int i = 0;
+    // print(menu.ingredients);
+    DBRef.child('user')
+        .child('userInfo')
+        .child(userid)
+        .child('shoppingCart')
+        .set({
+      "name": menu.name,
+      "cost": menu.cost,
+      'ingrdients': [
+        for (Ingredient ingre in menu.ingredients)
+          {
+            ingre.name: ingre.quantity,
+          }
+      ]
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +158,14 @@ class TotalMenuWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
+              List<Ingredient> ingredients = [];
+              Ingredient ingre1 = Ingredient('치즈', 12);
+              Ingredient ingre2 = Ingredient('올리브', 5);
+              ingredients.add(ingre1);
+              ingredients.add(ingre2);
+              Menu thisMenu = Menu('올리브피자', 13900, ingredients);
+              addMenuItem(thisMenu);
+
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

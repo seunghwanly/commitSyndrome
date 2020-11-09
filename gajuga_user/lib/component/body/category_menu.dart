@@ -48,7 +48,9 @@ class CategoryMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomHeader(
         body: Container(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.012, bottom: MediaQuery.of(context).size.height * 0.037),
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.012,
+                bottom: MediaQuery.of(context).size.height * 0.037),
             child: Column(
               // 전체 컬럼
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -307,7 +309,9 @@ class CategoryMenu extends StatelessWidget {
                                                   alignment:
                                                       Alignment.centerRight,
                                                   child: GestureDetector(
-                                                    onTap: () { toShoppingCart(); },
+                                                    onTap: () {
+                                                      toShoppingCart();
+                                                    },
                                                     child: Container(
                                                       width:
                                                           MediaQuery.of(context)
@@ -354,8 +358,8 @@ class CategoryMenu extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                            ],
-                                          ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                         true,
@@ -373,7 +377,7 @@ class CategoryMenu extends StatelessWidget {
                 ),
                 FloatingActionButton.extended(
                   elevation: 8.0,
-                  onPressed: () {},
+                  onPressed: toShoppingCart,
                   backgroundColor: orange,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -386,8 +390,10 @@ class CategoryMenu extends StatelessWidget {
                         0.06, // iphoneX - 50
                     child: Text(
                       '장바구니 바로가기',
-                      style:
-                          TextStyle(color: white, fontWeight: FontWeight.w600, fontSize: 16),
+                      style: TextStyle(
+                          color: white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
                   ),
