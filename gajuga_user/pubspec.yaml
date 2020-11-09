@@ -34,8 +34,9 @@ dependencies:
   cupertino_icons: ^0.1.3
   intl: "^0.16.1"
   fdottedline: ^1.0.1
-  provider: ^3.0.0+1
   loading_animations: "^2.1.0"
+  provider: ^3.0.0+1  # Provider 패턴 사용
+  iamport_flutter: ^0.9.13  # 결제모듈
 
 dev_dependencies:
   flutter_test:

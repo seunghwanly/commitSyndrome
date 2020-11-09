@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/model/selected_option_model.dart';
+import 'package:gajuga_user/util/payment/iamport_payment.dart';
 import 'package:provider/provider.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
@@ -272,8 +273,13 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    final snackBar = SnackBar(content: Text("Tap"));
-                    Scaffold.of(c).showSnackBar(snackBar);
+                    // 결제 화면으로 넘기기
+                    // Navigator.push(
+                    //   c,
+                    //   MaterialPageRoute(
+                    //     builder: (c) => Payment()
+                    //   )
+                    // );
                   },
                   child: Container(
                     alignment: Alignment.center,
