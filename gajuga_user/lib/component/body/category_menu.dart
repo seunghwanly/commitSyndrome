@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,12 +10,53 @@ import '../../util/palette.dart';
 import '../../util/box_button.dart';
 import '../header/header.dart';
 
-class CategoryMenu extends StatelessWidget {
-  final DBRef = FirebaseDatabase.instance.reference().child('Manager');
-  final List<String> data = <String>['피자', '파스타', '음료'];
+class CategoryMenu extends StatefulWidget {
+  @override
+  CategoryMenuState createState() => CategoryMenuState();
+}
 
-  void toShoppingCart() async {
+class CategoryMenuState extends State<CategoryMenu> {
+  final DBRef = FirebaseDatabase.instance.reference();
+  final List<String> data = <String>['피자', '음료'];
+  final String userid = 'UserCode-01';
+  var currentState = 'pizza';
+  var fetchedData;
+  var currentMenuList;
+
+  void toShoppingCart(BuildContext context) async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ShoppingCart()));
     //DBRef.child('menu').set(menudata);
+  }
+
+  void pizzaState() {
+    setState(() {
+      currentState = 'pizza';
+    });
+    readData();
+  }
+
+  void beverageState() {
+    setState(() {
+      currentState = 'beverage';
+    });
+    readData();
+  }
+
+  void readData() {
+    DBRef.child('manager/menu/category/' + currentState)
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      if (dataSnapshot.value != null) {
+        setState(() {
+          currentMenuList = dataSnapshot.value;
+        });
+        //  print('사이즈' + currentMenuList.length.toString());
+      } else {
+        print('데이터 없음');
+      }
+      // fetchedData = dataSnapshot.value;
+    });
   }
 
   final menudata = {
@@ -67,6 +109,12 @@ class CategoryMenu extends StatelessWidget {
   };
 
   @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomHeader(
         body: Container(
@@ -85,131 +133,156 @@ class CategoryMenu extends StatelessWidget {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Container(
-                              // 피자 PIZZA
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height *
-                                      0.01),
-                              alignment: Alignment.topCenter,
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              height: MediaQuery.of(context).size.width * 0.18,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [customeBoxShadow()],
-                                  color: Color.fromRGBO(218, 155, 104, 1.0)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    '피자',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22,
-                                      color: Colors.white,
+                          FloatingActionButton.extended(
+                            elevation: 8.0,
+                            onPressed: pizzaState,
+                            backgroundColor: currentState == 'pizza'
+                                ? Colors.black87
+                                : orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            label: Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width *
+                                    0.18, // iphoneX - 200
+                                height: MediaQuery.of(context).size.width *
+                                    0.18, // iphoneX - 50
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '피자',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.justify,
                                     ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  Text(
-                                    'PIZZA',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              34,
-                                      color: Colors.white,
+                                    Text(
+                                      'PIZZA',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                36,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.justify,
                                     ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ],
-                              )),
-                          Container(
-                              // 파스타 PASTA : 탭 뷰
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height *
-                                      0.01),
-                              alignment: Alignment.topCenter,
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              height: MediaQuery.of(context).size.width * 0.18,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [customeBoxShadow()],
-                                  color: Color.fromRGBO(33, 33, 31, 1.0)),
-                              // child: new RotationTransition(
-                              //   turns: new AlwaysStoppedAnimation(45 / 360),
-                              //   child:  Image(image: AssetImage('images/icon/close_white.png')),
-                              //   ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    '파스타',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              23,
-                                      color: Colors.white,
+                                  ],
+                                )),
+                          ),
+                          // Container(
+                          //     // 파스타 PASTA : 탭 뷰
+                          //     margin: EdgeInsets.only(
+                          //         top: MediaQuery.of(context).size.height *
+                          //             0.01),
+                          //     alignment: Alignment.topCenter,
+                          //     width: MediaQuery.of(context).size.width * 0.2,
+                          //     height: MediaQuery.of(context).size.width * 0.18,
+                          //     decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(20),
+                          //         boxShadow: [customeBoxShadow()],
+                          //         color: Color.fromRGBO(33, 33, 31, 1.0)),
+                          //     // child: new RotationTransition(
+                          //     //   turns: new AlwaysStoppedAnimation(45 / 360),
+                          //     //   child:  Image(image: AssetImage('images/icon/close_white.png')),
+                          //     //   ),
+                          //     child: Column(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: <Widget>[
+                          //         Text(
+                          //           '파스타',
+                          //           style: TextStyle(
+                          //             fontWeight: FontWeight.w600,
+                          //             fontSize:
+                          //                 MediaQuery.of(context).size.width /
+                          //                     23,
+                          //             color: Colors.white,
+                          //           ),
+                          //           textAlign: TextAlign.justify,
+                          //         ),
+                          //         Text(
+                          //           'PASTA',
+                          //           style: TextStyle(
+                          //             fontWeight: FontWeight.w400,
+                          //             fontSize:
+                          //                 MediaQuery.of(context).size.width /
+                          //                     34,
+                          //             color: Colors.white,
+                          //           ),
+                          //           textAlign: TextAlign.justify,
+                          //         ),
+                          //       ],
+                          //     )),
+                          FloatingActionButton.extended(
+                            elevation: 8.0,
+                            onPressed: beverageState,
+                            backgroundColor: currentState == 'beverage'
+                                ? Colors.black87
+                                : orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            label: Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width *
+                                    0.18, // iphoneX - 200
+                                height: MediaQuery.of(context).size.width *
+                                    0.18, // iphoneX - 50
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '음료',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.justify,
                                     ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  Text(
-                                    'PASTA',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              34,
-                                      color: Colors.white,
+                                    Text(
+                                      'BEVERAGE',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                36,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.justify,
                                     ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ],
-                              )),
-                          Container(
-                              // 음료 : 탭뷰
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height *
-                                      0.01),
-                              alignment: Alignment.topCenter,
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              height: MediaQuery.of(context).size.width * 0.18,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [customeBoxShadow()],
-                                  color: Color.fromRGBO(33, 33, 31, 1.0)),
-                              // child: new RotationTransition(
-                              //   turns: new AlwaysStoppedAnimation(45 / 360),
-                              //   child:  Image(image: AssetImage('images/icon/close_white.png')),
-                              //   ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    '음료',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  Text(
-                                    'BEVERAGE',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              36,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ],
-                              )),
+                                  ],
+                                )),
+                          ),
+                          // Container(
+                          //     // 음료 : 탭뷰
+                          //     margin: EdgeInsets.only(
+                          //         top: MediaQuery.of(context).size.height *
+                          //             0.01),
+                          //     alignment: Alignment.topCenter,
+                          //     width: MediaQuery.of(context).size.width * 0.3,
+                          //     height: MediaQuery.of(context).size.width * 0.18,
+                          //     decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(20),
+                          //         boxShadow: [customeBoxShadow()],
+                          //         color: Color.fromRGBO(33, 33, 31, 1.0)),
+                          //     // child: new RotationTransition(
+                          //     //   turns: new AlwaysStoppedAnimation(45 / 360),
+                          //     //   child:  Image(image: AssetImage('images/icon/close_white.png')),
+                          //     //   ),
+                          //     child: Column(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: <Widget>[
+
+                          //       ],
                         ]),
 
                     // 피자 PIZZA 하고 아래 LIST VIEW ---------------------------------------------------------------
@@ -238,15 +311,19 @@ class CategoryMenu extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 makePaddingTitleSize(
-                                    '피자',
-                                    ' PIZZA',
+                                    currentState == 'pizza' ? '피자 ' : '음료 ',
+                                    currentState == 'pizza'
+                                        ? 'PIZZA'
+                                        : 'BEVERAGE',
                                     MediaQuery.of(context).size.width * 0.08,
                                     MediaQuery.of(context).size.width * 0.02,
                                     MediaQuery.of(context).size.width *
                                         (18 / 375),
                                     true),
                                 ListView.builder(
-                                  itemCount: data.length,
+                                  itemCount: currentMenuList.length == null
+                                      ? 0
+                                      : currentMenuList.length - 1,
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -274,7 +351,7 @@ class CategoryMenu extends StatelessWidget {
                                                           .width /
                                                       12,
                                                   backgroundImage: AssetImage(
-                                                      'images/A.png'),
+                                                      'images/${currentMenuList[index]['name']}.png'),
                                                 ),
                                                 Column(
                                                   crossAxisAlignment:
@@ -285,7 +362,8 @@ class CategoryMenu extends StatelessWidget {
                                                     makeTextSizepadding(
                                                         //  menus['name']
                                                         //  .toString(),
-                                                        'test',
+                                                        currentMenuList[index]
+                                                            ['name'],
                                                         Color.fromRGBO(
                                                             33, 33, 31, 1.0),
                                                         20.0,
@@ -297,10 +375,11 @@ class CategoryMenu extends StatelessWidget {
                                                                 .size
                                                                 .width /
                                                             26),
-                                                    makeTextSizepadding(
+                                                    makeTextSizepaddingWidth(
                                                         // menus['description']
                                                         //   .toString(),
-                                                        'test',
+                                                        currentMenuList[index]
+                                                            ['desc'],
                                                         Color.fromRGBO(
                                                             119, 119, 119, 1.0),
                                                         20.0,
@@ -308,12 +387,16 @@ class CategoryMenu extends StatelessWidget {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-                                                            30),
+                                                            35,
+                                                        context),
                                                     makeTextSizepadding(
                                                         // menus['cost']
                                                         // .toString() +
 
-                                                        '원',
+                                                        currentMenuList[index]
+                                                                    ['cost']
+                                                                .toString() +
+                                                            '원',
                                                         Color.fromRGBO(
                                                             51, 51, 51, 1.0),
                                                         20.0,
@@ -335,7 +418,7 @@ class CategoryMenu extends StatelessWidget {
                                                       Alignment.centerRight,
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      toShoppingCart();
+                                                      //toShoppingCart();
                                                     },
                                                     child: Container(
                                                       width:
@@ -402,7 +485,7 @@ class CategoryMenu extends StatelessWidget {
                 ),
                 FloatingActionButton.extended(
                   elevation: 8.0,
-                  onPressed: toShoppingCart,
+                  onPressed: () => toShoppingCart(context),
                   backgroundColor: orange,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

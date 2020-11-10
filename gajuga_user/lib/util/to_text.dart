@@ -37,6 +37,20 @@ Widget makeTextSizepadding(String title, Color color, double paddingLeft,
   );
 }
 
+Widget makeTextSizepaddingWidth(String title, Color color, double paddingLeft,
+    double paddingBottom, double size, BuildContext context) {
+  return Container(
+    width: MediaQuery.of(context).size.width / 2.3,
+    child: Text(
+      title,
+      style:
+          TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: size),
+      textAlign: TextAlign.left,
+    ),
+    padding: EdgeInsets.only(left: paddingLeft, bottom: paddingBottom),
+  );
+}
+
 Widget makeTextSizepaddingRight(String title, Color color, double paddingRight,
     double paddingBottom, double size) {
   return Container(

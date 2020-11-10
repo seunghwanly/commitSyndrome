@@ -91,7 +91,7 @@ class OrderHistoryState extends State<OrderHistory> {
       return Container(
         color: pale,
         child: LoadingBouncingGrid.circle(
-        backgroundColor: white,
+          backgroundColor: white,
         ),
       );
     } else {
@@ -150,7 +150,7 @@ class OrderHistoryState extends State<OrderHistory> {
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage('images/A.png'),
+                              backgroundImage: AssetImage('images/고르곤졸라피자.png'),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

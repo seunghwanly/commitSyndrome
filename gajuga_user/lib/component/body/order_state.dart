@@ -30,7 +30,7 @@ class OrderState extends StatelessWidget {
           height: MediaQuery.of(context).size.height * (650 / 812),
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: AssetImage('images/A.png'),
+            image: AssetImage('images/고르곤졸라피자.png'),
             fit: BoxFit.fitHeight,
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.3), BlendMode.darken),
@@ -147,7 +147,7 @@ class OrderState extends StatelessWidget {
                                           MediaQuery.of(context).size.height *
                                               (40 / 812),
                                       backgroundImage:
-                                          AssetImage('images/A.png'),
+                                          AssetImage('images/고르곤졸라피자.png'),
                                     ),
                                   ],
                                 ),

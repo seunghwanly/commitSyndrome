@@ -12,8 +12,6 @@ import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
 
 class TotalMenu extends StatefulWidget {
-  //OrderHistory ({  });
-
   @override
   TotalMenuState createState() => TotalMenuState();
 }
@@ -23,17 +21,20 @@ class TotalMenuState extends State<TotalMenu> {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
   final String userid = 'UserCode-01';
   var currentState = 'pizza';
-  var fetchedData;
   var currentMenuList;
 
   void readData() {
-    DBRef.child('Manager/menu/category')
+    DBRef.child('manager/menu/category/' + currentState)
         .once()
         .then((DataSnapshot dataSnapshot) {
-      setState(() {
-        print("되냐여기2:" + jsonEncode(dataSnapshot.value));
-        fetchedData = dataSnapshot.value;
-      });
+      if (dataSnapshot.value != null) {
+        setState(() {
+          currentMenuList = dataSnapshot.value;
+        });
+        print('사이즈' + currentMenuList.length.toString());
+      } else {
+        print('데이터 없음');
+      }
       // fetchedData = dataSnapshot.value;
     });
   }
@@ -66,11 +67,13 @@ class TotalMenuState extends State<TotalMenu> {
   void initState() {
     super.initState();
     readData();
-    getCurrentList();
+    //getCurrentList();
   }
 
   @override
   Widget build(BuildContext context) {
+    //readData();
+
     return Container(
         //height: 530,
         height: MediaQuery.of(context).size.height * 0.65,
@@ -114,10 +117,10 @@ class TotalMenuState extends State<TotalMenu> {
                   margin: EdgeInsets.only(top: 20),
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('images/A.png'),
+                          image: AssetImage('images/고르곤졸라피자.png'),
                           fit: BoxFit.cover)),
                   // child: Image(
-                  //   image: AssetImage('images/A.png'),
+                  //   image: AssetImage('images/고르곤졸라피자.png'),
                   //   fit: BoxFit.cover,
                   //   // height: 427,
                   // ),
@@ -129,13 +132,14 @@ class TotalMenuState extends State<TotalMenu> {
                   width: double.infinity,
                   child: ListView.builder(
                     padding: const EdgeInsets.only(left: 40),
-                    itemCount: data.length,
+                    itemCount: this.currentMenuList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return _listItem(
-                          data[index],
-                          AssetImage('images/${data[index]}.png'),
-                          'desc',
-                          12900,
+                          this.currentMenuList[index]['name'],
+                          AssetImage(
+                              'images/${this.currentMenuList[index]['name']}.png'),
+                          this.currentMenuList[index]['desc'],
+                          this.currentMenuList[index]['cost'],
                           context);
                     },
                     scrollDirection: Axis.horizontal,
@@ -197,13 +201,13 @@ class TotalMenuState extends State<TotalMenu> {
               ingredients.add(ingre1);
               ingredients.add(ingre2);
               Menu thisMenu = Menu('올리브피자', 13900, ingredients);
-              addMenuItem(thisMenu);
+              //addMenuItem(thisMenu);
               //  var orders =
               //     new Map<String, dynamic>.from(this.fetchedData[0]);
               // var orders = new Map<String, dynamic>.from(
               //     this.fetchedData["category"][0]);
-              print(
-                  "담겼나요 ? " + jsonEncode(fetchedData['category'][0]['pizza']));
+              // print(
+              //     "담겼나요 ? " + jsonEncode(fetchedData['category'][0]['pizza']));
 
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Row(
@@ -302,8 +306,7 @@ class FavoriteMenuWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('images/${data[index]}.png'),
+                              backgroundImage: AssetImage('images/불고기피자.png'),
                             ),
                             Text(
                               "메뉴 " + data[index],
