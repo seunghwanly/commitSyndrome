@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/model/selected_option_model.dart';
 import 'package:gajuga_user/util/payment/iamport_payment.dart';
@@ -10,6 +12,9 @@ import '../../util/to_text.dart';
 import './sub_menu_modal.dart';
 import '../../util/palette.dart';
 
+//firebase database
+import 'package:firebase_database/firebase_database.dart';
+
 class SubmenuScreen extends StatefulWidget {
   final item, cost;
 
@@ -20,8 +25,10 @@ class SubmenuScreen extends StatefulWidget {
 }
 
 class SubmenuScreenState extends State<SubmenuScreen> {
-  int count = 1;
+  //firebase
+  final databaseReference = FirebaseDatabase.instance.reference();
 
+  //--------------------------------------------------------------------------고정 옵션
   final contentSize = {
     "category": "SIZE/사이즈 선택",
     "sub": [
@@ -38,18 +45,14 @@ class SubmenuScreenState extends State<SubmenuScreen> {
       {'name': "고구마", 'eng_name': "sweet potato", 'detail': '', 'cost': 2000},
     ]
   };
-  List<String> optionSelected;
 
-  @override
-  void initState() {
-    optionSelected = new List<String>.filled(2, null);
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+  //selected things
+  int count = 1;
+  Map<String, dynamic> dataForPush = {
+    "cost": 0,
+    "name": null,
+    "option": {"size": "regualr", "dough": "standard"}
+  };
 
   void handleCount(bool isAdded) {
     setState(() {
@@ -69,6 +72,11 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     List<Map<String, dynamic>> parsedOptionList =
         optionSelected.getOptionList();
 
+    int totalCost = (widget.cost +
+            parsedOptionList[0]['addedCost'] +
+            parsedOptionList[1]['addedCost']) *
+        count;
+
     //main build -----------------------------------------------------------------
     return CustomHeader(
         body: Column(
@@ -79,7 +87,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         countCard(context),
         optionCard(context, parsedOptionList, contentSize, contentDough),
         totalCostCard(context, parsedOptionList),
-        bottomCard(context)
+        bottomCard(context, totalCost, parsedOptionList)
       ],
     ));
   }
@@ -238,7 +246,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         true);
   }
 
-  Widget bottomCard(BuildContext c) {
+  Widget bottomCard(
+      BuildContext c, int totalCost, List<Map<String, dynamic>> list) {
     return Container(
         margin: EdgeInsets.only(bottom: 20),
         child: customBoxContainer(
@@ -249,7 +258,24 @@ class SubmenuScreenState extends State<SubmenuScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    //장바구니 경로 user/basket
+                    setState(() {
+                      dataForPush['cost'] = totalCost;
+                      dataForPush['name'] = widget.item;
+                      dataForPush['option']['size'] = list[0]['selected'];
+                      dataForPush['option']['dough'] = list[1]['selected'];
+                    });
+
+                    // return showDialog(
+                    //   context: c,
+                    //   builder: (BuildContext context) {
+                    //     return Dialog(
+                    //       backgroundColor: white,
+                    //       child: Text(dataForPush.toString())
+                    //     );
+                    //   }
+                    //   );
+                    writeData();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -304,5 +330,14 @@ class SubmenuScreenState extends State<SubmenuScreen> {
               ],
             ),
             false));
+  }
+
+  void writeData() {
+    databaseReference
+        .child('user/basket/')
+        .push()
+        .set(dataForPush)
+        .then((v) => print("success!"))
+        .catchError((error) => print(error.toString()));
   }
 }

@@ -16,8 +16,7 @@ class CustomCheckboxGroup extends StatefulWidget {
   final Color selectedIconColor;
 
   CustomCheckboxGroup(
-      {
-      this.parsedOptionList,
+      {this.parsedOptionList,
       this.category,
       this.optionList,
       this.size,
@@ -29,142 +28,163 @@ class CustomCheckboxGroup extends StatefulWidget {
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
 
-class _CustomCheckboxState extends State<CustomCheckboxGroup> with ChangeNotifier{
+class _CustomCheckboxState extends State<CustomCheckboxGroup>
+    with ChangeNotifier {
   List<bool> _isSelectedList;
-  int selectedAfterIndex = -1;
+  int selectedIndex = -1;
   String _selectedOption = null;
 
   @override
   void initState() {
     _isSelectedList = new List<bool>.filled(widget.optionList.length, false);
-
-    if(widget.category == "SIZE/사이즈 선택" && widget.parsedOptionList[0]['selected'] != '') {
-      for(int i=0; i<widget.optionList.length; ++i) {
-        if(widget.optionList[i].name == widget.parsedOptionList[0]['selected'])
-          _isSelectedList[i] = true;
-      }
-    }
-    else if(widget.category == "DOUGH/도우 선택" && widget.parsedOptionList[1]['selected'] != '') {
-      for(int i=0; i<widget.optionList.length; ++i) {
-        if(widget.optionList[i].name == widget.parsedOptionList[1]['selected'])
-          _isSelectedList[i] = true;
-      }
-    }
     super.initState();
   }
-  
-  
+
+  @override
+  void didChangeDependencies() {
+    if (widget.category == "SIZE/사이즈 선택" &&
+        widget.parsedOptionList[0]['selected'] != '') {
+      for (int i = 0; i < widget.optionList.length; ++i) {
+        if (widget.optionList[i].name ==
+            widget.parsedOptionList[0]['selected']) {
+          _isSelectedList[i] = true;
+        }
+      }
+    }
+    if (widget.category == "DOUGH/도우 선택" &&
+        widget.parsedOptionList[1]['selected'] != '') {
+      for (int i = 0; i < widget.optionList.length; ++i) {
+        if (widget.optionList[i].name ==
+            widget.parsedOptionList[1]['selected']) {
+          _isSelectedList[i] = true;
+        }
+      }
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     final sharedOptionList = Provider.of<OptionList>(context);
 
     return ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: widget.optionList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                margin: EdgeInsets.only(top: 5, bottom: 5),
-                height: MediaQuery.of(context).size.height * 0.04,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.optionList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            margin: EdgeInsets.only(top: 5, bottom: 5),
+            height: MediaQuery.of(context).size.height * 0.04,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
                   children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (selectedIndex != index &&
+                              !_isSelectedList[index]) {
+                            // 선택한 곳이 표시 X
+                            if (selectedIndex == -1) {
+                              if (sharedOptionList.getOptionList()[0]
+                                          ['selected'] ==
+                                      '' &&
+                                  sharedOptionList.getOptionList()[1]
+                                          ['selected'] ==
+                                      '') {
+                                _isSelectedList[index] =
+                                    !_isSelectedList[index];
+                                selectedIndex = index;
+                              } else {
+                                for (int i = 0;
+                                    i < _isSelectedList.length;
+                                    ++i) {
+                                  _isSelectedList[i] = false;
+                                }
+                                _isSelectedList[index] =
+                                    !_isSelectedList[index];
+                                selectedIndex = index;
+                              }
+                            } else {
+                              if (_isSelectedList[selectedIndex]) {
+                                _isSelectedList[selectedIndex] = false;
+                                _isSelectedList[index] = true;
+                                selectedIndex = index;
+                              }
+                            }
+                          }
+
+                          // save state
+                          this._selectedOption =
+                              widget.optionList[selectedIndex].name;
+                          // save in model
+                          if (widget.category == "SIZE/사이즈 선택") {
+                            sharedOptionList.addOptionListSize(
+                                this._selectedOption,
+                                widget.optionList[selectedIndex].cost);
+                          } else {
+                            sharedOptionList.addOptionListCrust(
+                                this._selectedOption,
+                                widget.optionList[selectedIndex].cost);
+                          }
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            color: _isSelectedList[index]
+                                ? widget.selectedColor ?? orange
+                                : white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [customeBoxShadow()]),
+                        width: widget.size ?? 30,
+                        height: widget.size ?? 30,
+                        margin: EdgeInsets.only(left: 15, right: 10),
+                        child: _isSelectedList[index]
+                            ? Icon(
+                                Icons.check,
+                                color: widget.selectedIconColor ?? Colors.white,
+                                size: widget.iconSize ?? 20,
+                              )
+                            : null,
+                      ),
+                    ),
                     Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (selectedAfterIndex == -1) {
-                                // selected nothing
-                                selectedAfterIndex = index;
-                                _isSelectedList[selectedAfterIndex] =
-                                    !_isSelectedList[selectedAfterIndex];
-                              } else {
-                                if (selectedAfterIndex == index) {
-                                  // same thing : true -> false
-                                  _isSelectedList[selectedAfterIndex] =
-                                      !_isSelectedList[selectedAfterIndex];
-                                } else {
-                                  // another index : prev -> false , new -> true
-                                  if (selectedAfterIndex != index) {
-                                    // 다른애를 취소해야되는데...
-                                    _isSelectedList[selectedAfterIndex] =
-                                        !_isSelectedList[selectedAfterIndex];
-                                    selectedAfterIndex = index;
-                                    _isSelectedList[selectedAfterIndex] =
-                                        !_isSelectedList[selectedAfterIndex];
-                                  }
-                                }
-                              }
-                              // save state
-                              this._selectedOption =
-                                  widget.optionList[selectedAfterIndex].name;
-                              // save in model
-                              if(widget.category == "SIZE/사이즈 선택") {
-                                sharedOptionList.addOptionListSize(this._selectedOption, widget.optionList[selectedAfterIndex].cost);
-                              }
-                              else {
-                                sharedOptionList.addOptionListCrust(this._selectedOption, widget.optionList[selectedAfterIndex].cost);
-                              }
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.fastLinearToSlowEaseIn,
-                            decoration: BoxDecoration(
-                                color: _isSelectedList[index]
-                                    ? widget.selectedColor ?? orange
-                                    : white,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [customeBoxShadow()]),
-                            width: widget.size ?? 30,
-                            height: widget.size ?? 30,
-                            margin: EdgeInsets.only(left: 15, right: 10),
-                            child: _isSelectedList[index]
-                                ? Icon(
-                                    Icons.check,
-                                    color: widget.selectedIconColor ??
-                                        Colors.white,
-                                    size: widget.iconSize ?? 20,
-                                  )
-                                : null,
-                          ),
+                        Text(
+                          widget.optionList[index].name +
+                              ' / ' +
+                              widget.optionList[index].eng_name,
+                          style: TextStyle(
+                              color: darkblue,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              widget.optionList[index].name +
-                                  ' / ' +
-                                  widget.optionList[index].eng_name,
-                              style: TextStyle(
-                                  color: darkblue,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              "  " + widget.optionList[index].detail,
-                              style: TextStyle(
-                                  color: darkgrey,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ],
+                        Text(
+                          "  " + widget.optionList[index].detail,
+                          style: TextStyle(
+                              color: darkgrey,
+                              fontSize: 10,
+                              fontWeight: FontWeight.normal),
                         ),
                       ],
                     ),
-                    Text(
-                      "+" + toLocaleString(widget.optionList[index].cost) + "원",
-                      style: TextStyle(
-                          color: darkblue,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.end,
-                    )
                   ],
                 ),
-              );
-            });
+                Text(
+                  "+" + toLocaleString(widget.optionList[index].cost) + "원",
+                  style: TextStyle(
+                      color: darkblue,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.end,
+                )
+              ],
+            ),
+          );
+        });
   }
 }
