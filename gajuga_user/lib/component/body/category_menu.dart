@@ -14,35 +14,57 @@ class CategoryMenu extends StatelessWidget {
   final List<String> data = <String>['피자', '파스타', '음료'];
 
   void toShoppingCart() async {
-    DBRef.child('menuData').set(menudata);
+    //DBRef.child('menu').set(menudata);
   }
 
-  final menudata = [
-    {
-      'Imageurl': 'image1.jpg',
-      'name': '고르곤졸라 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 12900,
-    },
-    {
-      'Imageurl': 'image2.jpg',
-      'name': '치즈 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 11900,
-    },
-    {
-      'Imageurl': 'image3.jpg',
-      'name': '페퍼로니 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 11900,
-    },
-    {
-      'Imageurl': 'image3.jpg',
-      'name': '포테이토 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 13900,
-    },
-  ];
+  final menudata = {
+    'category': [
+      {
+        'pizza': [
+          {
+            'Imageurl': 'image1.jpg',
+            'name': '고르곤졸라 피자',
+            'description': '메뉴에 대한 간략한 설명입니다.',
+            'cost': 12900,
+          },
+          {
+            'Imageurl': 'image2.jpg',
+            'name': '치즈 피자',
+            'description': '메뉴에 대한 간략한 설명입니다.',
+            'cost': 11900,
+          },
+          {
+            'Imageurl': 'image3.jpg',
+            'name': '페퍼로니 피자',
+            'description': '메뉴에 대한 간략한 설명입니다.',
+            'cost': 11900,
+          },
+          {
+            'Imageurl': 'image3.jpg',
+            'name': '포테이토 피자',
+            'description': '메뉴에 대한 간략한 설명입니다.',
+            'cost': 13900,
+          },
+        ]
+      },
+      {
+        'beverage': [
+          {
+            'Imageurl': 'image1.jpg',
+            'name': '콜라',
+            'description': '콜라가 설명이 필요해?',
+            'cost': 2000,
+          },
+          {
+            'Imageurl': 'image2.jpg',
+            'name': '사이다',
+            'description': '사이다가 설명이 필요해?',
+            'cost': 2000,
+          },
+        ]
+      }
+    ]
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -228,8 +250,8 @@ class CategoryMenu extends StatelessWidget {
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    var menus = new Map<String, dynamic>.from(
-                                        menudata[index]);
+                                    // var menus = new Map<String, dynamic>.from(
+                                    //     menudata[index]);
                                     return customBoxContainerCategory(
                                         MediaQuery.of(context).size.width * 0.7,
                                         MediaQuery.of(context).size.height *
@@ -261,8 +283,9 @@ class CategoryMenu extends StatelessWidget {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     makeTextSizepadding(
-                                                        menus['name']
-                                                            .toString(),
+                                                        //  menus['name']
+                                                        //  .toString(),
+                                                        'test',
                                                         Color.fromRGBO(
                                                             33, 33, 31, 1.0),
                                                         20.0,
@@ -275,8 +298,9 @@ class CategoryMenu extends StatelessWidget {
                                                                 .width /
                                                             26),
                                                     makeTextSizepadding(
-                                                        menus['description']
-                                                            .toString(),
+                                                        // menus['description']
+                                                        //   .toString(),
+                                                        'test',
                                                         Color.fromRGBO(
                                                             119, 119, 119, 1.0),
                                                         20.0,
@@ -286,9 +310,10 @@ class CategoryMenu extends StatelessWidget {
                                                                 .width /
                                                             30),
                                                     makeTextSizepadding(
-                                                        menus['cost']
-                                                                .toString() +
-                                                            '원',
+                                                        // menus['cost']
+                                                        // .toString() +
+
+                                                        '원',
                                                         Color.fromRGBO(
                                                             51, 51, 51, 1.0),
                                                         20.0,

@@ -11,21 +11,22 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OptionList>(
-      create: (_) => OptionList(),
-      child: MaterialApp(
-        title: "GAJUGA.",
-        theme: ThemeData(primaryColor: pale, canvasColor: Colors.transparent),
-        themeMode: ThemeMode.light,
-        home: CustomHeader(
-          body: mainBody(),
-        )));
+        create: (_) => OptionList(),
+        child: MaterialApp(
+            title: "GAJUGA.",
+            theme:
+                ThemeData(primaryColor: pale, canvasColor: Colors.transparent),
+            themeMode: ThemeMode.light,
+            home: CustomHeader(
+              body: mainBody(),
+            )));
   }
 }
 
 Widget mainBody() {
   return ListView(
     children: [
-      TotalMenuWidget(),
+      TotalMenu(),
       //  totalMenu(),
       FavoriteMenuWidget()
     ],

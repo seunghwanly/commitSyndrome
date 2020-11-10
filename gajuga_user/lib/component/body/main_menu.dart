@@ -11,10 +11,36 @@ import '../../util/palette.dart';
 import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
 
-class TotalMenuWidget extends StatelessWidget {
+class TotalMenu extends StatefulWidget {
+  //OrderHistory ({  });
+
+  @override
+  TotalMenuState createState() => TotalMenuState();
+}
+
+class TotalMenuState extends State<TotalMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
   final List<String> data = <String>['A', 'B', 'C', 'D'];
   final String userid = 'UserCode-01';
+  var currentState = 'pizza';
+  var fetchedData;
+  var currentMenuList;
+
+  void readData() {
+    DBRef.child('Manager/menu/category')
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      setState(() {
+        print("되냐여기2:" + jsonEncode(dataSnapshot.value));
+        fetchedData = dataSnapshot.value;
+      });
+      // fetchedData = dataSnapshot.value;
+    });
+  }
+
+  void getCurrentList() {
+    //print("되냐여기" + jsonEncode(fetchedData));
+  }
 
   void addMenuItem(Menu menu) {
     Ingredient tmp;
@@ -34,6 +60,13 @@ class TotalMenuWidget extends StatelessWidget {
           }
       ]
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+    getCurrentList();
   }
 
   @override
@@ -165,6 +198,12 @@ class TotalMenuWidget extends StatelessWidget {
               ingredients.add(ingre2);
               Menu thisMenu = Menu('올리브피자', 13900, ingredients);
               addMenuItem(thisMenu);
+              //  var orders =
+              //     new Map<String, dynamic>.from(this.fetchedData[0]);
+              // var orders = new Map<String, dynamic>.from(
+              //     this.fetchedData["category"][0]);
+              print(
+                  "담겼나요 ? " + jsonEncode(fetchedData['category'][0]['pizza']));
 
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Row(
