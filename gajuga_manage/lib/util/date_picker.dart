@@ -1,67 +1,79 @@
 import 'package:flutter/material.dart';
 //date picker
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-customDatePicker(BuildContext c) {
-  return showRoundedDatePicker(
+
+import 'package:gajuga_manage/util/palette.dart';
+
+customDatePicker(BuildContext c, DateTime fetchedDateTime) async{
+
+  return await showRoundedDatePicker(
       context: c,
-      initialDate: DateTime.now(),
+      initialDate: fetchedDateTime == null ? DateTime.now() : fetchedDateTime,
       firstDate: DateTime(DateTime.now().year - 1),
       lastDate: DateTime(DateTime.now().year + 1),
-      textActionButton: "달력이지롱",
+      textActionButton: "날짜 선택 후 확인을 눌러주세요",
       textPositiveButton: "확인",
       textNegativeButton: "닫기",
-      height: 150,
+      // height: MediaQuery.of(c).size.height / 3,
       borderRadius: 30,
       // theme: ThemeData(primarySwatch: Colors.white),
       imageHeader: AssetImage('images/A.png'),
+      //---------------------------------------------------------------------------------header
       styleDatePicker: MaterialRoundedDatePickerStyle(
-        textStyleDayButton: TextStyle(fontSize: 36, color: Colors.white),
+        textStyleDayButton: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
         textStyleYearButton: TextStyle(
-          fontSize: 52,
+          fontSize: 20,
           color: Colors.white,
+          fontWeight: FontWeight.bold
         ),
         textStyleDayHeader: TextStyle(
-          fontSize: 24,
+          fontSize: 20,
           color: Colors.white,
+          fontWeight: FontWeight.bold
         ),
+        //---------------------------------------------------------------------------------body
         textStyleCurrentDayOnCalendar: TextStyle(
-            fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
-        textStyleDayOnCalendar: TextStyle(fontSize: 28, color: Colors.white),
+            fontSize: 18, color: darkblue, fontWeight: FontWeight.bold),
+        textStyleDayOnCalendar: TextStyle(fontSize: 18, color: darkblue),
         textStyleDayOnCalendarSelected: TextStyle(
-            fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 18, color: white, fontWeight: FontWeight.bold),
         textStyleDayOnCalendarDisabled:
-            TextStyle(fontSize: 28, color: Colors.white.withOpacity(0.1)),
+            TextStyle(fontSize: 20, color: darkblue.withOpacity(0.1)),
         textStyleMonthYearHeader: TextStyle(
-            fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 18, color: darkblue, fontWeight: FontWeight.bold),
+        //---------------------------------------------------------------------------------padding & margin
         paddingDatePicker: EdgeInsets.all(0),
-        paddingMonthHeader: EdgeInsets.all(32),
-        paddingActionBar: EdgeInsets.all(16),
-        paddingDateYearHeader: EdgeInsets.all(32),
-        sizeArrow: 50,
-        colorArrowNext: Colors.white,
-        colorArrowPrevious: Colors.white,
-        marginLeftArrowPrevious: 16,
-        marginTopArrowPrevious: 16,
-        marginTopArrowNext: 16,
-        marginRightArrowNext: 32,
-        textStyleButtonAction: TextStyle(fontSize: 28, color: Colors.white),
+        paddingMonthHeader: EdgeInsets.fromLTRB(20, 40, 20, 40),
+        paddingActionBar: EdgeInsets.all(10),
+        paddingDateYearHeader: EdgeInsets.all(20),
+        marginTopArrowPrevious: 25,
+        marginLeftArrowPrevious: 25,
+        marginTopArrowNext: 25,
+        marginRightArrowNext: 25,
+        //---------------------------------------------------------------------------------header arrow
+        sizeArrow: 25,
+        colorArrowNext: darkblue,
+        colorArrowPrevious: darkblue,
+        //---------------------------------------------------------------------------------action bar
+        textStyleButtonAction: TextStyle(fontSize: 16, color: lightgrey),
         textStyleButtonPositive: TextStyle(
-            fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 16, color: darkblue, fontWeight: FontWeight.bold),
         textStyleButtonNegative:
-            TextStyle(fontSize: 28, color: Colors.white.withOpacity(0.5)),
+            TextStyle(fontSize: 16, color: darkblue.withOpacity(0.5)),
+        
+        //---------------------------------------------------------------------------------color    
         decorationDateSelected:
-            BoxDecoration(color: Colors.orange[600], shape: BoxShape.circle),
-        backgroundPicker: Colors.deepPurple[400],
-        backgroundActionBar: Colors.deepPurple[300],
-        backgroundHeaderMonth: Colors.deepPurple[300],
-      ),
+            BoxDecoration(color: orange, shape: BoxShape.circle),
+        backgroundPicker: white,
+        backgroundActionBar: white,
+        backgroundHeaderMonth: white,
+      ),      
       styleYearPicker: MaterialRoundedYearPickerStyle(
-        textStyleYear: TextStyle(fontSize: 40, color: Colors.white),
+        textStyleYear: TextStyle(fontSize: 30, color: darkblue),
         textStyleYearSelected: TextStyle(
-            fontSize: 56, color: Colors.white, fontWeight: FontWeight.bold),
-        heightYearRow: 100,
-        backgroundPicker: Colors.deepPurple[400],
+            fontSize: 30, color: darkblue, fontWeight: FontWeight.bold),
+        heightYearRow: 50,
+        backgroundPicker: white,
       ));
 }
