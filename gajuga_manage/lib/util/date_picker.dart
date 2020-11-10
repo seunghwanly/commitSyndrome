@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 //date picker
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
+
 import 'package:gajuga_manage/util/palette.dart';
 
-customDatePicker(BuildContext c) async{
+customDatePicker(BuildContext c, DateTime fetchedDateTime) async{
+
   return await showRoundedDatePicker(
       context: c,
-      initialDate: DateTime.now(),
+      initialDate: fetchedDateTime == null ? DateTime.now() : fetchedDateTime,
       firstDate: DateTime(DateTime.now().year - 1),
       lastDate: DateTime(DateTime.now().year + 1),
       textActionButton: "날짜 선택 후 확인을 눌러주세요",
@@ -59,13 +61,14 @@ customDatePicker(BuildContext c) async{
             fontSize: 16, color: darkblue, fontWeight: FontWeight.bold),
         textStyleButtonNegative:
             TextStyle(fontSize: 16, color: darkblue.withOpacity(0.5)),
+        
         //---------------------------------------------------------------------------------color    
         decorationDateSelected:
             BoxDecoration(color: orange, shape: BoxShape.circle),
         backgroundPicker: white,
         backgroundActionBar: white,
         backgroundHeaderMonth: white,
-      ),
+      ),      
       styleYearPicker: MaterialRoundedYearPickerStyle(
         textStyleYear: TextStyle(fontSize: 30, color: darkblue),
         textStyleYearSelected: TextStyle(

@@ -20,8 +20,17 @@ class StockManage extends StatefulWidget {
 class _StockManageState extends State<StockManage> {
   TextEditingController searchController = new TextEditingController();
 
-  var pageIndex = 0;
-  bool save = false;
+  var pageIndex;
+  bool save;
+  DateTime selectedDate;
+
+  @override
+  void initState() {
+    pageIndex=0;
+    save=false;
+    selectedDate = new DateTime.now();
+    super.initState();
+  }
 
   void handleRequest() {
     setState(() {
@@ -41,11 +50,11 @@ class _StockManageState extends State<StockManage> {
     });
   }
 
-  void handleSave() {
-    showModal();
+  void handleSave(DateTime date) {
+    setState(() {
+      this.selectedDate = date;
+    });
   }
-
-  DateTime selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +99,7 @@ class _StockManageState extends State<StockManage> {
                               flex: 4,
                               child: Container(
                                   alignment: Alignment.center,
-                                  child: datePicker(context, selectedDate)),
+                                  child: datePicker(context)),
                             ),
                             Expanded(
                                 flex: 3,
@@ -122,7 +131,7 @@ class _StockManageState extends State<StockManage> {
                                     tapButton(
                                         this.pageIndex == 0
                                             ? handleRequest
-                                            : handleSave,
+                                            : showModal,
                                         this.pageIndex == 0 ? darkblue : orange,
                                         orange,
                                         this.pageIndex == 0 ? "발주 신청" : "저장",
@@ -151,10 +160,13 @@ class _StockManageState extends State<StockManage> {
     );
   }
 
-  datePicker(BuildContext c, DateTime selectedDate) {
+  datePicker(BuildContext c) {
     return RaisedButton(
         onPressed: () async {
-          return customDatePicker(c);
+          DateTime newDateTime = await customDatePicker(c, selectedDate);
+          if(newDateTime != null) {
+            setState(() => selectedDate = newDateTime);
+          }
         },
         color: white,
         splashColor: superlight,
@@ -172,10 +184,10 @@ class _StockManageState extends State<StockManage> {
                 color: lightgrey,
               ),
               Text(
-                new DateTime.now()
-                    .toIso8601String()
-                    .substring(0, 10)
-                    .replaceAll('-', '/'),
+                selectedDate
+                        .toIso8601String()
+                        .substring(0, 10)
+                        .replaceAll('-', '/'),
                 style: TextStyle(color: lightgrey),
               ),
               Icon(
