@@ -19,6 +19,7 @@ class OrderHistory extends StatefulWidget {
 }
 
 class OrderHistoryState extends State<OrderHistory> {
+  
   final databaseReference = FirebaseDatabase.instance.reference();
 
   var fetchedData;
@@ -103,7 +104,7 @@ class OrderHistoryState extends State<OrderHistory> {
           ListView.builder(
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: data.length,
+            itemCount: this.fetchedData.length,
             itemBuilder: (BuildContext context, int index) {
               // var orders = new Map<String, dynamic>.from(data[index]);
               var orders =
