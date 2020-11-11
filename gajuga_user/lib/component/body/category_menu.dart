@@ -376,58 +376,63 @@ class CategoryMenuState extends State<CategoryMenu> {
                                                 MainAxisAlignment.end,
                                             children: [
                                               Container(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    //toShoppingCart();
-                                                  },
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (30 / 375),
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (30 / 375),
-                                                    decoration: BoxDecoration(
-                                                        boxShadow: [
-                                                          customeBoxShadow()
-                                                        ],
-                                                        color: orange,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(7)),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        new Text(
-                                                          "+",
-                                                          style: TextStyle(
-                                                              color: white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  14),
-                                                          // textAlign: TextAlign.center,
-                                                        )
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.08,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.08,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(30)),
+                                                      boxShadow: [
+                                                        customeBoxShadow()
                                                       ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                                                      color: Color.fromRGBO(
+                                                          218, 155, 104, 1.0)),
+                                                  child: FloatingActionButton
+                                                      .extended(
+                                                          heroTag:
+                                                              'addShoppingCartBtn',
+                                                          elevation: 3.0,
+                                                          onPressed: () =>
+                                                              addShoppingCart(
+                                                                  currentMenuList[index]),
+                                                          backgroundColor: orange,
+                                                          hoverColor: Colors.black87,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          label: Container(
+                                                              child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              new Text(
+                                                                "+",
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        14),
+                                                                // textAlign: TextAlign.center,
+                                                              )
+                                                            ],
+                                                          ))))
                                             ],
                                           ),
                                         ],
@@ -444,6 +449,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                 Expanded(
                   flex: 1,
                   child: FloatingActionButton.extended(
+                    heroTag: 'goShoppingCartBtn',
                     elevation: 8.0,
                     onPressed: () => toShoppingCart(context),
                     backgroundColor: orange,

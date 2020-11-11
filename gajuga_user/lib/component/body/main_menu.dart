@@ -330,7 +330,7 @@ class FavoriteMenuWidget extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               backgroundImage: AssetImage(
-                                  'images/${mainList[index]}.png'),
+                                  'images/${mainList[randomIndex]}.png'),
                             ),
                             Text(
                               "메뉴 " + data[index],
