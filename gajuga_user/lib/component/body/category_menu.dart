@@ -23,10 +23,32 @@ class CategoryMenuState extends State<CategoryMenu> {
   var fetchedData;
   var currentMenuList;
 
-  void toShoppingCart(BuildContext context) async {
+  void toShoppingCart(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => ShoppingCart()));
     //DBRef.child('menu').set(menudata);
+  }
+
+  void addShoppingCart(dynamic menuItem) {
+    // print('이름' + menuItem['name']);
+    String push =
+        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+
+    if (currentState == 'pizza') {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        'cost': menuItem['cost'],
+        'name': menuItem['name'],
+        'option': {
+          'dough': '기본',
+          'size': '레귤러',
+        }
+      });
+    } else if (currentState == 'beverage') {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        'cost': menuItem['cost'],
+        'name': menuItem['name'],
+      });
+    }
   }
 
   void pizzaState() {
@@ -135,6 +157,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           FloatingActionButton.extended(
+                            heroTag: 'PizzaBtn',
                             elevation: 8.0,
                             onPressed: pizzaState,
                             backgroundColor: currentState == 'pizza'
@@ -178,6 +201,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                                 )),
                           ),
                           FloatingActionButton.extended(
+                            heroTag: 'BeverageBtn',
                             elevation: 8.0,
                             onPressed: beverageState,
                             backgroundColor: currentState == 'beverage'
