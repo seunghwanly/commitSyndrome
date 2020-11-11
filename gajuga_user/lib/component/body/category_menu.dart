@@ -123,14 +123,15 @@ class CategoryMenuState extends State<CategoryMenu> {
                 bottom: MediaQuery.of(context).size.height * 0.037),
             child: Column(
               // 전체 컬럼
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                makeTitle('카테고리', ' 메뉴'),
-                Column(
-                  //
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
+                Expanded(
+                  flex: 1,
+                  child: makeTitle('카테고리', ' 메뉴'),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           FloatingActionButton.extended(
@@ -176,49 +177,6 @@ class CategoryMenuState extends State<CategoryMenu> {
                                   ],
                                 )),
                           ),
-                          // Container(
-                          //     // 파스타 PASTA : 탭 뷰
-                          //     margin: EdgeInsets.only(
-                          //         top: MediaQuery.of(context).size.height *
-                          //             0.01),
-                          //     alignment: Alignment.topCenter,
-                          //     width: MediaQuery.of(context).size.width * 0.2,
-                          //     height: MediaQuery.of(context).size.width * 0.18,
-                          //     decoration: BoxDecoration(
-                          //         borderRadius: BorderRadius.circular(20),
-                          //         boxShadow: [customeBoxShadow()],
-                          //         color: Color.fromRGBO(33, 33, 31, 1.0)),
-                          //     // child: new RotationTransition(
-                          //     //   turns: new AlwaysStoppedAnimation(45 / 360),
-                          //     //   child:  Image(image: AssetImage('images/icon/close_white.png')),
-                          //     //   ),
-                          //     child: Column(
-                          //       mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: <Widget>[
-                          //         Text(
-                          //           '파스타',
-                          //           style: TextStyle(
-                          //             fontWeight: FontWeight.w600,
-                          //             fontSize:
-                          //                 MediaQuery.of(context).size.width /
-                          //                     23,
-                          //             color: Colors.white,
-                          //           ),
-                          //           textAlign: TextAlign.justify,
-                          //         ),
-                          //         Text(
-                          //           'PASTA',
-                          //           style: TextStyle(
-                          //             fontWeight: FontWeight.w400,
-                          //             fontSize:
-                          //                 MediaQuery.of(context).size.width /
-                          //                     34,
-                          //             color: Colors.white,
-                          //           ),
-                          //           textAlign: TextAlign.justify,
-                          //         ),
-                          //       ],
-                          //     )),
                           FloatingActionButton.extended(
                             elevation: 8.0,
                             onPressed: beverageState,
@@ -261,297 +219,276 @@ class CategoryMenuState extends State<CategoryMenu> {
                                     ),
                                   ],
                                 )),
-                          ),
-                          // Container(
-                          //     // 음료 : 탭뷰
-                          //     margin: EdgeInsets.only(
-                          //         top: MediaQuery.of(context).size.height *
-                          //             0.01),
-                          //     alignment: Alignment.topCenter,
-                          //     width: MediaQuery.of(context).size.width * 0.3,
-                          //     height: MediaQuery.of(context).size.width * 0.18,
-                          //     decoration: BoxDecoration(
-                          //         borderRadius: BorderRadius.circular(20),
-                          //         boxShadow: [customeBoxShadow()],
-                          //         color: Color.fromRGBO(33, 33, 31, 1.0)),
-                          //     // child: new RotationTransition(
-                          //     //   turns: new AlwaysStoppedAnimation(45 / 360),
-                          //     //   child:  Image(image: AssetImage('images/icon/close_white.png')),
-                          //     //   ),
-                          //     child: Column(
-                          //       mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: <Widget>[
-
-                          //       ],
-                        ]),
-
+                          )
+                        ])),
+                Expanded(
                     // 피자 PIZZA 하고 아래 LIST VIEW ---------------------------------------------------------------
-
-                    Container(
+                    flex: 7,
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        //height: MediaQuery.of(context).size.height * 0.6,
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.03,
                           bottom: MediaQuery.of(context).size.height * 0.03,
                         ),
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.02),
-                        alignment: Alignment.topCenter,
-                        width: MediaQuery.of(context).size.width * 0.90,
+                            top: MediaQuery.of(context).size.height * 0.02,
+                            bottom: MediaQuery.of(context).size.height * 0.02),
+                        // alignment: Alignment.topCenter,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [customeBoxShadow()],
                             color: Color.fromRGBO(255, 255, 255, 1.0)),
-                        // child: new RotationTransition(
-                        //   turns: new AlwaysStoppedAnimation(45 / 360),
-                        //   child:  Image(image: AssetImage('images/icon/close_white.png')),
-                        //   ),
                         child: Column(
-                          children: <Widget>[
-                            SingleChildScrollView(
-                                child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                makePaddingTitleSize(
-                                    currentState == 'pizza' ? '피자 ' : '음료 ',
-                                    currentState == 'pizza'
-                                        ? 'PIZZA'
-                                        : 'BEVERAGE',
-                                    MediaQuery.of(context).size.width * 0.08,
-                                    MediaQuery.of(context).size.width * 0.02,
-                                    MediaQuery.of(context).size.width *
-                                        (18 / 375),
-                                    true),
-                                ListView.builder(
-                                  itemCount: currentMenuList.length == null
-                                      ? 0
-                                      : currentMenuList.length - 1,
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    // var menus = new Map<String, dynamic>.from(
-                                    //     menudata[index]);
-                                    return customBoxContainerCategory(
-                                        MediaQuery.of(context).size.width * 0.7,
-                                        MediaQuery.of(context).size.height *
-                                            (120 / 812),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      12,
-                                                  backgroundImage: AssetImage(
-                                                      'images/${currentMenuList[index]['name']}.png'),
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    makeTextSizepadding(
-                                                        //  menus['name']
-                                                        //  .toString(),
-                                                        currentMenuList[index]
-                                                            ['name'],
-                                                        Color.fromRGBO(
-                                                            33, 33, 31, 1.0),
-                                                        20.0,
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.01,
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            26),
-                                                    makeTextSizepaddingWidth(
-                                                        // menus['description']
-                                                        //   .toString(),
-                                                        currentMenuList[index]
-                                                            ['desc'],
-                                                        Color.fromRGBO(
-                                                            119, 119, 119, 1.0),
-                                                        20.0,
-                                                        0,
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            35,
-                                                        context),
-                                                    makeTextSizepadding(
-                                                        // menus['cost']
-                                                        // .toString() +
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: makePaddingTitleSize(
+                                  currentState == 'pizza' ? '피자 ' : '음료 ',
+                                  currentState == 'pizza'
+                                      ? 'PIZZA'
+                                      : 'BEVERAGE',
+                                  MediaQuery.of(context).size.width * 0.08,
+                                  MediaQuery.of(context).size.width * 0.02,
+                                  MediaQuery.of(context).size.width *
+                                      (18 / 375),
+                                  true),
+                            ),
+                            Expanded(
+                              flex: 9,
+                              child: ListView.builder(
+                                controller:
+                                    ScrollController(keepScrollOffset: true),
+                                // itemCount: currentMenuList.length == null
+                                //     ? 0
+                                //     : currentMenuList.length,
+                                itemCount: currentMenuList.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  // var menus = new Map<String, dynamic>.from(
+                                  //     menudata[index]);
+                                  return customBoxContainerCategory(
+                                      MediaQuery.of(context).size.width * 0.7,
+                                      MediaQuery.of(context).size.height *
+                                          (120 / 812),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    12,
+                                                backgroundImage: AssetImage(
+                                                    'images/${currentMenuList[index]['name']}.png'),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  makeTextSizepadding(
+                                                      //  menus['name']
+                                                      //  .toString(),
+                                                      currentMenuList[index]
+                                                          ['name'],
+                                                      Color.fromRGBO(
+                                                          33, 33, 31, 1.0),
+                                                      20.0,
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          0.01,
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          26),
+                                                  makeTextSizepaddingWidth(
+                                                      // menus['description']
+                                                      //   .toString(),
+                                                      currentMenuList[index]
+                                                          ['desc'],
+                                                      Color.fromRGBO(
+                                                          119, 119, 119, 1.0),
+                                                      20.0,
+                                                      0,
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          35,
+                                                      context),
+                                                  makeTextSizepadding(
+                                                      // menus['cost']
+                                                      // .toString() +
 
-                                                        currentMenuList[index]
-                                                                    ['cost']
-                                                                .toString() +
-                                                            '원',
-                                                        Color.fromRGBO(
-                                                            51, 51, 51, 1.0),
-                                                        20.0,
-                                                        0,
+                                                      currentMenuList[index]
+                                                                  ['cost']
+                                                              .toString() +
+                                                          '원',
+                                                      Color.fromRGBO(
+                                                          51, 51, 51, 1.0),
+                                                      20.0,
+                                                      0,
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          28),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    //toShoppingCart();
+                                                  },
+                                                  child: Container(
+                                                    width:
                                                         MediaQuery.of(context)
                                                                 .size
-                                                                .width /
-                                                            28),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      //toShoppingCart();
-                                                    },
-                                                    child: Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              (30 / 375),
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              (30 / 375),
-                                                      decoration: BoxDecoration(
-                                                          boxShadow: [
-                                                            customeBoxShadow()
-                                                          ],
-                                                          color: orange,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(7)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          new Text(
-                                                            "+",
-                                                            style: TextStyle(
-                                                                color: white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    14),
-                                                            // textAlign: TextAlign.center,
-                                                          )
+                                                                .width *
+                                                            (30 / 375),
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            (30 / 375),
+                                                    decoration: BoxDecoration(
+                                                        boxShadow: [
+                                                          customeBoxShadow()
                                                         ],
-                                                      ),
+                                                        color: orange,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(7)),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        new Text(
+                                                          "+",
+                                                          style: TextStyle(
+                                                              color: white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  14),
+                                                          // textAlign: TextAlign.center,
+                                                        )
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        true,
-                                        // MediaQuery.of(context).size.height / 70,
-                                        MediaQuery.of(context).size.height /
-                                            250,
-                                        MediaQuery.of(context).size.width / 50);
-                                  },
-                                ),
-                              ],
-                            )),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      true,
+                                      // MediaQuery.of(context).size.height / 70,
+                                      MediaQuery.of(context).size.height / 250,
+                                      MediaQuery.of(context).size.width / 50);
+                                },
+                              ),
+                            )
                           ],
-                        )),
-                  ],
-                ),
-                FloatingActionButton.extended(
-                  elevation: 8.0,
-                  onPressed: () => toShoppingCart(context),
-                  backgroundColor: orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  label: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width *
-                        0.53, // iphoneX - 200
-                    height: MediaQuery.of(context).size.height *
-                        0.06, // iphoneX - 50
-                    child: Text(
-                      '장바구니 바로가기',
-                      style: TextStyle(
-                          color: white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16),
-                      textAlign: TextAlign.center,
+                        ))),
+                Expanded(
+                  flex: 1,
+                  child: FloatingActionButton.extended(
+                    elevation: 8.0,
+                    onPressed: () => toShoppingCart(context),
+                    backgroundColor: orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    label: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width *
+                          0.53, // iphoneX - 200
+                      height: MediaQuery.of(context).size.height *
+                          0.06, // iphoneX - 50
+                      child: Text(
+                        '장바구니 바로가기',
+                        style: TextStyle(
+                            color: white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
-                // Column( // 장바구니 바로가기 ------------------------------------------------------------------
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     Container(
-                //         // margin:
-                //         //     EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-                //         //alignment: Alignment.bottomCenter,
-
-                //         width: MediaQuery.of(context).size.width * 1,
-                //         height: MediaQuery.of(context).size.height * 0.07,
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.only(
-                //                 topLeft: Radius.circular(30),
-                //                 topRight: Radius.circular(30)),
-                //             boxShadow: [customeBoxShadow()],
-                //             color: Color.fromRGBO(218, 155, 104, 1.0)),
-                //         // child: new RotationTransition(
-                //         //   turns: new AlwaysStoppedAnimation(45 / 360),
-                //         //   child:  Image(image: AssetImage('images/icon/close_white.png')),
-                //         //   ),
-                //         child: GestureDetector(
-                //             onTap: () {
-                //               Navigator.push(
-                //                   context,
-                //                   MaterialPageRoute(
-                //                       builder: (context) => ShoppingCart()));
-                //             },
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: <Widget>[
-                //                 Text(
-                //                   '장바구니 바로가기',
-                //                   style: TextStyle(
-                //                     fontWeight: FontWeight.w600,
-                //                     fontSize:
-                //                         MediaQuery.of(context).size.width / 22,
-                //                     color: Colors.white,
-                //                   ),
-                //                   textAlign: TextAlign.center,
-                //                 ),
-                //               ],
-                //             ))),
-                //   ],
-                // )
+                )
               ],
             )));
+    // Column( // 장바구니 바로가기 ------------------------------------------------------------------
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   children: [
+    //     Container(
+    //         // margin:
+    //         //     EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+    //         //alignment: Alignment.bottomCenter,
+
+    //         width: MediaQuery.of(context).size.width * 1,
+    //         height: MediaQuery.of(context).size.height * 0.07,
+    //         decoration: BoxDecoration(
+    //             borderRadius: BorderRadius.only(
+    //                 topLeft: Radius.circular(30),
+    //                 topRight: Radius.circular(30)),
+    //             boxShadow: [customeBoxShadow()],
+    //             color: Color.fromRGBO(218, 155, 104, 1.0)),
+    //         // child: new RotationTransition(
+    //         //   turns: new AlwaysStoppedAnimation(45 / 360),
+    //         //   child:  Image(image: AssetImage('images/icon/close_white.png')),
+    //         //   ),
+    //         child: GestureDetector(
+    //             onTap: () {
+    //               Navigator.push(
+    //                   context,
+    //                   MaterialPageRoute(
+    //                       builder: (context) => ShoppingCart()));
+    //             },
+    //             child: Column(
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               children: <Widget>[
+    //                 Text(
+    //                   '장바구니 바로가기',
+    //                   style: TextStyle(
+    //                     fontWeight: FontWeight.w600,
+    //                     fontSize:
+    //                         MediaQuery.of(context).size.width / 22,
+    //                     color: Colors.white,
+    //                   ),
+    //                   textAlign: TextAlign.center,
+    //                 ),
+    //               ],
+    //             ))),
+    //   ],
+    // )
   }
 }
