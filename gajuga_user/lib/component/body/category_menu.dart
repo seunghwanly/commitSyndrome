@@ -23,10 +23,32 @@ class CategoryMenuState extends State<CategoryMenu> {
   var fetchedData;
   var currentMenuList;
 
-  void toShoppingCart(BuildContext context) async {
+  void toShoppingCart(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => ShoppingCart()));
     //DBRef.child('menu').set(menudata);
+  }
+
+  void addShoppingCart(dynamic menuItem) {
+    // print('이름' + menuItem['name']);
+    String push =
+        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+
+    if (currentState == 'pizza') {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        'cost': menuItem['cost'],
+        'name': menuItem['name'],
+        'option': {
+          'dough': '기본',
+          'size': '레귤러',
+        }
+      });
+    } else if (currentState == 'beverage') {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        'cost': menuItem['cost'],
+        'name': menuItem['name'],
+      });
+    }
   }
 
   void pizzaState() {
@@ -134,6 +156,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           FloatingActionButton.extended(
+                            heroTag: 'PizzaBtn',
                             elevation: 8.0,
                             onPressed: pizzaState,
                             backgroundColor: currentState == 'pizza'
@@ -220,6 +243,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                           //       ],
                           //     )),
                           FloatingActionButton.extended(
+                            heroTag: 'BeverageBtn',
                             elevation: 8.0,
                             onPressed: beverageState,
                             backgroundColor: currentState == 'beverage'
@@ -414,31 +438,60 @@ class CategoryMenuState extends State<CategoryMenu> {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Container(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      //toShoppingCart();
-                                                    },
-                                                    child: Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              (30 / 375),
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              (30 / 375),
-                                                      decoration: BoxDecoration(
-                                                          boxShadow: [
-                                                            customeBoxShadow()
-                                                          ],
-                                                          color: orange,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(7)),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.08,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.08,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  30)),
+                                                      boxShadow: [
+                                                        customeBoxShadow()
+                                                      ],
+                                                      color: Color.fromRGBO(
+                                                          218, 155, 104, 1.0)),
+                                                  child: FloatingActionButton
+                                                      .extended(
+                                                    heroTag:
+                                                        'addShoppingCartBtn',
+                                                    elevation: 3.0,
+                                                    onPressed: () =>
+                                                        addShoppingCart(
+                                                            currentMenuList[
+                                                                index]),
+                                                    backgroundColor: orange,
+                                                    hoverColor: Colors.black87,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    label: Container(
+                                                      // width:
+                                                      //     MediaQuery.of(context)
+                                                      //             .size
+                                                      //             .width *
+                                                      //         (30 / 375),
+                                                      // height:
+                                                      //     MediaQuery.of(context)
+                                                      //             .size
+                                                      //             .width *
+                                                      //         (30 / 375),
+                                                      // decoration: BoxDecoration(
+                                                      //     boxShadow: [
+                                                      //       customeBoxShadow()
+                                                      //     ],
+                                                      //     color: orange,
+                                                      //     borderRadius:
+                                                      //         BorderRadius
+                                                      //             .circular(7)),
                                                       child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -465,7 +518,19 @@ class CategoryMenuState extends State<CategoryMenu> {
                                                       ),
                                                     ),
                                                   ),
-                                                ),
+                                                )
+
+                                                //
+                                                // Container(
+                                                //   alignment:
+                                                //       Alignment.centerRight,
+                                                //   child: GestureDetector(
+                                                //     onTap: () {
+                                                //       //toShoppingCart();
+                                                //     },
+                                                //     child:
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ],
@@ -484,6 +549,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                   ],
                 ),
                 FloatingActionButton.extended(
+                  heroTag: 'goShoppingCartBtn',
                   elevation: 8.0,
                   onPressed: () => toShoppingCart(context),
                   backgroundColor: orange,
