@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/sub_menu.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
@@ -10,6 +10,7 @@ import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class TotalMenu extends StatefulWidget {
   @override
@@ -22,6 +23,9 @@ class TotalMenuState extends State<TotalMenu> {
   final String userid = 'UserCode-01';
   var currentState = 'pizza';
   var currentMenuList;
+
+  List<String> mainList = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
+  int randomIndex = new Random().nextInt(3);
 
   void readData() {
     DBRef.child('manager/menu/category/' + currentState)
@@ -72,83 +76,92 @@ class TotalMenuState extends State<TotalMenu> {
 
   @override
   Widget build(BuildContext context) {
-    //readData();
-
-    return Container(
-        //height: 530,
-        height: MediaQuery.of(context).size.height * 0.65,
-        child: Column(
-          children: <Widget>[
-            // makeTitle('전체', ' 메뉴'),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CategoryMenu()));
-              },
-              child: Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      '전체 ',
-                      style: TextStyle(
-                          color: Color.fromRGBO(218, 155, 104, 1.0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      '메뉴',
-                      style: TextStyle(
-                          color: Color.fromRGBO(33, 33, 31, 1.0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                      textAlign: TextAlign.left,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Stack(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  margin: EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('images/고르곤졸라피자.png'),
-                          fit: BoxFit.cover)),
-                  // child: Image(
-                  //   image: AssetImage('images/고르곤졸라피자.png'),
-                  //   fit: BoxFit.cover,
-                  //   // height: 427,
-                  // ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.2),
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(left: 40),
-                    itemCount: this.currentMenuList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _listItem(
-                          this.currentMenuList[index]['name'],
-                          AssetImage(
-                              'images/${this.currentMenuList[index]['name']}.png'),
-                          this.currentMenuList[index]['desc'],
-                          this.currentMenuList[index]['cost'],
-                          context);
-                    },
-                    scrollDirection: Axis.horizontal,
+    if (this.currentMenuList == null) {
+      return Container(
+        alignment: Alignment.center,
+        color: pale,
+        child: LoadingBouncingGrid.circle(
+          backgroundColor: white,
+        ),
+      );
+    } else {
+      return Container(
+          //height: 530,
+          height: MediaQuery.of(context).size.height * 0.65,
+          child: Column(
+            children: <Widget>[
+              // makeTitle('전체', ' 메뉴'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CategoryMenu()));
+                },
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Text(
+                        '전체 ',
+                        style: TextStyle(
+                            color: Color.fromRGBO(218, 155, 104, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                        textAlign: TextAlign.left,
+                      ),
+                      Text(
+                        '메뉴',
+                        style: TextStyle(
+                            color: Color.fromRGBO(33, 33, 31, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                        textAlign: TextAlign.left,
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ],
-        ));
+              ),
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    margin: EdgeInsets.only(top: 20),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'images/${mainList[randomIndex]}.png'),
+                            fit: BoxFit.cover)),
+                    // child: Image(
+                    //   image: AssetImage('images/고르곤졸라피자.png'),
+                    //   fit: BoxFit.cover,
+                    //   // height: 427,
+                    // ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.2),
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(left: 40),
+                      itemCount: this.currentMenuList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _listItem(
+                            this.currentMenuList[index]['name'],
+                            AssetImage(
+                                'images/${this.currentMenuList[index]['name']}.png'),
+                            this.currentMenuList[index]['desc'],
+                            this.currentMenuList[index]['cost'],
+                            context);
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ));
+    }
   }
 
   Widget _listItem(String title, AssetImage image, String desc, int cost,
@@ -170,6 +183,7 @@ class TotalMenuState extends State<TotalMenu> {
             )
           ]),
       margin: EdgeInsets.only(left: 40, bottom: 20),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -178,16 +192,22 @@ class TotalMenuState extends State<TotalMenu> {
             radius: 35,
           ),
           Text(title,
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 16),
               textAlign: TextAlign.center),
           Text(desc,
-              style:
-                  TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+              style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                  fontSize: 12),
               textAlign: TextAlign.center),
           Text(toLocaleString(cost) + " 원",
-              style:
-                  TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+              style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                  fontSize: 14),
               textAlign: TextAlign.center),
           FlatButton(
             color: orange,
@@ -269,6 +289,9 @@ class TotalMenuState extends State<TotalMenu> {
 class FavoriteMenuWidget extends StatelessWidget {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
 
+  List<String> mainList = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
+  int randomIndex = new Random().nextInt(3);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -306,7 +329,8 @@ class FavoriteMenuWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage('images/불고기피자.png'),
+                              backgroundImage: AssetImage(
+                                  'images/${mainList[index]}.png'),
                             ),
                             Text(
                               "메뉴 " + data[index],
