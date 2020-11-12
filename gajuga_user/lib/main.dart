@@ -13,6 +13,7 @@ class MainScreen extends StatelessWidget {
     return ChangeNotifierProvider<OptionList>(
         create: (_) => OptionList(),
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: "GAJUGA.",
             theme:
                 ThemeData(primaryColor: pale, canvasColor: Colors.transparent),

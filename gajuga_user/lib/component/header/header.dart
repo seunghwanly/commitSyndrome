@@ -5,6 +5,10 @@ import 'package:gajuga_user/util/palette.dart';
 import 'package:gajuga_user/util/to_text.dart';
 import 'package:gajuga_user/component/body/login.dart';
 import '../body/shopping_cart.dart';
+import 'package:badges/badges.dart';
+import 'package:firebase_database/firebase_database.dart';
+import '../../util/to_text.dart';
+import '../../util/palette.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -16,8 +20,41 @@ class CustomHeader extends StatefulWidget {
 }
 
 class _CustomHeaderState extends State<CustomHeader> {
+  final DBRef = FirebaseDatabase.instance.reference();
+  final String userid = 'UserCode-01';
+  int shoppingCartCount = 5;
+
+  void readData() {
+    FirebaseDatabase.instance
+        .reference()
+        .child('user/userInfo/' + userid + '/shoppingCart')
+        .onChildChanged
+        .listen((event) {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+          .orderByChild('cost')
+          .once()
+          .then((DataSnapshot dataSnapshot) {
+        Map<dynamic, dynamic> values = dataSnapshot.value;
+        setState(() {
+          print('이게 통수? : ' + values.length.toString());
+          shoppingCartCount = values.length;
+        });
+      });
+      // process event
+    });
+// DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+//         .onChildChanged()
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    //readData();
     void _openDrawer() {}
 
     void _gotoCart() {
@@ -34,11 +71,18 @@ class _CustomHeaderState extends State<CustomHeader> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: _gotoCart,
-            alignment: Alignment.centerRight,
-          ),
+          Badge(
+            animationType: BadgeAnimationType.scale,
+            borderRadius: BorderRadius.circular(3),
+            position: BadgePosition.topEnd(top: 6, end: 5),
+            badgeContent: Text('${shoppingCartCount}',
+                style: TextStyle(color: Colors.white, fontSize: 7)),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: _gotoCart,
+              alignment: Alignment.centerRight,
+            ),
+          )
         ],
       ),
       body: Container(
