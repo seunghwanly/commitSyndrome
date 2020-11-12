@@ -27,7 +27,7 @@ class _CustomHeaderState extends State<CustomHeader> {
   void readData() {
     FirebaseDatabase.instance
         .reference()
-        .child('user/userInfo/' + userid + '/shoppingCart')
+        .child('user/userInfo/' + userid)
         .onChildChanged
         .listen((event) {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart')
@@ -36,7 +36,7 @@ class _CustomHeaderState extends State<CustomHeader> {
           .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> values = dataSnapshot.value;
         setState(() {
-          print('이게 통수? : ' + values.length.toString());
+          //print('이게 통수? : ' + values.length.toString());
           shoppingCartCount = values.length;
         });
       });
@@ -54,7 +54,7 @@ class _CustomHeaderState extends State<CustomHeader> {
 
   @override
   Widget build(BuildContext context) {
-    //readData();
+    readData();
     void _openDrawer() {}
 
     void _gotoCart() {
