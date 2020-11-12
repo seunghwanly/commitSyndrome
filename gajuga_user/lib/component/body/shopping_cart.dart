@@ -40,7 +40,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       });
       values.forEach((key, value) {
         ShoppingCart item;
-        print('뭐냐고 ? ' + jsonEncode(value['option']));
+
         if (value['name'] == '사이다' || value['name'] == '콜라') {
           item = new ShoppingCart(value['cost'], value["name"],
               new Option(dough: '기본', size: '레귤러'));

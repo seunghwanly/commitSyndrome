@@ -25,6 +25,17 @@ class _CustomHeaderState extends State<CustomHeader> {
   int shoppingCartCount = 5;
 
   void readData() {
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+        .orderByChild('cost')
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      Map<dynamic, dynamic> values = dataSnapshot.value;
+      setState(() {
+        
+        shoppingCartCount = values.length;
+      });
+    });
+
     FirebaseDatabase.instance
         .reference()
         .child('user/userInfo/' + userid)
@@ -36,7 +47,7 @@ class _CustomHeaderState extends State<CustomHeader> {
           .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> values = dataSnapshot.value;
         setState(() {
-          //print('이게 통수? : ' + values.length.toString());
+          
           shoppingCartCount = values.length;
         });
       });
