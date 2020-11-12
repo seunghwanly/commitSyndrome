@@ -19,8 +19,9 @@ class TotalMenu extends StatefulWidget {
 
 class TotalMenuState extends State<TotalMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
-  final List<String> data = <String>['A', 'B', 'C', 'D'];
   final String userid = 'UserCode-01';
+  final List<String> data = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
+
   var currentState = 'pizza';
   var currentMenuList;
 
@@ -35,7 +36,7 @@ class TotalMenuState extends State<TotalMenu> {
         setState(() {
           currentMenuList = dataSnapshot.value;
         });
-        print('사이즈' + currentMenuList.length.toString());
+        // print('사이즈' + currentMenuList.length.toString());
       } else {
         print('데이터 없음');
       }
@@ -43,12 +44,29 @@ class TotalMenuState extends State<TotalMenu> {
     });
   }
 
-  void getCurrentList() {
-    //print("되냐여기" + jsonEncode(fetchedData));
+  void addShoppingCart(dynamic menuItem) {
+    // print('이름' + menuItem['name']);
+    String push =
+        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+
+    if (currentState == 'pizza') {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        'cost': menuItem['cost'],
+        'name': menuItem['name'],
+        'option': {
+          'dough': '기본',
+          'size': '레귤러',
+        }
+      });
+    } else if (currentState == 'beverage') {
+      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        'cost': menuItem['cost'],
+        'name': menuItem['name'],
+      });
+    }
   }
 
   void addMenuItem(Menu menu) {
-    Ingredient tmp;
     int i = 0;
     // print(menu.ingredients);
     DBRef.child('user')
@@ -152,7 +170,8 @@ class TotalMenuState extends State<TotalMenu> {
                                 'images/${this.currentMenuList[index]['name']}.png'),
                             this.currentMenuList[index]['desc'],
                             this.currentMenuList[index]['cost'],
-                            context);
+                            context,
+                            this.currentMenuList[index]);
                       },
                       scrollDirection: Axis.horizontal,
                     ),
@@ -165,7 +184,7 @@ class TotalMenuState extends State<TotalMenu> {
   }
 
   Widget _listItem(String title, AssetImage image, String desc, int cost,
-      BuildContext context) {
+      BuildContext context, dynamic menuItem) {
     double itemWidth = MediaQuery.of(context).size.width * 0.45;
     double itemHeight = MediaQuery.of(context).size.height * 0.35;
 
@@ -215,12 +234,13 @@ class TotalMenuState extends State<TotalMenu> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
-              List<Ingredient> ingredients = [];
-              Ingredient ingre1 = Ingredient('치즈', 12);
-              Ingredient ingre2 = Ingredient('올리브', 5);
-              ingredients.add(ingre1);
-              ingredients.add(ingre2);
-              Menu thisMenu = Menu('올리브피자', 13900, ingredients);
+              addShoppingCart(menuItem);
+              // List<Ingredient> ingredients = [];
+              // Ingredient ingre1 = Ingredient('치즈', 12);
+              // Ingredient ingre2 = Ingredient('올리브', 5);
+              // ingredients.add(ingre1);
+              // ingredients.add(ingre2);
+              // Menu thisMenu = Menu('올리브피자', 13900, ingredients);
               //addMenuItem(thisMenu);
               //  var orders =
               //     new Map<String, dynamic>.from(this.fetchedData[0]);

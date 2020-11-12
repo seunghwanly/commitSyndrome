@@ -11,6 +11,8 @@ import '../../util/to_locale.dart';
 import '../../util/to_text.dart';
 import './sub_menu_modal.dart';
 import '../../util/palette.dart';
+import '../../model/shoppingcart_model.dart';
+import '../../model/order_history_model.dart';
 
 //firebase database
 import 'package:firebase_database/firebase_database.dart';
@@ -27,7 +29,8 @@ class SubmenuScreen extends StatefulWidget {
 class SubmenuScreenState extends State<SubmenuScreen> {
   //firebase
   final databaseReference = FirebaseDatabase.instance.reference();
-
+  final DBRef = FirebaseDatabase.instance.reference();
+  final String userid = 'UserCode-01';
   //--------------------------------------------------------------------------고정 옵션
   final contentSize = {
     "category": "SIZE/사이즈 선택",
@@ -62,6 +65,20 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         if (count > 1) {
           count--;
         }
+      }
+    });
+  }
+
+  void addShoppingCart(ShoppingCart menuItem) {
+    // print('이름' + menuItem['name']);
+    String push =
+        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+      'cost': menuItem.cost,
+      'name': menuItem.name,
+      'option': {
+        'dough': menuItem.option.dough,
+        'size': menuItem.option.size,
       }
     });
   }
@@ -275,7 +292,11 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     //     );
                     //   }
                     //   );
-                    writeData();
+                    ShoppingCart menuitem = ShoppingCart(dataForPush['cost'],
+                        dataForPush['name'], Option(size: '라지', dough: '치즈'));
+
+                    addShoppingCart(menuitem);
+                    //writeData();
                   },
                   child: Container(
                     alignment: Alignment.center,
