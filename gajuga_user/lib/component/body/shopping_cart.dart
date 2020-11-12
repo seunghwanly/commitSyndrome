@@ -1,13 +1,95 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
 import '../body/approval_order.dart';
+import '../../model/shoppingcart_model.dart';
+import '../../model/menu_model.dart';
+import '../../model/order_history_model.dart';
+import '../../util/to_locale.dart';
 
-class ShoppingCart extends StatelessWidget {
+class ShoppingCartRoute extends StatefulWidget {
+  @override
+  ShoppingCartState createState() => ShoppingCartState();
+}
+
+class ShoppingCartState extends State<ShoppingCartRoute> {
   final List<String> data = <String>['피자', '파스타', '음료'];
+  final DBRef = FirebaseDatabase.instance.reference();
+  final String userid = 'UserCode-01';
+  int totalCost = 0;
+  List<ShoppingCart> cartList = List<ShoppingCart>();
+
+  void readData() {
+    Map<dynamic, dynamic> result;
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+        .orderByChild('cost')
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      result = dataSnapshot.value;
+      Map<dynamic, dynamic> values = dataSnapshot.value;
+      int sub_totalCost = 0;
+      setState(() {
+        cartList.clear();
+      });
+      values.forEach((key, value) {
+        ShoppingCart item;
+        print('뭐냐고 ? ' + jsonEncode(value['option']));
+        if (value['name'] == '사이다' || value['name'] == '콜라') {
+          item = new ShoppingCart(value['cost'], value["name"],
+              new Option(dough: '기본', size: '레귤러'));
+        } else {
+          item = new ShoppingCart(
+              value['cost'],
+              value["name"],
+              new Option(
+                  dough: value['option']['dough'],
+                  size: value['option']['size']));
+        }
+        sub_totalCost +=
+            item.cost + countAddCost(item.option.dough, item.option.size);
+        item.key = key;
+        setState(() {
+          cartList.add(item);
+        });
+        //print("key:" + key + " value:" + value["cost"].toString());
+      });
+      setState(() {
+        totalCost = sub_totalCost;
+        cartList = cartList.reversed.toList();
+      });
+    });
+  }
+
+  void deleteCurrentItem(String key) {
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
+    readData();
+  }
+
+  int countAddCost(String dough, String size) {
+    int addCost = 0;
+    if (dough != '기본') {
+      addCost += 2000;
+    }
+    if (size != '레귤러') {
+      addCost += 4000;
+    }
+    return addCost;
+  }
+  // Menu getMenubyName(String name){
+  //   DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+  //       .orderByChild('cost')
+  //       .once()
+  //       .then((DataSnapshot dataSnapshot) {
+
+  //   });
+  // }
 
   final orderdata = [
     {
@@ -37,6 +119,12 @@ class ShoppingCart extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     void _trash() {}
     return CustomHeader(
@@ -64,11 +152,11 @@ class ShoppingCart extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ListView.builder(
-                        itemCount: data.length,
+                        itemCount: cartList.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          var menus =
-                              new Map<String, dynamic>.from(orderdata[index]);
+                          // var menus =
+                          //     new Map<String, dynamic>.from(orderdata[index]);
                           return customStrikeBoxContainer(
                               MediaQuery.of(context).size.width * 0.94,
                               MediaQuery.of(context).size.height * 0.17,
@@ -93,140 +181,140 @@ class ShoppingCart extends StatelessWidget {
                                                     .size
                                                     .width *
                                                 (25 / 375),
-                                            backgroundImage:
-                                                AssetImage('images/C.png'),
+                                            backgroundImage: AssetImage(
+                                                'images/${cartList[index].name}.png'),
                                           ),
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  (80 / 375),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  (35 / 812),
-                                              margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    (10 / 812),
-                                              ),
-                                              padding: EdgeInsets.all(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      (5 / 375)),
-                                              decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    customeBoxShadow()
-                                                  ],
-                                                  color: white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        //function()
-                                                      },
-                                                      child: Container(
-                                                        width: 15,
-                                                        height: 15,
-                                                        decoration: BoxDecoration(
-                                                            boxShadow: [
-                                                              customeBoxShadow()
-                                                            ],
-                                                            color: orange,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            new Text(
-                                                              "-",
-                                                              style: TextStyle(
-                                                                  color: white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 13),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    '1',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 13),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  Container(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        //function()
-                                                      },
-                                                      child: Container(
-                                                        width: 15,
-                                                        height: 15,
-                                                        decoration: BoxDecoration(
-                                                            boxShadow: [
-                                                              customeBoxShadow()
-                                                            ],
-                                                            color: orange,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            new Text(
-                                                              "+",
-                                                              style: TextStyle(
-                                                                  color: white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 13),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
+                                          // Container(
+                                          //     width: MediaQuery.of(context)
+                                          //             .size
+                                          //             .width *
+                                          //         (80 / 375),
+                                          //     height: MediaQuery.of(context)
+                                          //             .size
+                                          //             .height *
+                                          //         (35 / 812),
+                                          //     margin: EdgeInsets.only(
+                                          //       top: MediaQuery.of(context)
+                                          //               .size
+                                          //               .height *
+                                          //           (10 / 812),
+                                          //     ),
+                                          //     padding: EdgeInsets.all(
+                                          //         MediaQuery.of(context)
+                                          //                 .size
+                                          //                 .width *
+                                          //             (5 / 375)),
+                                          //     decoration: BoxDecoration(
+                                          //         boxShadow: [
+                                          //           customeBoxShadow()
+                                          //         ],
+                                          //         color: white,
+                                          //         borderRadius:
+                                          //             BorderRadius.circular(
+                                          //                 10)),
+                                          //     child: Row(
+                                          //       mainAxisAlignment:
+                                          //           MainAxisAlignment
+                                          //               .spaceBetween,
+                                          //       crossAxisAlignment:
+                                          //           CrossAxisAlignment.center,
+                                          //       children: [
+                                          //         Container(
+                                          //           alignment:
+                                          //               Alignment.centerLeft,
+                                          //           child: GestureDetector(
+                                          //             onTap: () {
+                                          //               //function()
+                                          //             },
+                                          //             child: Container(
+                                          //               width: 15,
+                                          //               height: 15,
+                                          //               decoration: BoxDecoration(
+                                          //                   boxShadow: [
+                                          //                     customeBoxShadow()
+                                          //                   ],
+                                          //                   color: orange,
+                                          //                   borderRadius:
+                                          //                       BorderRadius
+                                          //                           .circular(
+                                          //                               5)),
+                                          //               child: Row(
+                                          //                 mainAxisAlignment:
+                                          //                     MainAxisAlignment
+                                          //                         .center,
+                                          //                 crossAxisAlignment:
+                                          //                     CrossAxisAlignment
+                                          //                         .center,
+                                          //                 children: [
+                                          //                   new Text(
+                                          //                     "-",
+                                          //                     style: TextStyle(
+                                          //                         color: white,
+                                          //                         fontWeight:
+                                          //                             FontWeight
+                                          //                                 .bold,
+                                          //                         fontSize: 13),
+                                          //                     textAlign:
+                                          //                         TextAlign
+                                          //                             .center,
+                                          //                   )
+                                          //                 ],
+                                          //               ),
+                                          //             ),
+                                          //           ),
+                                          //         ),
+                                          //         Text(
+                                          //           '1',
+                                          //           style: TextStyle(
+                                          //               color: Colors.black,
+                                          //               fontWeight:
+                                          //                   FontWeight.bold,
+                                          //               fontSize: 13),
+                                          //           textAlign: TextAlign.center,
+                                          //         ),
+                                          //         Container(
+                                          //           alignment:
+                                          //               Alignment.centerRight,
+                                          //           child: GestureDetector(
+                                          //             onTap: () {
+                                          //               //function()
+                                          //             },
+                                          //             child: Container(
+                                          //               width: 15,
+                                          //               height: 15,
+                                          //               decoration: BoxDecoration(
+                                          //                   boxShadow: [
+                                          //                     customeBoxShadow()
+                                          //                   ],
+                                          //                   color: orange,
+                                          //                   borderRadius:
+                                          //                       BorderRadius
+                                          //                           .circular(
+                                          //                               5)),
+                                          //               child: Row(
+                                          //                 mainAxisAlignment:
+                                          //                     MainAxisAlignment
+                                          //                         .center,
+                                          //                 children: [
+                                          //                   new Text(
+                                          //                     "+",
+                                          //                     style: TextStyle(
+                                          //                         color: white,
+                                          //                         fontWeight:
+                                          //                             FontWeight
+                                          //                                 .bold,
+                                          //                         fontSize: 13),
+                                          //                     textAlign:
+                                          //                         TextAlign
+                                          //                             .center,
+                                          //                   )
+                                          //                 ],
+                                          //               ),
+                                          //             ),
+                                          //           ),
+                                          //         ),
+                                          //       ],
+                                          //     )),
 
                                           //여기
                                         ],
@@ -237,14 +325,32 @@ class ShoppingCart extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          makeThreeTitle(
-                                              '피자 ',
-                                              'PIZZA ',
-                                              '/ ' + menus['name'].toString(),
-                                              context),
+                                          cartList[index].cost == 2000
+                                              ? makeThreeTitle(
+                                                  '음료 ',
+                                                  'BEVERAGE ',
+                                                  '/ ' +
+                                                      cartList[index]
+                                                          .name
+                                                          .toString(),
+                                                  context)
+                                              : makeThreeTitle(
+                                                  '피자 ',
+                                                  'PIZZA ',
+                                                  '/ ' +
+                                                      cartList[index]
+                                                          .name
+                                                          .toString(),
+                                                  context),
+
                                           makeTextSize(
                                               '크기 : ' +
-                                                  menus['size'].toString(),
+                                                  cartList[index]
+                                                      .option
+                                                      .size
+                                                      .toString(),
+                                              // menus['size'].toString(),
+
                                               Color.fromRGBO(
                                                   119, 119, 119, 1.0),
                                               MediaQuery.of(context)
@@ -257,7 +363,13 @@ class ShoppingCart extends StatelessWidget {
                                                   30),
                                           makeTextSize(
                                               '추가요금 : ' +
-                                                  menus['addcost'].toString() +
+                                                  toLocaleString(countAddCost(
+                                                      cartList[index]
+                                                          .option
+                                                          .dough,
+                                                      cartList[index]
+                                                          .option
+                                                          .size)) +
                                                   '원',
                                               Color.fromRGBO(
                                                   119, 119, 119, 1.0),
@@ -270,15 +382,29 @@ class ShoppingCart extends StatelessWidget {
                                                       .width /
                                                   30),
 
-                                          makeThreeTitle(
+                                          makeTextSizepadding(
                                               '가격 : ' +
-                                                  (menus['cost'] +
-                                                          menus['addcost'])
-                                                      .toString() +
+                                                  toLocaleString(
+                                                      cartList[index].cost +
+                                                          countAddCost(
+                                                              cartList[index]
+                                                                  .option
+                                                                  .dough,
+                                                              cartList[index]
+                                                                  .option
+                                                                  .size)) +
                                                   '원',
-                                              '',
-                                              '',
-                                              context),
+                                              Colors.black87,
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (15 / 375),
+                                              0,
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  25),
+                                          ////////////////////////////여기까지주석
                                           // Container(
                                           //     width: 150,
                                           //     height: 20,
@@ -291,9 +417,16 @@ class ShoppingCart extends StatelessWidget {
                                           //       children: [
                                           //         Text(
                                           //           '가격 : ' +
-                                          //               (menus['cost'] +
-                                          //                       menus[
-                                          //                           'addcost'])
+                                          //               (cartList[index].cost +
+                                          //                       countAddCost(
+                                          //                           cartList[
+                                          //                                   index]
+                                          //                               .option
+                                          //                               .dough,
+                                          //                           cartList[
+                                          //                                   index]
+                                          //                               .option
+                                          //                               .size))
                                           //                   .toString() +
                                           //               '원',
                                           //           style: TextStyle(
@@ -339,15 +472,18 @@ class ShoppingCart extends StatelessWidget {
                                               // ),
                                               // Container()
                                               new IconButton(
-                                                  icon: Icon(
-                                                      Icons.restore_from_trash),
-                                                  color: Colors.black87,
+                                                  icon:
+                                                      Icon(Icons.remove_circle),
+                                                  color: darkgrey,
                                                   iconSize:
                                                       MediaQuery.of(context)
                                                               .size
                                                               .width *
                                                           (30 / 375),
-                                                  onPressed: _trash),
+                                                  onPressed: () => {
+                                                        deleteCurrentItem(
+                                                            cartList[index].key)
+                                                      }),
                                             ],
                                           ),
                                         ),
@@ -409,7 +545,7 @@ class ShoppingCart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '42,700 Won',
+                        toLocaleString(totalCost) + ' Won',
                         style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1.0),
                             fontWeight: FontWeight.bold,

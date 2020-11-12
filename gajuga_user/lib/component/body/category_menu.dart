@@ -25,7 +25,7 @@ class CategoryMenuState extends State<CategoryMenu> {
 
   void toShoppingCart(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ShoppingCart()));
+        context, MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
     //DBRef.child('menu').set(menudata);
   }
 
@@ -395,11 +395,12 @@ class CategoryMenuState extends State<CategoryMenu> {
                                                   child: FloatingActionButton
                                                       .extended(
                                                           heroTag:
-                                                              'addShoppingCartBtn',
+                                                              'addShoppingCartBtn' +
+                                                                  index
+                                                                      .toString(),
                                                           elevation: 3.0,
                                                           onPressed: () =>
-                                                              addShoppingCart(
-                                                                  currentMenuList[index]),
+                                                              addShoppingCart(currentMenuList[index]),
                                                           backgroundColor: orange,
                                                           hoverColor: Colors.black87,
                                                           shape: RoundedRectangleBorder(

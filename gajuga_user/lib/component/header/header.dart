@@ -21,8 +21,8 @@ class _CustomHeaderState extends State<CustomHeader> {
     void _openDrawer() {}
 
     void _gotoCart() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ShoppingCart()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
     }
 
     return Scaffold(
