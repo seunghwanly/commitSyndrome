@@ -10,6 +10,7 @@ import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
+import 'package:gajuga_user/main.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class TotalMenu extends StatefulWidget {
@@ -24,6 +25,7 @@ class TotalMenuState extends State<TotalMenu> {
 
   var currentState = 'pizza';
   var currentMenuList;
+  var tmp = 0;
 
   List<String> mainList = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
   int randomIndex = new Random().nextInt(3);
@@ -58,10 +60,17 @@ class TotalMenuState extends State<TotalMenu> {
           'size': '레귤러',
         }
       });
+
+      setState(() {
+        tmp += 1;
+      });
     } else if (currentState == 'beverage') {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
+      });
+      setState(() {
+        tmp += 1;
       });
     }
   }
@@ -85,6 +94,15 @@ class TotalMenuState extends State<TotalMenu> {
     });
   }
 
+  void toCategoryMenu(BuildContext context) async {
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CategoryMenu()));
+    //DBRef.child('menu').set(menudata);
+    if (result) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -93,7 +111,13 @@ class TotalMenuState extends State<TotalMenu> {
   }
 
   @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('메인 실행 ! ');
     if (this.currentMenuList == null) {
       return Container(
         alignment: Alignment.center,
@@ -111,8 +135,9 @@ class TotalMenuState extends State<TotalMenu> {
               // makeTitle('전체', ' 메뉴'),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CategoryMenu()));
+                  toCategoryMenu(context);
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => CategoryMenu()));
                 },
                 child: Container(
                   alignment: Alignment.centerLeft,

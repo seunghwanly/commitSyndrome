@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/order_history.dart';
 import 'package:gajuga_user/main.dart';
@@ -22,7 +23,9 @@ class CustomHeader extends StatefulWidget {
 class _CustomHeaderState extends State<CustomHeader> {
   final DBRef = FirebaseDatabase.instance.reference();
   final String userid = 'UserCode-01';
-  int shoppingCartCount = 5;
+
+  StreamSubscription<Event> _messageStream;
+  int shoppingCartCount = 3;
 
   void readData() {
     DBRef.child('user/userInfo/' + userid + '/shoppingCart')
@@ -31,41 +34,77 @@ class _CustomHeaderState extends State<CustomHeader> {
         .then((DataSnapshot dataSnapshot) {
       Map<dynamic, dynamic> values = dataSnapshot.value;
       setState(() {
-        
         shoppingCartCount = values.length;
       });
     });
+  }
 
+  void startListener() {
     FirebaseDatabase.instance
         .reference()
-        .child('user/userInfo/' + userid)
-        .onChildChanged
+        .child('user/userInfo/' + userid + '/shoppingCart')
+        .onChildAdded
         .listen((event) {
-      DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-          .orderByChild('cost')
-          .once()
-          .then((DataSnapshot dataSnapshot) {
-        Map<dynamic, dynamic> values = dataSnapshot.value;
-        setState(() {
-          
-          shoppingCartCount = values.length;
-        });
-      });
+      print('1개 추가됨 ! ');
+      // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+      //     .orderByChild('cost')
+      //     .once()
+      //     .then((DataSnapshot dataSnapshot) {
+      //   Map<dynamic, dynamic> values = dataSnapshot.value;
+      //   setState(() {
+      //     shoppingCartCount = values.length;
+      //   });
+      // });
       // process event
     });
-// DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-//         .onChildChanged()
+  }
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('didUp');
+    readData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('didChange');
+    readData();
   }
 
   @override
   void initState() {
     super.initState();
+    _messageStream = FirebaseDatabase.instance
+        .reference()
+        .child('user/userInfo/' + userid + '/shoppingCart')
+        .onChildAdded
+        .listen((event) {
+      print('1개 추가됨 ! ');
+      // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+      //     .orderByChild('cost')
+      //     .once()
+      //     .then((DataSnapshot dataSnapshot) {
+      //   Map<dynamic, dynamic> values = dataSnapshot.value;
+      //   setState(() {
+      //     shoppingCartCount = values.length;
+      //   });
+      // });
+      // process event
+    });
+
     readData();
   }
 
   @override
+  void dispose() {
+    _messageStream.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    readData();
+    //startListener();
     void _openDrawer() {}
 
     void _gotoCart() {
@@ -82,18 +121,41 @@ class _CustomHeaderState extends State<CustomHeader> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          Badge(
-            animationType: BadgeAnimationType.scale,
-            borderRadius: BorderRadius.circular(3),
-            position: BadgePosition.topEnd(top: 6, end: 5),
-            badgeContent: Text('${shoppingCartCount}',
-                style: TextStyle(color: Colors.white, fontSize: 7)),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: _gotoCart,
-              alignment: Alignment.centerRight,
-            ),
-          )
+          shoppingCartCount < 10
+              ? Badge(
+                  padding: EdgeInsets.all(5),
+                  animationType: BadgeAnimationType.scale,
+                  borderRadius: BorderRadius.circular(5),
+                  position: BadgePosition.topEnd(top: 7, end: 5),
+                  badgeContent: Text('${shoppingCartCount}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      )),
+                  child: IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: _gotoCart,
+                    alignment: Alignment.centerRight,
+                  ),
+                )
+              : Badge(
+                  padding: EdgeInsets.all(3.5),
+                  animationType: BadgeAnimationType.scale,
+                  borderRadius: BorderRadius.circular(3),
+                  position: BadgePosition.topEnd(top: 7, end: 5),
+                  badgeContent: Text('${shoppingCartCount}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
+                      )),
+                  child: IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: _gotoCart,
+                    alignment: Alignment.centerRight,
+                  ),
+                )
         ],
       ),
       body: Container(

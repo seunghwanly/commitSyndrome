@@ -20,13 +20,17 @@ class CategoryMenuState extends State<CategoryMenu> {
   final List<String> data = <String>['피자', '음료'];
   final String userid = 'UserCode-01';
   var currentState = 'pizza';
+  var tmp = 0;
   var fetchedData;
   var currentMenuList;
 
-  void toShoppingCart(BuildContext context) {
-    Navigator.push(
+  void toShoppingCart(BuildContext context) async {
+    final result = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
     //DBRef.child('menu').set(menudata);
+    if (result) {
+      setState(() {});
+    }
   }
 
   void addShoppingCart(dynamic menuItem) {
@@ -43,10 +47,16 @@ class CategoryMenuState extends State<CategoryMenu> {
           'size': '레귤러',
         }
       });
+      setState(() {
+        tmp += 1;
+      });
     } else if (currentState == 'beverage') {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
+      });
+      setState(() {
+        tmp += 1;
       });
     }
   }

@@ -23,6 +23,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   final List<String> data = <String>['피자', '파스타', '음료'];
   final DBRef = FirebaseDatabase.instance.reference();
   final String userid = 'UserCode-01';
+  var tmp = 0;
   int totalCost = 0;
   List<ShoppingCart> cartList = List<ShoppingCart>();
 
@@ -36,6 +37,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       Map<dynamic, dynamic> values = dataSnapshot.value;
       int sub_totalCost = 0;
       setState(() {
+        print('readData');
         cartList.clear();
       });
       values.forEach((key, value) {
@@ -121,6 +123,13 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   @override
   void initState() {
     super.initState();
+    readData();
+  }
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('didUpInshoppingCart');
     readData();
   }
 
@@ -579,7 +588,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                         color: Color.fromRGBO(255, 255, 255, 1.0)),
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
