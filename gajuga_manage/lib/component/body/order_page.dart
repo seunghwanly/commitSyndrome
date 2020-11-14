@@ -29,8 +29,6 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   Widget headerButtons() {
-    TextStyle _style = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
     return Container(
       margin: EdgeInsets.fromLTRB(40, 10, 40, 0),
       child: Row(
