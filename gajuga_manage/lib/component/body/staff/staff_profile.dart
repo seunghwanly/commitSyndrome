@@ -340,20 +340,39 @@ class _StaffProfileState extends State<StaffProfile> {
           ),
         ),
         Flexible(
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: BorderSide(color: Colors.grey[300]),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.grey[300]),
+                    ),
+                    hintText: '주소',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
                 ),
-                hintText: '주소',
-                isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.grey[300]),
+                    ),
+                    hintText: '상세주소',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -362,28 +381,49 @@ class _StaffProfileState extends State<StaffProfile> {
 
   Widget accountNumberField() {
     return Row(
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           '계좌번호',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.start,
         ),
         Flexible(
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: BorderSide(color: Colors.grey[300]),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.grey[300]),
+                    ),
+                    hintText: '은행',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
                 ),
-                hintText: '계좌번호',
-                isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.grey[300]),
+                    ),
+                    hintText: '계좌번호',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
