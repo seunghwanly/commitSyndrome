@@ -26,52 +26,58 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   var tmp = 0;
   int totalCost = 0;
   List<ShoppingCart> cartList = List<ShoppingCart>();
+  int itemCount = 0;
 
   void readData() {
-    Map<dynamic, dynamic> result;
+    if (itemCount == 1 || itemCount == 0) {
+      setState(() {});
+    }
+    // print('readData');
+    List<ShoppingCart> tmpcartList = List<ShoppingCart>();
     DBRef.child('user/userInfo/' + userid + '/shoppingCart')
         .orderByChild('cost')
         .once()
         .then((DataSnapshot dataSnapshot) {
-      result = dataSnapshot.value;
-      Map<dynamic, dynamic> values = dataSnapshot.value;
-      int sub_totalCost = 0;
-      setState(() {
-        print('readData');
-        cartList.clear();
-      });
-      values.forEach((key, value) {
-        ShoppingCart item;
+      if (dataSnapshot.value != null) {
+        Map<dynamic, dynamic> values = dataSnapshot.value;
+        int sub_totalCost = 0;
 
-        if (value['name'] == '사이다' || value['name'] == '콜라') {
-          item = new ShoppingCart(value['cost'], value["name"],
-              new Option(dough: '기본', size: '레귤러'));
-        } else {
-          item = new ShoppingCart(
-              value['cost'],
-              value["name"],
-              new Option(
-                  dough: value['option']['dough'],
-                  size: value['option']['size']));
-        }
-        sub_totalCost +=
-            item.cost + countAddCost(item.option.dough, item.option.size);
-        item.key = key;
-        setState(() {
-          cartList.add(item);
+        values.forEach((key, value) {
+          ShoppingCart item;
+
+          if (value['name'] == '사이다' || value['name'] == '콜라') {
+            item = new ShoppingCart(value['cost'], value["name"],
+                new Option(dough: '기본', size: '레귤러'));
+          } else {
+            item = new ShoppingCart(
+                value['cost'],
+                value["name"],
+                new Option(
+                    dough: value['option']['dough'],
+                    size: value['option']['size']));
+          }
+          sub_totalCost +=
+              item.cost + countAddCost(item.option.dough, item.option.size);
+          item.key = key;
+          tmpcartList.add(item);
+
+          //print("key:" + key + " value:" + value["cost"].toString());
         });
-        //print("key:" + key + " value:" + value["cost"].toString());
-      });
-      setState(() {
-        totalCost = sub_totalCost;
-        cartList = cartList.reversed.toList();
-      });
+
+        setState(() {
+          itemCount = tmpcartList.length;
+          cartList = tmpcartList;
+          totalCost = sub_totalCost;
+          cartList = cartList.reversed.toList();
+        });
+      }
     });
   }
 
   void deleteCurrentItem(String key) {
     DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
     readData();
+    setState(() {});
   }
 
   int countAddCost(String dough, String size) {
@@ -133,9 +139,15 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     readData();
   }
 
+  void _trash() {
+    // if (headerState.shoppingCartCount == 1 ||
+    //     headerState.shoppingCartCount == 0) {
+    //   headerState.setState(() {});
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _trash() {}
     return CustomHeader(
       body:
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -160,8 +172,10 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // cartList == null
+                      //     ? Text('장바구니가 비어있네요 !')
                       ListView.builder(
-                        itemCount: cartList.length,
+                        itemCount: cartList == null ? 0 : cartList.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
                           // var menus =
@@ -618,6 +632,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
+                                settings: RouteSettings(),
                                 builder: (context) => ApprovalOrder()));
                       },
                       child: Column(

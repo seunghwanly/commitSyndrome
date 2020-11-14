@@ -7,7 +7,21 @@ import './util/palette.dart';
 
 void main() => runApp(MainScreen());
 
-class MainScreen extends StatelessWidget {
+MainScreenState parentState = new MainScreenState();
+
+class MainScreen extends StatefulWidget {
+  @override
+  MainScreenState createState() => parentState;
+}
+
+class MainScreenState extends State<MainScreen> {
+  int resetflag = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OptionList>(

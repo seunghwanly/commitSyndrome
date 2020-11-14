@@ -61,16 +61,16 @@ class TotalMenuState extends State<TotalMenu> {
         }
       });
 
-      setState(() {
-        tmp += 1;
+      parentState.setState(() {
+        //parentState.resetflag += 1;
       });
     } else if (currentState == 'beverage') {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
       });
-      setState(() {
-        tmp += 1;
+      parentState.setState(() {
+        //parentState.resetflag += 1;
       });
     }
   }
@@ -110,10 +110,10 @@ class TotalMenuState extends State<TotalMenu> {
     //getCurrentList();
   }
 
-  @override
-  void didUpdateWidget(Widget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
+  // @override
+  // void didUpdateWidget(Widget oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   @override
   Widget build(BuildContext context) {

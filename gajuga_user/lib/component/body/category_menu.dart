@@ -302,7 +302,9 @@ class CategoryMenuState extends State<CategoryMenu> {
                                 // itemCount: currentMenuList.length == null
                                 //     ? 0
                                 //     : currentMenuList.length,
-                                itemCount: currentMenuList.length,
+                                itemCount: currentMenuList == null
+                                    ? 0
+                                    : currentMenuList.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   // var menus = new Map<String, dynamic>.from(

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/order_history.dart';
 import 'package:gajuga_user/main.dart';
@@ -11,6 +10,8 @@ import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import 'package:gajuga_user/main.dart';
+
+//_CustomHeaderState headerState = new _CustomHeaderState();
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -25,19 +26,37 @@ class _CustomHeaderState extends State<CustomHeader> {
   final DBRef = FirebaseDatabase.instance.reference();
   final String userid = 'UserCode-01';
 
-  StreamSubscription<Event> _messageStream;
-  int shoppingCartCount = 3;
+  int shoppingCartCount = 0;
 
   void readData() {
+    if (shoppingCartCount == 1 || shoppingCartCount == 0) {
+      setState(() {});
+    }
+    bool changeDataflag = false;
     DBRef.child('user/userInfo/' + userid + '/shoppingCart')
         .orderByChild('cost')
         .once()
         .then((DataSnapshot dataSnapshot) {
-      Map<dynamic, dynamic> values = dataSnapshot.value;
-      setState(() {
-        shoppingCartCount = values.length;
-      });
+      //print('뭐라뜰까 : ' + dataSnapshot.value.toString());
+      if (dataSnapshot.value == null) {
+        setState(() {
+          shoppingCartCount = 0;
+        });
+      } else {
+        changeDataflag = true;
+        Map<dynamic, dynamic> values = dataSnapshot.value;
+        setState(() {
+          shoppingCartCount = values.length;
+        });
+      }
+      // if (changeDataflag == false) {
+      //   setState(() {
+      //     shoppingCartCount = 0;
+      //   });
+      // }
     });
+
+    // print('count : ' + shoppingCartCount.toString());
   }
 
   void startListener() {
