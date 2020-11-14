@@ -14,6 +14,9 @@ class MainScreen extends StatelessWidget {
         create: (_) => OptionList(),
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
+            routes: {
+              '/main': (context) => MainScreen(),
+            },
             title: "GAJUGA.",
             theme:
                 ThemeData(primaryColor: pale, canvasColor: Colors.transparent),

@@ -10,6 +10,7 @@ import 'package:badges/badges.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
+import 'package:gajuga_user/main.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -40,23 +41,23 @@ class _CustomHeaderState extends State<CustomHeader> {
   }
 
   void startListener() {
-    FirebaseDatabase.instance
-        .reference()
-        .child('user/userInfo/' + userid + '/shoppingCart')
-        .onChildAdded
-        .listen((event) {
-      print('1개 추가됨 ! ');
-      // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-      //     .orderByChild('cost')
-      //     .once()
-      //     .then((DataSnapshot dataSnapshot) {
-      //   Map<dynamic, dynamic> values = dataSnapshot.value;
-      //   setState(() {
-      //     shoppingCartCount = values.length;
-      //   });
-      // });
-      // process event
-    });
+    // FirebaseDatabase.instance
+    //     .reference()
+    //     .child('user/userInfo/' + userid + '/shoppingCart')
+    //     .o
+    //     .listen((event) {
+    //   print('1개 추가됨 ! ');
+    //   // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+    //   //     .orderByChild('cost')
+    //   //     .once()
+    //   //     .then((DataSnapshot dataSnapshot) {
+    //   //   Map<dynamic, dynamic> values = dataSnapshot.value;
+    //   //   setState(() {
+    //   //     shoppingCartCount = values.length;
+    //   //   });
+    //   // });
+    //   // process event
+    // });
   }
 
   @override
@@ -75,30 +76,30 @@ class _CustomHeaderState extends State<CustomHeader> {
   @override
   void initState() {
     super.initState();
-    _messageStream = FirebaseDatabase.instance
-        .reference()
-        .child('user/userInfo/' + userid + '/shoppingCart')
-        .onChildAdded
-        .listen((event) {
-      print('1개 추가됨 ! ');
-      // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-      //     .orderByChild('cost')
-      //     .once()
-      //     .then((DataSnapshot dataSnapshot) {
-      //   Map<dynamic, dynamic> values = dataSnapshot.value;
-      //   setState(() {
-      //     shoppingCartCount = values.length;
-      //   });
-      // });
-      // process event
-    });
+    // _messageStream = FirebaseDatabase.instance
+    //     .reference()
+    //     .child('user/userInfo/' + userid + '/shoppingCart')
+    //     .onChildAdded
+    //     .listen((event) {
+    //   print('1개 추가됨 ! ');
+    //   // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+    //   //     .orderByChild('cost')
+    //   //     .once()
+    //   //     .then((DataSnapshot dataSnapshot) {
+    //   //   Map<dynamic, dynamic> values = dataSnapshot.value;
+    //   //   setState(() {
+    //   //     shoppingCartCount = values.length;
+    //   //   });
+    //   // });
+    //   // process event
+    // });
 
     readData();
   }
 
   @override
   void dispose() {
-    _messageStream.cancel();
+    //_messageStream.cancel();
     super.dispose();
   }
 
@@ -107,6 +108,15 @@ class _CustomHeaderState extends State<CustomHeader> {
     //startListener();
     void _openDrawer() {}
 
+    void _resetAndOpenPage(BuildContext context) {
+      // Navigator.popUntil(context, (route) => false)
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+        ModalRoute.withName('/main'),
+      );
+    }
+
     void _gotoCart() {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
@@ -114,10 +124,19 @@ class _CustomHeaderState extends State<CustomHeader> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'GAJUGA.',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: GestureDetector(
+            onTap: () {
+              _resetAndOpenPage(context);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'GAJUGA.',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            )),
         elevation: 0,
         centerTitle: true,
         actions: [

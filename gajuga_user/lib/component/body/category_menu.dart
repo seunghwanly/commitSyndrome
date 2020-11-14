@@ -142,8 +142,14 @@ class CategoryMenuState extends State<CategoryMenu> {
 
   @override
   void initState() {
-    super.initState();
     readData();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    //readData();
   }
 
   @override
