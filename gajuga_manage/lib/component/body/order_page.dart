@@ -18,11 +18,13 @@ class _OrderPageState extends State<OrderPage> {
     return Expanded(
       child: Container(
         color: darkgrey,
-        child: Column(
-          children: [
-            headerButtons(),
-            OrderList(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              headerButtons(),
+              OrderList(),
+            ],
+          ),
         ),
       ),
     );

@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'dart:ui';
 
+class OrderMenu {
+  String orderNumber;
+  String name;
+  String additional;
+  int quantity;
+
+  OrderMenu({this.orderNumber, this.name, this.additional = '없음', this.quantity = 1});
+}
+
 class OrderList extends StatefulWidget {
   @override
   _OrderListState createState() => _OrderListState();
@@ -9,25 +18,41 @@ class OrderList extends StatefulWidget {
 
 class _OrderListState extends State<OrderList> {
   TextStyle _orderInfoStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+  final List<OrderMenu> orderList = [
+    OrderMenu(orderNumber: 'A-847', name: '앤초비파스타'),
+    OrderMenu(orderNumber: 'A-848', name: '루꼴라피자', additional: '라지 Large / 17 inch'),
+    OrderMenu(orderNumber: 'A-849', name: '오일파스타'),
+    OrderMenu(orderNumber: 'A-850', name: '루꼴라피자', additional: '라지 Large / 17 inch'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(40),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-      ),
-      child: Row(
-        children: [
-          menuImage(),
-          orderInfoLabel(),
-          orderInfo(),
-          Spacer(),
-          timeInfo(),
-          Spacer(),
-          completedButton(),
-        ],
+      margin: EdgeInsets.fromLTRB(40, 25, 40, 40),
+      child: ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: orderList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                menuImage(),
+                orderInfoLabel(),
+                orderInfo(),
+                Spacer(),
+                timeInfo(),
+                Spacer(),
+                completedButton(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
