@@ -13,10 +13,8 @@ class _ChefPageState extends State<ChefPage> {
     return Expanded(
       child: Container(
         color: darkgrey,
-        child: Column(
-          children: [
-            OrderList(),
-          ],
+        child: SingleChildScrollView(
+          child: OrderList(orderStatus: 0),
         ),
       ),
     );

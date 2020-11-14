@@ -23,7 +23,7 @@ class _OrderPageState extends State<OrderPage> {
           child: Column(
             children: [
               headerButtons(),
-              OrderList(),
+              unhandledOrders ? OrderList(orderStatus: 1) : OrderList(orderStatus: 2),
             ],
           ),
         ),

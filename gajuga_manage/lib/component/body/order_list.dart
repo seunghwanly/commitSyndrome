@@ -7,11 +7,16 @@ class OrderMenu {
   String name;
   String additional;
   int quantity;
+  int status; // 0: 미처리, 1: 주문승인(조리중), 2: 준비완료
 
-  OrderMenu({this.orderNumber, this.name, this.additional = '없음', this.quantity = 1});
+  OrderMenu({this.orderNumber, this.name, this.additional = '없음', this.quantity = 1, this.status = 0});
 }
 
 class OrderList extends StatefulWidget {
+  final int orderStatus;
+
+  const OrderList({Key key, this.orderStatus}): super(key: key);
+
   @override
   _OrderListState createState() => _OrderListState();
 }
@@ -23,6 +28,15 @@ class _OrderListState extends State<OrderList> {
     OrderMenu(orderNumber: 'A-848', name: '루꼴라피자', additional: '라지 Large / 17 inch'),
     OrderMenu(orderNumber: 'A-849', name: '오일파스타'),
     OrderMenu(orderNumber: 'A-850', name: '루꼴라피자', additional: '라지 Large / 17 inch'),
+    // =====================================================
+    OrderMenu(orderNumber: 'A-851', name: '앤초비파스타', status: 1),
+    OrderMenu(orderNumber: 'A-852', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 1),
+    OrderMenu(orderNumber: 'A-853', name: '오일파스타', status: 1),
+    OrderMenu(orderNumber: 'A-854', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 1),
+    OrderMenu(orderNumber: 'A-855', name: '앤초비파스타', status: 2),
+    OrderMenu(orderNumber: 'A-856', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 2),
+    OrderMenu(orderNumber: 'A-857', name: '오일파스타', status: 2),
+    OrderMenu(orderNumber: 'A-858', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 2),
   ];
 
   @override
@@ -40,17 +54,19 @@ class _OrderListState extends State<OrderList> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
             ),
-            child: Row(
-              children: [
-                menuImage(),
-                orderInfoLabel(),
-                orderInfo(),
-                Spacer(),
-                timeInfo(),
-                Spacer(),
-                completedButton(),
-              ],
-            ),
+            child: widget.orderStatus == orderList[index].status
+              ? Row(
+                  children: [
+                    menuImage(),
+                    orderInfoLabel(),
+                    orderInfo(orderList[index]),
+                    Spacer(),
+                    timeInfo(),
+                    Spacer(),
+                    completedButton(orderList[index].status),
+                  ],
+                )
+              : SizedBox.shrink(),
           );
         },
       ),
@@ -96,24 +112,24 @@ class _OrderListState extends State<OrderList> {
     );
   }
 
-  Widget orderInfo() {
+  Widget orderInfo(OrderMenu menu) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'A-847',
+          '${menu.orderNumber}',
           style: _orderInfoStyle,
         ),
         Text(
-          '앤초비파스타',
+          '${menu.name}',
           style: _orderInfoStyle,
         ),
         Text(
-          '없음',
+          '${menu.additional}',
           style: _orderInfoStyle,
         ),
         Text(
-          '1개',
+          '${menu.quantity}개',
           style: _orderInfoStyle,
         ),
       ],
@@ -145,25 +161,30 @@ class _OrderListState extends State<OrderList> {
     );
   }
 
-  Widget completedButton() {
-    return Container(
-      height: 140,
-      width: 140,
-      margin: EdgeInsets.fromLTRB(0, 20, 40, 20),
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: orange,
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        '조리\n완료',
-        style: TextStyle(
-          fontSize: 35,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+  Widget completedButton(int status) {
+    return InkWell(
+      onTap: () {
+        print('click');
+      },
+      child: Container(
+        height: 140,
+        width: 140,
+        margin: EdgeInsets.fromLTRB(0, 20, 40, 20),
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: orange,
         ),
-        textAlign: TextAlign.center,
+        alignment: Alignment.center,
+        child: Text(
+          status == 0 ? '주문\n승인' : status == 1 ? '조리\n완료' : '준비\n완료',
+          style: TextStyle(
+            fontSize: 35,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
