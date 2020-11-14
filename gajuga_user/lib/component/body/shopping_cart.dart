@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
@@ -10,7 +7,6 @@ import '../../util/palette.dart';
 import '../header/header.dart';
 import '../body/approval_order.dart';
 import '../../model/shoppingcart_model.dart';
-import '../../model/menu_model.dart';
 import '../../model/order_history_model.dart';
 import '../../util/to_locale.dart';
 
@@ -72,6 +68,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   void deleteCurrentItem(String key) {
     DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
     readData();
+    setState(() {});
   }
 
   int countAddCost(String dough, String size) {
@@ -160,8 +157,9 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Text('장바구니 비었습니다.'),
                       ListView.builder(
-                        itemCount: cartList.length,
+                        itemCount: cartList == null ? 0 : cartList.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
                           // var menus =

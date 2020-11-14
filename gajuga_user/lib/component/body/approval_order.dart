@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../body/shopping_cart.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
-import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';

@@ -11,6 +11,7 @@ import '../../util/palette.dart';
 import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
 import 'package:gajuga_user/main.dart';
+import '../header/header.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class TotalMenu extends StatefulWidget {
@@ -26,6 +27,7 @@ class TotalMenuState extends State<TotalMenu> {
   var currentState = 'pizza';
   var currentMenuList;
   var tmp = 0;
+  int shoppingCartCount = 0;
 
   List<String> mainList = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
   int randomIndex = new Random().nextInt(3);
@@ -46,6 +48,30 @@ class TotalMenuState extends State<TotalMenu> {
     });
   }
 
+  void getShoppingCartCount() {
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+        .orderByChild('cost')
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      if (dataSnapshot.value != null) {
+        print(dataSnapshot.value.length);
+        // ppState.setState(() {
+        //   ppState.shoppingCartCount = dataSnapshot.value.length;
+        // });
+        //print('이거 안나옴 ? ' + dataSnapshot.value.length.toString());
+        Map<dynamic, dynamic> values = dataSnapshot.value;
+        // setState(() {
+        //   shoppingCartCount = values.length;
+        // });
+      }
+      // else {
+      //   setState(() {
+      //     shoppingCartCount = 0;
+      //   });
+      // }
+    });
+  }
+
   void addShoppingCart(dynamic menuItem) {
     // print('이름' + menuItem['name']);
     String push =
@@ -60,19 +86,17 @@ class TotalMenuState extends State<TotalMenu> {
           'size': '레귤러',
         }
       });
-
-      setState(() {
-        tmp += 1;
-      });
     } else if (currentState == 'beverage') {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
       });
-      setState(() {
-        tmp += 1;
-      });
     }
+    getShoppingCartCount();
+    print('머라나오노 : ' + shoppingCartCount.toString());
+    // ppState.setState(() {
+    //   ppState.shoppingCartCount = getShoppingCartCount();
+    // });
   }
 
   void addMenuItem(Menu menu) {

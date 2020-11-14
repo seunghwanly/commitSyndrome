@@ -3,6 +3,7 @@ import 'package:gajuga_user/model/selected_option_model.dart';
 import 'package:provider/provider.dart';
 import 'component/header/header.dart';
 import 'component/body/main_menu.dart';
+import 'component/body/shopping_cart.dart';
 import './util/palette.dart';
 
 void main() => runApp(MainScreen());
@@ -16,12 +17,13 @@ class MainScreen extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             routes: {
               '/main': (context) => MainScreen(),
+              '/shoppingCart': (context) => ShoppingCartRoute(),
             },
             title: "GAJUGA.",
             theme:
                 ThemeData(primaryColor: pale, canvasColor: Colors.transparent),
             themeMode: ThemeMode.light,
-            home: CustomHeader(
+            home: new CustomHeader(
               body: mainBody(),
             )));
   }

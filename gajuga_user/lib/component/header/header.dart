@@ -10,7 +10,6 @@ import 'package:badges/badges.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
-import 'package:gajuga_user/main.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -67,11 +66,11 @@ class _CustomHeaderState extends State<CustomHeader> {
     readData();
   }
 
-  @override
-  void didChangeDependencies() {
-    print('didChange');
-    readData();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   print('didChange');
+  //   readData();
+  // }
 
   @override
   void initState() {
@@ -120,7 +119,28 @@ class _CustomHeaderState extends State<CustomHeader> {
     void _gotoCart() {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
+
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (BuildContext context) => ShoppingCartRoute()),
+      //   ModalRoute.withName('/shoppingCart'),
+      // );
     }
+    //    void _gotoCart() async{
+    //   // Navigator.push(context,
+    //   //     MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
+
+    //  final result = await Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (BuildContext context) => ShoppingCartRoute()),
+    //     ModalRoute.withName('/main'),
+    //   );
+    //      if (result) {
+    //   setState(() {});
+    // }
+    // }
 
     return Scaffold(
       appBar: AppBar(
