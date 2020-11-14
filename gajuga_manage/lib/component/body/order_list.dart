@@ -48,26 +48,26 @@ class _OrderListState extends State<OrderList> {
         shrinkWrap: true,
         itemCount: orderList.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: widget.orderStatus == orderList[index].status
-              ? Row(
-                  children: [
-                    menuImage(),
-                    orderInfoLabel(),
-                    orderInfo(orderList[index]),
-                    Spacer(),
-                    timeInfo(),
-                    Spacer(),
-                    completedButton(orderList[index].status),
-                  ],
-                )
-              : SizedBox.shrink(),
-          );
+          if (widget.orderStatus == orderList[index].status)
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Row(
+                children: [
+                  menuImage(),
+                  orderInfoLabel(),
+                  orderInfo(orderList[index]),
+                  Spacer(),
+                  timeInfo(),
+                  Spacer(),
+                  completedButton(orderList[index].status),
+                ],
+              ),
+            );
+          else return SizedBox.shrink();
         },
       ),
     );
