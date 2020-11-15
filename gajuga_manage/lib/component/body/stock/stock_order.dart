@@ -165,7 +165,7 @@ class OrderStockState extends State<OrderStock> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         10)),
-                                                        labelText: "갯수",
+                                                        labelText: "개수",
                                                         labelStyle: TextStyle(
                                                             color: lightgrey,
                                                             fontSize: 14.0,

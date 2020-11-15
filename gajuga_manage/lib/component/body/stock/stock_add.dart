@@ -67,7 +67,7 @@ class AddStockState extends State<AddStock> {
                               child: Row(
                                 children: [
                                   Text(
-                                    "갯 수",
+                                    "개 수",
                                     style: TextStyle(
                                         color: white,
                                         fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class AddStockState extends State<AddStock> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         10)),
-                                                        labelText: "갯수 입력",
+                                                        labelText: "개수 입력",
                                                         labelStyle: TextStyle(
                                                             color: lightgrey,
                                                             fontSize: 14.0,
