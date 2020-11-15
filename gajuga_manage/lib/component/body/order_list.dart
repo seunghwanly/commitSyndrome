@@ -42,7 +42,7 @@ class _OrderListState extends State<OrderList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(40, 25, 40, 40),
+      margin: EdgeInsets.fromLTRB(40, 0, 40, 40),
       child: ListView.builder(
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
