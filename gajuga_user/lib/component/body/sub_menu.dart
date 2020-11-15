@@ -55,7 +55,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     "cost": 0,
     'count': 0,
     "name": null,
-    "option": {"size": "regualr", "dough": "standard"}
+    "option": {"size": "regualr", "dough": "standard"},
+    'eng_name': null,
   };
 
   void handleCount(bool isAdded) {
@@ -298,7 +299,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                         dataForPush['cost'],
                         count,
                         dataForPush['name'],
-                        Option(size: '라지', dough: '치즈'));
+                        Option(size: '라지', dough: '치즈'),
+                        dataForPush['eng_name']);
 
                     addShoppingCart(menuitem);
                     //writeData();
