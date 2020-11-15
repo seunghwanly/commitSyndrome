@@ -28,8 +28,10 @@ class MainScreen extends StatelessWidget {
         canvasColor: Colors.transparent,
       ),
       themeMode: ThemeMode.light,
-      home: CustomHeader(
-        body: mainBody(),
+      home: Scaffold(
+        body: CustomHeader(
+          body: mainBody(),
+        ),
       ),
     );
   }

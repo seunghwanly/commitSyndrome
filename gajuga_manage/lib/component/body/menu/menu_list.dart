@@ -17,6 +17,10 @@ class _MenuListState extends State<MenuList> {
   File _profileImage;
   final picker = ImagePicker();
 
+  void _menuUpdated() {
+    Scaffold.of(context).showSnackBar(SnackBar(content: new Text("메뉴 수정이 완료되었습니다.")));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -221,6 +225,7 @@ class _MenuListState extends State<MenuList> {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
+                        _menuUpdated();
                       },
                       child: Container(
                         alignment: Alignment.center,

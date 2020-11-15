@@ -18,6 +18,10 @@ class _StaffProfileState extends State<StaffProfile> {
   File _profileImage;
   final picker = ImagePicker();
 
+  void _profileUpdated() {
+    Scaffold.of(context).showSnackBar(SnackBar(content: new Text("직원 프로필 수정이 완료되었습니다.")));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -191,6 +195,7 @@ class _StaffProfileState extends State<StaffProfile> {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
+                        _profileUpdated();
                       },
                       child: Container(
                         alignment: Alignment.center,

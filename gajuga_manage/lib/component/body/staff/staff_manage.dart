@@ -14,23 +14,21 @@ class StaffManage extends StatefulWidget {
 class _StaffManageState extends State<StaffManage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.only(top: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                StaffSearch(),
-                SizedBox(height: 40),
-                StaffList(),
-              ],
-            ),
-            Activity(),
-          ],
-        ),
+    return Container(
+      padding: EdgeInsets.only(top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              StaffSearch(),
+              SizedBox(height: 40),
+              StaffList(),
+            ],
+          ),
+          Activity(),
+        ],
       ),
     );
   }
