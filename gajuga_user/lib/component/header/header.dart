@@ -189,11 +189,10 @@ class _CustomHeaderState extends State<CustomHeader> {
                           style: TextStyle(color: lightgrey, fontSize: 12)),
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
+                      //메인으로 이동 기능 변경
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainScreen()));
+                        Navigator.popUntil(context,
+                            ModalRoute.withName(Navigator.defaultRouteName));
                       },
                     ),
                     ListTile(

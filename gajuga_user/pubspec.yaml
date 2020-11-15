@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -23,13 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.5.2  # add dependency for Firebase Core
-  firebase_analytics: ^1.0.4  # add dependency for Google Analytics for Firebase
+  firebase_core: ^0.5.2 # add dependency for Firebase Core
+  firebase_analytics: ^1.0.4 # add dependency for Google Analytics for Firebase
   firebase_database: ^4.3.0
-  firebase_auth : "^ 0.18.3" 
-  firebase_storage : "^ 5.0.1" 
+  firebase_auth: "^ 0.18.3"
+  firebase_storage: "^ 5.0.1"
   badges: ^1.1.4
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -37,8 +36,8 @@ dependencies:
   intl: "^0.16.1"
   fdottedline: ^1.0.1
   loading_animations: "^2.1.0"
-  provider: ^3.0.0+1  # Provider 패턴 사용
-  iamport_flutter: ^0.9.13  # 결제모듈
+  provider: ^3.0.0+1 # Provider 패턴 사용
+  iamport_flutter: ^0.9.13 # 결제모듈
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +48,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
