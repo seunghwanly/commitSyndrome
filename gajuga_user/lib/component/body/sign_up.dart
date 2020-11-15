@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import '../header/header.dart';
-import '../body/login.dart';
 import 'package:gajuga_user/util/palette.dart';
+import 'package:gajuga_user/model/firebase_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:gajuga_user/util/palette.dart';
+import '../body/login.dart';
 
 class SignUpWidget extends StatelessWidget {
+  SignUpWidget({Key key}) : super(key: key);
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordCkController = TextEditingController();
+  final _phoneController = TextEditingController();
+  FirebaseAuthService _auth;
+
   @override
   Widget build(BuildContext context) {
-    String userName;
-    String password;
-    String passwordCheck;
-    String phone;
     String authNum;
-
+    _auth = Provider.of<FirebaseAuthService>(context);
     return CustomHeader(
         body: GestureDetector(
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
             child: SingleChildScrollView(
-              //physics: NeverScrollableScrollPhysics(),
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.85,
                 alignment: Alignment.center,
@@ -36,19 +41,20 @@ class SignUpWidget extends StatelessWidget {
                       ),
                       Row(children: <Widget>[
                         Flexible(
-                          child: TextField(
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(10.0),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0))),
-                                  hintText: '아이디 입력'),
-                              onChanged: (String str) {
-                                userName = str;
-                              }),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10.0),
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                hintText: '이메일 입력'),
+                            controller: _emailController,
+                            onSaved: (value) =>
+                                _emailController.text = value.trim(),
+                          ),
                         ),
                         SizedBox(
                           width: 20.0,
@@ -76,7 +82,7 @@ class SignUpWidget extends StatelessWidget {
                                     fontSize: 18.0,
                                   )),
                               onPressed: () {
-                                showIdConfirm(context, userName);
+                                showIdConfirm(context, _emailController.text);
                               }),
                         )
                       ]),
@@ -90,37 +96,49 @@ class SignUpWidget extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                      TextField(
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(10.0),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
-                              hintText: '비밀번호 입력'),
-                          onChanged: (String str) {
-                            password = str;
-                          }),
-                      TextField(
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(15.0),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
-                              hintText: '비밀번호 입력'),
-                          onChanged: (String str) {
-                            passwordCheck = str;
-                          }),
+                      TextFormField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10.0),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            hintText: '비밀번호 입력'),
+                        controller: _passwordController,
+                        onSaved: (value) =>
+                            _passwordController.text = value.trim(),
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(15.0),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            hintText: '비밀번호 확인'),
+                        controller: _passwordCkController,
+                        onSaved: (value) =>
+                            _passwordCkController.text = value.trim(),
+                      ),
+                      Text(
+                        " 6자리 이상의 문자를 입력하세요.",
+                        style: TextStyle(
+                          color: orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                       SizedBox(
                         height: 5.0,
                       ),
                       Text(
-                        "휴대폰 인증",
+                        "휴대폰 입력",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -128,19 +146,20 @@ class SignUpWidget extends StatelessWidget {
                       ),
                       Row(children: <Widget>[
                         Flexible(
-                          child: TextField(
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(10.0),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0))),
-                                  hintText: '휴대폰 번호 입력'),
-                              onChanged: (String str) {
-                                phone = str;
-                              }),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10.0),
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                hintText: '휴대폰 번호 입력'),
+                            controller: _phoneController,
+                            onSaved: (value) =>
+                                _phoneController.text = value.trim(),
+                          ),
                         ),
                         SizedBox(
                           width: 20.0,
@@ -161,32 +180,25 @@ class SignUpWidget extends StatelessWidget {
                           child: FlatButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
-                              child: Text('인증',
+                              child: Text('확인',
                                   style: TextStyle(
                                     color: white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18.0,
                                   )),
                               onPressed: () {
-                                showPhoneConfirm(context, phone);
+                                showPhoneConfirm(
+                                    context, _phoneController.text);
                               }),
                         )
                       ]),
-                      Container(
-                        padding: EdgeInsets.only(right: 110.0),
-                        child: TextField(
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10.0),
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                hintText: '인증 번호 입력'),
-                            onChanged: (String str) {
-                              authNum = str;
-                            }),
+                      Text(
+                        " - 을 빼고 입력하세요.",
+                        style: TextStyle(
+                          color: orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                       ),
                       SizedBox(
                         height: 8.0,
@@ -208,8 +220,17 @@ class SignUpWidget extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           color: orange,
-                          onPressed: () {
-                            showSignUpSuccess(context);
+                          onPressed: () async {
+                            int ckError = 0;
+                            if (_passwordController.text !=
+                                _passwordCkController.text) {
+                              ckError = 3;
+                              showSignUpFail(
+                                  context, ckError); //비밀번호와 비밀번호 확인이 다름
+                            }
+                            if (ckError != 3) {
+                              _signUp(context);
+                            }
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -228,167 +249,355 @@ class SignUpWidget extends StatelessWidget {
               ),
             )));
   }
+
+  void _signUp(BuildContext context) async {
+    int result = await _auth.signUpWithEmail(
+        _emailController.text, _passwordController.text);
+    if (result == 0) {
+      showSignUpSuccess(context);
+    } else {
+      showSignUpFail(context, result);
+    }
+  }
 }
 
 void showIdConfirm(BuildContext context, String id) {
+  bool ckEmail = false;
+  if (id.isEmpty) {
+    ckEmail = false;
+  }
+  Pattern pattern = r'^\w+@[a-zA-Z]+?\.[a-zA-Z]{2,3}$';
+  RegExp exp = RegExp(pattern);
+
+  if (exp.hasMatch(id)) {
+    ckEmail = true;
+  } else {
+    ckEmail = false;
+  }
+
   showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          title: new Center(
-            child: Container(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Text(
-                "GAJUGA 알림",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+        if (ckEmail == true) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),
-          ),
-          content: new SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(top: 40.0),
-                    child: Column(children: <Widget>[
-                      Text(
-                        id,
-                        style: TextStyle(
-                          color: Color.fromRGBO(119, 119, 119, 1.0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          id,
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "는 사용가능한 아이디 입니다.",
-                        style: TextStyle(
-                          color: Color.fromRGBO(119, 119, 119, 1.0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                        Text(
+                          "이메일 형식이 맞습니다.",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
-                    decoration: BoxDecoration(
-                      color: orange,
-                      borderRadius: BorderRadius.circular(25.0),
-                      boxShadow: ([
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.16),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                        )
                       ]),
                     ),
-                    child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Text('사용하기',
-                            style: TextStyle(
-                              color: white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            )),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Text('사용하기',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        } else {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                ]),
-          ),
-        );
+                ),
+              ),
+            ),
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          id,
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "이메일 형식이 올바르지 않습니다.",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Text('다시입력',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        }
       });
 }
 
 void showPhoneConfirm(BuildContext context, String phone) {
+  bool ckPhone = false;
+  if (phone.isEmpty) {
+    ckPhone = false;
+  }
+
+  Pattern pattern = r'^\d{3}\d{3,4}\d{4}$';
+  RegExp exp = RegExp(pattern);
+
+  if (exp.hasMatch(phone)) {
+    ckPhone = true;
+  } else {
+    ckPhone = false;
+  }
   showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          title: new Center(
-            child: Container(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Text(
-                "GAJUGA 알림",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+        if (ckPhone == true) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),
-          ),
-          content: new SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(top: 40.0),
-                    child: Column(children: <Widget>[
-                      Text(
-                        phone,
-                        style: TextStyle(
-                          color: Color.fromRGBO(119, 119, 119, 1.0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          phone,
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "로 인증번호가 전송되었습니다.",
-                        style: TextStyle(
-                          color: Color.fromRGBO(119, 119, 119, 1.0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                        Text(
+                          "번호가 올바르게 입력되었습니다.",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
-                    decoration: BoxDecoration(
-                      color: orange,
-                      borderRadius: BorderRadius.circular(25.0),
-                      boxShadow: ([
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.16),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                        )
                       ]),
                     ),
-                    child: FlatButton(
-                        child: Text('확인',
-                            style: TextStyle(
-                              color: white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            )),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          child: Text('확인',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        } else {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                ]),
-          ),
-        );
+                ),
+              ),
+            ),
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          phone,
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "번호가 올바르지 않습니다.",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          child: Text('다시입력',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        }
       });
 }
 
@@ -422,7 +631,7 @@ void showSignUpSuccess(BuildContext context) {
                     padding: EdgeInsets.only(top: 40.0),
                     child: Column(children: <Widget>[
                       Text(
-                        "회원가입이",
+                        "환영합니다!",
                         style: TextStyle(
                           color: Color.fromRGBO(119, 119, 119, 1.0),
                           fontWeight: FontWeight.bold,
@@ -430,7 +639,7 @@ void showSignUpSuccess(BuildContext context) {
                         ),
                       ),
                       Text(
-                        "성공적으로 되었습니다.",
+                        "이메일 인증 후 사용하세요.",
                         style: TextStyle(
                           color: Color.fromRGBO(119, 119, 119, 1.0),
                           fontWeight: FontWeight.bold,
@@ -463,6 +672,7 @@ void showSignUpSuccess(BuildContext context) {
                               fontSize: 16.0,
                             )),
                         onPressed: () {
+                          Navigator.pop(context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -472,5 +682,239 @@ void showSignUpSuccess(BuildContext context) {
                 ]),
           ),
         );
+      });
+}
+
+void showSignUpFail(BuildContext context, int error) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        //중복된 이메일 존재 오류
+        if (error == 1) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          "중복된 이메일이",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "존재합니다!",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          child: Text('확인',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        }
+        //비밀번호 보안이 약함 오류
+        if (error == 2) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          "비밀번호가",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "너무 약합니다!",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          child: Text('확인',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        }
+
+//비밀번호 일치 확인 오류
+        if (error == 3) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: new Center(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "GAJUGA 알림",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            content: new SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0),
+                      child: Column(children: <Widget>[
+                        Text(
+                          "입력한 비밀번호와",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "다시 입력한 비밀번호가 다릅니다!",
+                          style: TextStyle(
+                            color: Color.fromRGBO(119, 119, 119, 1.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 0.0),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: ([
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          )
+                        ]),
+                      ),
+                      child: FlatButton(
+                          child: Text('확인',
+                              style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  ]),
+            ),
+          );
+        }
       });
 }
