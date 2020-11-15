@@ -95,7 +95,7 @@ class _CustomHeaderState extends State<CustomHeader> {
               stream: _shoppingCartRef.onValue,
               builder: (context, AsyncSnapshot<Event> snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data.snapshot.value.length.toString(),
+                  return Text(snapshot.data.snapshot.value != null ? snapshot.data.snapshot.value.length.toString() : '0',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
