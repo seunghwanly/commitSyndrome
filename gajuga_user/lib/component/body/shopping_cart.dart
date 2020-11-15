@@ -36,12 +36,6 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         print('readData');
         cartList.clear();
       });
-      if (values == null) {
-        setState(() {
-          totalCost = sub_totalCost;
-          //cartList = cartList.reversed.toList();
-        });
-      }
       values.forEach((key, value) {
         ShoppingCart item;
 
@@ -168,6 +162,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      //Text('장바구니 비었습니다.'),
                       ListView.builder(
                         itemCount: cartList == null ? 0 : cartList.length,
                         shrinkWrap: true,

@@ -41,12 +41,12 @@ class CategoryMenuState extends State<CategoryMenu> {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
-        'count': 1,
+        'count' : 1,
         'option': {
           'dough': '기본',
           'size': '레귤러',
         },
-        'eng_name': menuItem['eng_name'],
+        'eng_name' : menuItem['eng_name'],
       });
       setState(() {
         tmp += 1;
@@ -55,8 +55,9 @@ class CategoryMenuState extends State<CategoryMenu> {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
-        'count': 1,
-        'eng_name': menuItem['eng_name'],
+        'count' : 1,
+        'eng_name' : menuItem['eng_name'],
+         
       });
       setState(() {
         tmp += 1;
@@ -94,10 +95,12 @@ class CategoryMenuState extends State<CategoryMenu> {
     });
   }
 
+
+
   @override
   void initState() {
-    super.initState();
     readData();
+    super.initState();
   }
 
   @override
@@ -256,9 +259,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                                 // itemCount: currentMenuList.length == null
                                 //     ? 0
                                 //     : currentMenuList.length,
-                                itemCount: currentMenuList.length == null
-                                    ? 0
-                                    : currentMenuList.length,
+                                itemCount: currentMenuList.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   // var menus = new Map<String, dynamic>.from(
@@ -345,7 +346,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment:
+                                            mainAxisAlignment:  
                                                 MainAxisAlignment.end,
                                             children: [
                                               Container(
