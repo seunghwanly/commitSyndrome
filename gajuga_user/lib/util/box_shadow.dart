@@ -88,16 +88,16 @@ Container customStrikeBoxContainer(
       // color: Colors.white,
     ),
     padding: needPadding
-        ? EdgeInsets.only(left: 5, right: 1, top: 0, bottom: 0)
+        ? EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5)
         : null,
-    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      c,
-      Divider(
-        indent: MediaQuery.of(context).size.width * (25 / 375),
-        endIndent: MediaQuery.of(context).size.width * (30 / 375),
-        thickness: 2,
-      ),
-    ]),
+    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            c,
+            Divider(
+              indent: MediaQuery.of(context).size.width * (20 / 375),
+              endIndent: MediaQuery.of(context).size.width * (20 / 375),
+              thickness: 2,
+            )
+          ]),
     margin: EdgeInsets.only(
         top: marginVertical,
         bottom: marginVertical,
