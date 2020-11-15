@@ -16,7 +16,7 @@ class _MenuListState extends State<MenuList> {
   OutlineInputBorder _formBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(40), borderSide: BorderSide(color: Colors.grey[300]));
   File _profileImage;
   final picker = ImagePicker();
-  
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -112,57 +112,55 @@ class _MenuListState extends State<MenuList> {
       ),
       margin: EdgeInsets.only(left: 40, bottom: 20),
       padding: EdgeInsets.symmetric(horizontal: 40),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            CircleAvatar(
-              backgroundImage: image,
-              radius: 35,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          CircleAvatar(
+            backgroundImage: image,
+            radius: 35,
+          ),
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            desc,
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            '${toLocaleString(cost)} 원',
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+          FlatButton(
+            color: orange,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              desc,
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              '${toLocaleString(cost)} 원',
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
-            FlatButton(
-              color: orange,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              onPressed: () {
-                showProfileDialog(context);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "수정하기",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                  textAlign: TextAlign.center,
+            onPressed: () {
+              showMenuEditDialog(context);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                "수정하기",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Future showProfileDialog(BuildContext context) {
+  Future showMenuEditDialog(BuildContext context) {
     return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -214,7 +212,7 @@ class _MenuListState extends State<MenuList> {
                     SizedBox(height: 20),
                     nameField(),
                     priceField(),
-                    addressField(),
+                    extraField(),
                     SizedBox(height: 10),
                     FlatButton(
                       color: orange,
@@ -356,7 +354,7 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Widget addressField() {
+  Widget extraField() {
     return Row(
       children: [
         Text(
