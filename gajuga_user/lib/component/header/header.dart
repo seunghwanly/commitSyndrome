@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/order_history.dart';
 import 'package:gajuga_user/main.dart';
@@ -24,49 +22,38 @@ class CustomHeader extends StatefulWidget {
 }
 
 class _CustomHeaderState extends State<CustomHeader> {
-  final DBRef = FirebaseDatabase.instance.reference();
-  final String userid = 'UserCode-01';
-
-  StreamSubscription<Event> _messageStream;
-  int shoppingCartCount = 3;
-
-  void readData() {
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-        .orderByChild('cost')
-        .once()
-        .then((DataSnapshot dataSnapshot) {
-      Map<dynamic, dynamic> values = dataSnapshot.value;
-      setState(() {
-        shoppingCartCount = values.length;
-      });
-    });
-  }
-
-  @override
-  void didUpdateWidget(Widget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print('didUp');
-    readData();
-  }
+  //get current shoppingCart data from Database
+  DatabaseReference _shoppingCartRef = FirebaseDatabase.instance
+      .reference()
+      .child('user/userInfo/' + 'UserCode-01' + '/shoppingCart');
+  int _currentCount;
 
   @override
   void initState() {
     super.initState();
 
-    readData();
+    // init _currentCount
+    _shoppingCartRef.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        setState(() {
+          _currentCount = snapshot.value.length;
+        });
+      } else {
+        setState(() {
+          _currentCount = 0;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+    _shoppingCartRef.onDisconnect();
   }
 
   @override
   Widget build(BuildContext context) {
-    // get from provider
-    final stateProvider = Provider.of<StateProvider>(context);
-
-    void _openDrawer() {}
 
     void _resetAndOpenPage(BuildContext context) {
       Navigator.pushAndRemoveUntil(
@@ -99,55 +86,37 @@ class _CustomHeaderState extends State<CustomHeader> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          shoppingCartCount < 10
-              ? Badge(
-                  padding: EdgeInsets.all(5),
-                  animationType: BadgeAnimationType.scale,
-                  borderRadius: BorderRadius.circular(5),
-                  position: BadgePosition.topEnd(top: 7, end: 5),
-                  badgeContent: FutureBuilder(
-                    future: stateProvider.getShoppingCart(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData == false) {
-                        return Text('0',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                            ));
-                      } else {
-                        return Text(snapshot.data.length.toString(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                            ));
-                      }
-                    },
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.shopping_cart),
-                    onPressed: _gotoCart,
-                    alignment: Alignment.centerRight,
-                  ),
-                )
-              : Badge(
-                  padding: EdgeInsets.all(3.5),
-                  animationType: BadgeAnimationType.scale,
-                  borderRadius: BorderRadius.circular(3),
-                  position: BadgePosition.topEnd(top: 7, end: 5),
-                  badgeContent: Text(shoppingCartCount.toString(),
+          Badge(
+            padding: EdgeInsets.all(5),
+            animationType: BadgeAnimationType.scale,
+            borderRadius: BorderRadius.circular(5),
+            position: BadgePosition.topEnd(top: 7, end: 5),
+            badgeContent: StreamBuilder(
+              stream: _shoppingCartRef.onValue,
+              builder: (context, AsyncSnapshot<Event> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data.snapshot.value.length.toString(),
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 9,
+                        fontSize: 12,
                         fontWeight: FontWeight.w700,
-                      )),
-                  child: IconButton(
-                    icon: Icon(Icons.shopping_cart),
-                    onPressed: _gotoCart,
-                    alignment: Alignment.centerRight,
-                  ),
-                )
+                      ));
+                } else {
+                  return Text(_currentCount.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ));
+                }
+              },
+            ),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: _gotoCart,
+              alignment: Alignment.centerRight,
+            ),
+          )
         ],
       ),
       body: Container(

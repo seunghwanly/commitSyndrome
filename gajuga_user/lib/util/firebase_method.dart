@@ -1,7 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gajuga_user/model/shoppingcart_model.dart';
-import 'dart:convert';
 
 class FirebaseMethod {
   final dbRef = FirebaseDatabase.instance.reference();
@@ -10,12 +8,14 @@ class FirebaseMethod {
   Future<dynamic> getShoppingCart() async {
     try {
       var fetchedData;
+      var listenedData;
+
       await dbRef
           .child('user/userInfo/' + 'UserCode-01' + '/shoppingCart')
           .once()
-          .then((DataSnapshot dataSnapshot) { 
-            fetchedData = dataSnapshot.value;
-           });
+          .then((DataSnapshot dataSnapshot) {
+        fetchedData = dataSnapshot.value;
+      });
 
       if (fetchedData != null) return fetchedData;
       return null;

@@ -34,8 +34,4 @@ class StateProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //----------------------------------------------------------------------- SHOPPING CART
-   
-  getShoppingCart() => FirebaseMethod().getShoppingCart();
-
 }
