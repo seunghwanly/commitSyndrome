@@ -24,8 +24,7 @@ class CategoryMenuState extends State<CategoryMenu> {
   var currentMenuList;
 
   void toShoppingCart(BuildContext context) async {
-    final result = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
+    final result = await Navigator.pushNamed(context, '/shoppingCart');
     //DBRef.child('menu').set(menudata);
     if (result) {
       setState(() {});

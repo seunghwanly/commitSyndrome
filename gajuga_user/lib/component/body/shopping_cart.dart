@@ -332,8 +332,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       ]),
     );
   }
-  
-void readData() {
+
+  void readData() {
     Map<dynamic, dynamic> result;
     DBRef.child('user/userInfo/' + userid + '/shoppingCart')
         .orderByChild('cost')
@@ -401,5 +401,18 @@ void readData() {
       addCost -= 4000;
     }
     return addCost;
+  }
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('didUpInshoppingCart');
+    readData();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
   }
 }

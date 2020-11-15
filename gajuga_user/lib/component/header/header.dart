@@ -54,7 +54,6 @@ class _CustomHeaderState extends State<CustomHeader> {
 
   @override
   Widget build(BuildContext context) {
-
     void _resetAndOpenPage(BuildContext context) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -64,8 +63,9 @@ class _CustomHeaderState extends State<CustomHeader> {
     }
 
     void _gotoCart() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
+      if (ModalRoute.of(context).settings.name != '/shoppingCart') {
+        Navigator.pushNamed(context, '/shoppingCart');
+      }
     }
 
     return Scaffold(
@@ -95,7 +95,10 @@ class _CustomHeaderState extends State<CustomHeader> {
               stream: _shoppingCartRef.onValue,
               builder: (context, AsyncSnapshot<Event> snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data.snapshot.value != null ? snapshot.data.snapshot.value.length.toString() : '0',
+                  return Text(
+                      snapshot.data.snapshot.value != null
+                          ? snapshot.data.snapshot.value.length.toString()
+                          : '0',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
