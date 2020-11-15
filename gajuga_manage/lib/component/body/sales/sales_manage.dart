@@ -43,7 +43,7 @@ class _SalesManageState extends State<SalesManage> {
             Expanded(
                 flex: 1,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     tapButton(
                         () => handlePage(0),
