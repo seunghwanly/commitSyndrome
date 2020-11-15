@@ -19,7 +19,6 @@ class _OrderPageState extends State<OrderPage> {
       child: Container(
         color: darkgrey,
         child: SingleChildScrollView(
-          // TODO: headerButton 고정시켜야하는데 physics: NeverScrollableScrollPhysics() 넣으면 ListView에도 적용됨
           child: Column(
             children: [
               StickyHeader(
