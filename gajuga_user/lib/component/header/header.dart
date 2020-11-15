@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/order_history.dart';
 import 'package:gajuga_user/main.dart';
+import 'package:gajuga_user/provider/provider.dart';
 import 'package:gajuga_user/util/palette.dart';
 import 'package:gajuga_user/util/to_text.dart';
 import 'package:gajuga_user/component/body/login.dart';
@@ -10,6 +12,7 @@ import 'package:badges/badges.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
+import 'package:provider/provider.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -39,26 +42,6 @@ class _CustomHeaderState extends State<CustomHeader> {
     });
   }
 
-  void startListener() {
-    // FirebaseDatabase.instance
-    //     .reference()
-    //     .child('user/userInfo/' + userid + '/shoppingCart')
-    //     .o
-    //     .listen((event) {
-    //   print('1개 추가됨 ! ');
-    //   // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-    //   //     .orderByChild('cost')
-    //   //     .once()
-    //   //     .then((DataSnapshot dataSnapshot) {
-    //   //   Map<dynamic, dynamic> values = dataSnapshot.value;
-    //   //   setState(() {
-    //   //     shoppingCartCount = values.length;
-    //   //   });
-    //   // });
-    //   // process event
-    // });
-  }
-
   @override
   void didUpdateWidget(Widget oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -66,49 +49,27 @@ class _CustomHeaderState extends State<CustomHeader> {
     readData();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   print('didChange');
-  //   readData();
-  // }
-
   @override
   void initState() {
     super.initState();
-    // _messageStream = FirebaseDatabase.instance
-    //     .reference()
-    //     .child('user/userInfo/' + userid + '/shoppingCart')
-    //     .onChildAdded
-    //     .listen((event) {
-    //   print('1개 추가됨 ! ');
-    //   // DBRef.child('user/userInfo/' + userid + '/shoppingCart')
-    //   //     .orderByChild('cost')
-    //   //     .once()
-    //   //     .then((DataSnapshot dataSnapshot) {
-    //   //   Map<dynamic, dynamic> values = dataSnapshot.value;
-    //   //   setState(() {
-    //   //     shoppingCartCount = values.length;
-    //   //   });
-    //   // });
-    //   // process event
-    // });
 
     readData();
   }
 
   @override
   void dispose() {
-    //_messageStream.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    //startListener();
+    // get from provider
+    final stateProvider = Provider.of<StateProvider>(context);
+    print(stateProvider.getShoppingCart().toString());
+
     void _openDrawer() {}
 
     void _resetAndOpenPage(BuildContext context) {
-      // Navigator.popUntil(context, (route) => false)
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
@@ -119,28 +80,7 @@ class _CustomHeaderState extends State<CustomHeader> {
     void _gotoCart() {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
-
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (BuildContext context) => ShoppingCartRoute()),
-      //   ModalRoute.withName('/shoppingCart'),
-      // );
     }
-    //    void _gotoCart() async{
-    //   // Navigator.push(context,
-    //   //     MaterialPageRoute(builder: (context) => ShoppingCartRoute()));
-
-    //  final result = await Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (BuildContext context) => ShoppingCartRoute()),
-    //     ModalRoute.withName('/main'),
-    //   );
-    //      if (result) {
-    //   setState(() {});
-    // }
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -166,12 +106,27 @@ class _CustomHeaderState extends State<CustomHeader> {
                   animationType: BadgeAnimationType.scale,
                   borderRadius: BorderRadius.circular(5),
                   position: BadgePosition.topEnd(top: 7, end: 5),
-                  badgeContent: Text('${shoppingCartCount}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                      )),
+                  badgeContent: FutureBuilder(
+                    future: stateProvider.getShoppingCart(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData == false) {
+                        return Text('0',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ));
+                      } else {
+                        print(snapshot.data.length);
+                        return Text(snapshot.data.length.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ));
+                      }
+                    },
+                  ),
                   child: IconButton(
                     icon: Icon(Icons.shopping_cart),
                     onPressed: _gotoCart,
@@ -183,7 +138,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                   animationType: BadgeAnimationType.scale,
                   borderRadius: BorderRadius.circular(3),
                   position: BadgePosition.topEnd(top: 7, end: 5),
-                  badgeContent: Text('${shoppingCartCount}',
+                  badgeContent: Text(shoppingCartCount.toString(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 9,
@@ -205,6 +160,7 @@ class _CustomHeaderState extends State<CustomHeader> {
         child: widget.body,
       ),
       drawer: Drawer(
+        //------------------------------------------------------------------------- DRAWER
         child: Container(
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.only(bottom: 20.0),
@@ -273,7 +229,6 @@ class _CustomHeaderState extends State<CustomHeader> {
               ],
             )),
       ),
-      // floatingActionButton: Container(width: 30, height: 30, color: Colors.red,),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/model/option_model.dart';
-import 'package:gajuga_user/model/selected_option_model.dart';
+import 'package:gajuga_user/provider/provider.dart';
 import 'package:provider/provider.dart';
 import './palette.dart';
 import './box_shadow.dart';
@@ -65,7 +65,7 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup>
 
   @override
   Widget build(BuildContext context) {
-    final sharedOptionList = Provider.of<StateList>(context);
+    final sharedOptionList = Provider.of<StateProvider>(context);
 
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),

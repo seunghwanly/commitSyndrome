@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:gajuga_user/model/selected_option_model.dart';
+import 'package:gajuga_user/provider/provider.dart';
 import 'package:gajuga_user/util/payment/iamport_payment.dart';
 import 'package:provider/provider.dart';
 import '../header/header.dart';
@@ -85,7 +85,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final optionSelected = Provider.of<StateList>(context);
+    final optionSelected = Provider.of<StateProvider>(context);
     List<Map<String, dynamic>> parsedOptionList =
         optionSelected.getOptionList();
 

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_user/model/shoppingcart_model.dart';
+import 'package:gajuga_user/util/firebase_method.dart';
 
-class StateList with ChangeNotifier {
+class StateProvider with ChangeNotifier {
+  // constructor
+  StateProvider();
 
+  //----------------------------------------------------------------------- SUB MENU
+  // sub menu - selected option
   List<Map<String, dynamic>> optionList = [
     {
       'category' : 'size',
@@ -15,11 +21,6 @@ class StateList with ChangeNotifier {
     }
   ];
   
-  StateList();
-
-  // OptionList(String selectedSize, int sizeCost, String selectedCrust, int sizeCrust) {};
-
-
   getOptionList() => this.optionList;
 
   void addOptionListSize(String selected, int addedCost) {
@@ -32,5 +33,9 @@ class StateList with ChangeNotifier {
     this.optionList[1]['addedCost'] = addedCost;
     notifyListeners();
   }
+
+  //----------------------------------------------------------------------- SHOPPING CART
+   
+  getShoppingCart() => FirebaseMethod().getShoppingCart();
 
 }

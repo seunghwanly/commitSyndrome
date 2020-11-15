@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_user/model/selected_option_model.dart';
+import 'package:gajuga_user/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'component/header/header.dart';
 import 'component/body/main_menu.dart';
@@ -11,8 +11,10 @@ void main() => runApp(MainScreen());
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<StateList>(
-        create: (_) => StateList(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<StateProvider>(create: (context) => StateProvider())
+        ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             routes: {
