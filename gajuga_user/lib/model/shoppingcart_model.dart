@@ -7,12 +7,15 @@ class ShoppingCart {
   String name;
   String key;
   Option option;
+  String engName;
 
-  ShoppingCart(int cost, int count, String name, Option option) {
+  ShoppingCart(
+      int cost, int count, String name, Option option, String engName) {
     this.cost = cost;
     this.count = count;
     this.name = name;
     this.option = option;
+    this.engName = engName;
   }
 
   Map toJson() => {
@@ -21,7 +24,11 @@ class ShoppingCart {
       };
 
   factory ShoppingCart.fromJson(Map<String, dynamic> parsedJson) {
-    return ShoppingCart(parsedJson['cost'], parsedJson['cost'],
-        parsedJson['name'], Option.fromJson(parsedJson['option']));
+    return ShoppingCart(
+        parsedJson['cost'],
+        parsedJson['cost'],
+        parsedJson['name'],
+        Option.fromJson(parsedJson['option']),
+        parsedJson['eng_name']);
   }
 }

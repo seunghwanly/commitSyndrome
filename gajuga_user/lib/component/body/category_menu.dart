@@ -41,10 +41,12 @@ class CategoryMenuState extends State<CategoryMenu> {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
+        'count' : 1,
         'option': {
           'dough': '기본',
           'size': '레귤러',
-        }
+        },
+        'eng_name' : menuItem['eng_name'],
       });
       setState(() {
         tmp += 1;
@@ -53,6 +55,9 @@ class CategoryMenuState extends State<CategoryMenu> {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
+        'count' : 1,
+        'eng_name' : menuItem['eng_name'],
+         
       });
       setState(() {
         tmp += 1;
@@ -90,54 +95,7 @@ class CategoryMenuState extends State<CategoryMenu> {
     });
   }
 
-  final menudata = {
-    'category': [
-      {
-        'pizza': [
-          {
-            'Imageurl': 'image1.jpg',
-            'name': '고르곤졸라 피자',
-            'description': '메뉴에 대한 간략한 설명입니다.',
-            'cost': 12900,
-          },
-          {
-            'Imageurl': 'image2.jpg',
-            'name': '치즈 피자',
-            'description': '메뉴에 대한 간략한 설명입니다.',
-            'cost': 11900,
-          },
-          {
-            'Imageurl': 'image3.jpg',
-            'name': '페퍼로니 피자',
-            'description': '메뉴에 대한 간략한 설명입니다.',
-            'cost': 11900,
-          },
-          {
-            'Imageurl': 'image3.jpg',
-            'name': '포테이토 피자',
-            'description': '메뉴에 대한 간략한 설명입니다.',
-            'cost': 13900,
-          },
-        ]
-      },
-      {
-        'beverage': [
-          {
-            'Imageurl': 'image1.jpg',
-            'name': '콜라',
-            'description': '콜라가 설명이 필요해?',
-            'cost': 2000,
-          },
-          {
-            'Imageurl': 'image2.jpg',
-            'name': '사이다',
-            'description': '사이다가 설명이 필요해?',
-            'cost': 2000,
-          },
-        ]
-      }
-    ]
-  };
+
 
   @override
   void initState() {
@@ -328,7 +286,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                                                         .width /
                                                     12,
                                                 backgroundImage: AssetImage(
-                                                    'images/${currentMenuList[index]['name']}.png'),
+                                                    'images/${currentMenuList[index]['eng_name']}.png'),
                                               ),
                                               Column(
                                                 crossAxisAlignment:
@@ -388,7 +346,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment:
+                                            mainAxisAlignment:  
                                                 MainAxisAlignment.end,
                                             children: [
                                               Container(

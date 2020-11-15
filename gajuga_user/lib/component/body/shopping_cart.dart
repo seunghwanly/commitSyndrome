@@ -41,7 +41,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
         if (value['name'] == '사이다' || value['name'] == '콜라') {
           item = new ShoppingCart(value['cost'], value['count'], value["name"],
-              new Option(dough: '기본', size: '레귤러'));
+              new Option(dough: '기본', size: '355mL'), value['eng_name']);
         } else {
           item = new ShoppingCart(
               value['cost'],
@@ -49,7 +49,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
               value["name"],
               new Option(
                   dough: value['option']['dough'],
-                  size: value['option']['size']));
+                  size: value['option']['size']),
+              value['eng_name']);
         }
         sub_totalCost +=
             item.cost + countAddCost(item.option.dough, item.option.size);
@@ -79,6 +80,9 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     }
     if (size != '레귤러') {
       addCost += 4000;
+    }
+    if (size == '355mL') {
+      addCost -= 4000;
     }
     return addCost;
   }
@@ -190,7 +194,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                                     .width *
                                                 (25 / 375),
                                             backgroundImage: AssetImage(
-                                                'images/${cartList[index].name}.png'),
+                                                'images/${cartList[index].engName}.png'),
                                           ),
                                           // Container(
                                           //     width: MediaQuery.of(context)
@@ -407,15 +411,17 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
                                           makeTextSizepadding(
                                               '가격 : ' +
-                                                  toLocaleString(
-                                                      cartList[index].cost +
-                                                          countAddCost(
+                                                  toLocaleString(cartList[index]
+                                                          .cost +
+                                                      countAddCost(
                                                               cartList[index]
                                                                   .option
                                                                   .dough,
                                                               cartList[index]
                                                                   .option
-                                                                  .size)) +
+                                                                  .size) *
+                                                          cartList[index]
+                                                              .count) +
                                                   '원',
                                               Colors.black87,
                                               MediaQuery.of(context)

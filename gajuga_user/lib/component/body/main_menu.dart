@@ -83,16 +83,17 @@ class TotalMenuState extends State<TotalMenu> {
         'option': {
           'dough': '기본',
           'size': '레귤러',
-        }
+        },
+        'eng_name': menuItem['eng_name'],
       });
     } else if (currentState == 'beverage') {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
+        'eng_name': menuItem['eng_name'],
       });
     }
     getShoppingCartCount();
-    print('머라나오노 : ' + shoppingCartCount.toString());
     // ppState.setState(() {
     //   ppState.shoppingCartCount = getShoppingCartCount();
     // });
