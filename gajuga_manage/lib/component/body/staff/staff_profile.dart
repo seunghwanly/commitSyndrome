@@ -355,6 +355,7 @@ class _StaffProfileState extends State<StaffProfile> {
                 ),
               ),
               Container(
+                width: MediaQuery.of(context).size.width / 3,
                 padding: EdgeInsets.all(8),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
