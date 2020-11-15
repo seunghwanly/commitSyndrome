@@ -332,41 +332,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       ]),
     );
   }
-
-  int countAddCost(String dough, String size) {
-    int addCost = 0;
-    if (dough != '기본') {
-      addCost += 2000;
-    }
-    if (size != '레귤러') {
-      addCost += 4000;
-    }
-    if (size == '355mL') {
-      addCost -= 4000;
-    }
-    return addCost;
-  }
-
-  void deleteCurrentItem(String key) {
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
-    readData();
-    setState(() {});
-  }
-
-  @override
-  void didUpdateWidget(Widget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print('didUpInshoppingCart');
-    readData();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    readData();
-  }
-
-  void readData() {
+  
+void readData() {
     Map<dynamic, dynamic> result;
     DBRef.child('user/userInfo/' + userid + '/shoppingCart')
         .orderByChild('cost')
@@ -379,6 +346,12 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         print('readData');
         cartList.clear();
       });
+      if (values == null) {
+        setState(() {
+          totalCost = sub_totalCost;
+          //cartList = cartList.reversed.toList();
+        });
+      }
       values.forEach((key, value) {
         ShoppingCart item;
 
@@ -408,5 +381,25 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         cartList = cartList.reversed.toList();
       });
     });
+  }
+
+  void deleteCurrentItem(String key) {
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
+    readData();
+    setState(() {});
+  }
+
+  int countAddCost(String dough, String size) {
+    int addCost = 0;
+    if (dough != '기본') {
+      addCost += 2000;
+    }
+    if (size != '레귤러') {
+      addCost += 4000;
+    }
+    if (size == '355mL') {
+      addCost -= 4000;
+    }
+    return addCost;
   }
 }
