@@ -83,6 +83,7 @@ class AddStockState extends State<AddStock> {
                     flex: 9,
                     child: ListView.builder(
                       //physics: NeverScrollableScrollPhysics(),
+                      controller: new ScrollController(keepScrollOffset: true),
                       itemCount: 10,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
