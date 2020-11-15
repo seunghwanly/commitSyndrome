@@ -371,7 +371,7 @@ class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
         .once()
         .then((DataSnapshot dataSnapshot) {
       if (dataSnapshot.value != null) {
-        print(dataSnapshot.value);
+        // print(dataSnapshot.value);
         setState(() {
           mainList = dataSnapshot.value;
         });

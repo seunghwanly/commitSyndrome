@@ -65,7 +65,6 @@ class _CustomHeaderState extends State<CustomHeader> {
   Widget build(BuildContext context) {
     // get from provider
     final stateProvider = Provider.of<StateProvider>(context);
-    print(stateProvider.getShoppingCart().toString());
 
     void _openDrawer() {}
 
@@ -117,7 +116,6 @@ class _CustomHeaderState extends State<CustomHeader> {
                               fontWeight: FontWeight.w700,
                             ));
                       } else {
-                        print(snapshot.data.length);
                         return Text(snapshot.data.length.toString(),
                             style: TextStyle(
                               color: Colors.white,
