@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,7 +6,7 @@ import 'package:gajuga_user/util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
-import '../../util/box_button.dart';
+import '../../util/to_locale.dart';
 import '../header/header.dart';
 
 class CategoryMenu extends StatefulWidget {
@@ -371,9 +370,10 @@ class CategoryMenuState extends State<CategoryMenu> {
                                                       // menus['cost']
                                                       // .toString() +
 
-                                                      currentMenuList[index]
-                                                                  ['cost']
-                                                              .toString() +
+                                                      toLocaleString(
+                                                              currentMenuList[
+                                                                      index]
+                                                                  ['cost']) +
                                                           '원',
                                                       Color.fromRGBO(
                                                           51, 51, 51, 1.0),

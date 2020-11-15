@@ -13,8 +13,8 @@ class _StaffListState extends State<StaffList> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 10, left: 20, right: 10),
-      width: MediaQuery.of(context).size.width / 2.65,
-      height: MediaQuery.of(context).size.height / 3,
+      width: MediaQuery.of(context).size.width / 2.7,
+      height: MediaQuery.of(context).size.height / 3.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,

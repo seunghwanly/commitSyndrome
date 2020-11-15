@@ -58,105 +58,96 @@ class _StockManageState extends State<StockManage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-          padding: EdgeInsets.all(40),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
-            ),
-            color: Colors.white,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-              //controller: new ScrollController(keepScrollOffset: true),
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 1,
+    return SingleChildScrollView(
+      //controller: new ScrollController(keepScrollOffset: true),
+      child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: GestureDetector(
+                          onTap: () => setState(() {
+                            this.pageIndex = 0;
+                          }),
+                          child: this.pageIndex == 0
+                              ? makeTitle('재고', ' 확인')
+                              : this.pageIndex == 1
+                                  ? makeTitle("재고", " 입력")
+                                  : makeTitle("발주", " 신청"),
+                        )),
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: datePicker(context)),
+                    ),
+                    Expanded(
+                        flex: 3,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                                flex: 3,
-                                child: GestureDetector(
-                                  onTap: () => setState(() {
-                                    this.pageIndex = 0;
-                                  }),
-                                  child: this.pageIndex == 0
-                                      ? makeTitle('재고', ' 확인')
-                                      : this.pageIndex == 1
-                                          ? makeTitle("재고", " 입력")
-                                          : makeTitle("발주", " 신청"),
-                                )),
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  child: datePicker(context)),
-                            ),
-                            Expanded(
-                                flex: 3,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    tapButton(
-                                        this.pageIndex == 0
-                                            ? handleAdd
-                                            : handleCancel,
-                                        this.pageIndex == 0
-                                            ? darkblue
-                                            : superlight,
-                                        orange,
-                                        this.pageIndex == 0 ? "재고 입력" : "취소",
-                                        this.pageIndex == 0 ? white : darkblue,
-                                        18.0,
-                                        MediaQuery.of(context).size.width *
-                                            0.10, //width
-                                        MediaQuery.of(context).size.height *
-                                            0.05, //height
-                                        MediaQuery.of(context).size.height *
-                                            0.01, //padding V
-                                        MediaQuery.of(context).size.width *
-                                            0.01, //padding H
-                                        0.0),
-                                    tapButton(
-                                        this.pageIndex == 0
-                                            ? handleRequest
-                                            : showModal,
-                                        this.pageIndex == 0 ? darkblue : orange,
-                                        orange,
-                                        this.pageIndex == 0 ? "발주 신청" : "저장",
-                                        white,
-                                        18.0,
-                                        MediaQuery.of(context).size.width *
-                                            0.10, //width
-                                        MediaQuery.of(context).size.height *
-                                            0.05, //height
-                                        MediaQuery.of(context).size.height *
-                                            0.01, //padding V
-                                        MediaQuery.of(context).size.width *
-                                            0.01, //padding H
-                                        0.0), // margin H
-                                  ],
-                                ))
+                            tapButton(
+                                this.pageIndex == 0
+                                    ? handleAdd
+                                    : handleCancel,
+                                this.pageIndex == 0
+                                    ? darkblue
+                                    : superlight,
+                                orange,
+                                this.pageIndex == 0 ? "재고 입력" : "취소",
+                                this.pageIndex == 0 ? white : darkblue,
+                                18.0,
+                                MediaQuery.of(context).size.width *
+                                    0.10, //width
+                                MediaQuery.of(context).size.height *
+                                    0.05, //height
+                                MediaQuery.of(context).size.height *
+                                    0.01, //padding V
+                                MediaQuery.of(context).size.width *
+                                    0.01, //padding H
+                                0.0),
+                            tapButton(
+                                this.pageIndex == 0
+                                    ? handleRequest
+                                    : showModal,
+                                this.pageIndex == 0 ? darkblue : orange,
+                                orange,
+                                this.pageIndex == 0 ? "발주 신청" : "저장",
+                                white,
+                                18.0,
+                                MediaQuery.of(context).size.width *
+                                    0.10, //width
+                                MediaQuery.of(context).size.height *
+                                    0.05, //height
+                                MediaQuery.of(context).size.height *
+                                    0.01, //padding V
+                                MediaQuery.of(context).size.width *
+                                    0.01, //padding H
+                                0.0), // margin H
                           ],
                         ),
-                      ),
-                      Expanded(
-                        flex: 9,
-                        child: mainBody(context, pageIndex, save),
-                      )
-                    ],
-                  )))),
+                    ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 9,
+              child: mainBody(context, pageIndex, save),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

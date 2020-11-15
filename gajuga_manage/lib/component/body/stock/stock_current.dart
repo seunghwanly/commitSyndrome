@@ -59,7 +59,7 @@ class CurrentStockState extends State<CurrentStock> {
                           child: Row(
                             children: [
                               Text(
-                                "갯 수",
+                                "개 수",
                                 style: TextStyle(
                                     color: white,
                                     fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class CurrentStockState extends State<CurrentStock> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            "갯 수  " + index.toString(),
+                                            "개 수  " + index.toString(),
                                             style: TextStyle(
                                                 color: darkblue,
                                                 fontWeight: FontWeight.w600,

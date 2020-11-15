@@ -40,11 +40,12 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         ShoppingCart item;
 
         if (value['name'] == '사이다' || value['name'] == '콜라') {
-          item = new ShoppingCart(value['cost'], value["name"],
+          item = new ShoppingCart(value['cost'], value['count'], value["name"],
               new Option(dough: '기본', size: '레귤러'));
         } else {
           item = new ShoppingCart(
               value['cost'],
+              value['count'],
               value["name"],
               new Option(
                   dough: value['option']['dough'],
@@ -157,7 +158,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('장바구니 비었습니다.'),
+                      //Text('장바구니 비었습니다.'),
                       ListView.builder(
                         itemCount: cartList == null ? 0 : cartList.length,
                         shrinkWrap: true,
@@ -378,6 +379,21 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                                           .option
                                                           .size)) +
                                                   '원',
+                                              Color.fromRGBO(
+                                                  119, 119, 119, 1.0),
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (15 / 375),
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  30),
+                                          makeTextSize(
+                                              '수량 : ' +
+                                                  cartList[index]
+                                                      .count
+                                                      .toString(),
                                               Color.fromRGBO(
                                                   119, 119, 119, 1.0),
                                               MediaQuery.of(context)

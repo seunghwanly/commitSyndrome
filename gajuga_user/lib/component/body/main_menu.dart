@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/component/body/sub_menu.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_locale.dart';
 import '../../util/to_text.dart';
@@ -10,8 +9,7 @@ import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
-import 'package:gajuga_user/main.dart';
-import '../header/header.dart';
+import '../../util/to_locale.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class TotalMenu extends StatefulWidget {
@@ -81,6 +79,7 @@ class TotalMenuState extends State<TotalMenu> {
       DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
+        'count': 1,
         'option': {
           'dough': '기본',
           'size': '레귤러',
@@ -374,7 +373,7 @@ class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
       if (dataSnapshot.value != null) {
         print(dataSnapshot.value);
         setState(() {
-          mainList = dataSnapshot.value;          
+          mainList = dataSnapshot.value;
         });
       } else {
         print('데이터 없음');
@@ -434,7 +433,7 @@ class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
                               ),
                               Text(
                                 // "메뉴 " + mainList[index]['name'].substring(0,3),
-                                (index+1).toString() + " 등",
+                                (index + 1).toString() + " 등",
                                 style: TextStyle(
                                     color: darkblue,
                                     fontWeight: FontWeight.bold),

@@ -3,15 +3,9 @@ import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
 import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
 import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
+import 'package:gajuga_manage/util/box_button.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
-
-class Menu {
-  final String title;
-  bool selected;
-
-  Menu({this.title, this.selected = false});
-}
 
 class HeaderButton extends StatefulWidget {
   @override
@@ -19,59 +13,127 @@ class HeaderButton extends StatefulWidget {
 }
 
 class _HeaderButtonState extends State<HeaderButton> {
-  final List<Menu> menuList = [
-    Menu(title: '메뉴관리', selected: true),
-    Menu(title: '직원관리'),
-    Menu(title: '매출관리'),
-    Menu(title: '재고관리'),
-  ];
+  int pageIndex = 0;
+
+  void handlePage(int goto) {
+    setState(() {
+      pageIndex = goto;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GridView.count(
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisCount: menuList.length,
-          shrinkWrap: true,
-          childAspectRatio: 2/1,
-          children: List.generate(menuList.length, (index) {
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  for (int i = 0; i < menuList.length; i++) {
-                    menuList[i].selected = false;
-                  }
-                  menuList[index].selected = !menuList[index].selected;
-                });
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  boxShadow: [customBoxShadow()],
-                  color: menuList[index].selected ? orange : darkgrey,
-                ),
-                child: Center(
-                  child: Text(
-                    menuList[index].title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: MediaQuery.of(context).size.width / 32,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }),
+        Container(
+          padding: EdgeInsets.only(bottom: 40),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              menuButton(),
+              staffButton(),
+              salesButton(),
+              stockButton(),
+            ],
+          ),
         ),
-        SizedBox(height: 20),
-        // menuList[0].selected ? MenuManage() : SizedBox.shrink(),
-        // menuList[1].selected ? SalesManage() : SizedBox.shrink(),
-        // menuList[2].selected ? StaffManage() : SizedBox.shrink(),
-        // menuList[3].selected ? StockManage() : SizedBox.shrink(),
+        // SizedBox(height: 20),
+        // Expanded(
+        //   child: mainBody(this.pageIndex),
+        // ),
+        Container(
+          height: MediaQuery.of(context).size.height - 307,
+          padding: EdgeInsets.fromLTRB(40, 20, 40, 40),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            color: Colors.white,
+          ),
+          width: double.infinity,
+          child: mainBody(this.pageIndex),
+        ),
       ],
     );
+  }
+
+  Widget menuButton() {
+    return tapButton(
+      () => handlePage(0),
+      this.pageIndex == 0 ? orange : darkgrey,
+      orange,
+      '메뉴관리',
+      white,
+      30,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.height * 0.01,
+      MediaQuery.of(context).size.width * 0.01,
+      0.0,
+    );
+  }
+
+  Widget staffButton() {
+    return tapButton(
+      () => handlePage(1),
+      this.pageIndex == 1 ? orange : darkgrey,
+      orange,
+      '직원관리',
+      white,
+      30,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.height * 0.01,
+      MediaQuery.of(context).size.width * 0.01,
+      0.0,
+    );
+  }
+
+  Widget salesButton() {
+    return tapButton(
+      () => handlePage(2),
+      this.pageIndex == 2 ? orange : darkgrey,
+      orange,
+      '매출관리',
+      white,
+      30,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.height * 0.01,
+      MediaQuery.of(context).size.width * 0.01,
+      0.0,
+    );
+  }
+  
+  Widget stockButton() {
+    return tapButton(
+      () => handlePage(3),
+      this.pageIndex == 3 ? orange : darkgrey,
+      orange,
+      '재고관리',
+      white,
+      30,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.width * 0.12,
+      MediaQuery.of(context).size.height * 0.01,
+      MediaQuery.of(context).size.width * 0.01,
+      0.0,
+    );
+  }
+}
+
+Widget mainBody(int pageIndex) {
+  switch (pageIndex) {
+    case 0:
+      return MenuManage();
+    case 1:
+      return StaffManage();
+    case 2:
+      return SalesManage();
+    case 3:
+      return StockManage();
   }
 }

@@ -32,6 +32,7 @@ dependencies:
   image_picker: ^0.6.7
   flutter_rounded_date_picker: ^1.0.5+1
   bezier_chart: ^1.0.17+1
+  sticky_headers: ^0.1.8
 
 dev_dependencies:
   flutter_test:

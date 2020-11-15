@@ -14,63 +14,50 @@ class _MenuManageState extends State<MenuManage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(40, 20, 40, 40),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-          color: Colors.white,
-        ),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            makeTitle('메뉴', ' 수정'),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                makeTitle('메뉴', ' 수정'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 5,
-                      child: TextField(
-                        controller: searchController,
-                        keyboardType: TextInputType.text,
-                        decoration: new InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: BorderSide(color: Colors.grey[300]),
-                          ),
-                          hintText: '검색어를 입력해주세요',
-                          isDense: true,
-                          contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                        ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 5,
+                  child: TextField(
+                    controller: searchController,
+                    keyboardType: TextInputType.text,
+                    decoration: new InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(color: Colors.grey[300]),
                       ),
+                      hintText: '검색어를 입력해주세요',
+                      isDense: true,
+                      contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () { },
-                    ),
-                  ],
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () { },
                 ),
               ],
             ),
-            Divider(
-              height: 20,
-              thickness: 3,
-              indent: 14,
-              color: darkgrey,
-            ),
-            SizedBox(height: 10),
-            MenuList(),
           ],
         ),
-      ),
+        Divider(
+          height: 20,
+          thickness: 3,
+          indent: 14,
+          color: darkgrey,
+        ),
+        SizedBox(height: 10),
+        MenuList(),
+      ],
     );
   }
 }
