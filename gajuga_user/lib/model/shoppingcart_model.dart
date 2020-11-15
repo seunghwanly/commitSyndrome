@@ -3,12 +3,14 @@ import 'order_history_model.dart';
 
 class ShoppingCart {
   int cost;
+  int count;
   String name;
   String key;
   Option option;
 
-  ShoppingCart(int cost, String name, Option option) {
+  ShoppingCart(int cost, int count, String name, Option option) {
     this.cost = cost;
+    this.count = count;
     this.name = name;
     this.option = option;
   }

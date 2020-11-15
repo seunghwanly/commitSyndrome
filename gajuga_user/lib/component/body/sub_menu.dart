@@ -53,6 +53,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   int count = 1;
   Map<String, dynamic> dataForPush = {
     "cost": 0,
+    'count': 0,
     "name": null,
     "option": {"size": "regualr", "dough": "standard"}
   };
@@ -293,8 +294,11 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     //     );
                     //   }
                     //   );
-                    ShoppingCart menuitem = ShoppingCart(dataForPush['cost'],
-                        dataForPush['name'], Option(size: '라지', dough: '치즈'));
+                    ShoppingCart menuitem = ShoppingCart(
+                        dataForPush['cost'],
+                        count,
+                        dataForPush['name'],
+                        Option(size: '라지', dough: '치즈'));
 
                     addShoppingCart(menuitem);
                     //writeData();
