@@ -3,7 +3,6 @@ import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
 class StaffProfile extends StatefulWidget {
