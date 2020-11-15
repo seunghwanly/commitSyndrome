@@ -25,71 +25,58 @@ class _SalesManageState extends State<SalesManage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(40),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-          color: Colors.white,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                tapButton(
+                    () => handlePage(0),
+                    this.pageIndex == 0 ? orange : darkblue,
+                    orange,
+                    "메뉴별 매출분석",
+                    white,
+                    20.0,
+                    MediaQuery.of(context).size.width * 0.2,
+                    MediaQuery.of(context).size.width * 0.05,
+                    MediaQuery.of(context).size.height * 0.01,
+                    MediaQuery.of(context).size.width * 0.01,
+                    0.0),
+                tapButton(
+                    () => handlePage(1),
+                    this.pageIndex == 1 ? orange : darkblue,
+                    orange,
+                    "순이익 분석",
+                    white,
+                    20.0,
+                    MediaQuery.of(context).size.width * 0.2,
+                    MediaQuery.of(context).size.width * 0.05,
+                    MediaQuery.of(context).size.height * 0.01,
+                    MediaQuery.of(context).size.width * 0.01,
+                    0.0),
+                tapButton(
+                    () => handlePage(2),
+                    this.pageIndex == 2 ? orange : darkblue,
+                    orange,
+                    "메뉴인기도분석",
+                    white,
+                    20.0,
+                    MediaQuery.of(context).size.width * 0.2,
+                    MediaQuery.of(context).size.width * 0.05,
+                    MediaQuery.of(context).size.height * 0.01,
+                    MediaQuery.of(context).size.width * 0.01,
+                    0.0)
+              ],
+            )),
+        Expanded(
+          flex: 9,
+          child: mainBody(this.pageIndex),
         ),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    tapButton(
-                        () => handlePage(0),
-                        this.pageIndex == 0 ? orange : darkblue,
-                        orange,
-                        "메뉴별 매출분석",
-                        white,
-                        20.0,
-                        MediaQuery.of(context).size.width * 0.2,
-                        MediaQuery.of(context).size.width * 0.05,
-                        MediaQuery.of(context).size.height * 0.01,
-                        MediaQuery.of(context).size.width * 0.01,
-                        0.0),
-                    tapButton(
-                        () => handlePage(1),
-                        this.pageIndex == 1 ? orange : darkblue,
-                        orange,
-                        "순이익 분석",
-                        white,
-                        20.0,
-                        MediaQuery.of(context).size.width * 0.2,
-                        MediaQuery.of(context).size.width * 0.05,
-                        MediaQuery.of(context).size.height * 0.01,
-                        MediaQuery.of(context).size.width * 0.01,
-                        0.0),
-                    tapButton(
-                        () => handlePage(2),
-                        this.pageIndex == 2 ? orange : darkblue,
-                        orange,
-                        "메뉴인기도분석",
-                        white,
-                        20.0,
-                        MediaQuery.of(context).size.width * 0.2,
-                        MediaQuery.of(context).size.width * 0.05,
-                        MediaQuery.of(context).size.height * 0.01,
-                        MediaQuery.of(context).size.width * 0.01,
-                        0.0)
-                  ],
-                )),
-            Expanded(
-              flex: 9,
-              child: mainBody(this.pageIndex),
-            )
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

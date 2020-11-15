@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:gajuga_manage/component/body/chef_page.dart';
-import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
-import 'package:gajuga_manage/component/body/order_page.dart';
-import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
-import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
-import 'package:gajuga_manage/component/body/staff/staff_profile.dart';
-import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
-import 'package:gajuga_manage/component/header/header_menu.dart';
+import 'package:gajuga_manage/component/body/header_button.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/component/header/header.dart';
 
@@ -45,15 +38,11 @@ class MainScreen extends StatelessWidget {
 Widget mainBody() {
   return Column(
     children: [
-      HeaderMenu(),
-      // TODO: 탭에 따라 아래쪽 화면만 바꿔줘야 함, 주문 관련 페이지에는 HeaderMenu 들어가지 않음
-      //MenuManage(),
-      // StaffManage(),
-      // StaffProfile(),
-      SalesManage(),
-      // StockManage(),
-      // ChefPage(),
-      // OrderPage(),
+      Container(
+        margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+        padding: EdgeInsets.only(top: 15),
+        child: HeaderButton(),
+      ),
     ],
   );
 }
