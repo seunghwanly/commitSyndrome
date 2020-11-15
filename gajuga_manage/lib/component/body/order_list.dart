@@ -112,26 +112,29 @@ class _OrderListState extends State<OrderList> {
   }
 
   Widget orderInfo(OrderMenu menu) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${menu.orderNumber}',
-          style: _orderInfoStyle,
-        ),
-        Text(
-          '${menu.name}',
-          style: _orderInfoStyle,
-        ),
-        Text(
-          '${menu.additional}',
-          style: _orderInfoStyle,
-        ),
-        Text(
-          '${menu.quantity}개',
-          style: _orderInfoStyle,
-        ),
-      ],
+    return Expanded(
+      flex: 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${menu.orderNumber}',
+            style: _orderInfoStyle,
+          ),
+          Text(
+            '${menu.name}',
+            style: _orderInfoStyle,
+          ),
+          Text(
+            '${menu.additional}',
+            style: _orderInfoStyle,
+          ),
+          Text(
+            '${menu.quantity}개',
+            style: _orderInfoStyle,
+          ),
+        ],
+      ),
     );
   }
 
@@ -168,7 +171,7 @@ class _OrderListState extends State<OrderList> {
       child: Container(
         height: 140,
         width: 140,
-        margin: EdgeInsets.fromLTRB(0, 20, 40, 20),
+        margin: EdgeInsets.fromLTRB(0, 20, 20, 20),
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
