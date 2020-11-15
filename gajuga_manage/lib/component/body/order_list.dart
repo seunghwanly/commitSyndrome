@@ -60,7 +60,6 @@ class _OrderListState extends State<OrderList> {
                   menuImage(),
                   orderInfoLabel(),
                   orderInfo(orderList[index]),
-                  Spacer(),
                   timeInfo(),
                   Spacer(),
                   completedButton(orderList[index].status),
@@ -177,7 +176,7 @@ class _OrderListState extends State<OrderList> {
         ),
         alignment: Alignment.center,
         child: Text(
-          status == 0 ? '주문\n승인' : status == 1 ? '조리\n완료' : '준비\n완료',
+          status == 0 ? '조리\n완료' : status == 1 ? '주문\n승인' : '준비\n완료',
           style: TextStyle(
             fontSize: 35,
             color: Colors.white,
