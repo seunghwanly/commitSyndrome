@@ -22,14 +22,14 @@ class TotalMenu extends StatefulWidget {
 class TotalMenuState extends State<TotalMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
   final String userid = 'UserCode-01';
-  final List<String> data = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
+  final List<String> data = ['gorgonzola', 'pepperoni', 'bulgogi', 'potato'];
 
   var currentState = 'pizza';
   var currentMenuList;
   var tmp = 0;
   int shoppingCartCount = 0;
 
-  List<String> mainList = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
+  List<String> mainList = ['gorgonzola', 'pepperoni', 'bulgogi', 'potato'];
   int randomIndex = new Random().nextInt(3);
 
   void readData() {
@@ -216,7 +216,7 @@ class TotalMenuState extends State<TotalMenu> {
                         return _listItem(
                             this.currentMenuList[index]['name'],
                             AssetImage(
-                                'images/${this.currentMenuList[index]['name']}.png'),
+                                'images/${this.currentMenuList[index]['eng_name']}.png'),
                             this.currentMenuList[index]['desc'],
                             this.currentMenuList[index]['cost'],
                             context,
@@ -355,62 +355,104 @@ class TotalMenuState extends State<TotalMenu> {
   }
 }
 
-class FavoriteMenuWidget extends StatelessWidget {
-  final List<String> data = <String>['A', 'B', 'C', 'D'];
+class FavoriteMenuWidget extends StatefulWidget {
+  @override
+  FavoriteMenuWidgetState createState() => FavoriteMenuWidgetState();
+}
 
-  List<String> mainList = ['고르곤졸라피자', '페페로니피자', '불고기피자', '포테이토피자'];
+class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
+  // List<Map<String, dynamic>> mainList = new List<Map<String, dynamic>>();
+  var mainList;
   int randomIndex = new Random().nextInt(3);
+
+  void readData() {
+    FirebaseDatabase.instance
+        .reference()
+        .child('manager/menu/category/pizza')
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      if (dataSnapshot.value != null) {
+        print(dataSnapshot.value);
+        setState(() {
+          mainList = dataSnapshot.value;          
+        });
+      } else {
+        print('데이터 없음');
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: [
-        makeTitle("인기", " 메뉴"),
-        Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.16,
-            margin: EdgeInsets.only(left: 25, top: 15, right: 25),
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [customeBoxShadow()]),
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SubmenuScreen(
-                                    item: data[index], cost: 12900)));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 30, top: 10, right: 30),
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'images/${mainList[randomIndex]}.png'),
-                            ),
-                            Text(
-                              "메뉴 " + data[index],
-                              style: TextStyle(
-                                  color: darkblue, fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ));
-                }))
-      ],
-    ));
+    if (mainList != null) {
+      return Container(
+          child: Column(
+        children: [
+          makeTitle("인기", " 메뉴"),
+          Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.16,
+              margin: EdgeInsets.only(left: 25, top: 15, right: 25),
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [customeBoxShadow()]),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SubmenuScreen(
+                                      item: mainList[index]['name'],
+                                      cost: mainList[index]['cost'],
+                                      desc: mainList[index]['desc'],
+                                      engname: mainList[index]['eng_name'])));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 30, top: 10, right: 30),
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    'images/${mainList[index]['eng_name']}.png'),
+                              ),
+                              Text(
+                                // "메뉴 " + mainList[index]['name'].substring(0,3),
+                                (index+1).toString() + " 등",
+                                style: TextStyle(
+                                    color: darkblue,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ));
+                  }))
+        ],
+      ));
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        color: pale,
+        child: LoadingBouncingGrid.circle(
+          backgroundColor: white,
+        ),
+      );
+    }
   }
 }

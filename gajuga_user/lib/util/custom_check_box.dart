@@ -65,7 +65,7 @@ class _CustomCheckboxState extends State<CustomCheckboxGroup>
 
   @override
   Widget build(BuildContext context) {
-    final sharedOptionList = Provider.of<OptionList>(context);
+    final sharedOptionList = Provider.of<StateList>(context);
 
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),

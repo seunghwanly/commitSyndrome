@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OptionList with ChangeNotifier {
+class StateList with ChangeNotifier {
 
   List<Map<String, dynamic>> optionList = [
     {
@@ -15,7 +15,7 @@ class OptionList with ChangeNotifier {
     }
   ];
   
-  OptionList();
+  StateList();
 
   // OptionList(String selectedSize, int sizeCost, String selectedCrust, int sizeCrust) {};
 

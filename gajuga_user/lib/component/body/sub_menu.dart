@@ -18,9 +18,9 @@ import '../../model/order_history_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class SubmenuScreen extends StatefulWidget {
-  final item, cost;
+  final item, cost, desc, engname;
 
-  SubmenuScreen({this.item, this.cost});
+  SubmenuScreen({this.item, this.cost, this.desc, this.engname});
 
   @override
   SubmenuScreenState createState() => SubmenuScreenState();
@@ -85,7 +85,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final optionSelected = Provider.of<OptionList>(context);
+    final optionSelected = Provider.of<StateList>(context);
     List<Map<String, dynamic>> parsedOptionList =
         optionSelected.getOptionList();
 
@@ -127,7 +127,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                           topLeft: Radius.circular(30),
                           topRight: Radius.circular(30)),
                       image: DecorationImage(
-                        image: AssetImage('images/${widget.item}.png'),
+                        image: AssetImage('images/${widget.engname}.png'),
                         fit: BoxFit.cover,
                       ))),
             ),
@@ -147,7 +147,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                             fontSize: 14)),
                   ),
                   Text(
-                      "이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..어끝까지 50글자에요",
+                      // "이것은 메뉴 ${widget.item} 에 대한 설명입니다. 어쩌구 저쩌구 최은만 진짜 싫다..어끝까지 50글자에요",
+                      widget.desc,
                       style: TextStyle(
                           color: lightgrey,
                           fontWeight: FontWeight.normal,

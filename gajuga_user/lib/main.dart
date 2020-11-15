@@ -11,8 +11,8 @@ void main() => runApp(MainScreen());
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<OptionList>(
-        create: (_) => OptionList(),
+    return ChangeNotifierProvider<StateList>(
+        create: (_) => StateList(),
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             routes: {

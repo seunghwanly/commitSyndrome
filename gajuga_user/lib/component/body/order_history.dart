@@ -151,7 +151,7 @@ class OrderHistoryState extends State<OrderHistory> {
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage('images/고르곤졸라피자.png'),
+                              backgroundImage: AssetImage('images/${orders['content'][0]['name']}.png'),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +162,7 @@ class OrderHistoryState extends State<OrderHistory> {
                                     20.0,
                                     14),
                                 makeTextSize(
-                                    orders['content'][0]['name'] +
+                                    orders['content'][0]['name']+ " 피자" +
                                         (orders['content'].length - 1 > 0
                                             ? ' 외 ' +
                                                 (orders['content'].length - 1)
