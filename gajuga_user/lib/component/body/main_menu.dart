@@ -299,8 +299,9 @@ class TotalMenuState extends State<TotalMenu> {
               //     "담겼나요 ? " + jsonEncode(fetchedData['category'][0]['pizza']));
 
               Scaffold.of(context).showSnackBar(SnackBar(
+                padding: EdgeInsets.only(left:20.0),
                 content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
@@ -308,23 +309,22 @@ class TotalMenuState extends State<TotalMenu> {
                       height: itemHeight * 0.1,
                       child: Text(
                         '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12.0),
                       ),
                     ),
                     FlatButton(
-                        onPressed: () {
-                          Scaffold.of(context).hideCurrentSnackBar();
-                        },
-                        child: Container(
-                          height: itemHeight * 0.1,
-                          width: itemWidth * 0.2,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '닫기',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.right,
-                          ),
-                        ))
+                      onPressed: () {
+                        Scaffold.of(context).hideCurrentSnackBar();
+                      },
+                      // child: Text(
+                      //   'X',
+                      //   style: TextStyle(
+                      //       fontWeight: FontWeight.bold, fontSize: 12.0),
+                      //   textAlign: TextAlign.right,
+                      // ),
+                      child: Icon(Icons.close, size: 24, color: white,),
+                    )
                   ],
                 ),
                 behavior: SnackBarBehavior.floating,

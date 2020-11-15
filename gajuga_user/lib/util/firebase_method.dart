@@ -8,7 +8,6 @@ class FirebaseMethod {
   Future<dynamic> getShoppingCart() async {
     try {
       var fetchedData;
-      var listenedData;
 
       await dbRef
           .child('user/userInfo/' + 'UserCode-01' + '/shoppingCart')
