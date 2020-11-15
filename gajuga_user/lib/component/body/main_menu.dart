@@ -70,6 +70,17 @@ class TotalMenuState extends State<TotalMenu> {
     });
   }
 
+  void goSubMenu(dynamic menuItem) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SubmenuScreen(
+                item: menuItem['name'],
+                cost: menuItem['cost'],
+                desc: menuItem['desc'],
+                engname: menuItem['eng_name'])));
+  }
+
   void addShoppingCart(dynamic menuItem) {
     // print('이름' + menuItem['name']);
     String push =
@@ -283,63 +294,55 @@ class TotalMenuState extends State<TotalMenu> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
-              addShoppingCart(menuItem);
-              // List<Ingredient> ingredients = [];
-              // Ingredient ingre1 = Ingredient('치즈', 12);
-              // Ingredient ingre2 = Ingredient('올리브', 5);
-              // ingredients.add(ingre1);
-              // ingredients.add(ingre2);
-              // Menu thisMenu = Menu('올리브피자', 13900, ingredients);
-              //addMenuItem(thisMenu);
-              //  var orders =
-              //     new Map<String, dynamic>.from(this.fetchedData[0]);
-              // var orders = new Map<String, dynamic>.from(
-              //     this.fetchedData["category"][0]);
-              // print(
-              //     "담겼나요 ? " + jsonEncode(fetchedData['category'][0]['pizza']));
+              //addShoppingCart(menuItem);
+              goSubMenu(menuItem);
 
-              Scaffold.of(context).showSnackBar(SnackBar(
-                padding: EdgeInsets.only(left:20.0),
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      height: itemHeight * 0.1,
-                      child: Text(
-                        '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.0),
-                      ),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        Scaffold.of(context).hideCurrentSnackBar();
-                      },
-                      // child: Text(
-                      //   'X',
-                      //   style: TextStyle(
-                      //       fontWeight: FontWeight.bold, fontSize: 12.0),
-                      //   textAlign: TextAlign.right,
-                      // ),
-                      child: Icon(Icons.close, size: 24, color: white,),
-                    )
-                  ],
-                ),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: orange,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                elevation: 10.0,
-              ));
+              // Scaffold.of(context).showSnackBar(SnackBar(
+              //   padding: EdgeInsets.only(left: 20.0),
+              //   content: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //         alignment: Alignment.centerLeft,
+              //         height: itemHeight * 0.1,
+              //         child: Text(
+              //           '메뉴 ' + title + ' 가 장바구니에 담겼습니다 :)',
+              //           style: TextStyle(
+              //               fontWeight: FontWeight.bold, fontSize: 12.0),
+              //         ),
+              //       ),
+              //       FlatButton(
+              //         onPressed: () {
+              //           Scaffold.of(context).hideCurrentSnackBar();
+              //         },
+              //         // child: Text(
+              //         //   'X',
+              //         //   style: TextStyle(
+              //         //       fontWeight: FontWeight.bold, fontSize: 12.0),
+              //         //   textAlign: TextAlign.right,
+              //         // ),
+              //         child: Icon(
+              //           Icons.close,
+              //           size: 24,
+              //           color: white,
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              //   behavior: SnackBarBehavior.floating,
+              //   backgroundColor: orange,
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(30)),
+              //   elevation: 10.0,
+              // ));
             },
             child: Container(
               alignment: Alignment.center,
               height: itemHeight * 0.09,
               width: itemWidth * 0.6,
               child: Text(
-                "장바구니 담기",
+                "메뉴 선택",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
