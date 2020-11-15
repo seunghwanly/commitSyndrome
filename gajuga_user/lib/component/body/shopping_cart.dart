@@ -333,6 +333,32 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  int countAddCost(String dough, String size) {
+    int addCost = 0;
+    if (dough != '기본') {
+      addCost += 2000;
+    }
+    if (size != '레귤러') {
+      addCost += 4000;
+    }
+    if (size == '355mL') {
+      addCost -= 4000;
+    }
+    return addCost;
+  }
+
+  void deleteCurrentItem(String key) {
+    DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
+    readData();
+    setState(() {});
+  }
+
   void readData() {
     Map<dynamic, dynamic> result;
     DBRef.child('user/userInfo/' + userid + '/shoppingCart')
@@ -381,38 +407,5 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         cartList = cartList.reversed.toList();
       });
     });
-  }
-
-  void deleteCurrentItem(String key) {
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
-    readData();
-    setState(() {});
-  }
-
-  int countAddCost(String dough, String size) {
-    int addCost = 0;
-    if (dough != '기본') {
-      addCost += 2000;
-    }
-    if (size != '레귤러') {
-      addCost += 4000;
-    }
-    if (size == '355mL') {
-      addCost -= 4000;
-    }
-    return addCost;
-  }
-
-  @override
-  void didUpdateWidget(Widget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print('didUpInshoppingCart');
-    readData();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    readData();
   }
 }
