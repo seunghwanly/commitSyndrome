@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class MenuList extends StatefulWidget {
   @override
@@ -10,6 +12,10 @@ class MenuList extends StatefulWidget {
 
 class _MenuListState extends State<MenuList> {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
+  final _formKey = GlobalKey<FormState>();
+  OutlineInputBorder _formBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(40), borderSide: BorderSide(color: Colors.grey[300]));
+  File _profileImage;
+  final picker = ImagePicker();
   
   @override
   Widget build(BuildContext context) {
@@ -106,49 +112,274 @@ class _MenuListState extends State<MenuList> {
       ),
       margin: EdgeInsets.only(left: 40, bottom: 20),
       padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          CircleAvatar(
-            backgroundImage: image,
-            radius: 35,
-          ),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            desc,
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            '${toLocaleString(cost)} 원',
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-          FlatButton(
-            color: orange,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundImage: image,
+              radius: 35,
             ),
-            onPressed: () { },
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                "수정하기",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
+            Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              desc,
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '${toLocaleString(cost)} 원',
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            FlatButton(
+              color: orange,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              onPressed: () {
+                showProfileDialog(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "수정하기",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future showProfileDialog(BuildContext context) {
+    return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
+            Positioned(
+              right: -40.0,
+              top: -40.0,
+              child: InkResponse(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: CircleAvatar(
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '메뉴',
+                            style: TextStyle(color: darkgrey),
+                          ),
+                          TextSpan(
+                            text: ' 수정',
+                            style: TextStyle(color: orange),
+                          ),
+                        ],
+                      ),
+                    ),
+                    menuImageView(),
+                    SizedBox(height: 20),
+                    nameField(),
+                    priceField(),
+                    addressField(),
+                    SizedBox(height: 10),
+                    FlatButton(
+                      color: orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "저장하고 닫기",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget menuImageView() {
+    return Container(
+      margin: EdgeInsets.only(top: 30),
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Container(
+            child: CircleAvatar(
+              radius: 65.0,
+              backgroundImage: _profileImage == null
+                  ? AssetImage('images/A.png')
+                  : FileImage(_profileImage),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Color(0xFFe0e0e0)),
+                borderRadius: BorderRadius.circular(50.0)),
+              padding: EdgeInsets.all(0),
+              alignment: Alignment.center,
+              child: IconButton(
+                onPressed: () {
+                  // getProfileImage();
+                },
+                icon: Icon(
+                  Icons.camera_alt,
+                  size: 20,
+                  color: Color(0xFFbbbbbb),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Future getProfileImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
+
+    setState(() {
+      if (pickedFile != null) {
+        _profileImage = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Widget nameField() {
+    return Row(
+      children: [
+        Text(
+          '이       름',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Flexible(
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: TextFormField(
+              keyboardType: TextInputType.text,
+              decoration: new InputDecoration(
+                enabledBorder: _formBorder,
+                hintText: '이름',
+                isDense: true,
+                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  Widget priceField() {
+    return Row(
+      children: [
+        Text(
+          '가       격',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Flexible(
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: new InputDecoration(
+                enabledBorder: _formBorder,
+                hintText: '가격',
+                isDense: true,
+                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget addressField() {
+    return Row(
+      children: [
+        Text(
+          '추가사항',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Flexible(
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: TextFormField(
+              keyboardType: TextInputType.text,
+              decoration: new InputDecoration(
+                enabledBorder: _formBorder,
+                hintText: '입력해주세요...',
+                isDense: true,
+                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

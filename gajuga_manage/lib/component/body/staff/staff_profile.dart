@@ -3,7 +3,6 @@ import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
 class StaffProfile extends StatefulWidget {
@@ -15,6 +14,7 @@ class _StaffProfileState extends State<StaffProfile> {
   final List<String> data = <String>['김관우', '박종하', '이승환', '이주영'];
   TextEditingController searchController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  OutlineInputBorder _formBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(40), borderSide: BorderSide(color: Colors.grey[300]));
   File _profileImage;
   final picker = ImagePicker();
 
@@ -285,10 +285,7 @@ class _StaffProfileState extends State<StaffProfile> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: BorderSide(color: Colors.grey[300]),
-                ),
+                enabledBorder: _formBorder,
                 hintText: '이름',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -315,10 +312,7 @@ class _StaffProfileState extends State<StaffProfile> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: BorderSide(color: Colors.grey[300]),
-                ),
+                enabledBorder: _formBorder,
                 hintText: '전화번호',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -333,27 +327,46 @@ class _StaffProfileState extends State<StaffProfile> {
   Widget addressField() {
     return Row(
       children: [
-        Text(
-          '주       소',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Flexible(
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: BorderSide(color: Colors.grey[300]),
-                ),
-                hintText: '주소',
-                isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+        Column(
+          children: [
+            Text(
+              '주       소',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
               ),
             ),
+            SizedBox(height: 50),
+          ],
+        ),
+        Flexible(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: _formBorder,
+                    hintText: '우편번호',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width / 3,
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: _formBorder,
+                    hintText: '상세주소',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -363,27 +376,46 @@ class _StaffProfileState extends State<StaffProfile> {
   Widget accountNumberField() {
     return Row(
       children: [
-        Text(
-          '계좌번호',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        Column(
+          children: [
+            Text(
+              '계좌번호',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 50),
+          ],
         ),
         Flexible(
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: BorderSide(color: Colors.grey[300]),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: _formBorder,
+                    hintText: '은행',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
                 ),
-                hintText: '계좌번호',
-                isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    enabledBorder: _formBorder,
+                    hintText: '계좌번호',
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

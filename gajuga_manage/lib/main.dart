@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:gajuga_manage/component/body/chef_page.dart';
 import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
+import 'package:gajuga_manage/component/body/order_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_profile.dart';
 import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
@@ -13,6 +15,8 @@ void main() {
 }
 
 class MainScreen extends StatelessWidget {
+  bool isOrderPage = false; // TODO: 주문 관련 페이지만 true가 되도록 처리하기(다크모드)
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,11 +26,11 @@ class MainScreen extends StatelessWidget {
       ],
       supportedLocales: [
         const Locale('en', 'US'), // English
-        const Locale('ko', 'KO'), // Thai
+        const Locale('ko', 'KO'), // Korean
       ],
       title: "GAJUGA.",
       theme: ThemeData(
-        primaryColor: pale,
+        primaryColor: isOrderPage ? darkgrey : pale,
         canvasColor: Colors.transparent,
       ),
       themeMode: ThemeMode.light,
@@ -41,11 +45,13 @@ Widget mainBody() {
   return Column(
     children: [
       HeaderMenu(),
-      // TODO: 탭에 따라 아래쪽 화면만 바꿔줘야 함
-      // MenuManage(),
+      // TODO: 탭에 따라 아래쪽 화면만 바꿔줘야 함, 주문 관련 페이지에는 HeaderMenu 들어가지 않음
+      MenuManage(),
       // StaffManage(),
-      //StaffProfile(),
-      StockManage()
+      // StaffProfile(),
+      // StockManage(),
+      // ChefPage(),
+      // OrderPage(),
     ],
   );
 }
