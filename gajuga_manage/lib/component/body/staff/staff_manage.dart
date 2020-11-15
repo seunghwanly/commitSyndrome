@@ -14,8 +14,7 @@ class StaffManage extends StatefulWidget {
 class _StaffManageState extends State<StaffManage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
+    return Container(
         padding: EdgeInsets.only(top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,7 +30,6 @@ class _StaffManageState extends State<StaffManage> {
             Activity(),
           ],
         ),
-      ),
     );
   }
 }
