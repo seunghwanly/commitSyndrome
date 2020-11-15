@@ -16,7 +16,7 @@ class _MenuManageState extends State<MenuManage> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(40),
+        padding: EdgeInsets.fromLTRB(40, 20, 40, 40),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
