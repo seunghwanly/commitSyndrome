@@ -46,9 +46,9 @@ Widget mainBody() {
     children: [
       HeaderMenu(),
       // TODO: 탭에 따라 아래쪽 화면만 바꿔줘야 함, 주문 관련 페이지에는 HeaderMenu 들어가지 않음
-      // MenuManage(),
+      MenuManage(),
       // StaffManage(),
-      StaffProfile(),
+      // StaffProfile(),
       // StockManage(),
       // ChefPage(),
       // OrderPage(),
