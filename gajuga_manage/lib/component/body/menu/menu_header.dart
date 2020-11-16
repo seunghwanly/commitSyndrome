@@ -17,6 +17,7 @@ class _MenuHeaderState extends State<MenuHeader> {
   @override
   void dispose() {
     _searchFocus.dispose();
+    super.dispose();
   }
 
   @override

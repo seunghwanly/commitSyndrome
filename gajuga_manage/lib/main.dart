@@ -30,22 +30,8 @@ class MainScreen extends StatelessWidget {
       ),
       themeMode: ThemeMode.light,
       home: Scaffold(
-        body: CustomHeader(
-          body: mainBody(),
-        ),
+        body: MenuPage(),
       ),
     );
   }
-}
-
-Widget mainBody() {
-  return Column(
-    children: [
-      Container(
-        // margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
-        // padding: EdgeInsets.only(top: 15),
-        child: MenuPage(),
-      ),
-    ],
-  );
 }
