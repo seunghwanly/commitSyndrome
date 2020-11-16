@@ -88,7 +88,7 @@ class _StockManageState extends State<StockManage> {
                       flex: 4,
                       child: Container(
                           alignment: Alignment.center,
-                          child: datePicker(context)),
+                          child: datePicker(context, handleSave, selectedDate)),
                     ),
                     Expanded(
                         flex: 3,
@@ -149,45 +149,6 @@ class _StockManageState extends State<StockManage> {
         ),
       ),
     );
-  }
-
-  datePicker(BuildContext c) {
-    return RaisedButton(
-        onPressed: () async {
-          DateTime newDateTime = await customDatePicker(c, selectedDate);
-          if(newDateTime != null) {
-            setState(() => selectedDate = newDateTime);
-          }
-        },
-        color: white,
-        splashColor: superlight,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-            side: BorderSide(color: superlight, width: 1.0)),
-        child: Container(
-          width: MediaQuery.of(c).size.width * 0.2,
-          height: MediaQuery.of(c).size.height * 0.05,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Icon(
-                Icons.calendar_today,
-                color: lightgrey,
-              ),
-              Text(
-                selectedDate
-                        .toIso8601String()
-                        .substring(0, 10)
-                        .replaceAll('-', '/'),
-                style: TextStyle(color: lightgrey),
-              ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: lightgrey,
-              )
-            ],
-          ),
-        ));
   }
 
   showModal() {

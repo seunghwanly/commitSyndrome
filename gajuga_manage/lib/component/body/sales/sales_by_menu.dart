@@ -41,6 +41,12 @@ class _SalesByMenuState extends State<SalesByMenu> {
     selectedDate = new DateTime.now();
   }
 
+  void setDate(DateTime newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,7 +64,7 @@ class _SalesByMenuState extends State<SalesByMenu> {
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10.0),
                   alignment: Alignment.center,
-                  child: datePicker(context)),
+                  child: datePicker(context, setDate, selectedDate )),
             ),
             Expanded(
                 flex: 8,
@@ -99,46 +105,6 @@ class _SalesByMenuState extends State<SalesByMenu> {
                   ],
                 ))
           ],
-        ));
-  }
-
-  datePicker(BuildContext c) {
-    //------------------------------------------------- DATE PICKER FOR SETSTATE
-    return RaisedButton(
-        onPressed: () async {
-          DateTime newDateTime = await customDatePicker(c, selectedDate);
-          if (newDateTime != null) {
-            setState(() => selectedDate = newDateTime);
-          }
-        },
-        color: white,
-        splashColor: superlight,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-            side: BorderSide(color: superlight, width: 1.0)),
-        child: Container(
-          width: MediaQuery.of(c).size.width * 0.2,
-          height: MediaQuery.of(c).size.height * 0.05,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Icon(
-                Icons.calendar_today,
-                color: lightgrey,
-              ),
-              Text(
-                selectedDate
-                    .toIso8601String()
-                    .substring(0, 10)
-                    .replaceAll('-', '/'),
-                style: TextStyle(color: lightgrey),
-              ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: lightgrey,
-              )
-            ],
-          ),
         ));
   }
 }
