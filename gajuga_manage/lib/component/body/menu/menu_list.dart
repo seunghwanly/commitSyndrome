@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -320,8 +321,9 @@ class _MenuListState extends State<MenuList> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
-                hintText: '이름',
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
+                hintText: '이름 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
@@ -347,8 +349,9 @@ class _MenuListState extends State<MenuList> {
             child: TextFormField(
               keyboardType: TextInputType.number,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
-                hintText: '가격',
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
+                hintText: '가격 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
@@ -374,8 +377,9 @@ class _MenuListState extends State<MenuList> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
-                hintText: '입력해주세요...',
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
+                hintText: '추가사항 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
