@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/header/header.dart';
 import 'package:gajuga_manage/component/body/staff/staff_activity.dart';
 import 'package:gajuga_manage/component/body/staff/staff_list.dart';
 import 'package:gajuga_manage/component/body/staff/staff_search.dart';

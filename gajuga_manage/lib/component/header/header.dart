@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/chef_page.dart';
 import 'package:gajuga_manage/component/body/menu/menu_page.dart';
+import 'package:gajuga_manage/component/body/order_page.dart';
 import 'package:gajuga_manage/component/body/sales/sales_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/stock/stock_page.dart';
-// import 'package:gajuga_manage/component/body/order_history.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
-// import 'package:gajuga_manage/component/body/login.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -128,7 +127,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefPage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OrderPage()));
                       },
                     ),
                     Divider(),

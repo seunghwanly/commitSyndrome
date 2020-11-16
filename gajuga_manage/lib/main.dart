@@ -8,7 +8,7 @@ void main() {
 }
 
 class MainScreen extends StatelessWidget {
-  bool isOrderPage = false; // TODO: 주문 관련 페이지만 true가 되도록 처리하기(다크모드)
+  final bool isOrderPage = false; // TODO: 주문 관련 페이지만 true가 되도록 처리하기(다크모드)
 
   @override
   Widget build(BuildContext context) {
