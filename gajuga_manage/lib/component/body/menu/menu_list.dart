@@ -14,7 +14,7 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
   final _formKey = GlobalKey<FormState>();
-  File _profileImage;
+  File _menuImage;
   final picker = ImagePicker();
 
   void _menuUpdated() {
@@ -264,9 +264,9 @@ class _MenuListState extends State<MenuList> {
           Container(
             child: CircleAvatar(
               radius: 65.0,
-              backgroundImage: _profileImage == null
+              backgroundImage: _menuImage == null
                   ? AssetImage('images/A.png')
-                  : FileImage(_profileImage),
+                  : FileImage(_menuImage),
             ),
           ),
           Positioned(
@@ -283,7 +283,7 @@ class _MenuListState extends State<MenuList> {
               alignment: Alignment.center,
               child: IconButton(
                 onPressed: () {
-                  // getProfileImage();
+                  // getMenuImage();
                 },
                 icon: Icon(
                   Icons.camera_alt,
@@ -298,12 +298,12 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Future getProfileImage() async {
+  Future getMenuImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
 
     setState(() {
       if (pickedFile != null) {
-        _profileImage = File(pickedFile.path);
+        _menuImage = File(pickedFile.path);
       } else {
         print('No image selected.');
       }
