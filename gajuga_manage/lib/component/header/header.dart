@@ -48,117 +48,119 @@ class _CustomHeaderState extends State<CustomHeader> {
               bottomRight: Radius.circular(30),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  DrawerHeader(
-                    child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(33, 33, 31, 0.7),
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    DrawerHeader(
+                      child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(33, 33, 31, 0.7),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                        ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.restaurant_menu, color: darkblue, size: 30),
-                    title: makeTextSizepadding('메뉴 관리', darkblue, 0.0, 0.0, 18),
-                    subtitle: Text(
-                      ' menu',
-                      style: TextStyle(color: lightgrey, fontSize: 12),
+                    ListTile(
+                      leading: Icon(Icons.restaurant_menu, color: darkblue, size: 30),
+                      title: makeTextSizepadding('메뉴 관리', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(
+                        ' menu',
+                        style: TextStyle(color: lightgrey, fontSize: 12),
+                      ),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
+                      },
                     ),
-                    selected: true,
-                    contentPadding: EdgeInsets.only(left: 20.0),
-                    onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.people, color: darkblue, size: 30),
-                    title: makeTextSizepadding('직원 관리', darkblue, 0.0, 0.0, 18),
-                    subtitle: Text(
-                      ' staff',
-                      style: TextStyle(color: lightgrey, fontSize: 12),
+                    ListTile(
+                      leading: Icon(Icons.people, color: darkblue, size: 30),
+                      title: makeTextSizepadding('직원 관리', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(
+                        ' staff',
+                        style: TextStyle(color: lightgrey, fontSize: 12),
+                      ),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffPage()));
+                      },
                     ),
-                    selected: true,
-                    contentPadding: EdgeInsets.only(left: 20.0),
-                    onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffPage()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.attach_money, color: darkblue, size: 30),
-                    title: makeTextSizepadding('매출 관리', darkblue, 0.0, 0.0, 18),
-                    subtitle: Text(
-                      ' sales',
-                      style: TextStyle(color: lightgrey, fontSize: 12),
+                    ListTile(
+                      leading: Icon(Icons.attach_money, color: darkblue, size: 30),
+                      title: makeTextSizepadding('매출 관리', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(
+                        ' sales',
+                        style: TextStyle(color: lightgrey, fontSize: 12),
+                      ),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => OrderHistory()));
+                      },
                     ),
-                    selected: true,
-                    contentPadding: EdgeInsets.only(left: 20.0),
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => OrderHistory()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.apps, color: darkblue, size: 30),
-                    title: makeTextSizepadding('재고 관리', darkblue, 0.0, 0.0, 18),
-                    subtitle: Text(
-                      ' stock',
-                      style: TextStyle(color: lightgrey, fontSize: 12),
+                    ListTile(
+                      leading: Icon(Icons.apps, color: darkblue, size: 30),
+                      title: makeTextSizepadding('재고 관리', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(
+                        ' stock',
+                        style: TextStyle(color: lightgrey, fontSize: 12),
+                      ),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => OrderHistory()));
+                      },
                     ),
-                    selected: true,
-                    contentPadding: EdgeInsets.only(left: 20.0),
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => OrderHistory()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.queue, color: darkblue, size: 30),
-                    title: makeTextSizepadding('주문 목록', darkblue, 0.0, 0.0, 18),
-                    subtitle: Text(
-                      ' order',
-                      style: TextStyle(color: lightgrey, fontSize: 12),
+                    ListTile(
+                      leading: Icon(Icons.queue, color: darkblue, size: 30),
+                      title: makeTextSizepadding('주문 목록', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(
+                        ' order',
+                        style: TextStyle(color: lightgrey, fontSize: 12),
+                      ),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefPage()));
+                      },
                     ),
-                    selected: true,
-                    contentPadding: EdgeInsets.only(left: 20.0),
-                    onTap: () {
-                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefPage()));
-                    },
-                  ),
-                  Divider(),
-                  ListTile(
-                    leading: Icon(Icons.queue, color: darkblue, size: 30),
-                    title: makeTextSizepadding('주문 목록(셰프)', darkblue, 0.0, 0.0, 18),
-                    subtitle: Text(
-                      ' order / chef',
-                      style: TextStyle(color: lightgrey, fontSize: 12),
+                    Divider(),
+                    ListTile(
+                      leading: Icon(Icons.queue, color: darkblue, size: 30),
+                      title: makeTextSizepadding('주문 목록(셰프)', darkblue, 0.0, 0.0, 18),
+                      subtitle: Text(
+                        ' order / chef',
+                        style: TextStyle(color: lightgrey, fontSize: 12),
+                      ),
+                      selected: true,
+                      contentPadding: EdgeInsets.only(left: 20.0),
+                      onTap: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefPage()));
+                      },
                     ),
-                    selected: true,
-                    contentPadding: EdgeInsets.only(left: 20.0),
-                    onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefPage()));
-                    },
-                  ),
-                ],
-              ),
-              ListTile(
-                title: makeTitle('로그인', '로그아웃'),
-                subtitle: Text('       김관우 in the area'),
-                onTap: () {
-                  //   Navigator.push(context,
-                  //       MaterialPageRoute(builder: (context) => LoginWidget()));
-                },
-              ),
-            ],
+                  ],
+                ),
+                ListTile(
+                  title: makeTitle('로그인', '로그아웃'),
+                  subtitle: Text('       김관우 in the area'),
+                  onTap: () {
+                    //   Navigator.push(context,
+                    //       MaterialPageRoute(builder: (context) => LoginWidget()));
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

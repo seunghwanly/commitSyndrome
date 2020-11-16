@@ -20,12 +20,14 @@ class _StaffPageState extends State<StaffPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                StaffSearch(),
-                SizedBox(height: 40),
-                StaffList(),
-              ],
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  StaffSearch(),
+                  SizedBox(height: 40),
+                  StaffList(),
+                ],
+              ),
             ),
             StaffActivity(),
           ],

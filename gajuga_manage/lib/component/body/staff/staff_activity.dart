@@ -24,41 +24,43 @@ class _StaffActivityState extends State<StaffActivity> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '직원',
+                        style: TextStyle(color: darkgrey),
+                      ),
+                      TextSpan(
+                        text: ' 활동 확인',
+                        style: TextStyle(color: orange),
+                      ),
+                    ],
                   ),
-                  children: [
-                    TextSpan(
-                      text: '직원',
-                      style: TextStyle(color: darkgrey),
-                    ),
-                    TextSpan(
-                      text: ' 활동 확인',
-                      style: TextStyle(color: orange),
-                    ),
-                  ],
+                ),
+              ],
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 2.5,
+              child: Center(
+                child: Text(
+                  '검색된 결과가 없습니다...',
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ],
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height / 2.5,
-            child: Center(
-              child: Text(
-                '검색된 결과가 없습니다...',
-                textAlign: TextAlign.center,
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
