@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu/menu_list.dart';
+import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -10,7 +11,13 @@ class MenuManage extends StatefulWidget {
 }
 
 class _MenuManageState extends State<MenuManage> {
-  TextEditingController searchController = new TextEditingController();
+  final TextEditingController _searchController = new TextEditingController();
+  final FocusNode _searchFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _searchFocus.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +35,24 @@ class _MenuManageState extends State<MenuManage> {
                 Container(
                   width: MediaQuery.of(context).size.width / 5,
                   child: TextField(
-                    controller: searchController,
+                    controller: _searchController,
+                    focusNode: _searchFocus,
                     keyboardType: TextInputType.text,
                     decoration: new InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        borderSide: BorderSide(color: Colors.grey[300]),
-                      ),
+                      enabledBorder: roundInputBorder,
+                      focusedBorder: roundInputBorder,
                       hintText: '검색어를 입력해주세요',
                       isDense: true,
                       contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                     ),
                   ),
                 ),
-                IconButton(
+                IconButton( // 검색
                   icon: Icon(Icons.search),
-                  onPressed: () { },
+                  onPressed: () {
+                    _searchFocus.dispose();
+                    print('search');
+                  },
                 ),
               ],
             ),
