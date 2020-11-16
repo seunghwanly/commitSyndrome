@@ -19,7 +19,7 @@ class _MainContainerState extends State<MainContainer> {
           Expanded(
             child: Container(
               margin: EdgeInsets.only(top: 10),
-              padding: EdgeInsets.fromLTRB(15, 20, 25, 40),
+              padding: EdgeInsets.fromLTRB(15, 20, 25, 0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
