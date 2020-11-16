@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
-class Activity extends StatefulWidget {
+class StaffActivity extends StatefulWidget {
   @override
-  _ActivityState createState() => _ActivityState();
+  _StaffActivityState createState() => _StaffActivityState();
 }
 
-class _ActivityState extends State<Activity> {
+class _StaffActivityState extends State<StaffActivity> {
   @override
   Widget build(BuildContext context) {
     return Container(

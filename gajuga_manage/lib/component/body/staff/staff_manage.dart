@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/staff/activity.dart';
+import 'package:gajuga_manage/component/body/staff/staff_activity.dart';
 import 'package:gajuga_manage/component/body/staff/staff_list.dart';
 import 'package:gajuga_manage/component/body/staff/staff_search.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
@@ -27,7 +27,7 @@ class _StaffManageState extends State<StaffManage> {
               StaffList(),
             ],
           ),
-          Activity(),
+          StaffActivity(),
         ],
       ),
     );
