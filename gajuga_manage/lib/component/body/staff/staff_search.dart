@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 class StaffSearch extends StatefulWidget {
@@ -7,13 +8,14 @@ class StaffSearch extends StatefulWidget {
 }
 
 class _StaffSearchState extends State<StaffSearch> {
-  TextEditingController searchController = new TextEditingController();
+  TextEditingController _searchController = new TextEditingController();
+  final FocusNode _searchFocus = FocusNode();
   
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
-      width: MediaQuery.of(context).size.width / 2.65,
+      width: MediaQuery.of(context).size.width / 2.3,
       height: MediaQuery.of(context).size.height / 6,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -66,25 +68,28 @@ class _StaffSearchState extends State<StaffSearch> {
                 ),
               ),
               SizedBox(width: 10),
-              Container(
-                width: MediaQuery.of(context).size.width / 5,
-                child: TextField(
-                  controller: searchController,
-                  keyboardType: TextInputType.text,
-                  decoration: new InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.grey[300]),
+              Expanded(
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 5,
+                  child: TextField(
+                    controller: _searchController,
+                    focusNode: _searchFocus,
+                    keyboardType: TextInputType.text,
+                    decoration: new InputDecoration(
+                      enabledBorder: roundInputBorder,
+                      focusedBorder: roundInputBorder,
+                      hintText: '직원 이름을 입력해주세요...',
+                      isDense: true,
+                      contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                     ),
-                    hintText: '검색어를 입력해주세요',
-                    isDense: true,
-                    contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                   ),
                 ),
               ),
               IconButton(
                 icon: Icon(Icons.search),
-                onPressed: () { },
+                onPressed: () {
+                  print('search');
+                },
               ),
             ],
           ),

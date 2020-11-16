@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/util/box_shadow.dart';
+import 'package:gajuga_manage/util/main_container.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';
@@ -11,6 +11,7 @@ class StaffProfile extends StatefulWidget {
 }
 
 class _StaffProfileState extends State<StaffProfile> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> data = <String>['김관우', '박종하', '이승환', '이주영'];
   TextEditingController searchController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -19,61 +20,55 @@ class _StaffProfileState extends State<StaffProfile> {
   final picker = ImagePicker();
 
   void _profileUpdated() {
-    Scaffold.of(context).showSnackBar(SnackBar(content: new Text("직원 프로필 수정이 완료되었습니다.")));
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(content: new Text("직원 프로필 수정이 완료되었습니다.")));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-          color: Colors.white,
-        ),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                makeTitle('직원', ' 프로필 수정'),
-                IconButton(
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  onPressed: () { },
-                ),
-              ],
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.03,
+    return Scaffold(
+      key: _scaffoldKey,
+      body: MainContainer(
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  makeTitle('직원', ' 프로필 수정'),
+                  IconButton(
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    onPressed: () { },
                   ),
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _listItem(
-                        data[index],
-                        AssetImage('images/default_profile.jpg'),
-                        '직원',
-                        '010-1234-1234',
-                        context,
-                      );
-                    },
-                    scrollDirection: Axis.horizontal,
+                ],
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _listItem(
+                          data[index],
+                          AssetImage('images/default_profile.jpg'),
+                          '직원',
+                          '010-1234-1234',
+                          context,
+                        );
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

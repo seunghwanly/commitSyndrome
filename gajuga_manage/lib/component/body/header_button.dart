@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
-import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
-import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
-import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
+import 'package:gajuga_manage/component/body/menu/menu_header.dart';
+import 'package:gajuga_manage/component/body/sales/sales_page.dart';
+import 'package:gajuga_manage/component/body/staff/staff_page.dart';
+import 'package:gajuga_manage/component/body/stock/stock_page.dart';
 import 'package:gajuga_manage/util/box_button.dart';
-import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 class HeaderButton extends StatefulWidget {
@@ -128,12 +127,12 @@ class _HeaderButtonState extends State<HeaderButton> {
 Widget mainBody(int pageIndex) {
   switch (pageIndex) {
     case 0:
-      return MenuManage();
+      return MenuHeader();
     case 1:
-      return StaffManage();
+      return StaffPage();
     case 2:
-      return SalesManage();
+      return SalesPage();
     case 3:
-      return StockManage();
+      return StockPage();
   }
 }

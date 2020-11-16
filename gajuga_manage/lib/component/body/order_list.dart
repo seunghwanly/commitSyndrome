@@ -54,6 +54,14 @@ class _OrderListState extends State<OrderList> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(1, 2),
+                    blurRadius: 10,
+                    spreadRadius: 0.1,
+                  ),
+                ],
               ),
               child: Row(
                 children: [

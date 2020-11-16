@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -13,8 +14,7 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
   final _formKey = GlobalKey<FormState>();
-  OutlineInputBorder _formBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(40), borderSide: BorderSide(color: Colors.grey[300]));
-  File _profileImage;
+  File _menuImage;
   final picker = ImagePicker();
 
   void _menuUpdated() {
@@ -32,7 +32,7 @@ class _MenuListState extends State<MenuList> {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.03,
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: data.length,
@@ -53,7 +53,7 @@ class _MenuListState extends State<MenuList> {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.03,
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: data.length,
@@ -74,7 +74,7 @@ class _MenuListState extends State<MenuList> {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.03,
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: data.length,
@@ -97,7 +97,7 @@ class _MenuListState extends State<MenuList> {
   }
 
   Widget _listItem(String title, AssetImage image, String desc, int cost, BuildContext context) {
-    double itemWidth = MediaQuery.of(context).size.width * 0.2;
+    double itemWidth = MediaQuery.of(context).size.width * 0.18;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
     return Container(
@@ -115,7 +115,7 @@ class _MenuListState extends State<MenuList> {
         ],
       ),
       margin: EdgeInsets.only(left: 40, bottom: 20),
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -123,20 +123,25 @@ class _MenuListState extends State<MenuList> {
             backgroundImage: image,
             radius: 35,
           ),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            desc,
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            '${toLocaleString(cost)} 원',
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-            textAlign: TextAlign.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                desc,
+                style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                '${toLocaleString(cost)} 원',
+                style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
           FlatButton(
             color: orange,
@@ -259,9 +264,9 @@ class _MenuListState extends State<MenuList> {
           Container(
             child: CircleAvatar(
               radius: 65.0,
-              backgroundImage: _profileImage == null
+              backgroundImage: _menuImage == null
                   ? AssetImage('images/A.png')
-                  : FileImage(_profileImage),
+                  : FileImage(_menuImage),
             ),
           ),
           Positioned(
@@ -278,7 +283,7 @@ class _MenuListState extends State<MenuList> {
               alignment: Alignment.center,
               child: IconButton(
                 onPressed: () {
-                  // getProfileImage();
+                  // getMenuImage();
                 },
                 icon: Icon(
                   Icons.camera_alt,
@@ -293,12 +298,12 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Future getProfileImage() async {
+  Future getMenuImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
 
     setState(() {
       if (pickedFile != null) {
-        _profileImage = File(pickedFile.path);
+        _menuImage = File(pickedFile.path);
       } else {
         print('No image selected.');
       }
@@ -320,8 +325,9 @@ class _MenuListState extends State<MenuList> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
-                hintText: '이름',
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
+                hintText: '이름 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
@@ -347,8 +353,9 @@ class _MenuListState extends State<MenuList> {
             child: TextFormField(
               keyboardType: TextInputType.number,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
-                hintText: '가격',
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
+                hintText: '가격 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
@@ -374,8 +381,9 @@ class _MenuListState extends State<MenuList> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
-                hintText: '입력해주세요...',
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
+                hintText: '추가사항 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),

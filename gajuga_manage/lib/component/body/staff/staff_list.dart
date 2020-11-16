@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/staff/staff_profile.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 class StaffList extends StatefulWidget {
@@ -13,8 +14,8 @@ class _StaffListState extends State<StaffList> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 10, left: 20, right: 10),
-      width: MediaQuery.of(context).size.width / 2.7,
-      height: MediaQuery.of(context).size.height / 3.5,
+      width: MediaQuery.of(context).size.width / 2.3,
+      height: MediaQuery.of(context).size.height / 2.9,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -29,32 +30,37 @@ class _StaffListState extends State<StaffList> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
+          InkWell(
+            onTap: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffProfile()));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '직원',
+                        style: TextStyle(color: darkgrey),
+                      ),
+                      TextSpan(
+                        text: ' 프로필 수정',
+                        style: TextStyle(color: orange),
+                      ),
+                    ],
                   ),
-                  children: [
-                    TextSpan(
-                      text: '직원',
-                      style: TextStyle(color: darkgrey),
-                    ),
-                    TextSpan(
-                      text: ' 프로필 수정',
-                      style: TextStyle(color: orange),
-                    ),
-                  ],
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.keyboard_arrow_right),
-                onPressed: () { },
-              ),
-            ],
+                IconButton(
+                  icon: Icon(Icons.keyboard_arrow_right),
+                  onPressed: () { },
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 10),
           Container(

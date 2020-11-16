@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/util/main_container.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:gajuga_manage/component/body/order_list.dart';
 import 'package:gajuga_manage/util/palette.dart';
@@ -15,18 +16,15 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: darkgrey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              StickyHeader(
-                header: headerButtons(),
-                content: unhandledOrders ? OrderList(orderStatus: 1) : OrderList(orderStatus: 2),
-              ),
-            ],
-          ),
+    return MainContainer(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            StickyHeader(
+              header: headerButtons(),
+              content: unhandledOrders ? OrderList(orderStatus: 1) : OrderList(orderStatus: 2),
+            ),
+          ],
         ),
       ),
     );
@@ -35,8 +33,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget headerButtons() {
     return Center(
       child: Container(
-        padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-        color: darkgrey,
+        padding: EdgeInsets.fromLTRB(20, 10, 10, 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -48,7 +45,7 @@ class _OrderPageState extends State<OrderPage> {
                 });
               },
               child: Container(
-                width: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery.of(context).size.width / 2.3,
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -73,7 +70,7 @@ class _OrderPageState extends State<OrderPage> {
                 });
               },
               child: Container(
-                width: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery.of(context).size.width / 2.3,
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

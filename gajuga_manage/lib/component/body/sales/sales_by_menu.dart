@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
@@ -50,61 +51,89 @@ class _SalesByMenuState extends State<SalesByMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height / 2,
-        width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.only(
-          top: 20,
-        ),
-        decoration: customBoxDecoration(),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10.0),
-                  alignment: Alignment.center,
-                  child: datePicker(context, setDate, selectedDate )),
+      alignment: Alignment.center,
+      height: MediaQuery.of(context).size.height / 2,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+        top: 20,
+      ),
+      decoration: customBoxDecoration(),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 10.0),
+              alignment: Alignment.center,
+              child: datePicker(context, setDate, selectedDate),
             ),
-            Expanded(
-                flex: 8,
-                child: Row(
-                  //------------------------------------------------- PIE CHART & DESC
-                  children: [
-                    Expanded(
-                        //------------------------------------------------- PIE CHART
-                        flex: 6,
-                        child: PieChart(
-                          dataMap: todayData,
-                          colorList: todayDataColor,
-                        )),
-                    Expanded(
-                      //------------------------------------------------- DESC for 1st
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage('images/A.png'),
-                              radius: 70,
+          ),
+          Expanded(
+            flex: 8,
+            child: Row(
+              //------------------------------------------------- PIE CHART & DESC
+              children: [
+                Expanded(
+                  //------------------------------------------------- PIE CHART
+                  flex: 6,
+                    child: PieChart(
+                      dataMap: todayData,
+                      colorList: todayDataColor,
+                    ),
+                  ),
+                  Expanded(
+                    //------------------------------------------------- DESC for 1st
+                    flex: 4,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('images/A.png'),
+                            radius: 100,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: '오늘은 ',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                TextSpan(
+                                  text: '${todayData.keys.first}',
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                                ),
+                                TextSpan(
+                                  text: '가 제일 많은 판매량을 기록했네요 !\n오늘 매출은 ',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                TextSpan(
+                                  text: '${5000}',
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                                ),
+                                TextSpan(
+                                  text: '원 입니다 ! 분발해주세요 !',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: SizedBox(),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Text(
-                                "오늘은 ${todayData.keys.first} 가 제일 많은 판매량을 기록했네요 !\n 오늘 매출은 ${5000}원 입니다 ! 분발해주세요 !"),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ))
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
-        ));
+        ),
+    );
   }
 }
