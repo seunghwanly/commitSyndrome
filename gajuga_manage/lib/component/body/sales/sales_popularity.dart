@@ -27,9 +27,8 @@ class _SalesPopularityState extends State<SalesPopularity> {
       selectedDate = newDate;
     });
   }
-  void handleOnPressed() {
 
-  }
+  void handleOnPressed() {}
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +51,11 @@ class _SalesPopularityState extends State<SalesPopularity> {
             child: Row(
               children: [
                 itemWithIcon(
-                  context,'A', "보자보자어디보자", 12900, Color.fromRGBO(192, 192, 192, 1.0), handleOnPressed
-                ),
+                    context, 'A', "보자보자어디보자", 12900, 2, handleOnPressed),
                 itemWithIcon(
-                  context,'B', "보자보자어디보자", 12900, Color.fromRGBO(225, 215, 0, 1.0), handleOnPressed
-                ),
+                    context, 'B', "보자보자어디보자", 12900, 1, handleOnPressed),
                 itemWithIcon(
-                  context,'C', "보자보자어디보자", 12900, Color.fromRGBO(205, 127, 50, 1.0), handleOnPressed
-                ),
+                    context, 'C', "보자보자어디보자", 12900, 3, handleOnPressed),
               ],
             ),
           )
@@ -68,7 +64,12 @@ class _SalesPopularityState extends State<SalesPopularity> {
 }
 
 Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
-    int menuCost, Color iconColor, Function onPress) {
+    int menuCost, int rank, Function onPress) {
+  String imagePath = '';
+  if (rank == 2)
+    imagePath = imagePath + '_silver';
+  else if (rank == 3) imagePath = imagePath + '_brown';
+
   return Expanded(
     flex: 3,
     child: Column(
@@ -76,11 +77,7 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
       children: [
         Expanded(
           flex: 2,
-          child: Icon(
-            Icons.attach_money_rounded,
-            color: iconColor,
-            size: 50,
-          ),
+          child: Image(image: AssetImage('images/icon/crown${imagePath}.png')),
         ),
         Expanded(
             flex: 8,
@@ -112,7 +109,7 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
                                 fontWeight: FontWeight.w600, color: lightgrey),
                             textAlign: TextAlign.center,
                           ),
-                          Text(toLocaleString(menuCost)+" 원",
+                          Text(toLocaleString(menuCost) + " 원",
                               style: TextStyle(
                                   fontWeight: FontWeight.w600, color: darkblue),
                               textAlign: TextAlign.center),
@@ -126,7 +123,7 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
                           borderRadius: BorderRadius.circular(20.0)),
                       color: orange,
                       child: Text(
-                        "수정하기",
+                        "누적판매량보기",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
