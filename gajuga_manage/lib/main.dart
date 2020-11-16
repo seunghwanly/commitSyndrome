@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:gajuga_manage/component/body/header_button.dart';
 import 'package:gajuga_manage/component/body/menu/menu_page.dart';
 import 'package:gajuga_manage/util/palette.dart';
-import 'package:gajuga_manage/component/header/header.dart';
 
 void main() {
   runApp(MainScreen());

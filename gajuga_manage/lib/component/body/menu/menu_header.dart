@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu/menu_list.dart';
 import 'package:gajuga_manage/util/borders.dart';
-import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 
