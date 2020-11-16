@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu/menu_header.dart';
 import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
-import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
+import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
 import 'package:gajuga_manage/util/box_button.dart';
-import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 class HeaderButton extends StatefulWidget {
@@ -130,7 +129,7 @@ Widget mainBody(int pageIndex) {
     case 0:
       return MenuHeader();
     case 1:
-      return StaffManage();
+      return StaffPage();
     case 2:
       return SalesManage();
     case 3:
