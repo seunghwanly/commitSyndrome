@@ -14,7 +14,6 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   final List<String> data = <String>['A', 'B', 'C', 'D'];
   final _formKey = GlobalKey<FormState>();
-  OutlineInputBorder _formBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(40), borderSide: BorderSide(color: Colors.grey[300]));
   File _profileImage;
   final picker = ImagePicker();
 
