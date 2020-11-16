@@ -64,13 +64,9 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                children: [
-                  ProfitList(),
-                ],
-              ),
+              ProfitList(),
+              ExpenseList(),
             ],
           ),
         ],
