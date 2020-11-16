@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/chef_page.dart';
 import 'package:gajuga_manage/component/body/menu/menu_page.dart';
@@ -54,6 +56,7 @@ class _CustomHeaderState extends State<CustomHeader> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DrawerHeader(
                       child: makeTitleSize("GAJUGA", ' 가주가', 10, 20, false),
@@ -62,6 +65,18 @@ class _CustomHeaderState extends State<CustomHeader> {
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 20, top: 10, bottom: 5),
+                      child: Text(
+                        'Manager/Staff Menu',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: orange,
                         ),
                       ),
                     ),
@@ -131,6 +146,18 @@ class _CustomHeaderState extends State<CustomHeader> {
                       },
                     ),
                     Divider(),
+                    Container(
+                      padding: EdgeInsets.only(left: 20, top: 10, bottom: 5),
+                      child: Text(
+                        'Chef Menu',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: orange,
+                        ),
+                      ),
+                    ),
                     ListTile(
                       leading: Icon(Icons.queue, color: darkblue, size: 30),
                       title: makeTextSizepadding('주문 목록(셰프)', darkblue, 0.0, 0.0, 18),
@@ -146,6 +173,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                     ),
                   ],
                 ),
+                SizedBox(height: 25),
                 ListTile(
                   title: makeTitle('로그인', '로그아웃'),
                   subtitle: Text('       김관우 in the area'),
