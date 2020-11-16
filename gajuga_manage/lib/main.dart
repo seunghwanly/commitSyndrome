@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gajuga_manage/component/body/header_button.dart';
+import 'package:gajuga_manage/component/body/menu/menu_page.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/component/header/header.dart';
 
@@ -41,9 +42,9 @@ Widget mainBody() {
   return Column(
     children: [
       Container(
-        margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
-        padding: EdgeInsets.only(top: 15),
-        child: HeaderButton(),
+        // margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+        // padding: EdgeInsets.only(top: 15),
+        child: MenuPage(),
       ),
     ],
   );
