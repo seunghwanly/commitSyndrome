@@ -22,7 +22,7 @@ Container customBoxContainer(double w, double h, final c, bool needPadding) {
     width: w,
     height: h,
     decoration: customBoxDecoration(),
-    padding: needPadding ? EdgeInsets.only(left: 20, right: 20) : null,
+    padding: needPadding ? EdgeInsets.all(10.0) : null,
     child: c,
   );
 }
