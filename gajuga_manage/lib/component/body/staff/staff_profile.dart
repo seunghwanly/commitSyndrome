@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/chef_page.dart';
+import 'package:gajuga_manage/component/body/menu/menu_page.dart';
+import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 // import 'package:gajuga_manage/component/body/order_history.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -71,8 +73,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                     selected: true,
                     contentPadding: EdgeInsets.only(left: 20.0),
                     onTap: () {
-                      // Navigator.popUntil(context,
-                      //     ModalRoute.withName(Navigator.defaultRouteName));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
                     },
                   ),
                   ListTile(
@@ -85,10 +86,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                     selected: true,
                     contentPadding: EdgeInsets.only(left: 20.0),
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => OrderHistory()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffPage()));
                     },
                   ),
                   ListTile(
