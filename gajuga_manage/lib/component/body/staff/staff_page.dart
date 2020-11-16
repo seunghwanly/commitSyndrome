@@ -20,7 +20,7 @@ class _StaffPageState extends State<StaffPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SingleChildScrollView(
+            SingleChildScrollView( // TODO: SingleChildScrollView로 keyboard overflow 해결하면 위쪽 shadow가 없어짐
               child: Column(
                 children: [
                   StaffSearch(),
