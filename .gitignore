@@ -5,3 +5,4 @@ gajuga_user/pubspec.lock
 gajuga_manage/ios/Runner.xcodeproj/project.pbxproj
 gajuga_user/ios/Runner.xcodeproj/project.pbxproj
 gajuga_user/pubspec.lock
+*.lock
