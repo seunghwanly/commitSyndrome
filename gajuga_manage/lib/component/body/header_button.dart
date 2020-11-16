@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu/menu_header.dart';
-import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
+import 'package:gajuga_manage/component/body/sales/sales_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
 import 'package:gajuga_manage/util/box_button.dart';
@@ -131,7 +131,7 @@ Widget mainBody(int pageIndex) {
     case 1:
       return StaffPage();
     case 2:
-      return SalesManage();
+      return SalesPage();
     case 3:
       return StockManage();
   }
