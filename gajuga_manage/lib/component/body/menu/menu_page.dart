@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
+import 'package:gajuga_manage/component/body/menu/menu_header.dart';
 
 class MenuPage extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _MenuPageState extends State<MenuPage> {
           ],
           color: Colors.white,
         ),
-        child: MenuManage(),
+        child: MenuHeader(),
       ),
     );
   }

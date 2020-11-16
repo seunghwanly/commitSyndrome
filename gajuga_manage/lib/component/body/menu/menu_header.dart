@@ -5,12 +5,12 @@ import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 
-class MenuManage extends StatefulWidget {
+class MenuHeader extends StatefulWidget {
   @override
-  _MenuManageState createState() => _MenuManageState();
+  _MenuHeaderState createState() => _MenuHeaderState();
 }
 
-class _MenuManageState extends State<MenuManage> {
+class _MenuHeaderState extends State<MenuHeader> {
   final TextEditingController _searchController = new TextEditingController();
   final FocusNode _searchFocus = FocusNode();
 

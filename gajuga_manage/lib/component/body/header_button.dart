@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gajuga_manage/component/body/menu/menu_manage.dart';
+import 'package:gajuga_manage/component/body/menu/menu_header.dart';
 import 'package:gajuga_manage/component/body/sales/sales_manage.dart';
 import 'package:gajuga_manage/component/body/staff/staff_manage.dart';
 import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
@@ -128,7 +128,7 @@ class _HeaderButtonState extends State<HeaderButton> {
 Widget mainBody(int pageIndex) {
   switch (pageIndex) {
     case 0:
-      return MenuManage();
+      return MenuHeader();
     case 1:
       return StaffManage();
     case 2:
