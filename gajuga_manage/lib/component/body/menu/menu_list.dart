@@ -32,7 +32,7 @@ class _MenuListState extends State<MenuList> {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.03,
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: data.length,
@@ -53,7 +53,7 @@ class _MenuListState extends State<MenuList> {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.03,
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: data.length,
@@ -74,7 +74,7 @@ class _MenuListState extends State<MenuList> {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.03,
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: data.length,
@@ -97,7 +97,7 @@ class _MenuListState extends State<MenuList> {
   }
 
   Widget _listItem(String title, AssetImage image, String desc, int cost, BuildContext context) {
-    double itemWidth = MediaQuery.of(context).size.width * 0.2;
+    double itemWidth = MediaQuery.of(context).size.width * 0.18;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
     return Container(
@@ -115,7 +115,7 @@ class _MenuListState extends State<MenuList> {
         ],
       ),
       margin: EdgeInsets.only(left: 40, bottom: 20),
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -123,20 +123,25 @@ class _MenuListState extends State<MenuList> {
             backgroundImage: image,
             radius: 35,
           ),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            desc,
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            '${toLocaleString(cost)} 원',
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
-            textAlign: TextAlign.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                desc,
+                style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                '${toLocaleString(cost)} 원',
+                style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
           FlatButton(
             color: orange,
