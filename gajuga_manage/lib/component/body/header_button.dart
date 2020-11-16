@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/menu/menu_header.dart';
 import 'package:gajuga_manage/component/body/sales/sales_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
-import 'package:gajuga_manage/component/body/stock/stock_manage.dart';
+import 'package:gajuga_manage/component/body/stock/stock_page.dart';
 import 'package:gajuga_manage/util/box_button.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -133,6 +133,6 @@ Widget mainBody(int pageIndex) {
     case 2:
       return SalesPage();
     case 3:
-      return StockManage();
+      return StockPage();
   }
 }
