@@ -53,9 +53,8 @@ class _SalesByMenuState extends State<SalesByMenu> {
       alignment: Alignment.center,
       height: MediaQuery.of(context).size.height / 2,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(
-        top: 20,
-      ),
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      padding: EdgeInsets.only(left: 20),
       decoration: customBoxDecoration(),
       child: Column(
         children: [
