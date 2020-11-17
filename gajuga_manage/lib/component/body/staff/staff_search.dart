@@ -15,7 +15,7 @@ class _StaffSearchState extends State<StaffSearch> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
-      width: MediaQuery.of(context).size.width / 2.3,
+      width: MediaQuery.of(context).size.width / 2.5,
       height: MediaQuery.of(context).size.height / 6,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

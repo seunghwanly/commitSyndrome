@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/main_container.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -15,7 +16,6 @@ class _StaffProfileState extends State<StaffProfile> {
   final List<String> data = <String>['김관우', '박종하', '이승환', '이주영'];
   TextEditingController searchController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  OutlineInputBorder _formBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(40), borderSide: BorderSide(color: Colors.grey[300]));
   File _profileImage;
   final picker = ImagePicker();
 
@@ -285,7 +285,8 @@ class _StaffProfileState extends State<StaffProfile> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
                 hintText: '이름',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -312,7 +313,8 @@ class _StaffProfileState extends State<StaffProfile> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
-                enabledBorder: _formBorder,
+                enabledBorder: roundInputBorder,
+                focusedBorder: roundInputBorder,
                 hintText: '전화번호',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -346,7 +348,8 @@ class _StaffProfileState extends State<StaffProfile> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: new InputDecoration(
-                    enabledBorder: _formBorder,
+                    enabledBorder: roundInputBorder,
+                    focusedBorder: roundInputBorder,
                     hintText: '우편번호',
                     isDense: true,
                     contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -359,7 +362,8 @@ class _StaffProfileState extends State<StaffProfile> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: new InputDecoration(
-                    enabledBorder: _formBorder,
+                    enabledBorder: roundInputBorder,
+                    focusedBorder: roundInputBorder,
                     hintText: '상세주소',
                     isDense: true,
                     contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -396,7 +400,8 @@ class _StaffProfileState extends State<StaffProfile> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: new InputDecoration(
-                    enabledBorder: _formBorder,
+                    enabledBorder: roundInputBorder,
+                    focusedBorder: roundInputBorder,
                     hintText: '은행',
                     isDense: true,
                     contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -408,7 +413,8 @@ class _StaffProfileState extends State<StaffProfile> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: new InputDecoration(
-                    enabledBorder: _formBorder,
+                    enabledBorder: roundInputBorder,
+                    focusedBorder: roundInputBorder,
                     hintText: '계좌번호',
                     isDense: true,
                     contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
