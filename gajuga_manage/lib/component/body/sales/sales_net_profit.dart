@@ -2,17 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/sales/expense_list.dart';
 import 'package:gajuga_manage/component/body/sales/profit_list.dart';
 import 'package:gajuga_manage/util/borders.dart';
+import 'package:gajuga_manage/util/date_picker.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
-
-class Choice {
-  int id;
-  String value;
- 
-  Choice({this.id, this.value});
-}
 
 class SalesNetProfit extends StatefulWidget {
   SalesNetProfit();
@@ -22,14 +16,23 @@ class SalesNetProfit extends StatefulWidget {
 }
 
 class _SalesNetProfitState extends State<SalesNetProfit> {
-  List<Choice> _choices =[
-    Choice(id: 1, value: '영업수익'),
-    Choice(id: 2, value: '영업비용'),
-  ];
-
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final DateFormat formatter = DateFormat('yyyy년 MM월');
+  String _selectedDateString = DateFormat('yyyy년 MM월').format(DateTime.now());
   int _radioValue = -1;
+  DateTime selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = new DateTime.now();
+  }
+
+  void setDate(DateTime newDate) {
+    setState(() {
+      selectedDate = newDate;
+      _selectedDateString = DateFormat('yyyy년 MM월').format(selectedDate);
+    });
+  }
 
   void _dataUpdated() {
     Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("매출 정보 입력이 완료되었습니다.")));
@@ -47,19 +50,27 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Text(
-                        '${formatter.format(DateTime.now())}',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: orange,
+                  InkWell(
+                    onTap: () async {
+                      DateTime newDateTime = await customDatePicker(context, selectedDate);
+                      if (newDateTime != null) {
+                        setDate(newDateTime);
+                      }
+                    },
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: [
+                        Text(
+                          _selectedDateString,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: orange,
+                          ),
                         ),
-                      ),
-                      Icon(Icons.keyboard_arrow_down, size: 30),
-                    ],
+                        Icon(Icons.keyboard_arrow_down, size: 30),
+                      ],
+                    ),
                   ),
                   Text(
                     '순이익 분석',
@@ -70,7 +81,6 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                   ),
                   InkWell(
                     onTap: () {
-                      print('add');
                       showModal();
                     },
                     child: Padding(
@@ -114,7 +124,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                makeTitleSize('YYYY년 mm월', ' 매출관리', 10, 20, false),
+                makeTitleSize(_selectedDateString, ' 매출관리', 10, 20, false),
                 Column(
                   children: [
                     choiceField(),
@@ -128,6 +138,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
+                        _radioValue = -1;
                       },
                       child: Container(
                         alignment: Alignment.center,
