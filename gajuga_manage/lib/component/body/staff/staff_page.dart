@@ -16,7 +16,7 @@ class _StaffPageState extends State<StaffPage> {
       body: Container(
         padding: EdgeInsets.only(top: 20, left: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SingleChildScrollView( // TODO: SingleChildScrollView로 keyboard overflow 해결하면 위쪽 shadow가 없어짐

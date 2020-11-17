@@ -12,7 +12,7 @@ class _StaffActivityState extends State<StaffActivity> {
     return Container(
       padding: EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width / 2,
-      height: MediaQuery.of(context).size.height / 1.8,
+      height: MediaQuery.of(context).size.height / 1.25,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
