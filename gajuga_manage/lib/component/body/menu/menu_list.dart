@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
+import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -12,13 +14,23 @@ class MenuList extends StatefulWidget {
 }
 
 class _MenuListState extends State<MenuList> {
+  // needed MenuList
+  var menuDatabaseFetched;
+
   final List<String> data = <String>['A', 'B', 'C', 'D'];
   final _formKey = GlobalKey<FormState>();
   File _menuImage;
   final picker = ImagePicker();
 
   void _menuUpdated() {
-    Scaffold.of(context).showSnackBar(SnackBar(content: new Text("메뉴 수정이 완료되었습니다.")));
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: new Text("메뉴 수정이 완료되었습니다.")));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    menuDatabaseFetched = FirebaseMethod().getMenuData();
   }
 
   @override
@@ -34,18 +46,28 @@ class _MenuListState extends State<MenuList> {
               ),
               height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listItem(
-                    data[index],
-                    AssetImage('images/${data[index]}.png'),
-                    'desc',
-                    12900,
-                    context,
-                  );
+              child: FutureBuilder( // ------------------------------------------ DATABASE 에서 가져온 데이터
+                future: menuDatabaseFetched,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
+                    return ListView.builder(
+                      itemCount: pizza.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _listItem(
+                          pizza[index].name,
+                          AssetImage('images/${pizza[index].engName}.png'),
+                          pizza[index].desc,
+                          pizza[index].cost,
+                          context,
+                        );
+                      },
+                      scrollDirection: Axis.horizontal,
+                    );
+                  } else {
+                    return Text("MENU 데이터가 없습니다 !");
+                  }
                 },
-                scrollDirection: Axis.horizontal,
               ),
             ),
             makeSubTitle('파스타', ' PASTA'),
@@ -96,7 +118,8 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Widget _listItem(String title, AssetImage image, String desc, int cost, BuildContext context) {
+  Widget _listItem(String title, AssetImage image, String desc, int cost,
+      BuildContext context) {
     double itemWidth = MediaQuery.of(context).size.width * 0.18;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
@@ -124,21 +147,24 @@ class _MenuListState extends State<MenuList> {
             radius: 35,
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
               Text(
                 desc,
-                style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, color: lightgrey, fontSize: 11.0),
                 textAlign: TextAlign.center,
               ),
               Text(
                 '${toLocaleString(cost)} 원',
-                style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey),
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, color: darkblue),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -171,88 +197,88 @@ class _MenuListState extends State<MenuList> {
 
   Future showMenuEditDialog(BuildContext context) {
     return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Stack(
-          overflow: Overflow.visible,
-          children: <Widget>[
-            Positioned(
-              right: -40.0,
-              top: -40.0,
-              child: InkResponse(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: CircleAvatar(
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.white,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
                   ),
-                  backgroundColor: Colors.red,
                 ),
-              ),
-            ),
-            Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
+                Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '메뉴',
+                                style: TextStyle(color: darkgrey),
+                              ),
+                              TextSpan(
+                                text: ' 수정',
+                                style: TextStyle(color: orange),
+                              ),
+                            ],
+                          ),
                         ),
-                        children: [
-                          TextSpan(
-                            text: '메뉴',
-                            style: TextStyle(color: darkgrey),
+                        menuImageView(),
+                        SizedBox(height: 20),
+                        nameField(),
+                        priceField(),
+                        extraField(),
+                        SizedBox(height: 10),
+                        FlatButton(
+                          color: orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          TextSpan(
-                            text: ' 수정',
-                            style: TextStyle(color: orange),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            _menuUpdated();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "저장하고 닫기",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    menuImageView(),
-                    SizedBox(height: 20),
-                    nameField(),
-                    priceField(),
-                    extraField(),
-                    SizedBox(height: 10),
-                    FlatButton(
-                      color: orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        _menuUpdated();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "저장하고 닫기",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 
   Widget menuImageView() {
@@ -276,9 +302,9 @@ class _MenuListState extends State<MenuList> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Color(0xFFe0e0e0)),
-                borderRadius: BorderRadius.circular(50.0)),
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xFFe0e0e0)),
+                  borderRadius: BorderRadius.circular(50.0)),
               padding: EdgeInsets.all(0),
               alignment: Alignment.center,
               child: IconButton(
@@ -299,7 +325,8 @@ class _MenuListState extends State<MenuList> {
   }
 
   Future getMenuImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery); // TODO: app crash 해결해야함
 
     setState(() {
       if (pickedFile != null) {
