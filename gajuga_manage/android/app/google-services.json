@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "8147351075",
+    "firebase_url": "https://gajuga-aeb3e.firebaseio.com",
+    "project_id": "gajuga-aeb3e",
+    "storage_bucket": "gajuga-aeb3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8147351075:android:9c7e315cc1c6dac2456396",
+        "android_client_info": {
+          "package_name": "com.example.gajuga_manage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8147351075-7h6vu8bl5i2u01fi3ptokf4lk23k5f02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf2jjOgzSlVgJ7-cU9Bu8cLLnx6JyW204"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8147351075-7h6vu8bl5i2u01fi3ptokf4lk23k5f02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "8147351075-j6kp27iirgk5bjqnditgp7d94ahgmkov.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gajugaSupervisor"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8147351075:android:2c04e688855e675e456396",
+        "android_client_info": {
+          "package_name": "com.example.gajuga_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8147351075-7h6vu8bl5i2u01fi3ptokf4lk23k5f02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf2jjOgzSlVgJ7-cU9Bu8cLLnx6JyW204"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8147351075-7h6vu8bl5i2u01fi3ptokf4lk23k5f02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "8147351075-j6kp27iirgk5bjqnditgp7d94ahgmkov.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gajugaSupervisor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
