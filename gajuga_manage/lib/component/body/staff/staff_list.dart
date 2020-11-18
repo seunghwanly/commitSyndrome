@@ -15,7 +15,7 @@ class _StaffListState extends State<StaffList> {
     return Container(
       padding: EdgeInsets.only(top: 10, left: 20, right: 10),
       width: MediaQuery.of(context).size.width / 2.6,
-      height: MediaQuery.of(context).size.height / 1.72,
+      height: MediaQuery.of(context).size.height / 1.78,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,

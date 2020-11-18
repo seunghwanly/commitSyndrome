@@ -14,9 +14,9 @@ class _StaffSearchState extends State<StaffSearch> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       width: MediaQuery.of(context).size.width / 2.5,
-      height: MediaQuery.of(context).size.height / 6,
+      height: MediaQuery.of(context).size.height / 5.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
