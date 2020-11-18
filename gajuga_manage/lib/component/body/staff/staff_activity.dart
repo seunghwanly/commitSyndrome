@@ -26,11 +26,12 @@ class _StaffActivityState extends State<StaffActivity> {
           ),
         ],
       ),
-      // child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RichText(
@@ -53,56 +54,43 @@ class _StaffActivityState extends State<StaffActivity> {
                 ),
               ],
             ),
-            Expanded(
-              child: FutureBuilder(
-                future: _fetchData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Text(
-                        '검색된 결과가 없습니다...',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: _fetchData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: Text(
+                      '검색된 결과가 없습니다...',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  }
-                  else if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        '오류가 발생했습니다.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                  );
+                }
+                else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      '오류가 발생했습니다.',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
+                    ),
+                  );
+                }
+                  else { // 데이터가 정상적으로 불러와진 경우
+                    return activityList();
                   }
-                    else { // 데이터가 정상적으로 불러와진 경우
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ㅎㅎ',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),
+                },
               ),
-          ],
-        ),
-      // ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -110,5 +98,20 @@ class _StaffActivityState extends State<StaffActivity> {
     // TODO: 데이터 가져오기
     await Future.delayed(Duration(seconds: 3));
     return 'Call Data';
+  }
+
+  Widget activityList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 10,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          leading: Icon(Icons.check_circle_outline),
+          title: Text('주문번호 $index'),
+          subtitle: Text('주문시간'),
+          trailing: Icon(Icons.arrow_right),
+        );
+      }
+    );
   }
 }
