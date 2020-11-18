@@ -59,36 +59,12 @@ class _StaffActivityState extends State<StaffActivity> {
             child: FutureBuilder(
               future: _fetchData(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: Text(
-                      '검색된 결과가 없습니다...',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                }
-                else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      '오류가 발생했습니다.',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                }
-                  else { // 데이터가 정상적으로 불러와진 경우
-                    return activityList();
-                  }
-                },
-              ),
+                if (!snapshot.hasData) return printStatus('검색된 결과가 없습니다...');
+                else if (snapshot.hasError) return printStatus('오류가 발생했습니다.');
+                else return activityList();
+              },
             ),
+          ),
         ],
       ),
     );
@@ -112,6 +88,19 @@ class _StaffActivityState extends State<StaffActivity> {
           trailing: Icon(Icons.arrow_right),
         );
       }
+    );
+  }
+
+  Widget printStatus(String inputString) {
+    return Center(
+      child: Text(
+        inputString,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
