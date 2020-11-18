@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -51,11 +53,16 @@ class _StaffActivityState extends State<StaffActivity> {
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 2.5,
+              height: MediaQuery.of(context).size.height / 1.5,
               child: Center(
                 child: Text(
                   '검색된 결과가 없습니다...',
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

@@ -88,59 +88,45 @@ class _StaffListState extends State<StaffList> {
     double itemWidth = MediaQuery.of(context).size.width * 0.12;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
-    return Container(
-      width: itemWidth,
-      height: itemHeight,
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      margin: EdgeInsets.only(left: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          CircleAvatar(
-            backgroundImage: image,
-            radius: 35,
-          ),
-          Text(
-            '관리자',
-            style: TextStyle(fontWeight: FontWeight.bold, color: darkgrey),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            name,
-            style: TextStyle(fontWeight: FontWeight.bold, color: orange),
-            textAlign: TextAlign.center,
-          ),
-          // FlatButton(
-          //   color: orange,
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20),
-          //   ),
-          //   onPressed: () { },
-          //   child: Container(
-          //     alignment: Alignment.center,
-          //     child: Text(
-          //       "수정하기",
-          //       style: TextStyle(
-          //         color: Colors.white,
-          //         fontWeight: FontWeight.bold,
-          //         fontSize: 12,
-          //       ),
-          //       textAlign: TextAlign.center,
-          //     ),
-          //   ),
-          // ),
-        ],
+    return InkWell(
+      onTap: () {
+        
+      },
+      child: Container(
+        width: itemWidth,
+        height: itemHeight,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.16),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        margin: EdgeInsets.only(left: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundImage: image,
+              radius: 35,
+            ),
+            Text(
+              '관리자',
+              style: TextStyle(fontWeight: FontWeight.bold, color: darkgrey),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              name,
+              style: TextStyle(fontWeight: FontWeight.bold, color: orange),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
