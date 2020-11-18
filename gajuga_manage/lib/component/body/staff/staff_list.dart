@@ -9,6 +9,7 @@ class StaffList extends StatefulWidget {
 
 class _StaffListState extends State<StaffList> {
   final List<String> data = <String>['김관우', '박종하', '이승환', '이주영'];
+  List<bool> _isSelected = List.filled(4, false);
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +71,19 @@ class _StaffListState extends State<StaffList> {
               padding: EdgeInsets.all(10),
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
-                return _listItem(
-                  data[index],
-                  AssetImage('images/default_profile.jpg'),
-                  context,
+                return InkWell(
+                  onTap: () {
+                    for (int i = 0; i < _isSelected.length; i++) _isSelected[i] = false;
+                    setState(() {
+                      _isSelected[index] = true;
+                    });
+                  },
+                  child: _listItem(
+                    data[index],
+                    AssetImage('images/default_profile.jpg'),
+                    context,
+                    index
+                  ),
                 );
               },
               scrollDirection: Axis.horizontal,
@@ -84,21 +94,17 @@ class _StaffListState extends State<StaffList> {
     );
   }
 
-  Widget _listItem(String name, AssetImage image, BuildContext context) {
+  Widget _listItem(String name, AssetImage image, BuildContext context, int index) {
     double itemWidth = MediaQuery.of(context).size.width * 0.12;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
-    return InkWell(
-      onTap: () {
-        
-      },
-      child: Container(
+    return Container(
         width: itemWidth,
         height: itemHeight,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: _isSelected[index] ? darkgrey : Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.16),
@@ -117,7 +123,10 @@ class _StaffListState extends State<StaffList> {
             ),
             Text(
               '관리자',
-              style: TextStyle(fontWeight: FontWeight.bold, color: darkgrey),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: _isSelected[index] ? Colors.white : darkgrey,
+              ),
               textAlign: TextAlign.center,
             ),
             Text(
@@ -127,7 +136,6 @@ class _StaffListState extends State<StaffList> {
             ),
           ],
         ),
-      ),
     );
   }
 }

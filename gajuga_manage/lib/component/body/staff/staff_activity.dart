@@ -26,10 +26,12 @@ class _StaffActivityState extends State<StaffActivity> {
           ),
         ],
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RichText(
@@ -52,21 +54,51 @@ class _StaffActivityState extends State<StaffActivity> {
                 ),
               ],
             ),
-            Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: Center(
-                child: Text(
-                  '검색된 결과가 없습니다...',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: _fetchData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData) return printStatus('검색된 결과가 없습니다...');
+                else if (snapshot.hasError) return printStatus('오류가 발생했습니다.');
+                else return activityList();
+              },
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String> _fetchData() async {
+    // TODO: 데이터 가져오기
+    await Future.delayed(Duration(seconds: 3));
+    return 'Call Data';
+  }
+
+  Widget activityList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 10,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          leading: Icon(Icons.check_circle_outline),
+          title: Text('주문번호 $index'),
+          subtitle: Text('주문시간'),
+          trailing: Icon(Icons.arrow_right),
+        );
+      }
+    );
+  }
+
+  Widget printStatus(String inputString) {
+    return Center(
+      child: Text(
+        inputString,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
