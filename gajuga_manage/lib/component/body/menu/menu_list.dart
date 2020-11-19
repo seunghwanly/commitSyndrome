@@ -133,11 +133,15 @@ class _MenuListState extends State<MenuList> {
             ),
           );
         } else {
-          return LoadingBouncingGrid.circle(
-            borderColor: orange,
-            size: 50.0,
-            backgroundColor: Colors.transparent,
-            duration: Duration(milliseconds: 5000),
+          return Expanded(
+            child: Container(
+              alignment: Alignment.center,
+                child: LoadingBouncingGrid.circle(
+              borderColor: orange,
+              size: 50.0,
+              backgroundColor: Colors.transparent,
+              duration: Duration(milliseconds: 5000),
+            )),
           );
         }
       },
