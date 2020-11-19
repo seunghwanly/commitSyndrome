@@ -19,7 +19,7 @@ class CurrentStockState extends State<CurrentStock> {
   @override
   void initState() {
     super.initState();
-    stockDatabaseFetched = FirebaseMethod().getStockData();
+    stockDatabaseFetched = FirebaseMethod().getCurrentStockData();
   }
 
   @override

@@ -22,7 +22,7 @@ class AddStockState extends State<AddStock> {
   @override
   void initState() {
     super.initState();
-    stockDatabaseFetched = FirebaseMethod().getStockData();
+    stockDatabaseFetched = FirebaseMethod().getCurrentStockData();
   }
 
   @override
@@ -44,7 +44,7 @@ class AddStockState extends State<AddStock> {
                     ),
                     Expanded(
                         ///////////////////////////////////////////////////////////////////// PIZZA
-                        flex: 5,
+                        flex: 4,
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -284,7 +284,7 @@ class AddStockState extends State<AddStock> {
                                       ],
                                     )),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 4,
                                   child: ListView.builder(
                                     itemCount: beverage.length,
                                     itemBuilder:
@@ -327,32 +327,34 @@ class AddStockState extends State<AddStock> {
                                                         )),
                                                   ),
                                                   Expanded(
-                                                    flex: 5,
+                                                    flex: 2,
                                                     child: Container(
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
-                                                                30.0,
-                                                                10.0,
-                                                                0.0,
-                                                                10.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(
-                                                              beverage.values
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      darkblue,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16),
-                                                            ),
-                                                          ],
-                                                        )),
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              30.0,
+                                                              10.0,
+                                                              0.0,
+                                                              10.0),
+                                                      child: TextField(
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30)),
+                                                                            hintText: beverage.values.elementAt(index).toString(),
+                                                            labelText: "개수 입력",
+                                                            labelStyle: TextStyle(
+                                                                color:
+                                                                    lightgrey,
+                                                                fontSize: 14.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600)),
+                                                      ),
+                                                    ),
                                                   ),
+                                                  Expanded(flex: 3,child: SizedBox(),)
                                                 ],
                                               )),
                                           Divider()
@@ -361,10 +363,10 @@ class AddStockState extends State<AddStock> {
                                     },
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 3,
-                                  child: SizedBox(),
-                                )
+                                // Expanded(
+                                //   flex: 2,
+                                //   child: SizedBox(),
+                                // )
                               ],
                             ))),
                     ///////////////////////////////////////////////////////////////////// END OF BEVRAGE
