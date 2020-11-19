@@ -37,6 +37,7 @@ dependencies:
   flutter_rounded_date_picker: ^1.0.5+1
   pie_chart: ^4.0.1
   sticky_headers: ^0.1.8
+  loading_animations: "^2.1.0"
 
 dev_dependencies:
   flutter_test:

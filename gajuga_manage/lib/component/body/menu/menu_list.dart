@@ -7,6 +7,7 @@ import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class MenuList extends StatefulWidget {
   @override
@@ -35,23 +36,43 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            makeSubTitle('피자', ' PIZZA'),
-            Container(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.03,
-              ),
-              height: MediaQuery.of(context).size.height * 0.35,
-              width: double.infinity,
-              child: FutureBuilder( // ------------------------------------------ DATABASE 에서 가져온 데이터
-                future: menuDatabaseFetched,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
-                    return ListView.builder(
+    return FutureBuilder(
+      // ------------------------------------------ DATABASE 에서 가져온 데이터
+      future: menuDatabaseFetched,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          /*
+              database : 
+              - manager
+                  ㄴ menu
+                      ㄴ category           -> this.menuDatabaseFetched로 받아온 데이터 덩어리
+                          ㄴ  pizza []
+                          ㄴ  beverage []
+           
+          ~ 2020/11/22
+           TODO : beverage 를 받아올 때 오류가 날 수 있습니다 ! 아직 데이터 베이스 수정을 안해서 하면 알려드릴게요 !
+            
+            주영님 꺼
+            TODO: 검색어 입력됐을 때 검색하면 수정할 메뉴를 띄워 주는 게 구현하기 편한가요? 아니면 해당 메뉴 색칠되는게 편한가요 ?
+            둘중에 편한 걸로 해주세요 !
+           */
+          // pizza []
+          List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
+          // beverage []
+          List<Information> beverage = Menu.fromJson(snapshot.data).beverage;
+
+          return Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  makeSubTitle('피자', ' PIZZA'),
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: double.infinity,
+                    child: ListView.builder(
                       itemCount: pizza.length,
                       itemBuilder: (BuildContext context, int index) {
                         return _listItem(
@@ -63,58 +84,63 @@ class _MenuListState extends State<MenuList> {
                         );
                       },
                       scrollDirection: Axis.horizontal,
-                    );
-                  } else {
-                    return Text("MENU 데이터가 없습니다 !");
-                  }
-                },
+                    ),
+                  ),
+                  makeSubTitle('파스타', ' PASTA'),
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _listItem(
+                          data[index],
+                          AssetImage('images/${data[index]}.png'),
+                          'desc',
+                          12900,
+                          context,
+                        );
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                  makeSubTitle('음료', ' BEVERAGE'),
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _listItem(
+                          data[index],
+                          AssetImage('images/${data[index]}.png'),
+                          'desc',
+                          12900,
+                          context,
+                        );
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                ],
               ),
             ),
-            makeSubTitle('파스타', ' PASTA'),
-            Container(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.03,
-              ),
-              height: MediaQuery.of(context).size.height * 0.35,
-              width: double.infinity,
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listItem(
-                    data[index],
-                    AssetImage('images/${data[index]}.png'),
-                    'desc',
-                    12900,
-                    context,
-                  );
-                },
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-            makeSubTitle('음료', ' BEVERAGE'),
-            Container(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.03,
-              ),
-              height: MediaQuery.of(context).size.height * 0.35,
-              width: double.infinity,
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listItem(
-                    data[index],
-                    AssetImage('images/${data[index]}.png'),
-                    'desc',
-                    12900,
-                    context,
-                  );
-                },
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return LoadingBouncingGrid.circle(
+            borderColor: orange,
+            size: 50.0,
+            backgroundColor: Colors.transparent,
+            duration: Duration(milliseconds: 5000),
+          );
+        }
+      },
     );
   }
 
@@ -158,13 +184,15 @@ class _MenuListState extends State<MenuList> {
               Text(
                 desc,
                 style: TextStyle(
-                    fontWeight: FontWeight.normal, color: lightgrey, fontSize: 11.0),
+                    fontWeight: FontWeight.normal,
+                    color: lightgrey,
+                    fontSize: 11.0),
                 textAlign: TextAlign.center,
               ),
               Text(
                 '${toLocaleString(cost)} 원',
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, color: darkblue),
+                style:
+                    TextStyle(fontWeight: FontWeight.normal, color: darkblue),
                 textAlign: TextAlign.center,
               ),
             ],
