@@ -6,8 +6,8 @@ import '../header/header.dart';
 import '../body/order_state.dart';
 
 class ApprovalOrder extends StatefulWidget {
-  final userid, tatalCost2, cartList;
-  ApprovalOrder({this.userid, this.tatalCost2, this.cartList});
+  final userid, totalCost, cartList;
+  ApprovalOrder({this.userid, this.totalCost, this.cartList});
 
   @override
   ApprovalOrderState createState() => ApprovalOrderState();
