@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
+import 'package:intl/intl.dart';
 import '../header/header.dart';
 import '../body/order_state.dart';
+import '../../model/order_history_model.dart';
 
 class ApprovalOrder extends StatefulWidget {
-  final userid, totalCost, cartList;
-  ApprovalOrder({this.userid, this.totalCost, this.cartList});
+  final Order currentOrder;
+  ApprovalOrder({this.currentOrder});
 
   @override
   ApprovalOrderState createState() => ApprovalOrderState();
@@ -16,11 +19,70 @@ class ApprovalOrder extends StatefulWidget {
 class ApprovalOrderState extends State<ApprovalOrder> {
   void _goOrderState(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => OrderState()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => OrderStateList(
+                  currentOrder: widget.currentOrder,
+                )));
+  }
+
+  String currentState = '';
+  DatabaseReference menuReference = FirebaseDatabase.instance
+      .reference()
+      .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()));
+
+  @override
+  void initState() {
+    super.initState();
+
+    //init state
+    // menuReference.once().then((DataSnapshot snapshot) {
+    //   if (snapshot.value != null) {
+    //     setState(() => currentState = snapshot.value);
+    //   } else {
+    //     // init when fetched data is null
+    //   }
+    // });
+
+    //listener
+    menuReference.onValue.listen((event) {
+      var snapshot = event.snapshot;
+      var value = snapshot.value['orderState'].toString();
+      print('value : ' + value);
+      setState(() {
+        currentState = value;
+      });
+
+      if (currentState == 'confirm') {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OrderStateList(
+                      currentOrder: widget.currentOrder,
+                    )));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // database off
+    menuReference.onDisconnect();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(currentState);
+    // StreamBuilder(
+    //     stream: menuReference
+    //         .onValue, // 데이터베이스가 변할 때 마다 확인할 경로 : 구독할 PATH -> onValue를 사용합니다
+    //     builder: (BuildContext context, AsyncSnapshot<Event> snapshot) {
+    //       if (snapshot.hasData) {
+    //         return snapshot.data.snapshot.value;
+    //       }
+    //     });
+
     return CustomHeader(
         body: Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -89,6 +151,7 @@ class ApprovalOrderState extends State<ApprovalOrder> {
                   fontSize: MediaQuery.of(context).size.width / 25),
               textAlign: TextAlign.center,
             ),
+            Text('$currentState')
           ],
         ),
         Column(

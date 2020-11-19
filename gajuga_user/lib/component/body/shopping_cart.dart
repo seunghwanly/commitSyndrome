@@ -289,15 +289,13 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                 color: Color.fromRGBO(247, 230, 0, 1.0)),
                             child: GestureDetector(
                                 onTap: () {
-                                  addOrder();
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => ApprovalOrder(
-                                  //               userid: userid,
-                                  //               totalCost: totalCost,
-                                  //               cartList: cartList,
-                                  //             )));
+                                  Order currentOrder = addOrder();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ApprovalOrder(
+                                                currentOrder: currentOrder,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -359,7 +357,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     return addCost;
   }
 
-  void addOrder() {
+  Order addOrder() {
     var now = DateTime.now();
     List<Content> items = List<Content>();
     for (var i = 0; i < cartList.length; i++) {
@@ -377,7 +375,6 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     // DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
     Order currentOrder = Order(
         customerInfo: userid,
-        orderTime: now,
         content: items,
         orderNumber: 'A-11',
         orderState: 'request',
@@ -389,6 +386,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
     DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now))
         .set(currentOrder.toJson());
+
+    return currentOrder;
   }
 
   void deleteCurrentItem(String key) {
