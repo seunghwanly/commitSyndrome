@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
+import 'package:gajuga_manage/util/loading.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -136,12 +137,7 @@ class _MenuListState extends State<MenuList> {
           return Expanded(
             child: Container(
               alignment: Alignment.center,
-                child: LoadingBouncingGrid.circle(
-              borderColor: orange,
-              size: 50.0,
-              backgroundColor: Colors.transparent,
-              duration: Duration(milliseconds: 5000),
-            )),
+                child: customLoadingBouncingGrid(orange)),
           );
         }
       },

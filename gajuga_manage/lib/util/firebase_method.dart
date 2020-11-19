@@ -69,13 +69,24 @@ class FirebaseMethod {
   */
 
   // DataReference
+  //menu
   DatabaseReference menuReference = FirebaseDatabase.instance.reference().child('manager/menu/category');
+  //stock
+  DatabaseReference stockReference = FirebaseDatabase.instance.reference().child('manager/stock/currentStock');
 
   getMenuData() async {
 
     var fetchedData;
 
     await menuReference.once().then((DataSnapshot snapshot) {
+      fetchedData = new Map<String, dynamic>.from(snapshot.value);
+    });
+    return fetchedData;
+  }
+
+  getStockData() async {
+    var fetchedData;
+    await stockReference.once().then((DataSnapshot snapshot) {
       fetchedData = new Map<String, dynamic>.from(snapshot.value);
     });
     return fetchedData;
