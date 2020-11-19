@@ -49,17 +49,21 @@ class ApprovalOrderState extends State<ApprovalOrder> {
       var snapshot = event.snapshot;
       var value = snapshot.value['orderState'].toString();
       print('value : ' + value);
-      setState(() {
-        currentState = value;
-      });
-
-      if (currentState == 'confirm') {
+      if (value == 'confirm') {
+        //set confirmTime 나중에 관리자에서 주문받는 곳에 넣으면 좋을듯
+        // menuReference
+        //     .child('orderTimes')
+        //     .set(<String, String>{'confirmTime': DateTime.now().toString()});
+        menuReference.onDisconnect();
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => OrderStateList(
                       currentOrder: widget.currentOrder,
                     )));
+      } else {
+        // setState(() {
+        // });
       }
     });
   }
