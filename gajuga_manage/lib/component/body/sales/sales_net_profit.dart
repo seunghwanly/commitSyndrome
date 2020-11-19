@@ -117,7 +117,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           backgroundColor: white,
           child: Container(
-            width: MediaQuery.of(context).size.width / 3,
+            width: MediaQuery.of(context).size.width / 2.8,
             height: MediaQuery.of(context).size.height / 2.5,
             padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
             alignment: Alignment.center,
