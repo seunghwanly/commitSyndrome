@@ -6,8 +6,19 @@ import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
 import 'ready_order_modal.dart';
+import 'package:intl/intl.dart';
+import '../../model/order_history_model.dart';
 
-class OrderState extends StatelessWidget {
+class OrderStateList extends StatefulWidget {
+  final Order currentOrder;
+  OrderStateList({this.currentOrder});
+  @override
+  OrderState createState() => OrderState();
+}
+
+class OrderState extends State<OrderStateList> {
+  String currentState = 'confirm';
+
   @override
   Widget build(BuildContext context) {
     return CustomHeader(
@@ -55,7 +66,12 @@ class OrderState extends StatelessWidget {
                         ),
                         makeWhiteText('결제완료', Colors.white, 0, 0,
                             MediaQuery.of(context).size.width / 26),
-                        makeWhiteText('19시 35분 05초', Colors.white, 0, 5,
+                        makeWhiteText(
+                            DateFormat('HH시mm분ss초').format(
+                                widget.currentOrder.orderTimes.requestTime),
+                            Colors.white,
+                            0,
+                            5,
                             MediaQuery.of(context).size.width / 26),
                       ],
                     ),
@@ -73,7 +89,12 @@ class OrderState extends StatelessWidget {
                           ),
                           makeWhiteText('주문요청', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
-                          makeWhiteText('19시 35분 22초', Colors.white, 0, 5,
+                          makeWhiteText(
+                              DateFormat('HH시mm분ss초').format(
+                                  widget.currentOrder.orderTimes.requestTime),
+                              Colors.white,
+                              0,
+                              5,
                               MediaQuery.of(context).size.width / 26),
                         ],
                       )),
@@ -90,7 +111,12 @@ class OrderState extends StatelessWidget {
                           ),
                           makeWhiteText('주문승인', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
-                          makeWhiteText('19시 36분 05초', Colors.white, 0, 5,
+                          makeWhiteText(
+                              DateFormat('HH시mm분ss초').format(
+                                  widget.currentOrder.orderTimes.confirmTime),
+                              Colors.white,
+                              0,
+                              5,
                               MediaQuery.of(context).size.width / 26),
                         ],
                       )),
@@ -107,7 +133,12 @@ class OrderState extends StatelessWidget {
                           ),
                           makeWhiteText('준비완료', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
-                          makeWhiteText('19시 38분 05초', Colors.white, 0, 5,
+                          makeWhiteText(
+                              DateFormat('HH시mm분ss초').format(
+                                  widget.currentOrder.orderTimes.readyTime),
+                              Colors.white,
+                              0,
+                              5,
                               MediaQuery.of(context).size.width / 26),
                         ],
                       )),
