@@ -5,7 +5,15 @@ import '../../util/palette.dart';
 import '../header/header.dart';
 import '../body/order_state.dart';
 
-class ApprovalOrder extends StatelessWidget {
+class ApprovalOrder extends StatefulWidget {
+  final userid, tatalCost2, cartList;
+  ApprovalOrder({this.userid, this.tatalCost2, this.cartList});
+
+  @override
+  ApprovalOrderState createState() => ApprovalOrderState();
+}
+
+class ApprovalOrderState extends State<ApprovalOrder> {
   void _goOrderState(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => OrderState()));

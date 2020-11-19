@@ -291,7 +291,11 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ApprovalOrder()));
+                                              ApprovalOrder(
+                                                userid: userid,
+                                                totalCost2: totalCost,
+                                                cartList: ,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
