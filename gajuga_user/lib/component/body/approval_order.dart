@@ -48,9 +48,7 @@ class ApprovalOrderState extends State<ApprovalOrder> {
     menuReference.onValue.listen((event) {
       var snapshot = event.snapshot;
       var value = snapshot.value['orderState'].toString();
-      print('value : ' + value);
       if (value == 'confirm') {
-        print('설마');
         //set confirmTime 나중에 관리자에서 주문받는 곳에 넣으면 좋을듯
         // menuReference
         //     .child('orderTimes')
@@ -77,7 +75,6 @@ class ApprovalOrderState extends State<ApprovalOrder> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentState);
     // StreamBuilder(
     //     stream: menuReference
     //         .onValue, // 데이터베이스가 변할 때 마다 확인할 경로 : 구독할 PATH -> onValue를 사용합니다

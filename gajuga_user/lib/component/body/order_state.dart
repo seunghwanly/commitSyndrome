@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../body/shopping_cart.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../../util/to_text.dart';
+import '../../util/to_locale.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../header/header.dart';
@@ -17,7 +19,45 @@ class OrderStateList extends StatefulWidget {
 }
 
 class OrderState extends State<OrderStateList> {
-  String currentState = 'confirm';
+  DatabaseReference menuReference = FirebaseDatabase.instance
+      .reference()
+      .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()));
+
+  String getContentLenght() {
+    if (widget.currentOrder.content.length > 1) {
+      return ('외 ' + (widget.currentOrder.content.length - 1).toString() + '개');
+    } else if (widget.currentOrder.content.length == 1) {
+      return ('1개');
+    } else {
+      return ('');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    //listener
+    menuReference.onValue.listen((event) {
+      var snapshot = event.snapshot;
+      var value = snapshot.value['orderState'].toString();
+      print('value : ' + value);
+      if (value == 'ready') {
+        menuReference.onDisconnect();
+        showReadyModal(context);
+      } else {
+        // setState(() {
+        // });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // database off
+    menuReference.onDisconnect();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +188,7 @@ class OrderState extends State<OrderStateList> {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        showReadyModal(context);
+                        // showReadyModal(context);
                       },
                       child: Container(
                           alignment: Alignment.center,
@@ -194,19 +234,25 @@ class OrderState extends State<OrderStateList> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     makeWhiteText(
-                                        '주문번호 : A-123',
+                                        '주문번호 : ' +
+                                            widget.currentOrder.orderNumber,
                                         Color.fromRGBO(33, 33, 31, 1),
                                         0,
                                         5,
                                         MediaQuery.of(context).size.width / 25),
                                     makeWhiteText(
-                                        '루꼴라피자 외 2개',
+                                        widget.currentOrder.content[0].name +
+                                            ' ' +
+                                            getContentLenght(),
                                         Color.fromRGBO(33, 33, 31, 1),
                                         0,
                                         5,
                                         MediaQuery.of(context).size.width / 27),
                                     makeWhiteText(
-                                        '총 금액 : 42,700 Won',
+                                        '총 금액 : ' +
+                                            toLocaleString(
+                                                widget.currentOrder.totalCost) +
+                                            ' Won',
                                         Color.fromRGBO(119, 119, 119, 1),
                                         0,
                                         5,
