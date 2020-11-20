@@ -7,6 +7,7 @@ import 'package:gajuga_manage/component/body/order_page.dart';
 import 'package:gajuga_manage/component/body/sales/sales_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/stock/stock_page.dart';
+import 'package:gajuga_manage/component/body/authentification/login.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 
@@ -81,8 +82,10 @@ class _CustomHeaderState extends State<CustomHeader> {
                       ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.restaurant_menu, color: darkblue, size: 30),
-                      title: makeTextSizepadding('메뉴 관리', darkblue, 0.0, 0.0, 18),
+                      leading: Icon(Icons.restaurant_menu,
+                          color: darkblue, size: 30),
+                      title:
+                          makeTextSizepadding('메뉴 관리', darkblue, 0.0, 0.0, 18),
                       subtitle: Text(
                         ' menu',
                         style: TextStyle(color: lightgrey, fontSize: 12),
@@ -90,12 +93,16 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MenuPage()));
                       },
                     ),
                     ListTile(
                       leading: Icon(Icons.people, color: darkblue, size: 30),
-                      title: makeTextSizepadding('직원 관리', darkblue, 0.0, 0.0, 18),
+                      title:
+                          makeTextSizepadding('직원 관리', darkblue, 0.0, 0.0, 18),
                       subtitle: Text(
                         ' staff',
                         style: TextStyle(color: lightgrey, fontSize: 12),
@@ -103,12 +110,17 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StaffPage()));
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.attach_money, color: darkblue, size: 30),
-                      title: makeTextSizepadding('매출 관리', darkblue, 0.0, 0.0, 18),
+                      leading:
+                          Icon(Icons.attach_money, color: darkblue, size: 30),
+                      title:
+                          makeTextSizepadding('매출 관리', darkblue, 0.0, 0.0, 18),
                       subtitle: Text(
                         ' sales',
                         style: TextStyle(color: lightgrey, fontSize: 12),
@@ -116,12 +128,16 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SalesPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SalesPage()));
                       },
                     ),
                     ListTile(
                       leading: Icon(Icons.apps, color: darkblue, size: 30),
-                      title: makeTextSizepadding('재고 관리', darkblue, 0.0, 0.0, 18),
+                      title:
+                          makeTextSizepadding('재고 관리', darkblue, 0.0, 0.0, 18),
                       subtitle: Text(
                         ' stock',
                         style: TextStyle(color: lightgrey, fontSize: 12),
@@ -129,12 +145,16 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StockPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StockPage()));
                       },
                     ),
                     ListTile(
                       leading: Icon(Icons.queue, color: darkblue, size: 30),
-                      title: makeTextSizepadding('주문 목록', darkblue, 0.0, 0.0, 18),
+                      title:
+                          makeTextSizepadding('주문 목록', darkblue, 0.0, 0.0, 18),
                       subtitle: Text(
                         ' order',
                         style: TextStyle(color: lightgrey, fontSize: 12),
@@ -142,7 +162,10 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OrderPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderPage()));
                       },
                     ),
                     Divider(),
@@ -160,7 +183,8 @@ class _CustomHeaderState extends State<CustomHeader> {
                     ),
                     ListTile(
                       leading: Icon(Icons.queue, color: darkblue, size: 30),
-                      title: makeTextSizepadding('주문 목록(셰프)', darkblue, 0.0, 0.0, 18),
+                      title: makeTextSizepadding(
+                          '주문 목록(셰프)', darkblue, 0.0, 0.0, 18),
                       subtitle: Text(
                         ' order / chef',
                         style: TextStyle(color: lightgrey, fontSize: 12),
@@ -168,7 +192,10 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChefPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChefPage()));
                       },
                     ),
                   ],
@@ -178,8 +205,8 @@ class _CustomHeaderState extends State<CustomHeader> {
                   title: makeTitle('로그인', '로그아웃'),
                   subtitle: Text('       김관우 in the area'),
                   onTap: () {
-                    //   Navigator.push(context,
-                    //       MaterialPageRoute(builder: (context) => LoginWidget()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginWidget()));
                   },
                 ),
               ],
