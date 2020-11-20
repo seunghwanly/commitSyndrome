@@ -116,13 +116,13 @@ class _MenuListState extends State<MenuList> {
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: double.infinity,
                     child: ListView.builder(
-                      itemCount: data.length,
+                      itemCount: beverage.length,
                       itemBuilder: (BuildContext context, int index) {
                         return _listItem(
-                          data[index],
-                          AssetImage('images/${data[index]}.png'),
-                          'desc',
-                          12900,
+                          beverage[index].name,
+                          AssetImage('images/${beverage[index].engName}.png'),
+                          beverage[index].desc,
+                          beverage[index].cost,
                           context,
                         );
                       },
