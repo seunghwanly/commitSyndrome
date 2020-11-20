@@ -26,7 +26,7 @@ class ShoppingCart {
   factory ShoppingCart.fromJson(Map<String, dynamic> parsedJson) {
     return ShoppingCart(
         parsedJson['cost'],
-        parsedJson['cost'],
+        parsedJson['count'],
         parsedJson['name'],
         Option.fromJson(parsedJson['option']),
         parsedJson['eng_name']);

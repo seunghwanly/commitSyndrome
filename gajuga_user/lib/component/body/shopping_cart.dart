@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
-
+import 'package:intl/intl.dart';
 import '../../model/order_history_model.dart';
 import '../../model/shoppingcart_model.dart';
 import '../../util/box_shadow.dart';
@@ -287,11 +289,13 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                 color: Color.fromRGBO(247, 230, 0, 1.0)),
                             child: GestureDetector(
                                 onTap: () {
+                                  Order currentOrder = addOrder();
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              ApprovalOrder()));
+                                          builder: (context) => ApprovalOrder(
+                                                currentOrder: currentOrder,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -353,6 +357,39 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     return addCost;
   }
 
+  Order addOrder() {
+    var now = DateTime.now();
+    List<Content> items = List<Content>();
+    for (var i = 0; i < cartList.length; i++) {
+      // print(cartList[i].cost);
+      // print(cartList[i].name);
+      // print(cartList[i].option.dough);
+      Content item = new Content(
+          cost: cartList[i].cost,
+          name: cartList[i].name,
+          option: cartList[i].option);
+      items.add(item);
+    }
+    print(items.length);
+    // String push =
+    // DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+    Order currentOrder = Order(
+        customerInfo: userid,
+        content: items,
+        orderNumber: 'A-11',
+        orderState: 'request',
+        totalCost: totalCost,
+        orderTimes:
+            new OrderTimes(requestTime: now, confirmTime: now, readyTime: now));
+
+    //cartList[index]
+
+    DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now))
+        .set(currentOrder.toJson());
+
+    return currentOrder;
+  }
+
   void deleteCurrentItem(String key) {
     DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
     readData();
@@ -389,9 +426,10 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
               value['cost'],
               value['count'],
               value["name"],
-              new Option(
-                  dough: value['option']['dough'],
-                  size: value['option']['size']),
+              new Option.fromJson(value['option']),
+              // new Option(
+              //     dough: value['option']['dough'],
+              //     size: value['option']['size']),
               value['eng_name']);
         }
         sub_totalCost +=

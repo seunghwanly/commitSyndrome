@@ -12,11 +12,20 @@ class Data {
 }
 
 class Order {
-  final String customer;
-  final String orderTime;
+  final String customerInfo;
   final List<Content> content;
+  final String orderNumber;
+  final String orderState;
+  final int totalCost;
+  final OrderTimes orderTimes;
 
-  Order({this.customer, this.orderTime, this.content});
+  Order(
+      {this.customerInfo,
+      this.content,
+      this.orderNumber,
+      this.orderState,
+      this.totalCost,
+      this.orderTimes});
 
   factory Order.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['content'] as List;
@@ -24,26 +33,84 @@ class Order {
         list.map((index) => Content.fromJson(index)).toList();
 
     return Order(
-        customer: parsedJson['customer'],
-        orderTime: parsedJson['order_time'],
-        content: contentList);
+      customerInfo: parsedJson['customerInfo'],
+      //  orderTime: parsedJson['order_time'],
+      content: contentList,
+      orderNumber: parsedJson['orderNumber'],
+      orderState: parsedJson['orderState'],
+      totalCost: parsedJson['totalCost'],
+      orderTimes: parsedJson['orderTimes'],
+    );
+  }
+
+  Map toJson() {
+    List<Map> content = this.content != null
+        ? this.content.map((i) => i.toJson()).toList()
+        : null;
+
+    return {
+      'customerInfo': customerInfo,
+      // 'orderTime': orderTime.toString(),
+      'contents': content,
+      'orderNumber': orderNumber,
+      'orderState': orderState,
+      'totalCost': totalCost,
+      'orderTimes': orderTimes.toJson(),
+    };
+  }
+}
+
+class OrderTimes {
+  //final DateTime orderTime;
+  final DateTime requestTime;
+  final DateTime confirmTime;
+  final DateTime readyTime;
+
+  OrderTimes({this.requestTime, this.confirmTime, this.readyTime});
+
+  Map toJson() {
+    return {
+      //  'orderTime': orderTime,
+      'requestTime': requestTime.toString(),
+      'confirmTime': confirmTime.toString(),
+      'readyTime': readyTime.toString(),
+    };
+  }
+
+  factory OrderTimes.fromJson(Map<String, dynamic> parsedJson) {
+    return OrderTimes(
+      requestTime: parsedJson['requestTime'],
+      confirmTime: parsedJson['confirmTime'],
+      readyTime: parsedJson['readyTime'],
+    );
   }
 }
 
 class Content {
   final String name;
   final int cost;
-  final List<Option> option;
+  final Option option;
 
   Content({this.name, this.cost, this.option});
 
   factory Content.fromJson(Map<String, dynamic> parsedJson) {
-    var list = parsedJson['option'] as List;
-    List<Option> optionList =
-        list.map((index) => Option.fromJson(index)).toList();
-
     return Content(
-        name: parsedJson['name'], cost: parsedJson['cost'], option: optionList);
+      name: parsedJson['name'],
+      cost: parsedJson['cost'],
+      option: new Option(
+          dough: parsedJson['option']['dough'],
+          size: parsedJson['option']['size']),
+    );
+  }
+  Map toJson() {
+    return {
+      'name': name,
+      'cost': cost,
+      'option': {
+        'dough': option.dough,
+        'size': option.size,
+      }
+    };
   }
 }
 
@@ -53,7 +120,7 @@ class Option {
 
   Option({this.size, this.dough});
 
-  factory Option.fromJson(Map<String, dynamic> parsedJson) {
+  factory Option.fromJson(Map<dynamic, dynamic> parsedJson) {
     return Option(size: parsedJson['size'], dough: parsedJson['dough']);
   }
 }
