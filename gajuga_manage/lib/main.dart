@@ -8,8 +8,6 @@ void main() {
 }
 
 class MainScreen extends StatelessWidget {
-  final bool isOrderPage = false; // TODO: 주문 관련 페이지만 true가 되도록 처리하기(다크모드)
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +21,7 @@ class MainScreen extends StatelessWidget {
       ],
       title: "GAJUGA.",
       theme: ThemeData(
-        primaryColor: isOrderPage ? darkgrey : pale,
+        primaryColor: pale,
         canvasColor: Colors.transparent,
       ),
       themeMode: ThemeMode.light,
