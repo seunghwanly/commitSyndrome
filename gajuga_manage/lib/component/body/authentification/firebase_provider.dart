@@ -7,12 +7,12 @@ class FirebaseAuthService with ChangeNotifier {
   FirebaseAuth _auth;
   User _user;
 
-//getter
+//User getter
   User getUser() {
     return _user;
   }
 
-//setter
+//User setter
   void setUser(User value) {
     _user = value;
   }

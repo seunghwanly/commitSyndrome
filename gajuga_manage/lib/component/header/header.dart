@@ -34,13 +34,16 @@ class _CustomHeaderState extends State<CustomHeader> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Container(
+      body: GestureDetector(
+        onTap:() => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: 
+      Container(
         width: double.infinity,
         height: double.infinity,
         color: Color.fromRGBO(234, 230, 218, 1.0),
         // padding: EdgeInsets.only(top: 10), // -> 주문화면은 다크모드라서 이 부분이 중간에 pale 색깔로 뜨는데 꼭 필요한 코드면 말해주세요...!
         child: widget.body,
-      ),
+      )),
       drawer: Drawer(
         //------------------------------------------------------------------------- DRAWER
         child: Container(

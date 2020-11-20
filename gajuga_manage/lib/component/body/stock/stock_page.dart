@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gajuga_manage/component/body/stock/stock_current.dart';
 import 'package:gajuga_manage/component/body/stock/stock_add.dart';
 import 'package:gajuga_manage/component/body/stock/stock_order.dart';
+import 'package:gajuga_manage/util/firebase_method.dart';
 //util
 import 'package:gajuga_manage/util/main_container.dart';
 import 'package:gajuga_manage/util/box_button.dart';
@@ -23,11 +24,16 @@ class _StockPageState extends State<StockPage> {
   bool save;
   DateTime selectedDate;
 
+  // database
+  // stock reference
+  var stockDatabaseFetched;
+
   @override
   void initState() {
     pageIndex = 0;
     save = false;
     selectedDate = new DateTime.now();
+    stockDatabaseFetched = FirebaseMethod().getHistoryStockData();
     super.initState();
   }
 
@@ -58,92 +64,105 @@ class _StockPageState extends State<StockPage> {
   @override
   Widget build(BuildContext context) {
     return MainContainer(
-      body: SingleChildScrollView(
-      //controller: new ScrollController(keepScrollOffset: true),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: GestureDetector(
-                        onTap: () => setState(() {
-                          this.pageIndex = 0;
-                        }),
-                        child: this.pageIndex == 0
-                            ? makeTitle('재고', ' 확인')
-                            : this.pageIndex == 1
-                                ? makeTitle("재고", " 입력")
-                                : makeTitle("발주", " 신청"),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                          alignment: Alignment.center,
-                          child: datePicker(context, handleSave, selectedDate)),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          tapButton(
-                              this.pageIndex == 0
-                                  ? handleAdd
-                                  : handleCancel,
-                              this.pageIndex == 0
-                                  ? darkblue
-                                  : superlight,
-                              orange,
-                              this.pageIndex == 0 ? "재고 입력" : "취소",
-                              this.pageIndex == 0 ? white : darkblue,
-                              18.0,
-                              MediaQuery.of(context).size.width * 0.10, //width
-                              MediaQuery.of(context).size.height * 0.05, //height
-                              MediaQuery.of(context).size.height * 0.01, //padding
-                              MediaQuery.of(context).size.width * 0.01, //padding H
-                              0.0
-                          ),
-                          tapButton(
-                              this.pageIndex == 0
-                                  ? handleRequest
-                                  : showModal,
-                              this.pageIndex == 0 ? darkblue : orange,
-                              orange,
-                              this.pageIndex == 0 ? "발주 신청" : "저장",
-                              white,
-                              18.0,
-                              MediaQuery.of(context).size.width * 0.10, //width
-                              MediaQuery.of(context).size.height * 0.05, //height
-                              MediaQuery.of(context).size.height * 0.01, //padding V
-                              MediaQuery.of(context).size.width * 0.01, //padding H
-                              0.0
-                          ), // margin H
-                        ],
-                      ),
-                    ),
-                  ],
+        body: SingleChildScrollView(
+            //controller: new ScrollController(keepScrollOffset: true),
+            child: SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      this.pageIndex = 0;
+                    }),
+                    child: this.pageIndex == 0
+                        ? makeTitle('재고', ' 확인')
+                        : this.pageIndex == 1
+                            ? makeTitle("재고", " 입력")
+                            : makeTitle("발주", " 신청"),
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 9,
-                child: mainBody(context, pageIndex, save),
-              ),
-            ],
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: datePicker(context, handleSave, selectedDate)),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      tapButton(
+                          this.pageIndex == 0 ? handleAdd : handleCancel,
+                          this.pageIndex == 0 ? darkblue : superlight,
+                          orange,
+                          this.pageIndex == 0 ? "재고 입력" : "취소",
+                          this.pageIndex == 0 ? white : darkblue,
+                          18.0,
+                          MediaQuery.of(context).size.width * 0.10, //width
+                          MediaQuery.of(context).size.height * 0.05, //height
+                          MediaQuery.of(context).size.height * 0.01, //padding
+                          MediaQuery.of(context).size.width * 0.01, //padding H
+                          0.0),
+                      tapButton(
+                          this.pageIndex == 0 ? handleRequest : showModal,
+                          this.pageIndex == 0 ? darkblue : orange,
+                          orange,
+                          this.pageIndex == 0 ? "발주 신청" : "저장",
+                          white,
+                          18.0,
+                          MediaQuery.of(context).size.width * 0.10, //width
+                          MediaQuery.of(context).size.height * 0.05, //height
+                          MediaQuery.of(context).size.height * 0.01, //padding V
+                          MediaQuery.of(context).size.width * 0.01, //padding H
+                          0.0), // margin H
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+          Expanded(
+              flex: 9,
+              child: FutureBuilder(
+                  future: stockDatabaseFetched,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      // check date
+                      bool isRecorded = false;
+                      List<Map<dynamic, dynamic>> history =
+                          new List<Map<dynamic, dynamic>>.from(snapshot.data);
+                      for (int i = 0; i < history.length; ++i) {
+                        if (history[i].containsKey(
+                            selectedDate.toString().substring(0, 10)))
+                          isRecorded = true;
+                      }
+                      if (isRecorded)
+                        return mainBody(context, pageIndex, save);
+                      else
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Text("데이터가 존재하지않습니다!"),
+                        );
+                    } else {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Text("데이터가 존재하지않습니다!"),
+                      );
+                    }
+                  })),
+        ],
       ),
-    );
+    )));
   }
 
   showModal() {

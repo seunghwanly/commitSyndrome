@@ -8,7 +8,7 @@ class RoleRadio extends StatefulWidget {
 }
 
 class _RoleRadioState extends State<RoleRadio> {
-  int _role;
+  int _role = 0;
 
   @override
   Widget build(BuildContext context) {

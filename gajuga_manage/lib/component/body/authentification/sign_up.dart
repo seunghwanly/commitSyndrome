@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:gajuga_manage/component/header/header.dart';
 import 'package:gajuga_manage/component/body/authentification/login.dart';
 import 'package:gajuga_manage/component/body/authentification/role_radio.dart';
+import 'package:gajuga_manage/component/body/authentification/role_auth.dart';
 import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -269,7 +270,8 @@ class SignUpWidget extends StatelessWidget {
     int result = await _auth.signUpWithEmail(
         _emailController.text, _passwordController.text);
     if (result == 0) {
-      showSignUpSuccess(context);
+      showSignUpSuccess(context, _emailController.text,
+          _passwordController.text, _phoneController.text);
     } else if (result == null) {
       showSignUpFail(context, 4);
     } else {
@@ -622,7 +624,8 @@ void showPhoneConfirm(BuildContext context, String phone) {
       });
 }
 
-void showSignUpSuccess(BuildContext context) {
+void showSignUpSuccess(
+    BuildContext context, String email, String password, String phone) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -694,7 +697,8 @@ void showSignUpSuccess(BuildContext context) {
                               fontSize: 18.0,
                             )),
                         onPressed: () {
-                          print(RoleRadio.role);
+                          RoleAuth()
+                              .saveRole(RoleRadio.role, email, password, phone);
                           Navigator.pop(context);
                           Navigator.push(
                               context,
