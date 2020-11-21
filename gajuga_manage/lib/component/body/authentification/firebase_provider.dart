@@ -6,6 +6,7 @@ class FirebaseAuthService with ChangeNotifier {
 
   FirebaseAuth _auth;
   User _user;
+  static String userUid;
 
 //User getter
   User getUser() {
@@ -41,6 +42,7 @@ class FirebaseAuthService with ChangeNotifier {
           email: email, password: password);
       if (result.user != null) {
         result.user.sendEmailVerification();
+        userUid = result.user.uid;
         signOut();
         return 0;
       }

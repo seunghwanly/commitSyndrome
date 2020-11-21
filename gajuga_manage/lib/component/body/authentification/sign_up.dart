@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:gajuga_manage/component/header/header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gajuga_manage/component/body/authentification/login.dart';
 import 'package:gajuga_manage/component/body/authentification/role_radio.dart';
-import 'package:gajuga_manage/component/body/authentification/role_auth.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
 import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -270,8 +271,12 @@ class SignUpWidget extends StatelessWidget {
     int result = await _auth.signUpWithEmail(
         _emailController.text, _passwordController.text);
     if (result == 0) {
-      showSignUpSuccess(context, _emailController.text,
-          _passwordController.text, _phoneController.text);
+      showSignUpSuccess(
+          context,
+          FirebaseAuthService.userUid,
+          _emailController.text,
+          _passwordController.text,
+          _phoneController.text);
     } else if (result == null) {
       showSignUpFail(context, 4);
     } else {
@@ -624,8 +629,8 @@ void showPhoneConfirm(BuildContext context, String phone) {
       });
 }
 
-void showSignUpSuccess(
-    BuildContext context, String email, String password, String phone) {
+void showSignUpSuccess(BuildContext context, String uid, String email,
+    String password, String phone) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -697,8 +702,8 @@ void showSignUpSuccess(
                               fontSize: 18.0,
                             )),
                         onPressed: () {
-                          RoleAuth()
-                              .saveRole(RoleRadio.role, email, password, phone);
+                          UserManage().saveUser(
+                              RoleRadio.role, uid, email, password, phone);
                           Navigator.pop(context);
                           Navigator.push(
                               context,

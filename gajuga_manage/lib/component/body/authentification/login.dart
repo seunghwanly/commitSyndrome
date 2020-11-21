@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:gajuga_manage/component/header/header.dart';
 import 'package:gajuga_manage/component/body/authentification/sign_up.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
 import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -278,8 +279,21 @@ class LoginWidget extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(30)),
                                     color: orange,
-                                    onPressed: () async =>
-                                        logOut(_auth, context),
+                                    onPressed: () async => {
+                                      //이거는 사용권한 적용 테스트(예시)
+                                      //이런 방식으로 사용하면 적용 가능 (이거는 일단 관리자 권한만 사용가능한 경우)
+                                      // if (UserManage()
+                                      //         .checkAuth(_auth.getUser().uid) ==
+                                      //     0)
+                                      //   {
+                                      //     logOut(_auth, context),
+                                      //   }
+                                      // else
+                                      //   {
+                                      //     UserManage().showNoAuth(context),
+                                      //   }
+                                      logOut(_auth, context),
+                                    },
                                     child: Container(
                                       alignment: Alignment.center,
                                       width: MediaQuery.of(context).size.width *
