@@ -36,6 +36,16 @@ class _OrderPageState extends State<OrderPage> {
           orderUnHandledList.add(v);
         else if (v['orderState'] == 'ready') orderHandledList.add(v);
       });
+
+      orderHandledList.sort((a, b) {
+        return a['orderTimes']['requestTime']
+            .compareTo(b['orderTimes']['requestTime']);
+      });
+      orderUnHandledList.sort((a, b) {
+        return a['orderTimes']['requestTime']
+            .compareTo(b['orderTimes']['requestTime']);
+      });
+
       setState(() {
         this.unhandledList = orderUnHandledList;
         this.handledList = orderHandledList;

@@ -18,7 +18,7 @@ class _ChefPageState extends State<ChefPage> {
   void readListbyState() {
     databaseReference
         .child('order/' + DateFormat('yyyy-MM-dd').format(now))
-        .orderByChild('orderNumber')
+        //.orderByChild('orderTimes/requestTime')
         .once()
         .then((DataSnapshot dataSnapshot) {
       Map<dynamic, dynamic> values = dataSnapshot.value;
@@ -27,6 +27,12 @@ class _ChefPageState extends State<ChefPage> {
       values.forEach((k, v) {
         if (v['orderState'] == 'confirm') orderConfirmedList.add(v);
       });
+
+      orderConfirmedList.sort((a, b) {
+        return a['orderTimes']['requestTime']
+            .compareTo(b['orderTimes']['requestTime']);
+      });
+
       setState(() {
         this.confirmedList = orderConfirmedList;
       });
