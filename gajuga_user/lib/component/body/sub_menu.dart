@@ -78,6 +78,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
     DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
       'cost': menuItem.cost,
       'name': menuItem.name,
+      'count': menuItem.count,
+      'eng_name': menuItem.engName,
       'option': {
         'dough': menuItem.option.dough,
         'size': menuItem.option.size,
@@ -92,9 +94,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         optionSelected.getOptionList();
 
     int totalCost = (widget.cost +
-            parsedOptionList[0]['addedCost'] +
-            parsedOptionList[1]['addedCost']) *
-        count;
+        parsedOptionList[0]['addedCost'] +
+        parsedOptionList[1]['addedCost']);
 
     //main build -----------------------------------------------------------------
     return CustomHeader(
@@ -252,9 +253,10 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     color: Color.fromRGBO(33, 33, 31, 1.0)),
                 textAlign: TextAlign.center),
             Text(
-                toLocaleString(widget.cost +
-                        parsedOptionList[0]['addedCost'] +
-                        parsedOptionList[1]['addedCost']) +
+                toLocaleString((widget.cost +
+                            parsedOptionList[0]['addedCost'] +
+                            parsedOptionList[1]['addedCost']) *
+                        count) +
                     '원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -282,6 +284,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     setState(() {
                       dataForPush['cost'] = totalCost;
                       dataForPush['name'] = widget.item;
+                      dataForPush['eng_name'] = widget.engname;
                       dataForPush['option']['size'] = list[0]['selected'];
                       dataForPush['option']['dough'] = list[1]['selected'];
                     });
@@ -328,12 +331,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 GestureDetector(
                   onTap: () {
                     // 결제 화면으로 넘기기
-                    // Navigator.push(
-                    //   c,
-                    //   MaterialPageRoute(
-                    //     builder: (c) => Payment()
-                    //   )
-                    // );
+                    Navigator.push(
+                        c, MaterialPageRoute(builder: (c) => Payment()));
                   },
                   child: Container(
                     alignment: Alignment.center,
