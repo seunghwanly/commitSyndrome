@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../header/header.dart';
@@ -19,66 +21,9 @@ class OrderHistory extends StatefulWidget {
 }
 
 class OrderHistoryState extends State<OrderHistory> {
-  
   final databaseReference = FirebaseDatabase.instance.reference();
-
+  final String userid = 'UserCode-01';
   var fetchedData;
-
-  final data = [
-    {
-      'customer': '01012341234',
-      'order_time': '2020-11-02',
-      'order_number': 'A-88',
-      'content': [
-        {
-          'name': 'cheese pizza',
-          'cost': 12900,
-          'option': {'size': 'regular', 'dough': 'standard'}
-        },
-        {
-          'name': 'pepperoni',
-          'cost': 16900,
-          'option': {'size': 'large', 'dough': 'standard'}
-        }
-      ]
-    },
-    {
-      'customer': '01012341234',
-      'order_time': '2020-11-01',
-      'order_number': 'A-84',
-      'content': [
-        {
-          'name': 'gorgonzola pizza',
-          'cost': 12900,
-          'option': {'size': 'regular', 'dough': 'standard'}
-        }
-      ]
-    },
-    {
-      'customer': '01012341234',
-      'order_time': '2020-10-31',
-      'order_number': 'A-79',
-      'content': [
-        {
-          'name': 'gorgonzola pizza',
-          'cost': 12900,
-          'option': {'size': 'regular', 'dough': 'standard'}
-        }
-      ]
-    },
-    {
-      'customer': '01012341234',
-      'order_time': '2020-10-28',
-      'order_number': 'A-64',
-      'content': [
-        {
-          'name': 'gorgonzola pizza',
-          'cost': 12900,
-          'option': {'size': 'regular', 'dough': 'standard'}
-        }
-      ]
-    }
-  ];
 
   @override
   void initState() {
@@ -88,6 +33,7 @@ class OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
+    //print("몇개? " + this.fetchedData[0].toString());
     if (this.fetchedData == null) {
       return Container(
         color: pale,
@@ -112,9 +58,10 @@ class OrderHistoryState extends State<OrderHistory> {
 
               int totalCost = 0;
 
-              for (int i = 0; i < orders['content'].length; ++i) {
-                totalCost += orders['content'][i]['cost'];
-              }
+              // for (int i = 0; i < orders['contents'].length; ++i) {
+              //   totalCost += orders['contents'][i]['cost'];
+              // }
+              totalCost = orders['totalCost'];
 
               return customBoxContainerWithMargin(
                   MediaQuery.of(context).size.width * 0.9, // 가로 세로 1 : 2 비율
@@ -131,8 +78,10 @@ class OrderHistoryState extends State<OrderHistory> {
                             makeTitleSize('피자', ' PIZZA', 0.0, 16, true),
                             Text(
                               DateTime.now()
-                                      .difference(
-                                          DateTime.parse(orders['order_time']))
+                                      .difference(DateTime.parse(
+                                          orders['orderTimes']['requestTime']
+                                              .toString()
+                                              .substring(0, 10)))
                                       .inDays
                                       .toString() +
                                   ' 일전',
@@ -151,21 +100,23 @@ class OrderHistoryState extends State<OrderHistory> {
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage('images/${orders['content'][0]['name']}.png'),
+                              backgroundImage: AssetImage(
+                                  'images/${orders['contents'][1]['eng_name']}.png'),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 makeTextSize(
-                                    '주문번호 ' + orders['order_number'].toString(),
+                                    '주문번호 ' + orders['orderNumber'].toString(),
                                     darkgrey,
                                     20.0,
                                     14),
                                 makeTextSize(
-                                    orders['content'][0]['name']+ " 피자" +
-                                        (orders['content'].length - 1 > 0
+                                    orders['contents'][1]['name'] +
+                                        " 피자" +
+                                        (orders['contents'].length - 1 > 0
                                             ? ' 외 ' +
-                                                (orders['content'].length - 1)
+                                                (orders['contents'].length - 1)
                                                     .toString() +
                                                 '개'
                                             : ''),
@@ -226,11 +177,22 @@ class OrderHistoryState extends State<OrderHistory> {
 
   void readData() {
     databaseReference
-        .child('user/history')
+        .child('user')
+        .child(userid)
+        .child('history')
         .once()
         .then((DataSnapshot dataSnapshot) {
+      Map<dynamic, dynamic> values = dataSnapshot.value;
+      var orderList = new List<dynamic>();
+      // print(values.toString());
+      values.forEach((k, v) {
+        orderList.add(v);
+      });
+      // print('0' + orderList.length.toString());
       setState(() {
-        this.fetchedData = dataSnapshot.value;
+        //print('여기는 ? ' + (dataSnapshot.value).toString());
+        this.fetchedData = orderList;
+        // print('1' + fetchedData.length.toString());
       });
       // fetchedData = dataSnapshot.value;
     });

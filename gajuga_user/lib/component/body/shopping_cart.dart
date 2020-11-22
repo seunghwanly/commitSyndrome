@@ -370,6 +370,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       Content item = new Content(
           cost: cartList[i].cost,
           name: cartList[i].name,
+          eng_name: cartList[i].engName,
+          count: cartList[i].count,
           option: cartList[i].option);
       items.add(item);
     }
@@ -389,7 +391,11 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
     DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now))
         .set(currentOrder.toJson());
-
+    DBRef.child('user')
+        .child(userid)
+        .child('history')
+        .push()
+        .set(currentOrder.toJson());
     return currentOrder;
   }
 
