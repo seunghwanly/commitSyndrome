@@ -33,7 +33,7 @@ class OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-    //print("몇개? " + this.fetchedData[0].toString());
+    // print("몇개? " + this.fetchedData.length.toString());
     if (this.fetchedData == null) {
       return Container(
         color: pale,
@@ -53,6 +53,7 @@ class OrderHistoryState extends State<OrderHistory> {
             itemCount: this.fetchedData.length,
             itemBuilder: (BuildContext context, int index) {
               // var orders = new Map<String, dynamic>.from(data[index]);
+
               var orders =
                   new Map<String, dynamic>.from(this.fetchedData[index]);
 
@@ -99,10 +100,13 @@ class OrderHistoryState extends State<OrderHistory> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(
-                                  'images/${orders['contents'][1]['eng_name']}.png'),
-                            ),
+                                radius: 30,
+                                backgroundImage: AssetImage((orders['contents']
+                                                [0]['name'] ==
+                                            '콜라' ||
+                                        orders['contents'][0]['name'] == '사이다'
+                                    ? 'images/${orders['contents'][1]['eng_name']}.png'
+                                    : 'images/${orders['contents'][0]['eng_name']}.png'))),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -111,18 +115,34 @@ class OrderHistoryState extends State<OrderHistory> {
                                     darkgrey,
                                     20.0,
                                     14),
-                                makeTextSize(
-                                    orders['contents'][1]['name'] +
-                                        " 피자" +
-                                        (orders['contents'].length - 1 > 0
-                                            ? ' 외 ' +
-                                                (orders['contents'].length - 1)
-                                                    .toString() +
-                                                '개'
-                                            : ''),
-                                    darkblue,
-                                    20.0,
-                                    14),
+                                (orders['contents'][0]['name'] == '콜라' ||
+                                        orders['contents'][0]['name'] == '사이다'
+                                    ? makeTextSize(
+                                        orders['contents'][1]['name'] +
+                                            " 피자" +
+                                            (orders['contents'].length - 1 > 0
+                                                ? ' 외 ' +
+                                                    (orders['contents'].length -
+                                                            1)
+                                                        .toString() +
+                                                    '개'
+                                                : ''),
+                                        darkblue,
+                                        20.0,
+                                        14)
+                                    : makeTextSize(
+                                        orders['contents'][0]['name'] +
+                                            " 피자" +
+                                            (orders['contents'].length - 1 > 0
+                                                ? ' 외 ' +
+                                                    (orders['contents'].length -
+                                                            1)
+                                                        .toString() +
+                                                    '개'
+                                                : ''),
+                                        darkblue,
+                                        20.0,
+                                        14)),
                                 makeTextSize(toLocaleString(totalCost) + ' 원',
                                     lightgrey, 20.0, 14)
                               ],
@@ -192,7 +212,6 @@ class OrderHistoryState extends State<OrderHistory> {
       setState(() {
         //print('여기는 ? ' + (dataSnapshot.value).toString());
         this.fetchedData = orderList;
-        // print('1' + fetchedData.length.toString());
       });
       // fetchedData = dataSnapshot.value;
     });
