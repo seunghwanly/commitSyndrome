@@ -44,7 +44,7 @@ class _RoleRadioState extends State<RoleRadio> {
               ]),
             ),
           ),
-          SizedBox(width: 50.0),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
           GestureDetector(
             onTap: () => {
               setState(() => _role = 1),
@@ -76,7 +76,7 @@ class _RoleRadioState extends State<RoleRadio> {
               ]),
             ),
           ),
-          SizedBox(width: 50.0),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
           GestureDetector(
             onTap: () => {setState(() => _role = 2), RoleRadio.role = _role},
             child: Container(

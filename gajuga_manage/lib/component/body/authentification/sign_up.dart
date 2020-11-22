@@ -29,7 +29,11 @@ class SignUpWidget extends StatelessWidget {
                 child: Container(
               height: MediaQuery.of(context).size.height * 0.85,
               alignment: Alignment.center,
-              padding: EdgeInsets.fromLTRB(400.0, 40.0, 400.0, 0.0),
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * 0.3,
+                  0.0,
+                  MediaQuery.of(context).size.width * 0.3,
+                  0.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,7 +53,6 @@ class SignUpWidget extends StatelessWidget {
                         fontSize: 22,
                       ),
                     ),
-                    SizedBox(height: 10.0),
                     Row(children: <Widget>[
                       Flexible(
                         child: TextFormField(
@@ -98,7 +101,7 @@ class SignUpWidget extends StatelessWidget {
                             }),
                       )
                     ]),
-                    SizedBox(height: 10.0),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     Text(
                       "가져가 비밀번호",
                       style: TextStyle(
@@ -106,7 +109,6 @@ class SignUpWidget extends StatelessWidget {
                         fontSize: 22,
                       ),
                     ),
-                    SizedBox(height: 10.0),
                     TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
@@ -122,7 +124,6 @@ class SignUpWidget extends StatelessWidget {
                       onSaved: (value) =>
                           _passwordController.text = value.trim(),
                     ),
-                    SizedBox(height: 10.0),
                     TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
@@ -148,7 +149,7 @@ class SignUpWidget extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: MediaQuery.of(context).size.height * 0.01,
                     ),
                     Text(
                       "휴대폰 입력",
@@ -157,7 +158,6 @@ class SignUpWidget extends StatelessWidget {
                         fontSize: 22,
                       ),
                     ),
-                    SizedBox(height: 10.0),
                     Row(children: <Widget>[
                       Flexible(
                         child: TextFormField(
@@ -213,7 +213,7 @@ class SignUpWidget extends StatelessWidget {
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     Container(
                         padding: EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
