@@ -29,7 +29,11 @@ class SignUpWidget extends StatelessWidget {
                 child: Container(
               height: MediaQuery.of(context).size.height * 0.85,
               alignment: Alignment.center,
-              padding: EdgeInsets.fromLTRB(400.0, 40.0, 400.0, 0.0),
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * 0.2,
+                  0.0,
+                  MediaQuery.of(context).size.width * 0.2,
+                  0.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

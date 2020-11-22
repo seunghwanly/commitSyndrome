@@ -26,7 +26,11 @@ class LoginWidget extends StatelessWidget {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.9,
                     alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(400.0, 0.0, 400.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(
+                        MediaQuery.of(context).size.width * 0.2,
+                        0.0,
+                        MediaQuery.of(context).size.width * 0.2,
+                        0.0),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,20 +155,14 @@ class LoginWidget extends StatelessWidget {
                                         fontSize: 22),
                                     textAlign: TextAlign.left,
                                   ),
-                                  SizedBox(
-                                    width: 40.0,
-                                  ),
                                   Text(
-                                    '|',
+                                    '     |     ',
                                     style: TextStyle(
                                         color:
                                             Color.fromRGBO(119, 119, 119, 1.0),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 22),
                                     textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    width: 40.0,
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -199,7 +197,8 @@ class LoginWidget extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                   ),
                                   SizedBox(
-                                    width: 30.0,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.02,
                                   ),
                                   GestureDetector(
                                       onTap: () {
@@ -234,11 +233,14 @@ class LoginWidget extends StatelessWidget {
                   child: Container(
                       height: MediaQuery.of(context).size.height * 0.8,
                       alignment: Alignment.center,
-                      padding: EdgeInsets.fromLTRB(400.0, 0.0, 400.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.2,
+                          0.0,
+                          MediaQuery.of(context).size.width * 0.2,
+                          0.0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          // padding: EdgeInsets.fromLTRB(32.0, 50.0, 32.0, 0.0),
                           children: <Widget>[
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
