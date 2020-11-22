@@ -5,6 +5,7 @@ import 'package:gajuga_user/provider/provider.dart';
 import 'package:gajuga_user/util/palette.dart';
 import 'package:gajuga_user/util/to_text.dart';
 import 'package:gajuga_user/component/body/login.dart';
+import 'package:gajuga_user/model/firebase_provider.dart';
 import '../body/shopping_cart.dart';
 import 'package:badges/badges.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,10 +23,14 @@ class CustomHeader extends StatefulWidget {
 }
 
 class _CustomHeaderState extends State<CustomHeader> {
+  FirebaseAuthService _auth;
+  static String userid;
   //get current shoppingCart data from Database
   DatabaseReference _shoppingCartRef = FirebaseDatabase.instance
       .reference()
-      .child('user/userInfo/' + 'UserCode-01' + '/shoppingCart');
+      .child('user/userInfo')
+      .child(userid)
+      .child('shoppingCart');
   int _currentCount;
 
   @override
@@ -54,17 +59,26 @@ class _CustomHeaderState extends State<CustomHeader> {
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<FirebaseAuthService>(context);
+    if (_auth.getUser() != null) {
+      userid = _auth.getUser().uid;
+    }
     void _resetAndOpenPage(BuildContext context) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-        ModalRoute.withName('/main'),
-      );
+      Navigator.popUntil(
+          context, ModalRoute.withName(Navigator.defaultRouteName));
     }
 
     void _gotoCart() {
       if (ModalRoute.of(context).settings.name != '/shoppingCart') {
         Navigator.pushNamed(context, '/shoppingCart');
+      }
+    }
+
+    bool _ckLoginedUser() {
+      if (_auth.getUser() != null) {
+        return true;
+      } else {
+        return false;
       }
     }
 
@@ -189,7 +203,6 @@ class _CustomHeaderState extends State<CustomHeader> {
                   leading: Icon(Icons.power_settings_new),
                   title:
                       makeTextSizepadding('로그인/로그아웃', darkblue, 0.0, 0.0, 16),
-                  subtitle: Text('김관우 in the area'),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoginWidget()));
