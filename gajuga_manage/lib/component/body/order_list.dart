@@ -70,33 +70,73 @@ class _OrderListState extends State<OrderList> {
                 ),
               ],
             ),
-            child: Row(
+            child: Column(
               children: [
-                menuImage(index),
-                orderInfoLabel(),
-                orderInfo(widget.orderList[index]),
-                timeInfo(widget.orderList[index]),
-                Spacer(),
-                completedButton(widget.orderList[index]['orderState']),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: widget.orderList[index]['contents'].length,
+                        itemBuilder: (BuildContext context, int contentIndex) {
+                          return Column(
+                            children: [
+                              Row(
+                                children: [
+                                  menuImage(widget.orderList[index], contentIndex),
+                                  orderInfoLabel(),
+                                  orderInfo(widget.orderList[index], contentIndex),
+                                ],
+                              ),
+                              contentIndex != widget.orderList[index]['contents'].length - 1
+                                  ? Padding(padding: EdgeInsets.symmetric(horizontal: 20), child: Divider(thickness: 3))
+                                  : SizedBox.shrink(),
+                            ],
+                          );
+                        }
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          timeInfo(widget.orderList[index]),
+                          Spacer(flex: 10),
+                          completedButton(widget.orderList[index]['orderState']),
+                          Spacer(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           );
-          // else
-          // return SizedBox.shrink();
         },
       ),
     );
   }
 
-  Widget menuImage(int index) {
+  Widget menuImage(var menu, int _idx) {
     return Container(
       width: 100,
-      height: 100,
+      height: 180,
       margin: EdgeInsets.only(left: 40, right: 40),
-      child: CircleAvatar(
-        backgroundImage: AssetImage(
-            'images/${widget.orderList[index]['contents'][0]['eng_name']}.png'),
-        radius: 35,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundImage: AssetImage(
+                'images/${menu['contents'][_idx]['eng_name']}.png'),
+            radius: 35,
+          ),
+          SizedBox(height: 20),
+          Text(
+            '${menu['orderNumber']}',
+            style: _orderInfoStyle,
+          ),
+        ],
       ),
     );
   }
@@ -107,10 +147,6 @@ class _OrderListState extends State<OrderList> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '주문번호 :',
-            style: _orderInfoStyle,
-          ),
           Text(
             '메뉴이름 :',
             style: _orderInfoStyle,
@@ -128,26 +164,22 @@ class _OrderListState extends State<OrderList> {
     );
   }
 
-  Widget orderInfo(var menu) {
+  Widget orderInfo(var menu, int _idx) {
     return Expanded(
       flex: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${menu['orderNumber']}',
+            '${menu['contents'][_idx]['name']}',
             style: _orderInfoStyle,
           ),
           Text(
-            '${menu['contents'][0]['name']}',
+            '${menu['contents'][_idx]['option']['dough']} / ${menu['contents'][_idx]['option']['size']}',
             style: _orderInfoStyle,
           ),
           Text(
-            '${menu['contents'][0]['option']['dough']} / ${menu['contents'][0]['option']['size']}',
-            style: _orderInfoStyle,
-          ),
-          Text(
-            '${menu['contents'][0]['count']}',
+            '${menu['contents'][_idx]['count']}',
             style: _orderInfoStyle,
           ),
         ],
