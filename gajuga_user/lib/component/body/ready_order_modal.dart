@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/box_shadow.dart';
+import 'package:gajuga_user/main.dart';
 
 showReadyModal(BuildContext c) {
   return showDialog(
@@ -48,7 +49,12 @@ showReadyModal(BuildContext c) {
                                 ])),
                         GestureDetector(
                             onTap: () {
-                              Navigator.pop(context);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MainScreen()),
+                                  ModalRoute.withName('/main'));
                             },
                             child: Container(
                                 alignment: Alignment.center,

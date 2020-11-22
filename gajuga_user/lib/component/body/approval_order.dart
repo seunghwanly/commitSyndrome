@@ -1,18 +1,89 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:gajuga_user/util/box_shadow.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
+import 'package:intl/intl.dart';
 import '../header/header.dart';
 import '../body/order_state.dart';
+import '../../model/order_history_model.dart';
 
-class ApprovalOrder extends StatelessWidget {
+class ApprovalOrder extends StatefulWidget {
+  final Order currentOrder;
+  ApprovalOrder({this.currentOrder});
+
+  @override
+  ApprovalOrderState createState() => ApprovalOrderState();
+}
+
+class ApprovalOrderState extends State<ApprovalOrder> {
   void _goOrderState(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => OrderState()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => OrderStateList(
+                  currentOrder: widget.currentOrder,
+                )));
+  }
+
+  String currentState = '';
+  DatabaseReference menuReference = FirebaseDatabase.instance
+      .reference()
+      .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()));
+
+  @override
+  void initState() {
+    super.initState();
+
+    //init state
+    // menuReference.once().then((DataSnapshot snapshot) {
+    //   if (snapshot.value != null) {
+    //     setState(() => currentState = snapshot.value);
+    //   } else {
+    //     // init when fetched data is null
+    //   }
+    // });
+
+    //listener
+    menuReference.onValue.listen((event) {
+      var snapshot = event.snapshot;
+      var value = snapshot.value['orderState'].toString();
+      if (value == 'confirm') {
+        //set confirmTime 나중에 관리자에서 주문받는 곳에 넣으면 좋을듯
+        // menuReference
+        //     .child('orderTimes')
+        //     .set(<String, String>{'confirmTime': DateTime.now().toString()});
+        Route route = MaterialPageRoute(
+            builder: (context) => OrderStateList(
+                  currentOrder: widget.currentOrder,
+                ));
+
+        Navigator.pushReplacement(context, route);
+      } else {
+        // setState(() {
+        // });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // database off
+    menuReference.onDisconnect();
   }
 
   @override
   Widget build(BuildContext context) {
+    // StreamBuilder(
+    //     stream: menuReference
+    //         .onValue, // 데이터베이스가 변할 때 마다 확인할 경로 : 구독할 PATH -> onValue를 사용합니다
+    //     builder: (BuildContext context, AsyncSnapshot<Event> snapshot) {
+    //       if (snapshot.hasData) {
+    //         return snapshot.data.snapshot.value;
+    //       }
+    //     });
+
     return CustomHeader(
         body: Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -81,6 +152,7 @@ class ApprovalOrder extends StatelessWidget {
                   fontSize: MediaQuery.of(context).size.width / 25),
               textAlign: TextAlign.center,
             ),
+            Text('$currentState')
           ],
         ),
         Column(
