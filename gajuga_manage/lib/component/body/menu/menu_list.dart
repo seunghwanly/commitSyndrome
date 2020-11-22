@@ -9,6 +9,7 @@ import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:provider/provider.dart';
 
 class MenuList extends StatefulWidget {
   @override
@@ -76,13 +77,7 @@ class _MenuListState extends State<MenuList> {
                     child: ListView.builder(
                       itemCount: pizza.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return _listItem(
-                          pizza[index].name,
-                          AssetImage('images/${pizza[index].engName}.png'),
-                          pizza[index].desc,
-                          pizza[index].cost,
-                          context,
-                        );
+                        return _listItem(pizza, index, context);
                       },
                       scrollDirection: Axis.horizontal,
                     ),
@@ -95,15 +90,9 @@ class _MenuListState extends State<MenuList> {
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: double.infinity,
                     child: ListView.builder(
-                      itemCount: data.length,
+                      itemCount: beverage.length, // TODO: beverage => pasta
                       itemBuilder: (BuildContext context, int index) {
-                        return _listItem(
-                          data[index],
-                          AssetImage('images/${data[index]}.png'),
-                          'desc',
-                          12900,
-                          context,
-                        );
+                        return _listItem(beverage, index, context); // TODO: beverage => pasta
                       },
                       scrollDirection: Axis.horizontal,
                     ),
@@ -118,13 +107,7 @@ class _MenuListState extends State<MenuList> {
                     child: ListView.builder(
                       itemCount: beverage.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return _listItem(
-                          beverage[index].name,
-                          AssetImage('images/${beverage[index].engName}.png'),
-                          beverage[index].desc,
-                          beverage[index].cost,
-                          context,
-                        );
+                        return _listItem(beverage, index, context);
                       },
                       scrollDirection: Axis.horizontal,
                     ),
@@ -144,8 +127,11 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Widget _listItem(String title, AssetImage image, String desc, int cost,
-      BuildContext context) {
+  Widget _listItem(List<Information> menu, int index, BuildContext context) {
+    String title = menu[index].name;
+    String imageTitle = menu[index].engName;
+    String desc = menu[index].desc;
+    int cost = menu[index].cost;
     double itemWidth = MediaQuery.of(context).size.width * 0.18;
     double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
@@ -169,7 +155,7 @@ class _MenuListState extends State<MenuList> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           CircleAvatar(
-            backgroundImage: image,
+            backgroundImage: AssetImage('images/$imageTitle.png'),
             radius: 35,
           ),
           Column(
@@ -203,6 +189,13 @@ class _MenuListState extends State<MenuList> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
+              setState(() {
+                Provider.of<Information>(context, listen: false).name = title;
+                Provider.of<Information>(context, listen: false).cost = cost;
+                Provider.of<Information>(context, listen: false).desc = desc;
+                Provider.of<Information>(context, listen: false).engName = menu[index].engName;
+                Provider.of<Information>(context, listen: false).ingredients = menu[index].ingredients;
+              });
               showMenuEditDialog(context);
             },
             child: Container(
@@ -224,6 +217,12 @@ class _MenuListState extends State<MenuList> {
   }
 
   Future showMenuEditDialog(BuildContext context) {
+    String name = Provider.of<Information>(context, listen: false).name;
+    String imageTitle = Provider.of<Information>(context, listen: false).engName;
+    int cost = Provider.of<Information>(context, listen: false).cost;
+    String desc = Provider.of<Information>(context, listen: false).desc;
+    Ingredients ingredients = Provider.of<Information>(context, listen: false).ingredients;
+
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -271,11 +270,11 @@ class _MenuListState extends State<MenuList> {
                             ],
                           ),
                         ),
-                        menuImageView(),
+                        menuImageView(imageTitle),
                         SizedBox(height: 20),
-                        nameField(),
-                        priceField(),
-                        extraField(),
+                        nameField(name),
+                        priceField(cost),
+                        extraField(ingredients),
                         SizedBox(height: 10),
                         FlatButton(
                           color: orange,
@@ -309,7 +308,7 @@ class _MenuListState extends State<MenuList> {
         });
   }
 
-  Widget menuImageView() {
+  Widget menuImageView(String _imageTitle) {
     return Container(
       margin: EdgeInsets.only(top: 30),
       child: Stack(
@@ -319,7 +318,7 @@ class _MenuListState extends State<MenuList> {
             child: CircleAvatar(
               radius: 65.0,
               backgroundImage: _menuImage == null
-                  ? AssetImage('images/A.png')
+                  ? AssetImage('images/$_imageTitle.png')
                   : FileImage(_menuImage),
             ),
           ),
@@ -365,7 +364,7 @@ class _MenuListState extends State<MenuList> {
     });
   }
 
-  Widget nameField() {
+  Widget nameField(String _name) {
     return Row(
       children: [
         Text(
@@ -379,6 +378,7 @@ class _MenuListState extends State<MenuList> {
             padding: EdgeInsets.all(8),
             child: TextFormField(
               keyboardType: TextInputType.text,
+              initialValue: _name,
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
                 focusedBorder: roundInputBorder,
@@ -393,7 +393,7 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Widget priceField() {
+  Widget priceField(int _cost) {
     return Row(
       children: [
         Text(
@@ -407,6 +407,7 @@ class _MenuListState extends State<MenuList> {
             padding: EdgeInsets.all(8),
             child: TextFormField(
               keyboardType: TextInputType.number,
+              initialValue: _cost.toString(),
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
                 focusedBorder: roundInputBorder,
@@ -421,7 +422,9 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Widget extraField() {
+  Widget extraField(Ingredients _ingredients) {
+    // TODO: ingredients
+    
     return Row(
       children: [
         Text(
