@@ -27,9 +27,9 @@ class LoginWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.9,
                     alignment: Alignment.center,
                     padding: EdgeInsets.fromLTRB(
-                        MediaQuery.of(context).size.width * 0.2,
+                        MediaQuery.of(context).size.width * 0.3,
                         0.0,
-                        MediaQuery.of(context).size.width * 0.2,
+                        MediaQuery.of(context).size.width * 0.3,
                         0.0),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,9 +234,9 @@ class LoginWidget extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.8,
                       alignment: Alignment.center,
                       padding: EdgeInsets.fromLTRB(
-                          MediaQuery.of(context).size.width * 0.2,
+                          MediaQuery.of(context).size.width * 0.3,
                           0.0,
-                          MediaQuery.of(context).size.width * 0.2,
+                          MediaQuery.of(context).size.width * 0.3,
                           0.0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
