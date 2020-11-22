@@ -1,43 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/palette.dart';
+import 'package:intl/intl.dart';
 import 'dart:ui';
 
-class OrderMenu {
-  String orderNumber;
-  String name;
-  String additional;
-  int quantity;
-  int status; // 0: 미처리, 1: 주문승인(조리중), 2: 준비완료
+// class OrderMenu {
+//   String orderNumber;
+//   String name;
+//   String additional;
+//   int quantity;
+//   String status; // 0: 미처리, 1: 주문승인(조리중), 2: 준비완료
 
-  OrderMenu({this.orderNumber, this.name, this.additional = '없음', this.quantity = 1, this.status = 0});
-}
+//   OrderMenu(
+//       {this.orderNumber,
+//       this.name,
+//       this.additional = '없음',
+//       this.quantity = 1,
+//       this.status = 'request'});
+// }
 
 class OrderList extends StatefulWidget {
-  final int orderStatus;
+  final String orderStatus;
+  final orderList;
 
-  const OrderList({Key key, this.orderStatus}): super(key: key);
+  const OrderList({Key key, this.orderStatus, this.orderList})
+      : super(key: key);
 
   @override
   _OrderListState createState() => _OrderListState();
 }
 
 class _OrderListState extends State<OrderList> {
-  TextStyle _orderInfoStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
-  final List<OrderMenu> orderList = [
-    OrderMenu(orderNumber: 'A-847', name: '앤초비파스타'),
-    OrderMenu(orderNumber: 'A-848', name: '루꼴라피자', additional: '라지 Large / 17 inch'),
-    OrderMenu(orderNumber: 'A-849', name: '오일파스타'),
-    OrderMenu(orderNumber: 'A-850', name: '루꼴라피자', additional: '라지 Large / 17 inch'),
-    // =====================================================
-    OrderMenu(orderNumber: 'A-851', name: '앤초비파스타', status: 1),
-    OrderMenu(orderNumber: 'A-852', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 1),
-    OrderMenu(orderNumber: 'A-853', name: '오일파스타', status: 1),
-    OrderMenu(orderNumber: 'A-854', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 1),
-    OrderMenu(orderNumber: 'A-855', name: '앤초비파스타', status: 2),
-    OrderMenu(orderNumber: 'A-856', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 2),
-    OrderMenu(orderNumber: 'A-857', name: '오일파스타', status: 2),
-    OrderMenu(orderNumber: 'A-858', name: '루꼴라피자', additional: '라지 Large / 17 inch', status: 2),
-  ];
+  TextStyle _orderInfoStyle =
+      TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+
+  String differTwoDays(String str1) {
+    DateTime d1 = DateTime.parse(str1);
+    DateTime d2 = DateTime.now();
+    var differ = d2.difference(d1).inMinutes;
+    return (differ.toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,47 +53,49 @@ class _OrderListState extends State<OrderList> {
       child: ListView.builder(
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: orderList.length,
+        itemCount: widget.orderList.length,
         itemBuilder: (BuildContext context, int index) {
-          if (widget.orderStatus == orderList[index].status)
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(1, 2),
-                    blurRadius: 10,
-                    spreadRadius: 0.1,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  menuImage(),
-                  orderInfoLabel(),
-                  orderInfo(orderList[index]),
-                  timeInfo(),
-                  Spacer(),
-                  completedButton(orderList[index].status),
-                ],
-              ),
-            );
-          else return SizedBox.shrink();
+          // if (widget.orderStatus == widget.orderList[index].status)
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(1, 2),
+                  blurRadius: 10,
+                  spreadRadius: 0.1,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                menuImage(index),
+                orderInfoLabel(),
+                orderInfo(widget.orderList[index]),
+                timeInfo(widget.orderList[index]),
+                Spacer(),
+                completedButton(widget.orderList[index]['orderState']),
+              ],
+            ),
+          );
+          // else
+          // return SizedBox.shrink();
         },
       ),
     );
   }
 
-  Widget menuImage() {
+  Widget menuImage(int index) {
     return Container(
       width: 100,
       height: 100,
       margin: EdgeInsets.only(left: 40, right: 40),
       child: CircleAvatar(
-        backgroundImage: AssetImage('images/A.png'),
+        backgroundImage: AssetImage(
+            'images/${widget.orderList[index]['contents'][0]['eng_name']}.png'),
         radius: 35,
       ),
     );
@@ -119,26 +128,26 @@ class _OrderListState extends State<OrderList> {
     );
   }
 
-  Widget orderInfo(OrderMenu menu) {
+  Widget orderInfo(var menu) {
     return Expanded(
       flex: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${menu.orderNumber}',
+            '${menu['orderNumber']}',
             style: _orderInfoStyle,
           ),
           Text(
-            '${menu.name}',
+            '${menu['contents'][0]['name']}',
             style: _orderInfoStyle,
           ),
           Text(
-            '${menu.additional}',
+            '${menu['contents'][0]['option']['dough']} / ${menu['contents'][0]['option']['size']}',
             style: _orderInfoStyle,
           ),
           Text(
-            '${menu.quantity}개',
+            '${menu['contents'][0]['count']}',
             style: _orderInfoStyle,
           ),
         ],
@@ -146,7 +155,7 @@ class _OrderListState extends State<OrderList> {
     );
   }
 
-  Widget timeInfo() {
+  Widget timeInfo(var menu) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 40),
       child: Column(
@@ -159,7 +168,7 @@ class _OrderListState extends State<OrderList> {
             ),
           ),
           Text(
-            '8분 23초',
+            differTwoDays(menu['orderTimes']['requestTime']) + ' 분',
             style: TextStyle(
               fontSize: 43,
               fontWeight: FontWeight.bold,
@@ -171,7 +180,7 @@ class _OrderListState extends State<OrderList> {
     );
   }
 
-  Widget completedButton(int status) {
+  Widget completedButton(String status) {
     return InkWell(
       onTap: () {
         print('click');
@@ -187,7 +196,11 @@ class _OrderListState extends State<OrderList> {
         ),
         alignment: Alignment.center,
         child: Text(
-          status == 0 ? '조리\n완료' : status == 1 ? '주문\n승인' : '준비\n완료',
+          status == 'request'
+              ? '주문\n승인'
+              : status == 'confirm'
+                  ? '준비\n완료'
+                  : '준비\n완료',
           style: TextStyle(
             fontSize: 35,
             color: Colors.white,

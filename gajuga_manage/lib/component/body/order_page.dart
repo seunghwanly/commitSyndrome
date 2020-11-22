@@ -3,6 +3,9 @@ import 'package:gajuga_manage/util/main_container.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:gajuga_manage/component/body/order_list.dart';
 import 'package:gajuga_manage/util/palette.dart';
+import 'package:intl/intl.dart';
+//firebase database
+import 'package:firebase_database/firebase_database.dart';
 import 'dart:ui';
 
 class OrderPage extends StatefulWidget {
@@ -11,18 +14,56 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  var unhandledList;
+  var handledList;
   bool unhandledOrders = true;
   bool handledOrders = false;
+  var now = DateTime.now();
+  final databaseReference = FirebaseDatabase.instance.reference();
+
+  void readListbyState() {
+    databaseReference
+        .child('order/' + DateFormat('yyyy-MM-dd').format(now))
+        .orderByChild('orderNumber')
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      Map<dynamic, dynamic> values = dataSnapshot.value;
+      var orderHandledList = new List<dynamic>();
+      var orderUnHandledList = new List<dynamic>();
+      //print(values.toString());
+      values.forEach((k, v) {
+        if (v['orderState'] == 'request')
+          orderUnHandledList.add(v);
+        else if (v['orderState'] == 'ready') orderHandledList.add(v);
+      });
+      setState(() {
+        this.unhandledList = orderUnHandledList;
+        this.handledList = orderHandledList;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readListbyState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    readListbyState();
     return MainContainer(
       body: SingleChildScrollView(
         child: Column(
           children: [
             StickyHeader(
               header: headerButtons(),
-              content: unhandledOrders ? OrderList(orderStatus: 1) : OrderList(orderStatus: 2),
+              content: unhandledOrders
+                  ? OrderList(orderStatus: 'request', orderList: unhandledList)
+                  : OrderList(
+                      orderStatus: 'ready',
+                      orderList: handledList,
+                    ),
             ),
           ],
         ),

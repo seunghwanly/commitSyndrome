@@ -72,9 +72,9 @@ class ApprovalOrderState extends State<ApprovalOrder> {
 
   @override
   void dispose() {
-    super.dispose();
     // database off
     menuReference.onDisconnect();
+    super.dispose();
   }
 
   @override
