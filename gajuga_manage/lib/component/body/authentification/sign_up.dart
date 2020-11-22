@@ -175,6 +175,9 @@ class SignUpWidget extends StatelessWidget {
                               _phoneController.text = value.trim(),
                         ),
                       ),
+                      SizedBox(
+                        width: 20.0,
+                      ),
                       Container(
                         padding: EdgeInsets.all(3.0),
                         decoration: BoxDecoration(

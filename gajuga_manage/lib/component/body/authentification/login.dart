@@ -330,9 +330,8 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
         showLoginFail(context);
         return false;
       }
-      Navigator.pop(context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginWidget()));
+      Navigator.popUntil(
+          context, ModalRoute.withName(Navigator.defaultRouteName));
       return true;
     } else {
       showLoginFail(context);
@@ -346,9 +345,7 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
 //로그아웃
 Future<void> logOut(FirebaseAuthService auth, BuildContext context) async {
   auth.signOut();
-  Navigator.pop(context);
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => LoginWidget()));
+  Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
 }
 
 //로그인 실패 오류 모달
