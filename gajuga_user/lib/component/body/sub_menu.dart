@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gajuga_user/provider/provider.dart';
 import 'package:gajuga_user/util/payment/iamport_payment.dart';
+import 'package:gajuga_user/model/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
@@ -30,7 +31,8 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   //firebase
   final databaseReference = FirebaseDatabase.instance.reference();
   final DBRef = FirebaseDatabase.instance.reference();
-  final String userid = 'UserCode-01';
+  FirebaseAuthService _auth;
+  static String userid;
   //--------------------------------------------------------------------------고정 옵션
   final contentSize = {
     "category": "SIZE/사이즈 선택",
@@ -89,6 +91,11 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<FirebaseAuthService>(context);
+    if (_auth.getUser() != null) {
+      userid = _auth.getUser().uid;
+    }
+
     final optionSelected = Provider.of<StateProvider>(context);
     List<Map<String, dynamic>> parsedOptionList =
         optionSelected.getOptionList();

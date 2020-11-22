@@ -11,6 +11,8 @@ import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
 import '../../util/to_locale.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:gajuga_user/model/firebase_provider.dart';
+import 'package:provider/provider.dart';
 
 class TotalMenu extends StatefulWidget {
   @override
@@ -19,7 +21,8 @@ class TotalMenu extends StatefulWidget {
 
 class TotalMenuState extends State<TotalMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
-  final String userid = 'UserCode-01';
+  FirebaseAuthService _auth;
+  static String userid;
   final List<String> data = ['gorgonzola', 'pepperoni', 'bulgogi', 'potato'];
 
   var currentState = 'pizza';
@@ -152,6 +155,11 @@ class TotalMenuState extends State<TotalMenu> {
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<FirebaseAuthService>(context);
+    if (_auth.getUser() != null) {
+      userid = _auth.getUser().uid;
+    }
+
     print('메인 실행 ! ');
     if (this.currentMenuList == null) {
       return Container(
