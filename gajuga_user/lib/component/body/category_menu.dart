@@ -8,6 +8,8 @@ import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
 import '../header/header.dart';
+import 'package:gajuga_user/model/firebase_provider.dart';
+import 'package:provider/provider.dart';
 
 class CategoryMenu extends StatefulWidget {
   @override
@@ -17,7 +19,8 @@ class CategoryMenu extends StatefulWidget {
 class CategoryMenuState extends State<CategoryMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
   final List<String> data = <String>['피자', '음료'];
-  final String userid = 'UserCode-01';
+  FirebaseAuthService _auth;
+  static String userid;
   var currentState = 'pizza';
   var tmp = 0;
   var fetchedData;
@@ -107,6 +110,10 @@ class CategoryMenuState extends State<CategoryMenu> {
 
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<FirebaseAuthService>(context);
+    if (_auth.getUser() != null) {
+      userid = _auth.getUser().uid;
+    }
     return CustomHeader(
         body: Container(
             margin: EdgeInsets.only(
