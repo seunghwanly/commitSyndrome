@@ -92,7 +92,6 @@ class Content {
   final int count;
   final String eng_name;
   final Option option;
-
   Content({this.name, this.cost, this.option, this.eng_name, this.count});
 
   factory Content.fromJson(Map<String, dynamic> parsedJson) {

@@ -10,7 +10,8 @@ import '../../model/order_history_model.dart';
 
 class ApprovalOrder extends StatefulWidget {
   final Order currentOrder;
-  ApprovalOrder({this.currentOrder});
+  final String orderKey;
+  ApprovalOrder({this.currentOrder, this.orderKey});
 
   @override
   ApprovalOrderState createState() => ApprovalOrderState();
@@ -23,6 +24,7 @@ class ApprovalOrderState extends State<ApprovalOrder> {
         MaterialPageRoute(
             builder: (context) => OrderStateList(
                   currentOrder: widget.currentOrder,
+                  orderKey: widget.orderKey,
                 )));
   }
 
@@ -34,7 +36,10 @@ class ApprovalOrderState extends State<ApprovalOrder> {
   @override
   void initState() {
     super.initState();
-
+    menuReference = FirebaseDatabase.instance
+        .reference()
+        .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()))
+        .child(widget.orderKey);
     //init state
     // menuReference.once().then((DataSnapshot snapshot) {
     //   if (snapshot.value != null) {
@@ -55,8 +60,7 @@ class ApprovalOrderState extends State<ApprovalOrder> {
         //     .set(<String, String>{'confirmTime': DateTime.now().toString()});
         Route route = MaterialPageRoute(
             builder: (context) => OrderStateList(
-                  currentOrder: widget.currentOrder,
-                ));
+                currentOrder: widget.currentOrder, orderKey: widget.orderKey));
 
         Navigator.pushReplacement(context, route);
       } else {

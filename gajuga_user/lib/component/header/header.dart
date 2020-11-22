@@ -55,11 +55,14 @@ class _CustomHeaderState extends State<CustomHeader> {
   @override
   Widget build(BuildContext context) {
     void _resetAndOpenPage(BuildContext context) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-        ModalRoute.withName('/main'),
-      );
+      Navigator.popUntil(
+          context, ModalRoute.withName(Navigator.defaultRouteName));
+
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+      //   ModalRoute.withName('/main'),
+      // );
     }
 
     void _gotoCart() {

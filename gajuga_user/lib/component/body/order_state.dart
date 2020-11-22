@@ -13,7 +13,8 @@ import '../../model/order_history_model.dart';
 
 class OrderStateList extends StatefulWidget {
   final Order currentOrder;
-  OrderStateList({this.currentOrder});
+  final String orderKey;
+  OrderStateList({this.currentOrder, this.orderKey});
   @override
   OrderState createState() => OrderState();
 }
@@ -37,6 +38,10 @@ class OrderState extends State<OrderStateList> {
   @override
   void initState() {
     super.initState();
+    menuReference = FirebaseDatabase.instance
+        .reference()
+        .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()))
+        .child(widget.orderKey);
 
     //listener
     menuReference.onValue.listen((event) {

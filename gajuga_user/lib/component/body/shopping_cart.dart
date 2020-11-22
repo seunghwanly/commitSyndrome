@@ -22,42 +22,18 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   final List<String> data = <String>['피자', '파스타', '음료'];
   final DBRef = FirebaseDatabase.instance.reference();
   final String userid = 'UserCode-01';
+  String orderKey;
   var tmp = 0;
   int totalCost = 0;
+  int lastIndex = 0;
   List<ShoppingCart> cartList = List<ShoppingCart>();
 
   //scroll controller
   ScrollController _scrollController;
 
-  final orderdata = [
-    {
-      'Imageurl': 'image1.jpg',
-      'name': '고르곤졸라 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 12900,
-      'size': 'Large',
-      'addcost': 2000,
-    },
-    {
-      'Imageurl': 'image1.jpg',
-      'name': '치즈 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 11900,
-      'size': 'Regular',
-      'addcost': 0,
-    },
-    {
-      'Imageurl': 'image1.jpg',
-      'name': '포테이토 피자',
-      'description': '메뉴에 대한 간략한 설명입니다.',
-      'cost': 12900,
-      'size': 'Large',
-      'addcost': 2000,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    readOrderIndex();
     return CustomHeader(
       body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Expanded(
@@ -293,11 +269,12 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                             child: GestureDetector(
                                 onTap: () {
                                   Order currentOrder = addOrder();
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ApprovalOrder(
                                                 currentOrder: currentOrder,
+                                                orderKey: orderKey,
                                               )));
                                 },
                                 child: Column(
@@ -344,6 +321,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   void initState() {
     super.initState();
     readData();
+    readOrderIndex();
   }
 
   int countAddCost(String dough, String size) {
@@ -362,6 +340,9 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
   Order addOrder() {
     var now = DateTime.now();
+    String key =
+        DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now)).push().key;
+
     List<Content> items = List<Content>();
     for (var i = 0; i < cartList.length; i++) {
       // print(cartList[i].cost);
@@ -375,13 +356,13 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
           option: cartList[i].option);
       items.add(item);
     }
-    print(items.length);
+    //print(items.length);
     // String push =
     // DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
     Order currentOrder = Order(
         customerInfo: userid,
         content: items,
-        orderNumber: 'A-11',
+        orderNumber: ('A-' + (lastIndex + 1).toString()),
         orderState: 'request',
         totalCost: totalCost,
         orderTimes:
@@ -390,12 +371,18 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     //cartList[index]
 
     DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now))
+        .child(key)
         .set(currentOrder.toJson());
+
     DBRef.child('user')
         .child(userid)
         .child('history')
         .push()
         .set(currentOrder.toJson());
+
+    setState(() {
+      orderKey = key;
+    });
     return currentOrder;
   }
 
@@ -403,6 +390,26 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
     readData();
     setState(() {});
+  }
+
+  void readOrderIndex() {
+    var now = DateTime.now();
+    DBRef.child('order')
+        .child(DateFormat('yyyy-MM-dd').format(now))
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      Map<dynamic, dynamic> values = dataSnapshot.value;
+      var orderList = new List<dynamic>();
+      // print(values.toString());
+      values.forEach((k, v) {
+        orderList.add(v);
+      });
+      if (values != null) {
+        setState(() {
+          this.lastIndex = orderList.length;
+        });
+      }
+    });
   }
 
   void readData() {
