@@ -38,6 +38,7 @@ dependencies:
   pie_chart: ^4.0.1
   sticky_headers: ^0.1.8
   loading_animations: "^2.1.0"
+  provider: ^4.3.2+2
 
 dev_dependencies:
   flutter_test:
