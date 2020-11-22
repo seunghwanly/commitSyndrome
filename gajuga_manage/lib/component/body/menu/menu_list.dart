@@ -282,6 +282,15 @@ class _MenuListState extends State<MenuList> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           onPressed: () {
+                            // TODO: 데이터 저장
+                            Map data = {
+                              'name': Provider.of<Information>(context, listen: false).name,
+                              'cost': Provider.of<Information>(context, listen: false).cost,
+                              'desc': Provider.of<Information>(context, listen: false).desc,
+                              'eng_name': Provider.of<Information>(context, listen: false).engName,
+                            };
+                            print(data);
+
                             Navigator.of(context).pop();
                             _menuUpdated();
                           },
@@ -352,8 +361,7 @@ class _MenuListState extends State<MenuList> {
   }
 
   Future getMenuImage() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery); // TODO: app crash 해결해야함
+    final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
 
     setState(() {
       if (pickedFile != null) {
@@ -377,6 +385,9 @@ class _MenuListState extends State<MenuList> {
           child: Container(
             padding: EdgeInsets.all(8),
             child: TextFormField(
+              onChanged: (text) {
+                Provider.of<Information>(context, listen: false).name = text;
+              },
               keyboardType: TextInputType.text,
               initialValue: _name,
               decoration: new InputDecoration(
@@ -406,6 +417,9 @@ class _MenuListState extends State<MenuList> {
           child: Container(
             padding: EdgeInsets.all(8),
             child: TextFormField(
+              onChanged: (text) {
+                Provider.of<Information>(context, listen: false).cost = int.parse(text);
+              },
               keyboardType: TextInputType.number,
               initialValue: _cost.toString(),
               decoration: new InputDecoration(
@@ -423,8 +437,8 @@ class _MenuListState extends State<MenuList> {
   }
 
   Widget extraField(Ingredients _ingredients) {
-    // TODO: ingredients
-    
+    // TODO: ingredients가 들어가는 자리인가...?
+
     return Row(
       children: [
         Text(
@@ -437,7 +451,11 @@ class _MenuListState extends State<MenuList> {
           child: Container(
             padding: EdgeInsets.all(8),
             child: TextFormField(
+              onChanged: (text) {
+                // TODO
+              },
               keyboardType: TextInputType.text,
+              // initialValue: ,
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
                 focusedBorder: roundInputBorder,
