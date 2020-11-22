@@ -28,11 +28,11 @@ class Menu {
 
 //common
 class Information {
-  final int cost;
-  final String desc;
-  final String engName;
-  final String name;
-  final Ingredients ingredients;
+  int cost;
+  String desc;
+  String engName;
+  String name;
+  Ingredients ingredients;
 
   Information(
       {this.cost, this.desc, this.engName, this.ingredients, this.name});

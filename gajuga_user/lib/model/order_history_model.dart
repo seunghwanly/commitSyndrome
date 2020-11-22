@@ -89,14 +89,18 @@ class OrderTimes {
 class Content {
   final String name;
   final int cost;
+  final int count;
+  final String eng_name;
   final Option option;
 
-  Content({this.name, this.cost, this.option});
+  Content({this.name, this.cost, this.option, this.eng_name, this.count});
 
   factory Content.fromJson(Map<String, dynamic> parsedJson) {
     return Content(
       name: parsedJson['name'],
       cost: parsedJson['cost'],
+      count: parsedJson['count'],
+      eng_name: parsedJson['eng_name'],
       option: new Option(
           dough: parsedJson['option']['dough'],
           size: parsedJson['option']['size']),
@@ -106,6 +110,8 @@ class Content {
     return {
       'name': name,
       'cost': cost,
+      'count': count,
+      'eng_name': eng_name,
       'option': {
         'dough': option.dough,
         'size': option.size,

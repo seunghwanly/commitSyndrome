@@ -5,10 +5,11 @@ import '../../util/to_locale.dart';
 
 showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
   int totalCost = 0;
+  totalCost = list['totalCost'];
 
-  for (int i = 0; i < list['content'].length; ++i) {
-    totalCost += list['content'][i]['cost'];
-  }
+  // for (int i = 0; i < list['content'].length; ++i) {
+  //   totalCost += list['content'][i]['cost'];
+  // }
 
   return showDialog(
       context: c,
@@ -65,8 +66,8 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     makeTextSize('주문 번호', lightgrey, 0.0, 14),
-                                    makeTextSize(list['order_number'],
-                                        lightgrey, 0.0, 14)
+                                    makeTextSize(
+                                        list['orderNumber'], lightgrey, 0.0, 14)
                                   ],
                                 ),
                               ),
@@ -78,8 +79,30 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     makeTextSize('주문 시간', lightgrey, 0.0, 14),
-                                    makeTextSize(
-                                        list['order_time'], lightgrey, 0.0, 14)
+                                    Column(
+                                      children: [
+                                        makeTextSize(
+                                            list['orderTimes']['requestTime']
+                                                .toString()
+                                                .substring(0, 10),
+                                            lightgrey,
+                                            0.0,
+                                            14),
+                                        makeTextSize(
+                                            list['orderTimes']['requestTime']
+                                                .toString()
+                                                .substring(
+                                                    10,
+                                                    list['orderTimes']
+                                                                ['requestTime']
+                                                            .toString()
+                                                            .length -
+                                                        7),
+                                            lightgrey,
+                                            0.0,
+                                            14)
+                                      ],
+                                    )
                                   ],
                                 ),
                               )
@@ -96,11 +119,11 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                               makeTextSize("주문 내역", darkblue, 0.0, 20.0),
                               Container(
                                 height: MediaQuery.of(context).size.height *
-                                    (0.04 + 0.02 * list['content'].length),
+                                    (0.04 + 0.02 * list['contents'].length),
                                 width: MediaQuery.of(context).size.width,
                                 child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemCount: list['content'].length,
+                                  itemCount: list['contents'].length,
                                   itemBuilder: (BuildContext context, int idx) {
                                     return Container(
                                       margin: EdgeInsets.only(
@@ -110,17 +133,24 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           makeTextSize(
-                                              list['content'][idx]['name'],
+                                              list['contents'][idx]['name'],
                                               lightgrey,
                                               0.0,
                                               14),
                                           makeTextSize(
-                                              toLocaleString(list['content']
+                                              toLocaleString(list['contents']
                                                       [idx]['cost']) +
                                                   ' 원',
                                               lightgrey,
                                               0.0,
-                                              14)
+                                              14),
+                                          makeTextSize(
+                                              '*   ' +
+                                                  list['contents'][idx]['count']
+                                                      .toString(),
+                                              lightgrey,
+                                              0.0,
+                                              14),
                                         ],
                                       ),
                                     );
