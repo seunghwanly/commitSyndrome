@@ -47,6 +47,7 @@ class _ChefPageState extends State<ChefPage> {
 
   @override
   Widget build(BuildContext context) {
+    readListbyState();
     return MainContainer(
       body: SingleChildScrollView(
         child: OrderList(

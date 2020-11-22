@@ -3,6 +3,8 @@ import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
+//firebase database
+import 'package:firebase_database/firebase_database.dart';
 
 // class OrderMenu {
 //   String orderNumber;
@@ -31,10 +33,83 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
+  final databaseReference = FirebaseDatabase.instance.reference();
   TextStyle _orderInfoStyle =
       TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+  var now = DateTime.now();
 
-  String differTwoDays(String str1) {
+  void progationState(
+      String currentState, String orderNumber, String userInfo) {
+    String nextState = '';
+    if (currentState == 'request') {
+      nextState = 'confirm';
+    } else if (currentState == 'confirm') {
+      nextState = 'ready';
+    }
+
+    if (nextState != '') {
+      // order/2020-11-22/key/orderList
+      databaseReference
+          .child('order/' + DateFormat('yyyy-MM-dd').format(now))
+          .once()
+          .then((DataSnapshot dataSnapshot) {
+        Map<dynamic, dynamic> values = dataSnapshot.value;
+        values.forEach((k, v) {
+          if (v['orderNumber'] == orderNumber) {
+            databaseReference
+                .child('order/' + DateFormat('yyyy-MM-dd').format(now))
+                .child(k)
+                .child('orderTimes')
+                .child(v['orderState'] + 'Time')
+                .set(now.toString());
+            databaseReference
+                .child('order/' + DateFormat('yyyy-MM-dd').format(now))
+                .child(k)
+                .child('orderState')
+                .set(nextState);
+          }
+        });
+      });
+      // user/uid/history/key/orderList
+      databaseReference
+          .child('user')
+          .child(userInfo)
+          .child('history')
+          .once()
+          .then((DataSnapshot dataSnapshot) {
+        Map<dynamic, dynamic> values = dataSnapshot.value;
+        values.forEach((k, v) {
+          if (v['orderNumber'] == orderNumber) {
+            databaseReference
+                .child('user/')
+                .child(userInfo)
+                .child('history')
+                .child(k)
+                .child('orderTimes')
+                .child(v['orderState'] + 'Time')
+                .set(now.toString());
+
+            databaseReference
+                .child('user/')
+                .child(userInfo)
+                .child('history')
+                .child(k)
+                .child('orderState')
+                .set(nextState);
+          }
+        });
+      });
+    }
+  }
+
+  String differTwoDays(String str1, String str2) {
+    DateTime d1 = DateTime.parse(str1);
+    DateTime d2 = DateTime.parse(str2);
+    var differ = d2.difference(d1).inMinutes;
+    return (differ.toString());
+  }
+
+  String differDayFromNow(String str1) {
     DateTime d1 = DateTime.parse(str1);
     DateTime d2 = DateTime.now();
     var differ = d2.difference(d1).inMinutes;
@@ -53,7 +128,7 @@ class _OrderListState extends State<OrderList> {
       child: ListView.builder(
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: widget.orderList.length,
+        itemCount: widget.orderList == null ? 0 : widget.orderList.length,
         itemBuilder: (BuildContext context, int index) {
           // if (widget.orderStatus == widget.orderList[index].status)
           return Container(
@@ -76,26 +151,34 @@ class _OrderListState extends State<OrderList> {
                   children: [
                     Expanded(
                       child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: widget.orderList[index]['contents'].length,
-                        itemBuilder: (BuildContext context, int contentIndex) {
-                          return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  menuImage(widget.orderList[index], contentIndex),
-                                  orderInfoLabel(),
-                                  orderInfo(widget.orderList[index], contentIndex),
-                                ],
-                              ),
-                              contentIndex != widget.orderList[index]['contents'].length - 1
-                                  ? Padding(padding: EdgeInsets.symmetric(horizontal: 20), child: Divider(thickness: 3))
-                                  : SizedBox.shrink(),
-                            ],
-                          );
-                        }
-                      ),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: widget.orderList[index]['contents'].length,
+                          itemBuilder:
+                              (BuildContext context, int contentIndex) {
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    menuImage(
+                                        widget.orderList[index], contentIndex),
+                                    orderInfoLabel(),
+                                    orderInfo(
+                                        widget.orderList[index], contentIndex),
+                                  ],
+                                ),
+                                contentIndex !=
+                                        widget.orderList[index]['contents']
+                                                .length -
+                                            1
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: Divider(thickness: 3))
+                                    : SizedBox.shrink(),
+                              ],
+                            );
+                          }),
                     ),
                     Expanded(
                       child: Row(
@@ -103,7 +186,8 @@ class _OrderListState extends State<OrderList> {
                         children: [
                           timeInfo(widget.orderList[index]),
                           Spacer(flex: 10),
-                          completedButton(widget.orderList[index]['orderState']),
+                          completedButton(widget.orderList[index]['orderState'],
+                              widget.orderList[index]),
                           Spacer(),
                         ],
                       ),
@@ -127,8 +211,8 @@ class _OrderListState extends State<OrderList> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage(
-                'images/${menu['contents'][_idx]['eng_name']}.png'),
+            backgroundImage:
+                AssetImage('images/${menu['contents'][_idx]['eng_name']}.png'),
             radius: 35,
           ),
           SizedBox(height: 20),
@@ -188,34 +272,62 @@ class _OrderListState extends State<OrderList> {
   }
 
   Widget timeInfo(var menu) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        children: [
-          Text(
-            '경과시간',
-            style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
+    if (menu['orderState'] == 'ready') {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          children: [
+            Text(
+              '총 소요시간',
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          Text(
-            differTwoDays(menu['orderTimes']['requestTime']) + ' 분',
-            style: TextStyle(
-              fontSize: 43,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
+            Text(
+              differTwoDays(menu['orderTimes']['requestTime'],
+                      menu['orderTimes']['readyTime']) +
+                  ' 분',
+              style: TextStyle(
+                fontSize: 43,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          children: [
+            Text(
+              '경과시간',
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              differDayFromNow(menu['orderTimes']['requestTime']) + ' 분',
+              style: TextStyle(
+                fontSize: 43,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
-  Widget completedButton(String status) {
+  Widget completedButton(String status, dynamic order) {
     return InkWell(
       onTap: () {
-        print('click');
+        progationState(status, order['orderNumber'].toString(),
+            order['customerInfo'].toString());
       },
       child: Container(
         height: 140,
@@ -232,7 +344,7 @@ class _OrderListState extends State<OrderList> {
               ? '주문\n승인'
               : status == 'confirm'
                   ? '준비\n완료'
-                  : '준비\n완료',
+                  : '처리\n완료',
           style: TextStyle(
             fontSize: 35,
             color: Colors.white,
