@@ -36,7 +36,7 @@ class MainScreen extends StatelessWidget {
           ],
           title: "GAJUGA.",
           theme: ThemeData(
-            primaryColor: isOrderPage ? darkgrey : pale,
+            primaryColor: pale,
             canvasColor: Colors.transparent,
           ),
           themeMode: ThemeMode.light,
