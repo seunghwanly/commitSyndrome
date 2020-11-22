@@ -87,7 +87,7 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                                 .substring(0, 10),
                                             lightgrey,
                                             0.0,
-                                            13),
+                                            14),
                                         makeTextSize(
                                             list['orderTimes']['requestTime']
                                                 .toString()
@@ -100,7 +100,7 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                                         7),
                                             lightgrey,
                                             0.0,
-                                            13)
+                                            14)
                                       ],
                                     )
                                   ],
@@ -143,7 +143,14 @@ showOrderHistoryModal(BuildContext c, Map<String, dynamic> list) {
                                                   ' 원',
                                               lightgrey,
                                               0.0,
-                                              14)
+                                              14),
+                                          makeTextSize(
+                                              '*   ' +
+                                                  list['contents'][idx]['count']
+                                                      .toString(),
+                                              lightgrey,
+                                              0.0,
+                                              14),
                                         ],
                                       ),
                                     );
