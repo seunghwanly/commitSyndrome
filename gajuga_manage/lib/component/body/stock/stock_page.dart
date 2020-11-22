@@ -146,8 +146,17 @@ class _StockPageState extends State<StockPage> {
                             selectedDate.toString().substring(0, 10)))
                           isRecorded = true;
                       }
+                      // print(selectedDate.compareTo(DateTime.parse('2020-11-25'))); // not yet
+
+                      if (selectedDate.compareTo(DateTime.parse(history
+                              .last.keys.last
+                              .toString()
+                              .substring(0, 10))) >=
+                          0) return mainBody(context, pageIndex, save);
+
                       if (isRecorded)
                         return mainBody(context, pageIndex, save);
+                        
                       else
                         return Container(
                           alignment: Alignment.center,

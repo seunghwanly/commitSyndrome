@@ -3,7 +3,6 @@ import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
-import 'package:loading_animations/loading_animations.dart';
 
 class CurrentStock extends StatefulWidget {
   CurrentStock();
@@ -31,13 +30,13 @@ class CurrentStockState extends State<CurrentStock> {
             //data
             Map<dynamic, dynamic> pizza = snapshot.data['pizza'];
             Map<dynamic, dynamic> beverage = snapshot.data['beverage'];
+
             return Column(
               children: [
                 Expanded(
-                              flex: 1,
-                              child: makeTitleSize(
-                                  "피자", "PIZZA", 10.0, 20.0, false),
-                            ),
+                  flex: 1,
+                  child: makeTitleSize("피자", "PIZZA", 10.0, 20.0, false),
+                ),
                 Expanded(
                     ///////////////////////////////////////////////////////////////////// PIZZA
                     flex: 4,
@@ -189,10 +188,9 @@ class CurrentStockState extends State<CurrentStock> {
                         ))),
                 ///////////////////////////////////////////////////////////////////// END OF PIZZA
                 Expanded(
-                              flex: 1,
-                              child: makeTitleSize(
-                                  "음료", "BEVERAGE", 10.0, 20.0, false),
-                            ),
+                  flex: 1,
+                  child: makeTitleSize("음료", "BEVERAGE", 10.0, 20.0, false),
+                ),
                 //////////////////////////////////////////////////////////////////////// BEVERAGE
                 Expanded(
                     flex: 4,
@@ -340,14 +338,17 @@ class CurrentStockState extends State<CurrentStock> {
                                 },
                               ),
                             ),
-                            Expanded(flex: 3, child: SizedBox(),)
+                            Expanded(
+                              flex: 3,
+                              child: SizedBox(),
+                            )
                           ],
                         ))),
                 ///////////////////////////////////////////////////////////////////// END OF BEVRAGE
               ],
             );
           } else {
-            return customLoadingBouncingGrid(orange);
+            return Center(child: customLoadingBouncingGrid(orange));
           }
         });
   }

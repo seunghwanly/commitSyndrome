@@ -144,11 +144,14 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                   MediaQuery.of(context).size.width / 30),
                               makeTextSizepadding(
                                   '가격 : ' +
-                                      toLocaleString(cartList[index].cost +
-                                          countAddCost(
-                                                  cartList[index].option.dough,
-                                                  cartList[index].option.size) *
-                                              cartList[index].count) +
+                                      toLocaleString(cartList[index].cost
+                                          // countAddCost(
+                                          //     cartList[index].option.dough,
+                                          //     cartList[index]
+                                          //         .option
+                                          //         .size)) *
+                                          *
+                                          cartList[index].count) +
                                       '원',
                                   Colors.black87,
                                   MediaQuery.of(context).size.width *
@@ -367,6 +370,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       Content item = new Content(
           cost: cartList[i].cost,
           name: cartList[i].name,
+          eng_name: cartList[i].engName,
+          count: cartList[i].count,
           option: cartList[i].option);
       items.add(item);
     }
@@ -386,7 +391,11 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
     DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now))
         .set(currentOrder.toJson());
-
+    DBRef.child('user')
+        .child(userid)
+        .child('history')
+        .push()
+        .set(currentOrder.toJson());
     return currentOrder;
   }
 
@@ -432,8 +441,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
               //     size: value['option']['size']),
               value['eng_name']);
         }
-        sub_totalCost +=
-            item.cost + countAddCost(item.option.dough, item.option.size);
+        sub_totalCost += (item.cost * item.count);
+        //countAddCost(item.option.dough, item.option.size);
         item.key = key;
         setState(() {
           cartList.add(item);
@@ -442,7 +451,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
       });
       setState(() {
         totalCost = sub_totalCost;
-        cartList = cartList.reversed.toList();
+        //cartList = cartList.reversed.toList();
       });
     });
   }

@@ -19,6 +19,7 @@ class OrderStateList extends StatefulWidget {
 }
 
 class OrderState extends State<OrderStateList> {
+  var currentState = 'confirm';
   DatabaseReference menuReference = FirebaseDatabase.instance
       .reference()
       .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()));
@@ -42,6 +43,10 @@ class OrderState extends State<OrderStateList> {
       var snapshot = event.snapshot;
       var value = snapshot.value['orderState'].toString();
       print('value : ' + value);
+      setState(() {
+        currentState = value;
+      });
+
       if (value == 'ready') {
         menuReference.onDisconnect();
         showReadyModal(context);
@@ -93,40 +98,41 @@ class OrderState extends State<OrderStateList> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // Text('이미지'),
-                        CircleAvatar(
-                          radius:
-                              MediaQuery.of(context).size.width * (15 / 375),
-                          backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
-                        ),
-                        makeWhiteText('결제완료', Colors.white, 0, 0,
-                            MediaQuery.of(context).size.width / 26),
-                        makeWhiteText(
-                            DateFormat('HH시mm분ss초').format(
-                                widget.currentOrder.orderTimes.requestTime),
-                            Colors.white,
-                            0,
-                            5,
-                            MediaQuery.of(context).size.width / 26),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(bottom: 10),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //     children: [
+                  //       // Text('이미지'),
+                  //       CircleAvatar(
+                  //         radius:
+                  //             MediaQuery.of(context).size.width * (15 / 375),
+                  //         backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+                  //       ),
+                  //       makeWhiteText('결제완료', Colors.white, 0, 0,
+                  //           MediaQuery.of(context).size.width / 26),
+                  //       makeWhiteText(
+                  //           DateFormat('HH시mm분ss초').format(
+                  //               widget.currentOrder.orderTimes.requestTime),
+                  //           Colors.white,
+                  //           0,
+                  //           5,
+                  //           MediaQuery.of(context).size.width / 26),
+                  //     ],
+                  //   ),
+                  // ),
                   Container(
                       margin: EdgeInsets.only(bottom: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CircleAvatar(
-                            radius:
-                                MediaQuery.of(context).size.width * (15 / 375),
-                            backgroundColor:
-                                Color.fromRGBO(0xf1, 0x7f, 0x42, 1),
-                          ),
+                          StateCircle(currentState, 0, context),
+                          // CircleAvatar(
+                          //   radius:
+                          //       MediaQuery.of(context).size.width * (15 / 375),
+                          //   backgroundColor:
+                          //       Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+                          // ),
                           makeWhiteText('주문요청', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
                           makeWhiteText(
@@ -143,12 +149,15 @@ class OrderState extends State<OrderStateList> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CircleAvatar(
-                            radius:
-                                MediaQuery.of(context).size.width * (15 / 375),
-                            backgroundColor:
-                                Color.fromRGBO(0xce, 0x6d, 0x39, 1),
-                          ),
+                          StateCircle(currentState, 1, context),
+                          // CircleAvatar(
+                          //   radius:
+                          //       MediaQuery.of(context).size.width * (15 / 375),
+                          //   backgroundColor:
+                          //       Color.fromRGBO(0xf1, 0x7f, 0x42, 1),
+                          //   // backgroundColor:
+                          //   //     Color.fromRGBO(0xce, 0x6d, 0x39, 1),
+                          // ),
                           makeWhiteText('주문승인', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
                           makeWhiteText(
@@ -165,12 +174,12 @@ class OrderState extends State<OrderStateList> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CircleAvatar(
-                            radius:
-                                MediaQuery.of(context).size.width * (15 / 375),
-                            backgroundColor:
-                                Color.fromRGBO(0x00, 0x00, 0x00, 1),
-                          ),
+                          // CircleAvatar(
+                          //   radius:
+                          //       MediaQuery.of(context).size.width * (15 / 375),
+                          //   backgroundColor: Color.fromRGBO(133, 50, 15, 1),
+                          // ),
+                          StateCircle(currentState, 2, context),
                           makeWhiteText('준비완료', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
                           makeWhiteText(
@@ -270,5 +279,60 @@ class OrderState extends State<OrderStateList> {
         )
       ],
     ));
+  }
+}
+
+Widget StateCircle(String currentState, int index, BuildContext context) {
+  if (currentState == 'request') {
+    if (index == 0) {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(247, 107, 51, 1),
+      );
+    } else if (index == 1) {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+      );
+    } else {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+      );
+    }
+  } else if (currentState == 'confirm') {
+    if (index == 0) {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+      );
+    } else if (index == 1) {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(247, 107, 51, 1),
+      );
+    } else {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+      );
+    }
+  } else {
+    if (index == 0) {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+      );
+    } else if (index == 1) {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
+      );
+    } else {
+      return CircleAvatar(
+        radius: MediaQuery.of(context).size.width * (15 / 375),
+        backgroundColor: Color.fromRGBO(247, 107, 51, 1),
+      );
+    }
   }
 }
