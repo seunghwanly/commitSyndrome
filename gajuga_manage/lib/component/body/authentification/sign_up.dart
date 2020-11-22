@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import '../header/header.dart';
-import 'package:gajuga_user/util/palette.dart';
-import 'package:gajuga_user/model/firebase_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:gajuga_user/util/palette.dart';
-import '../body/login.dart';
+import 'package:gajuga_manage/component/header/header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gajuga_manage/component/body/authentification/login.dart';
+import 'package:gajuga_manage/component/body/authentification/role_radio.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
+import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
+import 'package:gajuga_manage/util/palette.dart';
 
 class SignUpWidget extends StatelessWidget {
   SignUpWidget({Key key}) : super(key: key);
@@ -12,11 +14,11 @@ class SignUpWidget extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _passwordCkController = TextEditingController();
   final _phoneController = TextEditingController();
+
   FirebaseAuthService _auth;
 
   @override
   Widget build(BuildContext context) {
-    String authNum;
     _auth = Provider.of<FirebaseAuthService>(context);
     return CustomHeader(
         body: GestureDetector(
@@ -24,96 +26,34 @@ class SignUpWidget extends StatelessWidget {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
             child: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.85,
-                alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(32.0, 40.0, 32.0, 0.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        "가져가 아이디",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                child: Container(
+              height: MediaQuery.of(context).size.height * 0.85,
+              alignment: Alignment.center,
+              padding: EdgeInsets.fromLTRB(400.0, 40.0, 400.0, 0.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      "직책 선택",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
-                      Row(children: <Widget>[
-                        Flexible(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10.0),
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                hintText: '이메일 입력'),
-                            controller: _emailController,
-                            onSaved: (value) =>
-                                _emailController.text = value.trim(),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20.0,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: ([
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.16),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              )
-                            ]),
-                          ),
-                          child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              child: Text('확인',
-                                  style: TextStyle(
-                                    color: white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                  )),
-                              onPressed: () {
-                                showIdConfirm(context, _emailController.text);
-                              }),
-                        )
-                      ]),
-                      SizedBox(
-                        height: 5.0,
+                    ),
+                    RoleRadio(),
+                    Text(
+                      "가져가 아이디",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
-                      Text(
-                        "가져가 비밀번호",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10.0),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0))),
-                            hintText: '비밀번호 입력'),
-                        controller: _passwordController,
-                        onSaved: (value) =>
-                            _passwordController.text = value.trim(),
-                      ),
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(children: <Widget>[
+                      Flexible(
+                        child: TextFormField(
+                          decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15.0),
                             filled: true,
                             fillColor: Colors.white,
@@ -121,89 +61,160 @@ class SignUpWidget extends StatelessWidget {
                                 borderSide: BorderSide.none,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: '비밀번호 확인'),
-                        controller: _passwordCkController,
-                        onSaved: (value) =>
-                            _passwordCkController.text = value.trim(),
-                      ),
-                      Text(
-                        " 6자리 이상의 문자를 입력하세요.",
-                        style: TextStyle(
-                          color: orange,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                            hintText: '이메일 입력',
+                          ),
+                          controller: _emailController,
+                          onSaved: (value) =>
+                              _emailController.text = value.trim(),
                         ),
                       ),
                       SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "휴대폰 입력",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Row(children: <Widget>[
-                        Flexible(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10.0),
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                hintText: '휴대폰 번호 입력'),
-                            controller: _phoneController,
-                            onSaved: (value) =>
-                                _phoneController.text = value.trim(),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20.0,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: ([
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.16),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              )
-                            ]),
-                          ),
-                          child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              child: Text('확인',
-                                  style: TextStyle(
-                                    color: white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                  )),
-                              onPressed: () {
-                                showPhoneConfirm(
-                                    context, _phoneController.text);
-                              }),
-                        )
-                      ]),
-                      Text(
-                        " - 을 빼고 입력하세요.",
-                        style: TextStyle(
-                          color: orange,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
+                        width: 20.0,
                       ),
                       Container(
+                        padding: EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(20.0),
+                          boxShadow: ([
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.16),
+                              offset: Offset(0, 3),
+                              blurRadius: 6,
+                            )
+                          ]),
+                        ),
+                        child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Text('확인',
+                                style: TextStyle(
+                                  color: white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22.0,
+                                )),
+                            onPressed: () {
+                              showIdConfirm(context, _emailController.text);
+                            }),
+                      )
+                    ]),
+                    SizedBox(height: 10.0),
+                    Text(
+                      "가져가 비밀번호",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(15.0),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
+                          hintText: '비밀번호 입력'),
+                      controller: _passwordController,
+                      onSaved: (value) =>
+                          _passwordController.text = value.trim(),
+                    ),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(15.0),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0))),
+                        hintText: '비밀번호 확인',
+                      ),
+                      controller: _passwordCkController,
+                      onSaved: (value) =>
+                          _passwordCkController.text = value.trim(),
+                    ),
+                    Text(
+                      " 6자리 이상의 문자를 입력하세요.",
+                      style: TextStyle(
+                        color: orange,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "휴대폰 입력",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(children: <Widget>[
+                      Flexible(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(15.0),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              hintText: '휴대폰 번호 입력'),
+                          controller: _phoneController,
+                          onSaved: (value) =>
+                              _phoneController.text = value.trim(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20.0,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(20.0),
+                          boxShadow: ([
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.16),
+                              offset: Offset(0, 3),
+                              blurRadius: 6,
+                            )
+                          ]),
+                        ),
+                        child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Text('확인',
+                                style: TextStyle(
+                                  color: white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22.0,
+                                )),
+                            onPressed: () {
+                              showPhoneConfirm(context, _phoneController.text);
+                            }),
+                      )
+                    ]),
+                    Text(
+                      " - 을 빼고 입력하세요.",
+                      style: TextStyle(
+                        color: orange,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 30.0),
+                    Container(
                         padding: EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
                           color: orange,
@@ -243,26 +254,29 @@ class SignUpWidget extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.05,
+                            height: MediaQuery.of(context).size.height * 0.07,
                             child: Text('회원가입',
                                 style: TextStyle(
                                   color: white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 22.0,
+                                  fontSize: 25.0,
                                 )),
                           ),
-                        ),
-                      ),
-                    ]),
-              ),
-            )));
+                        )),
+                  ]),
+            ))));
   }
 
   void _signUp(BuildContext context) async {
     int result = await _auth.signUpWithEmail(
         _emailController.text, _passwordController.text);
     if (result == 0) {
-      showSignUpSuccess(context);
+      showSignUpSuccess(
+          context,
+          FirebaseAuthService.userUid,
+          _emailController.text,
+          _passwordController.text,
+          _phoneController.text);
     } else if (result == null) {
       showSignUpFail(context, 4);
     } else {
@@ -301,13 +315,14 @@ void showIdConfirm(BuildContext context, String id) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -319,7 +334,7 @@ void showIdConfirm(BuildContext context, String id) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -327,7 +342,7 @@ void showIdConfirm(BuildContext context, String id) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -355,7 +370,7 @@ void showIdConfirm(BuildContext context, String id) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -376,13 +391,14 @@ void showIdConfirm(BuildContext context, String id) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -394,7 +410,7 @@ void showIdConfirm(BuildContext context, String id) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -402,7 +418,7 @@ void showIdConfirm(BuildContext context, String id) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -430,7 +446,7 @@ void showIdConfirm(BuildContext context, String id) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -473,13 +489,14 @@ void showPhoneConfirm(BuildContext context, String phone) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -491,7 +508,7 @@ void showPhoneConfirm(BuildContext context, String phone) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -499,7 +516,7 @@ void showPhoneConfirm(BuildContext context, String phone) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -525,7 +542,7 @@ void showPhoneConfirm(BuildContext context, String phone) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -546,13 +563,14 @@ void showPhoneConfirm(BuildContext context, String phone) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -564,7 +582,7 @@ void showPhoneConfirm(BuildContext context, String phone) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -572,7 +590,7 @@ void showPhoneConfirm(BuildContext context, String phone) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -598,7 +616,7 @@ void showPhoneConfirm(BuildContext context, String phone) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -611,7 +629,8 @@ void showPhoneConfirm(BuildContext context, String phone) {
       });
 }
 
-void showSignUpSuccess(BuildContext context) {
+void showSignUpSuccess(BuildContext context, String uid, String email,
+    String password, String phone) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -627,13 +646,14 @@ void showSignUpSuccess(BuildContext context) {
                 "GAJUGA 알림",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 20,
                 ),
               ),
             ),
           ),
           content: new SizedBox(
             height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.height * 0.3,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -645,7 +665,7 @@ void showSignUpSuccess(BuildContext context) {
                         style: TextStyle(
                           color: Color.fromRGBO(119, 119, 119, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                       ),
                       Text(
@@ -653,7 +673,7 @@ void showSignUpSuccess(BuildContext context) {
                         style: TextStyle(
                           color: Color.fromRGBO(119, 119, 119, 1.0),
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                       ),
                     ]),
@@ -679,9 +699,11 @@ void showSignUpSuccess(BuildContext context) {
                             style: TextStyle(
                               color: white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                             )),
                         onPressed: () {
+                          UserManage().saveUser(
+                              RoleRadio.role, uid, email, password, phone);
                           Navigator.pop(context);
                           Navigator.push(
                               context,
@@ -713,13 +735,14 @@ void showSignUpFail(BuildContext context, int error) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -731,7 +754,7 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -739,7 +762,7 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -765,7 +788,7 @@ void showSignUpFail(BuildContext context, int error) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -788,13 +811,14 @@ void showSignUpFail(BuildContext context, int error) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -806,7 +830,7 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -814,7 +838,7 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -840,7 +864,7 @@ void showSignUpFail(BuildContext context, int error) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -864,13 +888,14 @@ void showSignUpFail(BuildContext context, int error) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -882,7 +907,7 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -890,7 +915,7 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -916,7 +941,7 @@ void showSignUpFail(BuildContext context, int error) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
@@ -927,7 +952,7 @@ void showSignUpFail(BuildContext context, int error) {
           );
         }
 
-        //입력 정보 오류
+        //빈칸 오류
         if (error == 4) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
@@ -940,13 +965,14 @@ void showSignUpFail(BuildContext context, int error) {
                   "GAJUGA 알림",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             content: new SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -958,15 +984,15 @@ void showSignUpFail(BuildContext context, int error) {
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
-                          "올바르게 입력하세요.",
+                          "올바르게 입력하세요!",
                           style: TextStyle(
                             color: Color.fromRGBO(119, 119, 119, 1.0),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ]),
@@ -992,7 +1018,7 @@ void showSignUpFail(BuildContext context, int error) {
                               style: TextStyle(
                                 color: white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                           onPressed: () {
                             Navigator.pop(context);
