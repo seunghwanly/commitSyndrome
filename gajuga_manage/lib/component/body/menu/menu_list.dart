@@ -221,7 +221,6 @@ class _MenuListState extends State<MenuList> {
     String imageTitle = Provider.of<Information>(context, listen: false).engName;
     int cost = Provider.of<Information>(context, listen: false).cost;
     String desc = Provider.of<Information>(context, listen: false).desc;
-    Ingredients ingredients = Provider.of<Information>(context, listen: false).ingredients;
 
     return showDialog(
         context: context,
@@ -274,7 +273,7 @@ class _MenuListState extends State<MenuList> {
                         SizedBox(height: 20),
                         nameField(name),
                         priceField(cost),
-                        extraField(ingredients),
+                        descField(desc),
                         SizedBox(height: 10),
                         FlatButton(
                           color: orange,
@@ -287,7 +286,6 @@ class _MenuListState extends State<MenuList> {
                               'name': Provider.of<Information>(context, listen: false).name,
                               'cost': Provider.of<Information>(context, listen: false).cost,
                               'desc': Provider.of<Information>(context, listen: false).desc,
-                              'eng_name': Provider.of<Information>(context, listen: false).engName,
                             };
                             print(data);
 
@@ -436,29 +434,30 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Widget extraField(Ingredients _ingredients) {
-    // TODO: ingredients가 들어가는 자리인가...?
-
+  Widget descField(String _desc) {
     return Row(
       children: [
         Text(
-          '추가사항',
+          '메뉴설명',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
         Flexible(
           child: Container(
+            width: MediaQuery.of(context).size.width / 5,
             padding: EdgeInsets.all(8),
             child: TextFormField(
               onChanged: (text) {
-                // TODO
+                Provider.of<Information>(context, listen: false).desc = text;
               },
               keyboardType: TextInputType.text,
-              // initialValue: ,
+              initialValue: _desc,
+              minLines: 6,
+              maxLines: 10,
               decoration: new InputDecoration(
-                enabledBorder: roundInputBorder,
-                focusedBorder: roundInputBorder,
+                enabledBorder: bigRoundInputBorder,
+                focusedBorder: bigRoundInputBorder,
                 hintText: '추가사항 입력',
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
