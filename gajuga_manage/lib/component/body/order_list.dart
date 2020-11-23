@@ -35,8 +35,13 @@ class OrderList extends StatefulWidget {
 class _OrderListState extends State<OrderList> {
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   TextStyle _orderInfoStyle =
-      TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 21, fontWeight: FontWeight.w500);
   var now = DateTime.now();
+
+  String parseDateToString(String date) {
+    DateTime d1 = DateTime.parse(date);
+    return DateFormat('HH시mm분ss초').format(d1);
+  }
 
   void progationState(
       String currentState, String orderNumber, String userInfo) {
@@ -187,7 +192,7 @@ class _OrderListState extends State<OrderList> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           timeInfo(widget.orderList[index]),
-                          Spacer(flex: 10),
+                          Spacer(flex: 1),
                           completedButton(widget.orderList[index]['orderState'],
                               widget.orderList[index]),
                           Spacer(),
@@ -275,14 +280,15 @@ class _OrderListState extends State<OrderList> {
 
   Widget timeInfo(var menu) {
     if (menu['orderState'] == 'ready') {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 40),
+      return Expanded(
+        //margin: EdgeInsets.only(left: 40),
+        flex: 4,
         child: Column(
           children: [
             Text(
               '총 소요시간',
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -291,7 +297,7 @@ class _OrderListState extends State<OrderList> {
                       menu['orderTimes']['readyTime']) +
                   ' 분',
               style: TextStyle(
-                fontSize: 43,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Colors.red,
               ),
@@ -307,14 +313,14 @@ class _OrderListState extends State<OrderList> {
             Text(
               '경과시간',
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               differDayFromNow(menu['orderTimes']['requestTime']) + ' 분',
               style: TextStyle(
-                fontSize: 43,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Colors.red,
               ),
@@ -326,35 +332,68 @@ class _OrderListState extends State<OrderList> {
   }
 
   Widget completedButton(String status, dynamic order) {
-    return InkWell(
-      onTap: () {
-        progationState(status, order['orderNumber'].toString(),
-            order['customerInfo'].toString());
-      },
-      child: Container(
-        height: 140,
-        width: 140,
-        margin: EdgeInsets.fromLTRB(0, 20, 20, 20),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: orange,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          status == 'request'
-              ? '주문\n승인'
-              : status == 'confirm'
-                  ? '준비\n완료'
-                  : '처리\n완료',
-          style: TextStyle(
-            fontSize: 35,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+    if (status == 'ready') {
+      return Expanded(
+          flex: 5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '주문자 정보 : ${order['customerInfo']}',
+                style: _orderInfoStyle,
+              ),
+              Text(
+                '주문시간 : ' +
+                    parseDateToString(order['orderTimes']['requestTime']),
+                style: _orderInfoStyle,
+              ),
+              Text(
+                '승인시간 : ' +
+                    parseDateToString(order['orderTimes']['confirmTime']),
+                style: _orderInfoStyle,
+              ),
+              Text(
+                '준비완료 : ' + parseDateToString(order['orderTimes']['readyTime']),
+                style: _orderInfoStyle,
+              ),
+              Text(
+                '결제코드 : 2020010125542',
+                style: _orderInfoStyle,
+              ),
+            ],
+          ));
+    } else {
+      return InkWell(
+        onTap: () {
+          progationState(status, order['orderNumber'].toString(),
+              order['customerInfo'].toString());
+        },
+        child: Container(
+          height: 140,
+          width: 140,
+          margin: EdgeInsets.fromLTRB(0, 20, 20, 20),
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: orange,
           ),
-          textAlign: TextAlign.center,
+          alignment: Alignment.center,
+          child: Text(
+            status == 'request'
+                ? '주문\n승인'
+                : status == 'confirm'
+                    ? '준비\n완료'
+                    : '처리\n완료',
+            style: TextStyle(
+              fontSize: 35,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

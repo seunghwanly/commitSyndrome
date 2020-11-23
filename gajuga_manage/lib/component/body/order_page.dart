@@ -21,6 +21,22 @@ class _OrderPageState extends State<OrderPage> {
   var now = DateTime.now();
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
 
+  String getCurrnetListCount_unhandled() {
+    if (unhandledList == null) {
+      return '0';
+    } else {
+      return unhandledList.length.toString();
+    }
+  }
+
+  String getCurrnetListCount_handled() {
+    if (handledList == null) {
+      return '0';
+    } else {
+      return handledList.length.toString();
+    }
+  }
+
   void readListbyState() {
     print('readList !');
     DatabaseReference readDatabaseReference =
@@ -127,7 +143,7 @@ class _OrderPageState extends State<OrderPage> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  '미처리된 주문',
+                  '미처리된 주문(' + getCurrnetListCount_unhandled() + ')',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -152,7 +168,7 @@ class _OrderPageState extends State<OrderPage> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  '처리된 주문',
+                  '처리된 주문(' + getCurrnetListCount_handled() + ')',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
