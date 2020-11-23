@@ -19,10 +19,13 @@ class _OrderPageState extends State<OrderPage> {
   bool unhandledOrders = true;
   bool handledOrders = false;
   var now = DateTime.now();
-  final databaseReference = FirebaseDatabase.instance.reference();
+  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
 
   void readListbyState() {
-    databaseReference
+    print('readList !');
+    DatabaseReference readDatabaseReference =
+        FirebaseDatabase.instance.reference();
+    readDatabaseReference
         .child('order/' + DateFormat('yyyy-MM-dd').format(now))
         .orderByChild('orderNumber')
         .once()
@@ -56,12 +59,32 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     super.initState();
-    readListbyState();
+
+    databaseReference = FirebaseDatabase.instance
+        .reference()
+        .child('order/' + DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    //listener
+    databaseReference.onChildAdded.listen((event) {
+      readListbyState();
+      setState(() {});
+    });
+    databaseReference.onChildChanged.listen((event) {
+      readListbyState();
+      setState(() {});
+    });
+    // databaseReference.onChildMoved.listen((event) {
+    //   readListbyState();
+    //   setState(() {});
+    // });
+    databaseReference.onChildRemoved.listen((event) {
+      readListbyState();
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    readListbyState();
+    // readListbyState();
     return MainContainer(
       body: SingleChildScrollView(
         child: Column(

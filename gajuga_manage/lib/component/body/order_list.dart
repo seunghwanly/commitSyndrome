@@ -33,7 +33,7 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
-  final databaseReference = FirebaseDatabase.instance.reference();
+  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   TextStyle _orderInfoStyle =
       TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
   var now = DateTime.now();
