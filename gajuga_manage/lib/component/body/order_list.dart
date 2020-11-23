@@ -48,20 +48,22 @@ class _OrderListState extends State<OrderList> {
     }
 
     if (nextState != '') {
+      var now2 = DateTime.now();
       // order/2020-11-22/key/orderList
       databaseReference
           .child('order/' + DateFormat('yyyy-MM-dd').format(now))
           .once()
           .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> values = dataSnapshot.value;
+
         values.forEach((k, v) {
           if (v['orderNumber'] == orderNumber) {
             databaseReference
                 .child('order/' + DateFormat('yyyy-MM-dd').format(now))
                 .child(k)
                 .child('orderTimes')
-                .child(v['orderState'] + 'Time')
-                .set(now.toString());
+                .child(nextState + 'Time')
+                .set(now2.toString());
             databaseReference
                 .child('order/' + DateFormat('yyyy-MM-dd').format(now))
                 .child(k)
@@ -86,8 +88,8 @@ class _OrderListState extends State<OrderList> {
                 .child('history')
                 .child(k)
                 .child('orderTimes')
-                .child(v['orderState'] + 'Time')
-                .set(now.toString());
+                .child(nextState + 'Time')
+                .set(now2.toString());
 
             databaseReference
                 .child('user/')
