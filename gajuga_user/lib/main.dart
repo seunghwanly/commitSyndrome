@@ -16,6 +16,7 @@ void main() async {
 }
 
 class MainScreen extends StatelessWidget {
+  static String userid = '';
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -36,18 +37,19 @@ class MainScreen extends StatelessWidget {
             theme:
                 ThemeData(primaryColor: pale, canvasColor: Colors.transparent),
             themeMode: ThemeMode.light,
-            home: new CustomHeader(
+            home: new Scaffold(
               body: mainBody(),
             )));
   }
 }
 
 Widget mainBody() {
-  return ListView(
+  return CustomHeader(
+      body: ListView(
     children: [
       TotalMenu(),
       //  totalMenu(),
       FavoriteMenuWidget()
     ],
-  );
+  ));
 }

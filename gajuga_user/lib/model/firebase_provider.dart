@@ -25,6 +25,7 @@ class FirebaseAuthService with ChangeNotifier {
       password: password,
     );
     final authResult = await _auth.signInWithCredential(credential);
+    setUser(authResult.user);
     return authResult.user;
   }
 

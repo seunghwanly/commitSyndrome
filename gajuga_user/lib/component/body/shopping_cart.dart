@@ -12,8 +12,7 @@ import '../../util/to_locale.dart';
 import '../../util/to_text.dart';
 import '../body/approval_order.dart';
 import '../header/header.dart';
-import 'package:gajuga_user/model/firebase_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:gajuga_user/main.dart';
 
 class ShoppingCartRoute extends StatefulWidget {
   @override
@@ -24,8 +23,6 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   final List<String> data = <String>['피자', '파스타', '음료'];
   final DBRef = FirebaseDatabase.instance.reference();
   String orderKey;
-  FirebaseAuthService _auth;
-  static String userid;
 
   var tmp = 0;
   int totalCost = 0;
@@ -38,11 +35,6 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   @override
   Widget build(BuildContext context) {
     readOrderIndex();
-
-    _auth = Provider.of<FirebaseAuthService>(context);
-    if (_auth.getUser() != null) {
-      userid = _auth.getUser().uid;
-    }
 
     return CustomHeader(
       body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -370,7 +362,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
     // String push =
     // DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
     Order currentOrder = Order(
-        customerInfo: userid,
+        customerInfo: MainScreen.userid,
         content: items,
         orderNumber: ('A-' + (lastIndex + 1).toString()),
         orderState: 'request',
@@ -385,7 +377,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         .set(currentOrder.toJson());
 
     DBRef.child('user')
-        .child(userid)
+        .child(MainScreen.userid)
         .child('history')
         .push()
         .set(currentOrder.toJson());
@@ -397,7 +389,8 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
   }
 
   void deleteCurrentItem(String key) {
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart/' + key).remove();
+    DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart/' + key)
+        .remove();
     readData();
     setState(() {});
   }
@@ -424,7 +417,7 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
 
   void readData() {
     Map<dynamic, dynamic> result;
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+    DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
         .orderByChild('cost')
         .once()
         .then((DataSnapshot dataSnapshot) {

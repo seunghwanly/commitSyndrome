@@ -5,6 +5,7 @@ import 'package:gajuga_user/provider/provider.dart';
 import 'package:gajuga_user/util/payment/iamport_payment.dart';
 import 'package:gajuga_user/model/firebase_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:gajuga_user/main.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
 import '../../util/box_button.dart';
@@ -31,8 +32,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   //firebase
   final databaseReference = FirebaseDatabase.instance.reference();
   final DBRef = FirebaseDatabase.instance.reference();
-  FirebaseAuthService _auth;
-  static String userid;
+
   //--------------------------------------------------------------------------고정 옵션
   final contentSize = {
     "category": "SIZE/사이즈 선택",
@@ -76,8 +76,12 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   void addShoppingCart(ShoppingCart menuItem) {
     // print('이름' + menuItem['name']);
     String push =
-        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+        DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+            .push()
+            .key;
+    DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+        .child(push)
+        .set({
       'cost': menuItem.cost,
       'name': menuItem.name,
       'count': menuItem.count,
@@ -91,11 +95,6 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _auth = Provider.of<FirebaseAuthService>(context);
-    if (_auth.getUser() != null) {
-      userid = _auth.getUser().uid;
-    }
-
     final optionSelected = Provider.of<StateProvider>(context);
     List<Map<String, dynamic>> parsedOptionList =
         optionSelected.getOptionList();
