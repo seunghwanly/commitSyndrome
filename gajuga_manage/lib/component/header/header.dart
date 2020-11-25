@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:gajuga_manage/main.dart';
 import 'package:gajuga_manage/component/body/chef_page.dart';
 import 'package:gajuga_manage/component/body/menu/menu_page.dart';
 import 'package:gajuga_manage/component/body/order_page.dart';
@@ -8,6 +10,7 @@ import 'package:gajuga_manage/component/body/sales/sales_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/stock/stock_page.dart';
 import 'package:gajuga_manage/component/body/authentification/login.dart';
+import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 
@@ -21,8 +24,11 @@ class CustomHeader extends StatefulWidget {
 }
 
 class _CustomHeaderState extends State<CustomHeader> {
+  FirebaseAuthService _auth;
+
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<FirebaseAuthService>(context);
     void _openDrawer() {}
 
     return Scaffold(
@@ -35,15 +41,14 @@ class _CustomHeaderState extends State<CustomHeader> {
         centerTitle: true,
       ),
       body: GestureDetector(
-        onTap:() => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: 
-      Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Color.fromRGBO(234, 230, 218, 1.0),
-        // padding: EdgeInsets.only(top: 10), // -> 주문화면은 다크모드라서 이 부분이 중간에 pale 색깔로 뜨는데 꼭 필요한 코드면 말해주세요...!
-        child: widget.body,
-      )),
+          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Color.fromRGBO(234, 230, 218, 1.0),
+            // padding: EdgeInsets.only(top: 10), // -> 주문화면은 다크모드라서 이 부분이 중간에 pale 색깔로 뜨는데 꼭 필요한 코드면 말해주세요...!
+            child: widget.body,
+          )),
       drawer: Drawer(
         //------------------------------------------------------------------------- DRAWER
         child: Container(
@@ -205,13 +210,33 @@ class _CustomHeaderState extends State<CustomHeader> {
                 ),
                 SizedBox(height: 25),
                 ListTile(
-                  title: makeTitle('로그인', '로그아웃'),
-                  subtitle: Text('       김관우 in the area'),
+                  title: makeTextSizepadding(
+                      MainScreen.userid != ''
+                          ? _auth.getUser().email
+                          : '로그인 정보 없음',
+                      darkblue,
+                      0.0,
+                      0.0,
+                      22),
+                  subtitle: Text(MainScreen.userid != '' ? '님 안녕하세요' : '',
+                      style: TextStyle(color: lightgrey, fontSize: 20)),
+                  selected: true,
+                  contentPadding: EdgeInsets.only(left: 20.0),
+                ),
+                ListTile(
+                  leading: Icon(Icons.power_settings_new),
+                  title: makeTextSizepadding(
+                      MainScreen.userid != '' ? '로그아웃' : '로그인',
+                      darkblue,
+                      0.0,
+                      0.0,
+                      20),
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoginWidget()));
                   },
-                ),
+                )
               ],
             ),
           ),

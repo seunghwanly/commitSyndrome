@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:gajuga_manage/main.dart';
 import 'package:gajuga_manage/component/header/header.dart';
 import 'package:gajuga_manage/component/body/authentification/sign_up.dart';
 import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
+import 'package:gajuga_manage/component/body/menu/menu_page.dart';
 import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -330,8 +332,9 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
         showLoginFail(context);
         return false;
       }
-      Navigator.popUntil(
-          context, ModalRoute.withName(Navigator.defaultRouteName));
+      MainScreen.userid = auth.getUser().uid;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MenuPage()));
       return true;
     } else {
       showLoginFail(context);
@@ -345,7 +348,8 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
 //로그아웃
 Future<void> logOut(FirebaseAuthService auth, BuildContext context) async {
   auth.signOut();
-  Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+  MainScreen.userid = '';
+  Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
 }
 
 //로그인 실패 오류 모달

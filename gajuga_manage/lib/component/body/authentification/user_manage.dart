@@ -11,7 +11,8 @@ class UserManage {
     //관리자
     if (role == 0) {
       databaseReference.child("manager").child("admin").child(uid).set({
-        'address': '',
+        'name': "이름",
+        'address': "주소",
         'id': _email,
         'password': _password,
         'phoneNumber': _phone
@@ -25,7 +26,8 @@ class UserManage {
           .child("staff")
           .child(uid)
           .set({
-        'address': '',
+        'name': "이름",
+        'address': "주소",
         'id': _email,
         'password': _password,
         'phoneNumber': _phone
@@ -39,7 +41,8 @@ class UserManage {
           .child("chef")
           .child(uid)
           .set({
-        'address': '',
+        'name': "이름",
+        'address': "주소",
         'id': _email,
         'password': _password,
         'phoneNumber': _phone

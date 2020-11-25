@@ -16,6 +16,7 @@ void main() async {
 }
 
 class MainScreen extends StatelessWidget {
+  static String userid = '';
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
