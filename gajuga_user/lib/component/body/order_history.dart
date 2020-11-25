@@ -8,6 +8,7 @@ import '../../util/box_shadow.dart';
 import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
+import 'package:gajuga_user/main.dart';
 import 'package:gajuga_user/model/firebase_provider.dart';
 import 'package:provider/provider.dart';
 //firebase database
@@ -24,8 +25,6 @@ class OrderHistory extends StatefulWidget {
 
 class OrderHistoryState extends State<OrderHistory> {
   final databaseReference = FirebaseDatabase.instance.reference();
-  FirebaseAuthService _auth;
-  static String userid;
   var fetchedData;
 
   @override
@@ -36,11 +35,6 @@ class OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-    _auth = Provider.of<FirebaseAuthService>(context);
-    if (_auth.getUser() != null) {
-      userid = _auth.getUser().uid;
-    }
-
     // print("몇개? " + this.fetchedData.length.toString());
     if (this.fetchedData == null) {
       return Container(
@@ -206,7 +200,7 @@ class OrderHistoryState extends State<OrderHistory> {
   void readData() {
     databaseReference
         .child('user')
-        .child(userid)
+        .child(MainScreen.userid)
         .child('history')
         .once()
         .then((DataSnapshot dataSnapshot) {

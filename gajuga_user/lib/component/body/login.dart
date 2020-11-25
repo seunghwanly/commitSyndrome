@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:gajuga_user/util/palette.dart';
 import '../header/header.dart';
 import 'package:gajuga_user/model/firebase_provider.dart';
+import 'package:gajuga_user/main.dart';
 import 'package:provider/provider.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class LoginWidget extends StatelessWidget {
   LoginWidget({Key key}) : super(key: key);
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
   FirebaseAuthService _auth;
   @override
   Widget build(BuildContext context) {
@@ -312,8 +315,9 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
         showLoginFail(context);
         return false;
       }
-      Navigator.popUntil(
-          context, ModalRoute.withName(Navigator.defaultRouteName));
+      MainScreen.userid = auth.getUser().uid;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => mainBody()));
       return true;
     } else {
       showLoginFail(context);
@@ -327,7 +331,8 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
 //로그아웃
 Future<void> logOut(FirebaseAuthService auth, BuildContext context) async {
   auth.signOut();
-  Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+  MainScreen.userid = '';
+  Navigator.push(context, MaterialPageRoute(builder: (context) => mainBody()));
 }
 
 //로그인 실패 오류 모달

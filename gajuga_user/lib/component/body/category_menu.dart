@@ -8,8 +8,7 @@ import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
 import '../header/header.dart';
-import 'package:gajuga_user/model/firebase_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:gajuga_user/main.dart';
 
 class CategoryMenu extends StatefulWidget {
   @override
@@ -19,8 +18,7 @@ class CategoryMenu extends StatefulWidget {
 class CategoryMenuState extends State<CategoryMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
   final List<String> data = <String>['피자', '음료'];
-  FirebaseAuthService _auth;
-  static String userid;
+
   var currentState = 'pizza';
   var tmp = 0;
   var fetchedData;
@@ -37,10 +35,14 @@ class CategoryMenuState extends State<CategoryMenu> {
   void addShoppingCart(dynamic menuItem) {
     // print('이름' + menuItem['name']);
     String push =
-        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+        DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+            .push()
+            .key;
 
     if (currentState == 'pizza') {
-      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+      DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+          .child(push)
+          .set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
         'count': 1,
@@ -54,7 +56,9 @@ class CategoryMenuState extends State<CategoryMenu> {
         tmp += 1;
       });
     } else if (currentState == 'beverage') {
-      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+      DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+          .child(push)
+          .set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
         'count': 1,
@@ -110,10 +114,6 @@ class CategoryMenuState extends State<CategoryMenu> {
 
   @override
   Widget build(BuildContext context) {
-    _auth = Provider.of<FirebaseAuthService>(context);
-    if (_auth.getUser() != null) {
-      userid = _auth.getUser().uid;
-    }
     return CustomHeader(
         body: Container(
             margin: EdgeInsets.only(

@@ -10,9 +10,8 @@ import '../../util/palette.dart';
 import '../body/category_menu.dart';
 import '../../model/menu_model.dart';
 import '../../util/to_locale.dart';
+import 'package:gajuga_user/main.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:gajuga_user/model/firebase_provider.dart';
-import 'package:provider/provider.dart';
 
 class TotalMenu extends StatefulWidget {
   @override
@@ -21,8 +20,6 @@ class TotalMenu extends StatefulWidget {
 
 class TotalMenuState extends State<TotalMenu> {
   final DBRef = FirebaseDatabase.instance.reference();
-  FirebaseAuthService _auth;
-  static String userid;
   final List<String> data = ['gorgonzola', 'pepperoni', 'bulgogi', 'potato'];
 
   var currentState = 'pizza';
@@ -50,7 +47,7 @@ class TotalMenuState extends State<TotalMenu> {
   }
 
   void getShoppingCartCount() {
-    DBRef.child('user/userInfo/' + userid + '/shoppingCart')
+    DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
         .orderByChild('cost')
         .once()
         .then((DataSnapshot dataSnapshot) {
@@ -87,10 +84,14 @@ class TotalMenuState extends State<TotalMenu> {
   void addShoppingCart(dynamic menuItem) {
     // print('이름' + menuItem['name']);
     String push =
-        DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+        DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+            .push()
+            .key;
 
     if (currentState == 'pizza') {
-      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+      DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+          .child(push)
+          .set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
         'count': 1,
@@ -101,7 +102,9 @@ class TotalMenuState extends State<TotalMenu> {
         'eng_name': menuItem['eng_name'],
       });
     } else if (currentState == 'beverage') {
-      DBRef.child('user/userInfo/' + userid + '/shoppingCart').child(push).set({
+      DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+          .child(push)
+          .set({
         'cost': menuItem['cost'],
         'name': menuItem['name'],
         'eng_name': menuItem['eng_name'],
@@ -118,7 +121,7 @@ class TotalMenuState extends State<TotalMenu> {
     // print(menu.ingredients);
     DBRef.child('user')
         .child('userInfo')
-        .child(userid)
+        .child(MainScreen.userid)
         .child('shoppingCart')
         .set({
       "name": menu.name,
@@ -155,11 +158,6 @@ class TotalMenuState extends State<TotalMenu> {
 
   @override
   Widget build(BuildContext context) {
-    _auth = Provider.of<FirebaseAuthService>(context);
-    if (_auth.getUser() != null) {
-      userid = _auth.getUser().uid;
-    }
-
     print('메인 실행 ! ');
     if (this.currentMenuList == null) {
       return Container(
