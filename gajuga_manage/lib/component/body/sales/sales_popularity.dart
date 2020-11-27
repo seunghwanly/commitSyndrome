@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/sales/sales_calculate.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/palette.dart';
@@ -32,7 +33,29 @@ class _SalesPopularityState extends State<SalesPopularity> {
     });
   }
 
-  void handleOnPressed() {}
+  bool showFirstSales = false;
+  bool showSecondSales = false;
+  bool showThirdSales = false;
+
+  void handleOnPressed(int index) {
+    switch (index) {
+      case 1:
+        setState(() {
+          showFirstSales = !showFirstSales;
+        });
+        break;
+      case 2:
+        setState(() {
+          showSecondSales = !showSecondSales;
+        });
+        break;
+      case 3:
+        setState(() {
+          showThirdSales = !showThirdSales;
+        });
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,58 +98,35 @@ class _SalesPopularityState extends State<SalesPopularity> {
                       new Map<String, dynamic>.from(snapshot.data);
 
                   // check info is in the data
-                  if (menuData.keys.contains(
-                      "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}")) {
-                    menuData.forEach((key, value) {
-                      if (key ==
-                          "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}") {
-                        Map<String, dynamic> orderInfo =
-                            new Map<String, dynamic>.from(value);
-                        orderInfo.forEach((key, value) {
-                          Map<String, dynamic> orderItems =
-                              new Map<String, dynamic>.from(value);
-                          orderItems.forEach((key, value) {
-                            if (key == 'orderItems') {
-                              Map<String, dynamic> items =
-                                  new Map<String, dynamic>.from(value);
-                              items.forEach((key, value) {
-                                switch (key) {
-                                  case "고르곤졸라피자":
-                                    ggz += value['count'];
-                                    break;
-                                  case "포테이토피자":
-                                    ptt += value['count'];
-                                    break;
-                                  case "페퍼로니피자":
-                                    ppr += value['count'];
-                                    break;
-                                  case "불고기피자":
-                                    bgg += value['count'];
-                                    break;
-                                  default:
-                                }
-                              });
-                            }
-                          });
-                        });
-                      }
+                  if (DateTime.parse(menuData.keys.last)
+                              .compareTo(selectedDate) <=
+                          0 &&
+                      selectedDate.compareTo(DateTime.now()) <= 0) {
+                    var calculatedResult =
+                        calculateSales(menuData, selectedDate);
+                    double totalCount = 0;
+
+                    calculatedResult.forEach((key, value) {
+                      totalCount += value.toDouble();
                     });
 
-                    todayData['고르곤졸라피자'] = ggz.toDouble();
-                    todayData['포테이토피자'] = ptt.toDouble();
-                    todayData['페퍼로니피자'] = ppr.toDouble();
-                    todayData['불고기피자'] = bgg.toDouble();
-
-                    //sort
-                    //rank
-                    double max = 0.0;
-                    String firstRank = '';
-                    String firstRankImage = '';
+                    todayData['고르곤졸라피자'] =
+                        calculatedResult['고르곤졸라피자'].toDouble() *
+                            100 /
+                            totalCount;
+                    todayData['포테이토피자'] =
+                        calculatedResult['포테이토피자'].toDouble() *
+                            100 /
+                            totalCount;
+                    todayData['페퍼로니피자'] =
+                        calculatedResult['페퍼로니피자'].toDouble() *
+                            100 /
+                            totalCount;
+                    todayData['불고기피자'] =
+                        calculatedResult['불고기피자'].toDouble() * 100 / totalCount;
 
                     var newMap = Map.fromEntries(todayData.entries.toList()
                       ..sort((e1, e2) => (e1.value).compareTo(e2.value)));
-
-                    print(newMap.entries.elementAt(3).key);
 
                     String changeImage(String name) {
                       switch (name) {
@@ -148,11 +148,29 @@ class _SalesPopularityState extends State<SalesPopularity> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          itemWithIcon(context, changeImage(newMap.entries.elementAt(2).key), "두 번째로 가장 많이 팔린 메뉴입니다.", 12900, 2,
+                          itemWithIcon(
+                              context,
+                              changeImage(newMap.entries.elementAt(2).key),
+                              newMap.entries.elementAt(2).key,
+                              "두 번째로 가장 많이 팔린 메뉴입니다.",
+                              showSecondSales? calculatedResult[newMap.entries.elementAt(2).key] * 12900 : 12900,
+                              2,
                               handleOnPressed),
-                          itemWithIcon(context, changeImage(newMap.entries.elementAt(3).key), "첫 번째로 가장 많이 팔린 메뉴입니다.", 12900, 1,
+                          itemWithIcon(
+                              context,
+                              changeImage(newMap.entries.elementAt(3).key),
+                              newMap.entries.elementAt(3).key,
+                              "첫 번째로 가장 많이 팔린 메뉴입니다.",
+                              showFirstSales? calculatedResult[newMap.entries.elementAt(3).key] * 12900 : 12900,
+                              1,
                               handleOnPressed),
-                          itemWithIcon(context, changeImage(newMap.entries.elementAt(1).key), "세 번째로 가장 많이 팔린 메뉴입니다.", 12900, 3,
+                          itemWithIcon(
+                              context,
+                              changeImage(newMap.entries.elementAt(1).key),
+                              newMap.entries.elementAt(2).key,
+                              "세 번째로 가장 많이 팔린 메뉴입니다.",
+                              showThirdSales? calculatedResult[newMap.entries.elementAt(1).key] * 12900 : 12900,
+                              3,
                               handleOnPressed),
                         ],
                       ),
@@ -176,7 +194,7 @@ class _SalesPopularityState extends State<SalesPopularity> {
   }
 }
 
-Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
+Widget itemWithIcon(BuildContext context, String menuTitle, String korTitle, String menuDesc,
     int menuCost, int rank, Function onPress) {
   String imagePath = '';
   if (rank == 2)
@@ -198,13 +216,14 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
                 radius: 80,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    menuTitle,
+                    korTitle,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: darkblue,
+                      fontSize: 18
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -213,21 +232,23 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String menuDesc,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: lightgrey,
+                      fontSize: 14
                     ),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     toLocaleString(menuCost) + " 원",
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                       color: darkblue,
+                      fontSize: 18
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
               FlatButton(
-                onPressed: onPress,
+                onPressed: () => onPress(rank),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
                 color: orange,

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/sales/sales_calculate.dart';
 import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
@@ -72,11 +73,6 @@ class _SalesByMenuState extends State<SalesByMenu> {
           double max = 0.0;
           String firstRank = '';
           String firstRankImage = '';
-          // data length
-          int ggz = 0;
-          int ptt = 0;
-          int ppr = 0;
-          int bgg = 0;
 
           //data
           Map<String, dynamic> menuData =
@@ -86,51 +82,25 @@ class _SalesByMenuState extends State<SalesByMenu> {
           // "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}"
           if (
               // DateTime.parse(menuData.keys.first).compareTo(selectedDate) <= 0 &&
-              DateTime.parse(menuData.keys.last).compareTo(selectedDate) <= 0) {
+              DateTime.parse(menuData.keys.last).compareTo(selectedDate) <= 0 &&
+              selectedDate.compareTo(DateTime.now()) <= 0
+              ) {
             /*
               예를 들어서 날짜 선택을 11/27 로 했으면 해당 날짜까지 매출 합을 구해야함
               >> key 값이랑 선택할 날짜를 비교
             */
-            menuData.forEach((key, value) {
-              // key compareTo selectedDate
-              if (DateTime.parse(key).compareTo(selectedDate) <= 0) {
-                // before and same
+            var calculatedResult = calculateSales(menuData, selectedDate);
 
-                // autoKey: Order
-                if (value.runtimeType != int) {
-                  // 11-22 : 1
-                  var fetchedOrderInfo = Map<dynamic, dynamic>.from(value);
-                  fetchedOrderInfo.forEach((key, value) {
-                    // contents
-                    var contentList =
-                        List<Map<dynamic, dynamic>>.from(value['contents']);
-                    // list
-                    contentList.forEach((element) {
-                      switch (element['name']) {
-                        case "고르곤졸라피자":
-                          ggz += element['count'];
-                          break;
-                        case "포테이토피자":
-                          ptt += element['count'];
-                          break;
-                        case "페퍼로니피자":
-                          ppr += element['count'];
-                          break;
-                        case "불고기피자":
-                          bgg += element['count'];
-                          break;
-                        default:
-                      }
-                    });
-                  });
-                }
-              }
+            double totalCount = 0;
+
+            calculatedResult.forEach((key, value) {
+              totalCount += value.toDouble();
             });
 
-            todayData['고르곤졸라피자'] = ggz.toDouble();
-            todayData['포테이토피자'] = ptt.toDouble();
-            todayData['페퍼로니피자'] = ppr.toDouble();
-            todayData['불고기피자'] = bgg.toDouble();
+            todayData['고르곤졸라피자'] = calculatedResult['고르곤졸라피자'].toDouble() * 100 / totalCount;
+            todayData['포테이토피자'] = calculatedResult['포테이토피자'].toDouble() * 100 / totalCount;
+            todayData['페퍼로니피자'] = calculatedResult['페퍼로니피자'].toDouble() * 100 / totalCount;
+            todayData['불고기피자'] = calculatedResult['불고기피자'].toDouble() * 100 / totalCount;
 
             todayData.forEach((key, value) {
               if (value >= max) {
@@ -184,6 +154,14 @@ class _SalesByMenuState extends State<SalesByMenu> {
                           child: PieChart(
                             dataMap: todayData,
                             colorList: todayDataColor,
+                            legendOptions: LegendOptions(legendTextStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                            chartValuesOptions: ChartValuesOptions(
+                              showChartValueBackground: false,
+                                chartValueStyle: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
                           ),
                         ),
                         Expanded(
@@ -223,19 +201,19 @@ class _SalesByMenuState extends State<SalesByMenu> {
                                                 mapIndex[firstRank]]),
                                       ),
                                       TextSpan(
-                                        text: ' 가 제일 많은 판매량을 기록했네요 !\n오늘 매출은 ',
+                                        text: ' 가 제일 많은 판매량을 기록했네요 !\n 매출은 ',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                       TextSpan(
                                         text:
-                                            '${toLocaleString(todayData[firstRank].toInt() * 12900)}',
+                                            '${toLocaleString(calculatedResult[firstRank] * 12900)}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black,
                                             fontSize: 18),
                                       ),
                                       TextSpan(
-                                        text: ' 원 입니다 ! 분발해주세요 !',
+                                        text: ' 원 입니다 ! ',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     ],
