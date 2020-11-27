@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
@@ -40,6 +41,13 @@ class _SalesByMenuState extends State<SalesByMenu> {
     Color.fromRGBO(122, 191, 111, 1.0)
   ];
 
+  Map<String, int> mapIndex = {
+    "고르곤졸라피자": 0,
+    "포테이토피자": 1,
+    "페퍼로니피자": 2,
+    "불고기피자": 3
+  };
+
   // LIFE CYCLE
   @override
   void initState() {
@@ -75,41 +83,47 @@ class _SalesByMenuState extends State<SalesByMenu> {
               new Map<String, dynamic>.from(snapshot.data);
 
           // check info is in the data
-          if (menuData.keys.contains(
-              "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}")) {
+          // "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}"
+          if (
+              // DateTime.parse(menuData.keys.first).compareTo(selectedDate) <= 0 &&
+              DateTime.parse(menuData.keys.last).compareTo(selectedDate) <= 0) {
+            /*
+              예를 들어서 날짜 선택을 11/27 로 했으면 해당 날짜까지 매출 합을 구해야함
+              >> key 값이랑 선택할 날짜를 비교
+            */
             menuData.forEach((key, value) {
-              if (key ==
-                  "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}") {
-                print("is in!");
-                Map<String, dynamic> orderInfo =
-                    new Map<String, dynamic>.from(value);
-                orderInfo.forEach((key, value) {
-                  Map<String, dynamic> orderItems =
-                      new Map<String, dynamic>.from(value);
-                  orderItems.forEach((key, value) {
-                    if (key == 'orderItems') {
-                      Map<String, dynamic> items =
-                          new Map<String, dynamic>.from(value);
-                      items.forEach((key, value) {
-                        switch (key) {
-                          case "고르곤졸라피자":
-                            ggz += value['count'];
-                            break;
-                          case "포테이토피자":
-                            ptt += value['count'];
-                            break;
-                          case "페퍼로니피자":
-                            ppr += value['count'];
-                            break;
-                          case "불고기피자":
-                            bgg += value['count'];
-                            break;
-                          default:
-                        }
-                      });
-                    }
+              // key compareTo selectedDate
+              if (DateTime.parse(key).compareTo(selectedDate) <= 0) {
+                // before and same
+
+                // autoKey: Order
+                if (value.runtimeType != int) {
+                  // 11-22 : 1
+                  var fetchedOrderInfo = Map<dynamic, dynamic>.from(value);
+                  fetchedOrderInfo.forEach((key, value) {
+                    // contents
+                    var contentList =
+                        List<Map<dynamic, dynamic>>.from(value['contents']);
+                    // list
+                    contentList.forEach((element) {
+                      switch (element['name']) {
+                        case "고르곤졸라피자":
+                          ggz += element['count'];
+                          break;
+                        case "포테이토피자":
+                          ptt += element['count'];
+                          break;
+                        case "페퍼로니피자":
+                          ppr += element['count'];
+                          break;
+                        case "불고기피자":
+                          bgg += element['count'];
+                          break;
+                        default:
+                      }
+                    });
                   });
-                });
+                }
               }
             });
 
@@ -195,17 +209,21 @@ class _SalesByMenuState extends State<SalesByMenu> {
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: '오늘은 ',
+                                        text:
+                                            '${selectedDate.month}월 ${selectedDate.day}일 까지 ',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                       TextSpan(
                                         text: '${firstRank}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.black),
+                                            color: white,
+                                            fontSize: 20,
+                                            backgroundColor: todayDataColor[
+                                                mapIndex[firstRank]]),
                                       ),
                                       TextSpan(
-                                        text: '가 제일 많은 판매량을 기록했네요 !\n오늘 매출은 ',
+                                        text: ' 가 제일 많은 판매량을 기록했네요 !\n오늘 매출은 ',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                       TextSpan(
@@ -213,10 +231,11 @@ class _SalesByMenuState extends State<SalesByMenu> {
                                             '${toLocaleString(todayData[firstRank].toInt() * 12900)}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.black),
+                                            color: Colors.black,
+                                            fontSize: 18),
                                       ),
                                       TextSpan(
-                                        text: '원 입니다 ! 분발해주세요 !',
+                                        text: ' 원 입니다 ! 분발해주세요 !',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     ],
@@ -251,7 +270,10 @@ class _SalesByMenuState extends State<SalesByMenu> {
                   ),
                   Expanded(
                     flex: 8,
-                    child: Center(child: Text('${selectedDate.toString().substring(0,10)} 에 데이터가 존재하지 않습니다.'),),
+                    child: Center(
+                      child: Text(
+                          '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.'),
+                    ),
                   )
                 ]));
           }

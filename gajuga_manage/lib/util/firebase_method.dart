@@ -75,7 +75,7 @@ class FirebaseMethod {
   DatabaseReference stockReference = FirebaseDatabase.instance.reference().child('manager/stock/currentStock');
   
   //sales
-  DatabaseReference salesReference = FirebaseDatabase.instance.reference().child('manager/sales');
+  DatabaseReference salesReference = FirebaseDatabase.instance.reference().child('order');
 
   // menu
   getMenuData() async {
