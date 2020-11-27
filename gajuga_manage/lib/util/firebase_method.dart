@@ -73,7 +73,6 @@ class FirebaseMethod {
   DatabaseReference menuReference = FirebaseDatabase.instance.reference().child('manager/menu/category');
   //stock
   DatabaseReference stockReference = FirebaseDatabase.instance.reference().child('manager/stock/currentStock');
-  DatabaseReference stockHistoryReference = FirebaseDatabase.instance.reference().child('manager/stock/history');
   
   //sales
   DatabaseReference salesReference = FirebaseDatabase.instance.reference().child('manager/sales');
@@ -96,14 +95,7 @@ class FirebaseMethod {
     });
     return fetchedData;
   }
-  getHistoryStockData() async {
-    var fetchedData;
-    await stockHistoryReference.once().then((DataSnapshot snapshot) {
-      //print(snapshot.value.runtimeType);
-      fetchedData = new List<dynamic>.from(snapshot.value);
-    });
-    return fetchedData;
-  }
+  
   // sales
   getTotalSalesData() async {
     var fetchedData;

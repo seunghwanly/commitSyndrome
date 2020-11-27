@@ -12,6 +12,8 @@ class CurrentStock extends StatefulWidget {
 }
 
 class CurrentStockState extends State<CurrentStock> {
+  final ScrollController _pizzaController = new ScrollController();
+
   // stock reference
   var stockDatabaseFetched;
 
@@ -29,6 +31,10 @@ class CurrentStockState extends State<CurrentStock> {
           if (snapshot.hasData) {
             //data
             Map<dynamic, dynamic> pizza = snapshot.data['pizza'];
+            // sort by key
+            var pizzaList = pizza.entries.toList()
+              ..sort((item1, item2) =>
+                  item1.key.toString().compareTo(item2.key.toString()));
             Map<dynamic, dynamic> beverage = snapshot.data['beverage'];
 
             return Column(
@@ -113,76 +119,81 @@ class CurrentStockState extends State<CurrentStock> {
                                   ],
                                 )),
                             Expanded(
-                              flex: 7,
-                              child: ListView.builder(
-                                itemCount: pizza.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                          margin: index == 0
-                                              ? EdgeInsets.only(top: 10.0)
-                                              : EdgeInsets.only(top: 0.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                flex: 5,
-                                                child: Container(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            30.0,
-                                                            10.0,
-                                                            0.0,
-                                                            10.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          pizza.keys
-                                                              .elementAt(index),
-                                                          style: TextStyle(
-                                                              color: darkblue,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 16),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              Expanded(
-                                                flex: 5,
-                                                child: Container(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            30.0,
-                                                            10.0,
-                                                            0.0,
-                                                            10.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          pizza.values
-                                                              .elementAt(index)
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color: darkblue,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 16),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            ],
-                                          )),
-                                      Divider()
-                                    ],
-                                  );
-                                },
-                              ),
+                              flex: 9,
+                              child: Scrollbar(
+                                  controller: _pizzaController,
+                                  isAlwaysShown: true,
+                                  child: ListView.builder(
+                                    controller: _pizzaController,
+                                    itemCount: pizzaList.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Column(
+                                        children: [
+                                          Container(
+                                              margin: index == 0
+                                                  ? EdgeInsets.only(top: 10.0)
+                                                  : EdgeInsets.only(top: 0.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: Container(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                30.0,
+                                                                10.0,
+                                                                0.0,
+                                                                10.0),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              pizzaList[index].key,
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      darkblue,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: Container(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                30.0,
+                                                                10.0,
+                                                                0.0,
+                                                                10.0),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              pizzaList[index].value.toString(),
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      darkblue,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                ],
+                                              )),
+                                          Divider()
+                                        ],
+                                      );
+                                    },
+                                  )),
                             )
                           ],
                         ))),
@@ -193,7 +204,7 @@ class CurrentStockState extends State<CurrentStock> {
                 ),
                 //////////////////////////////////////////////////////////////////////// BEVERAGE
                 Expanded(
-                    flex: 4,
+                    flex: 2,
                     child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.0),
@@ -202,7 +213,7 @@ class CurrentStockState extends State<CurrentStock> {
                         child: Column(
                           children: [
                             Expanded(
-                                flex: 2,
+                                flex: 3,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -267,7 +278,7 @@ class CurrentStockState extends State<CurrentStock> {
                                   ],
                                 )),
                             Expanded(
-                              flex: 3,
+                              flex: 7,
                               child: ListView.builder(
                                 itemCount: beverage.length,
                                 itemBuilder: (BuildContext context, int index) {
@@ -338,10 +349,6 @@ class CurrentStockState extends State<CurrentStock> {
                                 },
                               ),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: SizedBox(),
-                            )
                           ],
                         ))),
                 ///////////////////////////////////////////////////////////////////// END OF BEVRAGE

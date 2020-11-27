@@ -50,7 +50,7 @@ Container plusButton(double size) {
   );
 }
 
-FlatButton tapButton(
+RaisedButton tapButton(
     Function onPress,
     Color initColor,
     Color splashColor,
@@ -62,7 +62,7 @@ FlatButton tapButton(
     double paddingVertical,
     double paddingHorizontal,
     double marginHorizontal) {
-  return FlatButton(
+  return RaisedButton(
       onPressed: onPress,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),

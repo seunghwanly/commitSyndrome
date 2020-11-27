@@ -4,21 +4,20 @@ import 'package:gajuga_manage/util/palette.dart';
 import 'dart:math';
 
 class OrderStock extends StatefulWidget {
-  final savePressed;
+  
+  final formKey;
 
-  OrderStock({this.savePressed});
+  OrderStock({this.formKey});
 
   @override
   OrderStockState createState() => OrderStockState();
 }
 
 class OrderStockState extends State<OrderStock> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey,
+        key: widget.formKey,
         child: Container(
             // height: MediaQuery.of(context).size.height / 2,
             decoration: BoxDecoration(
