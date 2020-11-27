@@ -35,12 +35,18 @@ class OrderList extends StatefulWidget {
 class _OrderListState extends State<OrderList> {
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   TextStyle _orderInfoStyle =
-      TextStyle(fontSize: 21, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 21, fontWeight: FontWeight.w700);
+
+  TextStyle _orderTimeStyle = TextStyle(
+    fontSize: 21,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+  );
   var now = DateTime.now();
 
   String parseDateToString(String date) {
     DateTime d1 = DateTime.parse(date);
-    return DateFormat('HH시mm분ss초').format(d1);
+    return DateFormat('HH시 mm분 ss초').format(d1);
   }
 
   void progationState(
@@ -142,7 +148,7 @@ class _OrderListState extends State<OrderList> {
             margin: EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
+              color: pale,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey,
@@ -157,6 +163,7 @@ class _OrderListState extends State<OrderList> {
                 Row(
                   children: [
                     Expanded(
+                      flex: 2,
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -188,6 +195,7 @@ class _OrderListState extends State<OrderList> {
                           }),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -337,30 +345,32 @@ class _OrderListState extends State<OrderList> {
           flex: 5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '주문자 정보 : ${order['customerInfo']}',
-                style: _orderInfoStyle,
-              ),
-              Text(
                 '주문시간 : ' +
-                    parseDateToString(order['orderTimes']['requestTime']),
-                style: _orderInfoStyle,
+                    parseDateToString(order['orderTimes']['requestTime']) +
+                    '\n\n' +
+                    '승인시간 : ' +
+                    parseDateToString(order['orderTimes']['confirmTime']) +
+                    '\n\n' +
+                    '준비완료 : ' +
+                    parseDateToString(order['orderTimes']['readyTime']),
+                style: _orderTimeStyle,
               ),
-              Text(
-                '승인시간 : ' +
-                    parseDateToString(order['orderTimes']['confirmTime']),
-                style: _orderInfoStyle,
-              ),
-              Text(
-                '준비완료 : ' + parseDateToString(order['orderTimes']['readyTime']),
-                style: _orderInfoStyle,
-              ),
-              Text(
-                '결제코드 : 2020010125542',
-                style: _orderInfoStyle,
-              ),
+              // Text(
+              //   '승인시간 : ' +
+              //       parseDateToString(order['orderTimes']['confirmTime']),
+              //   style: _orderTimeStyle,
+              // ),
+              // Text(
+              //   '준비완료 : ' + parseDateToString(order['orderTimes']['readyTime']),
+              //   style: _orderTimeStyle,
+              // ),
+              // Text(
+              //   '결제코드 : 2020010125542',
+              //   style: _orderInfoStyle,
+              // ),
             ],
           ));
     } else {
