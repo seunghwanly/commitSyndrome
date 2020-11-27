@@ -69,10 +69,8 @@ class _ProfitListState extends State<ProfitList> {
                 Map<String, dynamic> menuData =
                     new Map<String, dynamic>.from(snapshot.data[1]);
                 // check info is in the data
-                if (DateTime.parse(menuData.keys.last)
-                            .compareTo(widget.selectedDate) <=
-                        0 &&
-                    widget.selectedDate.compareTo(DateTime.now()) <= 0) {
+                if (DateTime.parse(menuData.keys.last).month
+                            .compareTo(widget.selectedDate.month) == 0) {
                   var calculatedData =
                       calculateMonthSales(menuData, widget.selectedDate);
                   calculatedData.forEach((key, value) {
@@ -106,14 +104,29 @@ class _ProfitListState extends State<ProfitList> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                      makeTitle('영업', '수익'),
-                      Text("+ "+toLocaleString(totalAmount)+"원", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: darkblue),)
+                          makeTitle('영업', '수익'),
+                          Text(
+                            "+ " + toLocaleString(totalAmount) + "원",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: darkblue),
+                          )
                         ],
                       ),
                       tableHeader(),
                       tableBody(mergedProfitData),
                     ],
                   );
+                } else {
+                  return Center(
+                      child: Text(
+                    "이번 달은 데이터가 없네요 !",
+                    style: TextStyle(
+                        color: darkblue,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16),
+                  ));
                 }
               }
             }));

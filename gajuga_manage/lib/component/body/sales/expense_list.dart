@@ -73,7 +73,7 @@ class _ExpenseListState extends State<ExpenseList> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      makeTitle('영업', '수익'),
+                      makeTitle('영업', '비용'),
                       Text(
                         "- " + toLocaleString(totalAmount) + "원",
                         style: TextStyle(
@@ -88,11 +88,12 @@ class _ExpenseListState extends State<ExpenseList> {
                 ],
               );
             } else {
-              return Text(
+              return Center(
+                  child: Text(
                 "이번 달은 데이터가 없네요 !",
                 style: TextStyle(
                     color: darkblue, fontWeight: FontWeight.w600, fontSize: 16),
-              );
+              ));
             }
           }
         },
