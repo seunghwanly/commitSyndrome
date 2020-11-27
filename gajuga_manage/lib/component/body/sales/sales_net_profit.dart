@@ -98,7 +98,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ProfitList(selectedDate: selectedDate,),
-                  ExpenseList(),
+                  ExpenseList(selectedDate: selectedDate,),
                 ],
               ),
             ],

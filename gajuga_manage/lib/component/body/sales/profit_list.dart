@@ -23,16 +23,12 @@ class _ProfitListState extends State<ProfitList> {
   Future<dynamic> totalSales;
   Future<dynamic> totalProfit;
 
-  var calculatedTotalProfitAmount;
-
   @override
   void initState() {
     super.initState();
     // get data
     totalSales = FirebaseMethod().getTotalSalesData();
     totalProfit = FirebaseMethod().getTotalProfitData();
-    //init
-    calculatedTotalProfitAmount = 0;
   }
 
   TextStyle _tableHeaderStyle =
@@ -41,35 +37,86 @@ class _ProfitListState extends State<ProfitList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.all(20),
-      width: MediaQuery.of(context).size.width / 2.2,
-      height: MediaQuery.of(context).size.height / 1.5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              makeTitle('영업', '수익'),
-              Text("+ "+toLocaleString(calculatedTotalProfitAmount)+"원", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: darkblue),)
-            ],
-          ),
-          tableHeader(),
-          tableBody(),
-        ],
-      ),
-    );
+        margin: EdgeInsets.only(top: 20),
+        padding: EdgeInsets.all(20),
+        width: MediaQuery.of(context).size.width / 2.2,
+        height: MediaQuery.of(context).size.height / 1.5,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.16),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: FutureBuilder<List<dynamic>>(
+            future: Future.wait([totalProfit, totalSales]),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                // print(snapshot.data[1].toString());
+                return customLoadingBouncingGrid(orange);
+              } else if (snapshot.hasError) {
+                return Text("DATA FETCH ERROR !");
+              } else {
+                //profit data
+                Map<String, dynamic> profitData =
+                    new Map<String, dynamic>.from(snapshot.data[0]);
+
+                // sales data
+                Map<String, dynamic> menuData =
+                    new Map<String, dynamic>.from(snapshot.data[1]);
+                // check info is in the data
+                if (DateTime.parse(menuData.keys.last)
+                            .compareTo(widget.selectedDate) <=
+                        0 &&
+                    widget.selectedDate.compareTo(DateTime.now()) <= 0) {
+                  var calculatedData =
+                      calculateMonthSales(menuData, widget.selectedDate);
+                  calculatedData.forEach((key, value) {
+                    calculatedData.update(key, (value) {
+                      if (key == "사이다" || key == "콜라") {
+                        return value * 2000;
+                      } else
+                        return value * 12900;
+                    });
+                  });
+                  var rangedProfitData;
+                  //additional information added
+                  if (profitData.keys.contains(
+                      "${widget.selectedDate.year}-${widget.selectedDate.month}")) {
+                    rangedProfitData = profitData[
+                        "${widget.selectedDate.year}-${widget.selectedDate.month}"];
+                  }
+
+                  var mergedProfitData = {
+                    ...calculatedData,
+                    ...rangedProfitData
+                  }; //...rangedProfitData
+
+                  int totalAmount = 0;
+                  mergedProfitData.forEach((key, value) {
+                    totalAmount += value;
+                  });
+
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                      makeTitle('영업', '수익'),
+                      Text("+ "+toLocaleString(totalAmount)+"원", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: darkblue),)
+                        ],
+                      ),
+                      tableHeader(),
+                      tableBody(mergedProfitData),
+                    ],
+                  );
+                }
+              }
+            }));
   }
 
   Widget tableHeader() {
@@ -130,115 +177,66 @@ class _ProfitListState extends State<ProfitList> {
     );
   }
 
-  Widget tableBody() {
+  Widget tableBody(final mergedProfitData) {
     TextStyle _bodyTextStyle =
         TextStyle(color: darkblue, fontWeight: FontWeight.w600, fontSize: 16);
 
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Color.fromRGBO(238, 238, 238, 1.0)),
-        ),
-        // FUTURE BUILDER
-        child: FutureBuilder<List<dynamic>>(
-          future: Future.wait([totalProfit, totalSales]),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              // print(snapshot.data[1].toString());
-              return customLoadingBouncingGrid(orange);
-            } else if (snapshot.hasError) {
-              return Text("DATA FETCH ERROR !");
-            } else {
-              Map<String, dynamic> profitData =
-                  new Map<String, dynamic>.from(snapshot.data[0]);
-
-              // sales data
-              Map<String, dynamic> menuData =
-                  new Map<String, dynamic>.from(snapshot.data[1]);
-              // check info is in the data
-              if (DateTime.parse(menuData.keys.last)
-                          .compareTo(widget.selectedDate) <=
-                      0 &&
-                  widget.selectedDate.compareTo(DateTime.now()) <= 0) {
-                var calculatedData =
-                    calculateMonthSales(menuData, widget.selectedDate);
-                calculatedData.forEach((key, value) {
-                  calculatedData.update(key, (value) {
-                    if (key == "사이다" || key == "콜라") {
-                      return value * 2000;
-                    } else
-                      return value * 12900;
-                  });
-                });
-
-                var mergedProfitData = {...calculatedData, ...profitData};
-
-                int totalAmount = 0;
-                mergedProfitData.forEach((key, value) {
-                  totalAmount += value;
-                });
-
-                this.calculatedTotalProfitAmount = totalAmount;
-
-                return ListView.builder(
-                  itemCount: mergedProfitData.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
+          decoration: BoxDecoration(
+            border: Border.all(color: Color.fromRGBO(238, 238, 238, 1.0)),
+          ),
+          // FUTURE BUILDER
+          child: ListView.builder(
+            itemCount: mergedProfitData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  Container(
+                    margin: index == 0
+                        ? EdgeInsets.only(top: 10.0)
+                        : EdgeInsets.only(top: 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          margin: index == 0
-                              ? EdgeInsets.only(top: 10.0)
-                              : EdgeInsets.only(top: 0.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                flex: 5,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(
-                                      30.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        mergedProfitData.keys.elementAt(index),
-                                        style: _bodyTextStyle,
-                                      ),
-                                    ],
-                                  ),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  mergedProfitData.keys.elementAt(index),
+                                  style: _bodyTextStyle,
                                 ),
-                              ),
-                              Expanded(
-                                flex: 5,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(
-                                      30.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        toLocaleString(mergedProfitData.values
-                                                .elementAt(index)) +
-                                            " 원",
-                                        style: _bodyTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        Divider(),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  toLocaleString(mergedProfitData.values
+                                          .elementAt(index)) +
+                                      " 원",
+                                  style: _bodyTextStyle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
-                    );
-                  },
-                );
-              } else {
-                return Text("${widget.selectedDate.month}월에는 데이터가 없습니다 !");
-              }
-            }
-          },
-        ),
-      ),
+                    ),
+                  ),
+                  Divider(),
+                ],
+              );
+            },
+          )),
     );
   }
 }
