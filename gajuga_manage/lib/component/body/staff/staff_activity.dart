@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
@@ -59,9 +58,12 @@ class _StaffActivityState extends State<StaffActivity> {
             child: FutureBuilder(
               future: _fetchData(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) return printStatus('검색된 결과가 없습니다...');
-                else if (snapshot.hasError) return printStatus('오류가 발생했습니다.');
-                else return activityList();
+                if (!snapshot.hasData)
+                  return printStatus('검색된 결과가 없습니다...');
+                else if (snapshot.hasError)
+                  return printStatus('오류가 발생했습니다.');
+                else
+                  return activityList();
               },
             ),
           ),
@@ -78,17 +80,16 @@ class _StaffActivityState extends State<StaffActivity> {
 
   Widget activityList() {
     return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 10,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          leading: Icon(Icons.check_circle_outline),
-          title: Text('주문번호 $index'),
-          subtitle: Text('주문시간'),
-          trailing: Icon(Icons.arrow_right),
-        );
-      }
-    );
+        shrinkWrap: true,
+        itemCount: 10,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: Icon(Icons.check_circle_outline),
+            title: Text('주문번호 $index'),
+            subtitle: Text('주문시간'),
+            trailing: Icon(Icons.arrow_right),
+          );
+        });
   }
 
   Widget printStatus(String inputString) {

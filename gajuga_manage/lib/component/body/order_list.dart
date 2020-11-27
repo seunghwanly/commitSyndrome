@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/staff/staff_activity.dart';
 import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:intl/intl.dart';
+import 'authentification/user_manage.dart';
+import '../../model/manageEmployee_model.dart';
 import 'dart:ui';
 //firebase database
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // class OrderMenu {
 //   String orderNumber;
@@ -42,6 +46,8 @@ class _OrderListState extends State<OrderList> {
     fontWeight: FontWeight.w700,
     height: 1.2,
   );
+  String currentAuth;
+  String userid = FirebaseAuth.instance.currentUser.uid;
   var now = DateTime.now();
 
   String parseDateToString(String date) {
@@ -60,6 +66,8 @@ class _OrderListState extends State<OrderList> {
 
     if (nextState != '') {
       var now2 = DateTime.now();
+      print(userid);
+      print(currentAuth);
       // order/2020-11-22/key/orderList
       databaseReference
           .child('order/' + DateFormat('yyyy-MM-dd').format(now))
@@ -80,6 +88,31 @@ class _OrderListState extends State<OrderList> {
                 .child(k)
                 .child('orderState')
                 .set(nextState);
+
+            //employee Activity set
+            if (currentAuth == 'admin') {
+              Activity act =
+                  Activity(approvalTime: now2, orderNumber: v['orderNumber']);
+              databaseReference
+                  .child('manager')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .push()
+                  .set(act.toJson());
+            } else {
+              Activity act =
+                  Activity(approvalTime: now2, orderNumber: v['orderNumber']);
+
+              databaseReference
+                  .child('manager')
+                  .child('employee')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .push()
+                  .set(act.toJson());
+            }
           }
         });
       });
@@ -129,9 +162,56 @@ class _OrderListState extends State<OrderList> {
     return (differ.toString());
   }
 
+  void checkAuth(String uid) {
+    databaseReference
+        .child("manager")
+        .child("admin")
+        .child(uid)
+        .once()
+        .then((DataSnapshot snapshot) {
+      //print('Data : ${snapshot.value}');
+      if (snapshot.value != null) {
+        setState(() {
+          currentAuth = 'admin';
+        });
+      }
+    });
+
+    databaseReference
+        .child("manager")
+        .child("employee")
+        .child("staff")
+        .child(uid)
+        .once()
+        .then((DataSnapshot snapshot) {
+      //print('Data : ${snapshot.value}');
+      if (snapshot.value != null) {
+        setState(() {
+          currentAuth = 'staff';
+        });
+      }
+    });
+
+    databaseReference
+        .child("manager")
+        .child("employee")
+        .child("chef")
+        .child(uid)
+        .once()
+        .then((DataSnapshot snapshot) {
+      //print('Data : ${snapshot.value}');
+      if (snapshot.value != null) {
+        setState(() {
+          currentAuth = 'cheff';
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    checkAuth(userid);
   }
 
   @override
