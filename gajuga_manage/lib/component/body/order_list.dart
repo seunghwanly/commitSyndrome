@@ -93,24 +93,41 @@ class _OrderListState extends State<OrderList> {
             if (currentAuth == 'admin') {
               Activity act =
                   Activity(approvalTime: now2, orderNumber: v['orderNumber']);
-              databaseReference
+
+              String push = databaseReference
                   .child('manager')
                   .child(currentAuth)
                   .child(userid)
                   .child('activity')
                   .push()
+                  .key;
+
+              databaseReference
+                  .child('manager')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .child(push)
                   .set(act.toJson());
             } else {
               Activity act =
                   Activity(approvalTime: now2, orderNumber: v['orderNumber']);
 
-              databaseReference
+              String push = databaseReference
                   .child('manager')
                   .child('employee')
                   .child(currentAuth)
                   .child(userid)
                   .child('activity')
                   .push()
+                  .key;
+              databaseReference
+                  .child('manager')
+                  .child('employee')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .child(push)
                   .set(act.toJson());
             }
           }
@@ -202,7 +219,7 @@ class _OrderListState extends State<OrderList> {
       //print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
         setState(() {
-          currentAuth = 'cheff';
+          currentAuth = 'chef';
         });
       }
     });

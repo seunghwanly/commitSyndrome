@@ -4,5 +4,6 @@ class Activity {
 
   Activity({this.orderNumber, this.approvalTime});
 
-  Map toJson() => {'orderNumber': orderNumber, 'approvalTime': approvalTime};
+  Map toJson() =>
+      {'orderNumber': orderNumber, 'approvalTime': approvalTime.toString()};
 }
