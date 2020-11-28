@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 
 class FirebaseMethod {
-
-  // firebase 에서 Database 에 접근할 Reference path 
+  // firebase 에서 Database 에 접근할 Reference path
   // : child 까지 선언해주고 나머지 작업은 function 별로 기능을 나누어서 구현하는 게 편할 거에요
   // once() = 데이터베이스를 한번만 읽어오는 용도, 보통 setState()로 빌드 하기전에 한번 읽어오는 역할 주로 해요
   // onChildAdded, onChildChanged = 실시간으로 데이터베이스를 읽어올 때 사용해요. once() 랑은 사용법이 달라요.
@@ -70,16 +67,24 @@ class FirebaseMethod {
 
   // DataReference
   //menu
-  DatabaseReference menuReference = FirebaseDatabase.instance.reference().child('manager/menu/category');
+  DatabaseReference menuReference =
+      FirebaseDatabase.instance.reference().child('manager/menu/category');
   //stock
-  DatabaseReference stockReference = FirebaseDatabase.instance.reference().child('manager/stock/currentStock');
-  
-  //sales
-  DatabaseReference salesReference = FirebaseDatabase.instance.reference().child('manager/sales');
+  DatabaseReference stockReference =
+      FirebaseDatabase.instance.reference().child('manager/stock/currentStock');
+
+  // order
+  DatabaseReference salesReference =
+      FirebaseDatabase.instance.reference().child('order');
+  // expense
+  DatabaseReference expenseReference =
+      FirebaseDatabase.instance.reference().child('manager/sales/expense');
+  // profit
+  DatabaseReference profitReference =
+      FirebaseDatabase.instance.reference().child('manager/sales/profit');
 
   // menu
   getMenuData() async {
-
     var fetchedData;
 
     await menuReference.once().then((DataSnapshot snapshot) {
@@ -87,6 +92,7 @@ class FirebaseMethod {
     });
     return fetchedData;
   }
+
   // stock
   getCurrentStockData() async {
     var fetchedData;
@@ -95,13 +101,30 @@ class FirebaseMethod {
     });
     return fetchedData;
   }
-  
+
   // sales
   getTotalSalesData() async {
     var fetchedData;
     await salesReference.once().then((DataSnapshot snapshot) {
       // print(snapshot.value.runtimeType);
       // print(snapshot.value.toString());
+      fetchedData = new Map<String, dynamic>.from(snapshot.value);
+    });
+    return fetchedData;
+  }
+
+  // expense
+  getTotalExpenseData() async {
+    var fetchedData;
+    await expenseReference.once().then((DataSnapshot snapshot) {
+      fetchedData = new Map<String, dynamic>.from(snapshot.value);
+    });
+    return fetchedData;
+  }
+  // profit
+  getTotalProfitData() async {
+    var fetchedData;
+    await profitReference.once().then((DataSnapshot snapshot) {
       fetchedData = new Map<String, dynamic>.from(snapshot.value);
     });
     return fetchedData;
