@@ -12,6 +12,7 @@ import '../../model/menu_model.dart';
 import '../../util/to_locale.dart';
 import 'package:gajuga_user/main.dart';
 import 'package:loading_animations/loading_animations.dart';
+import '../../util/firebase_method.dart';
 
 class TotalMenu extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class TotalMenuState extends State<TotalMenu> {
 
   var currentState = 'pizza';
   var currentMenuList;
+
   var tmp = 0;
   int shoppingCartCount = 0;
 
@@ -148,6 +150,7 @@ class TotalMenuState extends State<TotalMenu> {
   void initState() {
     super.initState();
     readData();
+
     //getCurrentList();
   }
 
@@ -372,6 +375,7 @@ class FavoriteMenuWidget extends StatefulWidget {
 class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
   // List<Map<String, dynamic>> mainList = new List<Map<String, dynamic>>();
   var mainList;
+  var salesDatabaseFetched;
   int randomIndex = new Random().nextInt(3);
 
   void readData() {
@@ -395,73 +399,228 @@ class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
   void initState() {
     super.initState();
     readData();
+    salesDatabaseFetched = FirebaseMethod().getTotalSalesData();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (mainList != null) {
-      return Container(
-          child: Column(
-        children: [
-          makeTitle("인기", " 메뉴"),
-          Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.16,
-              margin: EdgeInsets.only(left: 25, top: 15, right: 25),
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [customeBoxShadow()]),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SubmenuScreen(
-                                      item: mainList[index]['name'],
-                                      cost: mainList[index]['cost'],
-                                      desc: mainList[index]['desc'],
-                                      engname: mainList[index]['eng_name'])));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 30, top: 10, right: 30),
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: AssetImage(
-                                    'images/${mainList[index]['eng_name']}.png'),
-                              ),
-                              Text(
-                                // "메뉴 " + mainList[index]['name'].substring(0,3),
-                                (index + 1).toString() + " 등",
-                                style: TextStyle(
-                                    color: darkblue,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ));
-                  }))
-        ],
-      ));
-    } else {
-      return Container(
-        alignment: Alignment.center,
-        color: pale,
-        child: LoadingBouncingGrid.circle(
-          backgroundColor: white,
-        ),
-      );
-    }
+    return Container(
+        child: Column(
+      children: [
+        makeTitle("인기", " 메뉴"),
+        Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.16,
+            margin: EdgeInsets.only(left: 25, top: 15, right: 25),
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [customeBoxShadow()]),
+            child: FutureBuilder(
+              future: salesDatabaseFetched,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  // data length
+                  int ggz = 0;
+                  int ptt = 0;
+                  int ppr = 0;
+                  int bgg = 0;
+
+                  Map<String, double> todayData = {
+                    "고르곤졸라피자": 0,
+                    "포테이토피자": 0,
+                    "페퍼로니피자": 0,
+                    "불고기피자": 0
+                  };
+
+                  //data
+                  Map<String, dynamic> menuData =
+                      new Map<String, dynamic>.from(snapshot.data);
+                  DateTime now = new DateTime.now();
+                  DateTime selectedDate =
+                      new DateTime(now.year, now.month - 1, now.day);
+                  print('입구컷');
+                  // check info is in the data
+                  if (DateTime.parse(menuData.keys.last)
+                          .isAfter(selectedDate) ==
+                      true) {
+                    print('통과쓰');
+                    var calculatedResult =
+                        calculateSales(menuData, selectedDate);
+                    double totalCount = 0;
+
+                    calculatedResult.forEach((key, value) {
+                      totalCount += value.toDouble();
+                    });
+
+                    todayData['고르곤졸라피자'] =
+                        calculatedResult['고르곤졸라피자'].toDouble() *
+                            100 /
+                            totalCount;
+                    todayData['포테이토피자'] =
+                        calculatedResult['포테이토피자'].toDouble() *
+                            100 /
+                            totalCount;
+                    todayData['페퍼로니피자'] =
+                        calculatedResult['페퍼로니피자'].toDouble() *
+                            100 /
+                            totalCount;
+                    todayData['불고기피자'] =
+                        calculatedResult['불고기피자'].toDouble() * 100 / totalCount;
+
+                    var newMap = Map.fromEntries(todayData.entries.toList()
+                      ..sort((e1, e2) => (e1.value).compareTo(e2.value)));
+                    var favoriteList;
+                    // newMap.forEach((key, value) {
+                    //   newMap.entries.elementAt(3).key;
+                    // });
+                    int returnMenuIndex(String name) {
+                      int index = 0;
+                      for (var i = 0; i < 4; i++) {
+                        if (mainList[i]['name'] == name) index = i;
+                      }
+
+                      return index;
+                    }
+
+                    String changeImage(String name) {
+                      switch (name) {
+                        case '고르곤졸라피자':
+                          return 'gorgonzola';
+                        case '포테이토피자':
+                          return 'potato';
+                        case '페퍼로니피자':
+                          return 'pepperoni';
+                        case '불고기피자':
+                          return 'bulgogi';
+                        default:
+                          return "A";
+                      }
+                    }
+
+                    return Container(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 3,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SubmenuScreen(
+                                                item: mainList[returnMenuIndex(newMap.entries.elementAt(index+1).key)]
+                                                    ['name'],
+                                                cost: mainList[returnMenuIndex(
+                                                    newMap.entries
+                                                        .elementAt(index+1)
+                                                        .key)]['cost'],
+                                                desc: mainList[
+                                                        returnMenuIndex(newMap.entries.elementAt(index+1).key)]
+                                                    ['desc'],
+                                                engname:
+                                                    mainList[returnMenuIndex(newMap.entries.elementAt(index+1).key)]
+                                                        ['eng_name'])));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: 30, top: 10, right: 30),
+                                    alignment: Alignment.center,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              'images/' +
+                                                  changeImage(newMap.entries
+                                                      .elementAt(index + 1)
+                                                      .key) +
+                                                  '.png'),
+                                        ),
+                                        Text(
+                                          // "메뉴 " + mainList[index]['name'].substring(0,3),
+                                          (index + 1).toString() + " 등",
+                                          style: TextStyle(
+                                              color: darkblue,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ));
+                            }));
+                  } else {
+                    return Center(
+                      child: Text(' 충분한 데이터가 존재하지 않습니다.'),
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: Text(' 충분한 데이터가 존재하지 않습니다.'),
+                  );
+                }
+              },
+            ))
+      ],
+    ));
+  }
+
+  Map<String, int> calculateSales(
+      Map<String, dynamic> menuData, DateTime selectedDate) {
+    // data length
+    int ggz = 0;
+    int ptt = 0;
+    int ppr = 0;
+    int bgg = 0;
+
+    menuData.forEach((key, value) {
+      // key compareTo selectedDate
+      if (DateTime.parse(key).compareTo(selectedDate) <= 0) {
+        // before and same
+
+        // autoKey: Order
+        if (value.runtimeType != int) {
+          // 11-22 : 1
+          var fetchedOrderInfo = Map<dynamic, dynamic>.from(value);
+          fetchedOrderInfo.forEach((key, value) {
+            // contents
+            var contentList =
+                List<Map<dynamic, dynamic>>.from(value['contents']);
+            // list
+            contentList.forEach((element) {
+              switch (element['name']) {
+                case "고르곤졸라피자":
+                  ggz += element['count'];
+                  break;
+                case "포테이토피자":
+                  ptt += element['count'];
+                  break;
+                case "페퍼로니피자":
+                  ppr += element['count'];
+                  break;
+                case "불고기피자":
+                  bgg += element['count'];
+                  break;
+                default:
+              }
+            });
+          });
+        }
+      }
+    });
+
+    Map<String, int> result = {
+      "고르곤졸라피자": ggz,
+      "포테이토피자": ptt,
+      "페퍼로니피자": ppr,
+      "불고기피자": bgg
+    };
+
+    return result;
   }
 }

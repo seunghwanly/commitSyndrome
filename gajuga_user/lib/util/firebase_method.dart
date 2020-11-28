@@ -22,4 +22,20 @@ class FirebaseMethod {
       rethrow;
     }
   }
+
+  // sales
+  getTotalSalesData() async {
+    // order
+    DatabaseReference salesReference =
+        FirebaseDatabase.instance.reference().child('order');
+
+    var fetchedData;
+    await salesReference.once().then((DataSnapshot snapshot) {
+      // print(snapshot.value.runtimeType);
+      // print(snapshot.value.toString());
+      fetchedData = new Map<String, dynamic>.from(snapshot.value);
+      print(fetchedData.toString());
+    });
+    return fetchedData;
+  }
 }
