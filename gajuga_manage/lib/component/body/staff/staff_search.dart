@@ -20,10 +20,6 @@ class _StaffSearchState extends State<StaffSearch> {
   final staffReference = FirebaseDatabase.instance.reference().child('manager/employee/staff');
   final chefReference = FirebaseDatabase.instance.reference().child('manager/employee/chef');
 
-  void _staffNotFound() {
-    Scaffold.of(context).showSnackBar(SnackBar(content: new Text("해당하는 직원이 없습니다.")));
-  }
-
   @override
   void initState() {
     super.initState();

@@ -12,6 +12,11 @@ List<bool> s_isSelected = List.filled(10, false);
 List<bool> c_isSelected = List.filled(10, false);
 
 class StaffList extends StatefulWidget {
+  StaffList({this.type, this.searchResult});
+
+  final String type;
+  final searchResult;
+
   @override
   _StaffListState createState() => _StaffListState();
 }
@@ -101,7 +106,7 @@ class _StaffListState extends State<StaffList> {
                 ],
               ),
               SizedBox(height: 10),
-              FutureBuilder(
+              this.widget.type == 'default' ? FutureBuilder(
                   future: staffReference.once(),
                   builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                     if (snapshot.hasData) {
@@ -145,8 +150,9 @@ class _StaffListState extends State<StaffList> {
                           alignment: Alignment.center,
                           child: customLoadingBouncingGrid(orange));
                     }
-                  }),
-              FutureBuilder(
+                  })
+                : SizedBox.shrink(),
+              this.widget.type == 'default' ? FutureBuilder(
                   future: chefReference.once(),
                   builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                     if (snapshot.hasData) {
@@ -191,6 +197,49 @@ class _StaffListState extends State<StaffList> {
                           child: customLoadingBouncingGrid(orange));
                     }
                   })
+                : this.widget.searchResult.length != 0 ? Container(
+                    height: MediaQuery.of(context).size.height * 0.23,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(10),
+                      itemCount: this.widget.searchResult.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            StaffPage.selectedUid = this.widget.searchResult[index]['uid'];
+                            StaffPage.selectedRole = 2;
+                            for (int i = 0; i < this.widget.searchResult.length; i++)
+                              c_isSelected[i] = false;
+                            setState(() {
+                              c_isSelected[index] = true;
+                            });
+                            for (int j = 0; j < this.widget.searchResult.length; j++)
+                              s_isSelected[j] = false;
+                          },
+                          child: _listItem(
+                            this.widget.searchResult,
+                            this.widget.searchResult[index]['role'],
+                            AssetImage('images/default_profile.jpg'),
+                            context,
+                            index),
+                        );
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height / 6),
+                    child: Center(
+                      child: Text(
+                        '검색 결과가 없습니다.',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
             ],
           ));
     } else {
