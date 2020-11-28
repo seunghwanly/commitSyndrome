@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/model/sales_profit_model.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,6 +26,7 @@ class MainScreen extends StatelessWidget {
             create: (_) => FirebaseAuthService(),
           ),
           Provider<Information>.value(value: Information()),
+          ChangeNotifierProvider<Sales>(create: (_) => Sales())
         ],
         child: MaterialApp(
           localizationsDelegates: [

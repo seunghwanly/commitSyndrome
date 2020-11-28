@@ -5,6 +5,7 @@ import 'package:gajuga_user/provider/provider.dart';
 import 'package:gajuga_user/util/payment/iamport_payment.dart';
 import 'package:gajuga_user/model/firebase_provider.dart';
 import 'package:provider/provider.dart';
+import 'auth_unAuth_modal.dart';
 import 'package:gajuga_user/main.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
@@ -287,31 +288,35 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 GestureDetector(
                   onTap: () {
                     //장바구니 경로 user/basket
-                    setState(() {
-                      dataForPush['cost'] = totalCost;
-                      dataForPush['name'] = widget.item;
-                      dataForPush['eng_name'] = widget.engname;
-                      dataForPush['option']['size'] = list[0]['selected'];
-                      dataForPush['option']['dough'] = list[1]['selected'];
-                    });
+                    if (MainScreen.userid != '') {
+                      setState(() {
+                        dataForPush['cost'] = totalCost;
+                        dataForPush['name'] = widget.item;
+                        dataForPush['eng_name'] = widget.engname;
+                        dataForPush['option']['size'] = list[0]['selected'];
+                        dataForPush['option']['dough'] = list[1]['selected'];
+                      });
 
-                    // return showDialog(
-                    //   context: c,
-                    //   builder: (BuildContext context) {
-                    //     return Dialog(
-                    //       backgroundColor: white,
-                    //       child: Text(dataForPush.toString())
-                    //     );
-                    //   }
-                    //   );
-                    ShoppingCart menuitem = ShoppingCart(
-                        dataForPush['cost'],
-                        count,
-                        dataForPush['name'],
-                        Option(size: '라지', dough: '치즈'),
-                        dataForPush['eng_name']);
+                      // return showDialog(
+                      //   context: c,
+                      //   builder: (BuildContext context) {
+                      //     return Dialog(
+                      //       backgroundColor: white,
+                      //       child: Text(dataForPush.toString())
+                      //     );
+                      //   }
+                      //   );
+                      ShoppingCart menuitem = ShoppingCart(
+                          dataForPush['cost'],
+                          count,
+                          dataForPush['name'],
+                          Option(size: '라지', dough: '치즈'),
+                          dataForPush['eng_name']);
 
-                    addShoppingCart(menuitem);
+                      addShoppingCart(menuitem);
+                    } else {
+                      showAuthModal(context);
+                    }
                     //writeData();
                   },
                   child: Container(

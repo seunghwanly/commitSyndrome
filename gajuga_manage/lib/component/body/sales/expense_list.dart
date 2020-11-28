@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/sales/sales_profit_modal.dart';
+import 'package:gajuga_manage/model/sales_profit_model.dart';
+import 'package:gajuga_manage/util/firebase_method.dart';
+import 'package:gajuga_manage/util/loading.dart';
 import 'dart:ui';
 import 'package:gajuga_manage/util/palette.dart';
+import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseList extends StatefulWidget {
+  final selectedDate;
+  final rangeExpenseData;
+
+  ExpenseList({this.selectedDate, this.rangeExpenseData});
+
   @override
   _ExpenseListState createState() => _ExpenseListState();
 }
 
 class _ExpenseListState extends State<ExpenseList> {
-  
-  TextStyle _tableHeaderStyle = TextStyle(color: white, fontWeight: FontWeight.bold, fontSize: 18);
+  // firebase
+  var fetchedExpenseData;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchedExpenseData = FirebaseMethod().getTotalExpenseData();
+  }
+
+  TextStyle _tableHeaderStyle =
+      TextStyle(color: white, fontWeight: FontWeight.bold, fontSize: 18);
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(20),
@@ -30,12 +51,51 @@ class _ExpenseListState extends State<ExpenseList> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          makeTitle('영업', '비용'),
-          tableHeader(),
-          tableBody(),
-        ],
+      child: FutureBuilder(
+        future: fetchedExpenseData,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return customLoadingBouncingGrid(orange);
+          } else if (snapshot.hasError) {
+            return Text("DATA FETCH ERROR !");
+          } else {
+            Map<String, dynamic> expenseData =
+                new Map<String, dynamic>.from(snapshot.data);
+            if (expenseData.keys.contains(
+                "${widget.selectedDate.year}-${widget.selectedDate.month}")) {
+              int totalAmount = 0;
+              widget.rangeExpenseData.forEach((key, value) {
+                totalAmount += value;
+              });
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      makeTitle('영업', '비용'),
+                      Text(
+                        "- " + toLocaleString(totalAmount) + "원",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: darkblue),
+                      )
+                    ],
+                  ),
+                  tableHeader(),
+                  tableBody(widget.rangeExpenseData),
+                ],
+              );
+            } else {
+              return Center(
+                  child: Text(
+                "이번 달은 데이터가 없네요 !",
+                style: TextStyle(
+                    color: darkblue, fontWeight: FontWeight.w600, fontSize: 16),
+              ));
+            }
+          }
+        },
       ),
     );
   }
@@ -55,7 +115,8 @@ class _ExpenseListState extends State<ExpenseList> {
                 child: Container(
                   height: MediaQuery.of(context).size.height / 13,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0)),
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(20.0)),
                     color: orange,
                   ),
                   padding: EdgeInsets.fromLTRB(30, 10, 0, 10),
@@ -75,7 +136,8 @@ class _ExpenseListState extends State<ExpenseList> {
                   height: MediaQuery.of(context).size.height / 13,
                   padding: EdgeInsets.fromLTRB(30, 10, 0, 10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(20.0)),
+                    borderRadius:
+                        BorderRadius.only(topRight: Radius.circular(20.0)),
                     color: orange,
                   ),
                   child: Row(
@@ -96,61 +158,82 @@ class _ExpenseListState extends State<ExpenseList> {
     );
   }
 
-  Widget tableBody() {
-    TextStyle _bodyTextStyle = TextStyle(color: darkblue, fontWeight: FontWeight.w600, fontSize: 16);
+  Widget tableBody(final rangeExpenseData) {
+    TextStyle _bodyTextStyle =
+        TextStyle(color: darkblue, fontWeight: FontWeight.w600, fontSize: 16);
 
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Color.fromRGBO(238, 238, 238, 1.0)),
-        ),
-        child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  Container(
-                    margin: index==0 ? EdgeInsets.only(top: 10.0) : EdgeInsets.only(top: 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "항 목  " + index.toString(),
-                                  style: _bodyTextStyle,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "1,000,000",
-                                  style: _bodyTextStyle,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                ],
-              );
-            },
+          decoration: BoxDecoration(
+            border: Border.all(color: Color.fromRGBO(238, 238, 238, 1.0)),
           ),
-      ),
+          child: FutureBuilder(
+            future: fetchedExpenseData,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return customLoadingBouncingGrid(orange);
+              } else if (snapshot.hasError) {
+                return Text("DATA FETCH ERROR !");
+              } else {
+                return ListView.builder(
+                  itemCount: rangeExpenseData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        FlatButton(
+                          onPressed: () => print(""),
+                          onLongPress: () => showDeleteModal(context),
+                          child: 
+                        Container(
+                          margin: index == 0
+                              ? EdgeInsets.only(top: 10.0)
+                              : EdgeInsets.only(top: 0.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(
+                                      30.0, 10.0, 0.0, 10.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        rangeExpenseData.keys.elementAt(index),
+                                        style: _bodyTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(
+                                      30.0, 10.0, 0.0, 10.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        toLocaleString(rangeExpenseData.values
+                                                .elementAt(index)) +
+                                            " 원",
+                                        style: _bodyTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                        Divider(),
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+          )),
     );
   }
 }

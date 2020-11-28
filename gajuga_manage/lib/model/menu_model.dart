@@ -73,4 +73,25 @@ class Ingredients {
         sourceE: parsedJson['재료E'],
         sourceF: parsedJson['재료F']);
   }
+
+  Map toJson() => {
+    "재료A" : sourceA,
+    "재료B" : sourceB,
+    "재료C" : sourceC,
+    "재료D" : sourceD,
+    "재료E" : sourceE,
+    "재료F" : sourceF
+  };
+}
+
+class BeverageIngredients {
+  final int cider;
+  final int coke;
+
+  BeverageIngredients({this.cider, this.coke});
+
+  Map toJson() => {
+    '사이다': cider,
+    '콜라': coke
+  };
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/staff/staff_activity.dart';
 import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:intl/intl.dart';
+import 'authentification/user_manage.dart';
+import '../../model/manageEmployee_model.dart';
 import 'dart:ui';
 //firebase database
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // class OrderMenu {
 //   String orderNumber;
@@ -35,12 +39,20 @@ class OrderList extends StatefulWidget {
 class _OrderListState extends State<OrderList> {
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   TextStyle _orderInfoStyle =
-      TextStyle(fontSize: 21, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 21, fontWeight: FontWeight.w700);
+
+  TextStyle _orderTimeStyle = TextStyle(
+    fontSize: 21,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+  );
+  String currentAuth;
+  String userid = FirebaseAuth.instance.currentUser.uid;
   var now = DateTime.now();
 
   String parseDateToString(String date) {
     DateTime d1 = DateTime.parse(date);
-    return DateFormat('HH시mm분ss초').format(d1);
+    return DateFormat('HH시 mm분 ss초').format(d1);
   }
 
   void progationState(
@@ -54,6 +66,8 @@ class _OrderListState extends State<OrderList> {
 
     if (nextState != '') {
       var now2 = DateTime.now();
+      print(userid);
+      print(currentAuth);
       // order/2020-11-22/key/orderList
       databaseReference
           .child('order/' + DateFormat('yyyy-MM-dd').format(now))
@@ -74,6 +88,48 @@ class _OrderListState extends State<OrderList> {
                 .child(k)
                 .child('orderState')
                 .set(nextState);
+
+            //employee Activity set
+            if (currentAuth == 'admin') {
+              Activity act =
+                  Activity(approvalTime: now2, orderNumber: v['orderNumber']);
+
+              String push = databaseReference
+                  .child('manager')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .push()
+                  .key;
+
+              databaseReference
+                  .child('manager')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .child(push)
+                  .set(act.toJson());
+            } else {
+              Activity act =
+                  Activity(approvalTime: now2, orderNumber: v['orderNumber']);
+
+              String push = databaseReference
+                  .child('manager')
+                  .child('employee')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .push()
+                  .key;
+              databaseReference
+                  .child('manager')
+                  .child('employee')
+                  .child(currentAuth)
+                  .child(userid)
+                  .child('activity')
+                  .child(push)
+                  .set(act.toJson());
+            }
           }
         });
       });
@@ -123,9 +179,56 @@ class _OrderListState extends State<OrderList> {
     return (differ.toString());
   }
 
+  void checkAuth(String uid) {
+    databaseReference
+        .child("manager")
+        .child("admin")
+        .child(uid)
+        .once()
+        .then((DataSnapshot snapshot) {
+      //print('Data : ${snapshot.value}');
+      if (snapshot.value != null) {
+        setState(() {
+          currentAuth = 'admin';
+        });
+      }
+    });
+
+    databaseReference
+        .child("manager")
+        .child("employee")
+        .child("staff")
+        .child(uid)
+        .once()
+        .then((DataSnapshot snapshot) {
+      //print('Data : ${snapshot.value}');
+      if (snapshot.value != null) {
+        setState(() {
+          currentAuth = 'staff';
+        });
+      }
+    });
+
+    databaseReference
+        .child("manager")
+        .child("employee")
+        .child("chef")
+        .child(uid)
+        .once()
+        .then((DataSnapshot snapshot) {
+      //print('Data : ${snapshot.value}');
+      if (snapshot.value != null) {
+        setState(() {
+          currentAuth = 'chef';
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    checkAuth(userid);
   }
 
   @override
@@ -142,7 +245,7 @@ class _OrderListState extends State<OrderList> {
             margin: EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
+              color: pale,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey,
@@ -157,6 +260,7 @@ class _OrderListState extends State<OrderList> {
                 Row(
                   children: [
                     Expanded(
+                      flex: 2,
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -188,6 +292,7 @@ class _OrderListState extends State<OrderList> {
                           }),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -337,30 +442,32 @@ class _OrderListState extends State<OrderList> {
           flex: 5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '주문자 정보 : ${order['customerInfo']}',
-                style: _orderInfoStyle,
-              ),
-              Text(
                 '주문시간 : ' +
-                    parseDateToString(order['orderTimes']['requestTime']),
-                style: _orderInfoStyle,
+                    parseDateToString(order['orderTimes']['requestTime']) +
+                    '\n\n' +
+                    '승인시간 : ' +
+                    parseDateToString(order['orderTimes']['confirmTime']) +
+                    '\n\n' +
+                    '준비완료 : ' +
+                    parseDateToString(order['orderTimes']['readyTime']),
+                style: _orderTimeStyle,
               ),
-              Text(
-                '승인시간 : ' +
-                    parseDateToString(order['orderTimes']['confirmTime']),
-                style: _orderInfoStyle,
-              ),
-              Text(
-                '준비완료 : ' + parseDateToString(order['orderTimes']['readyTime']),
-                style: _orderInfoStyle,
-              ),
-              Text(
-                '결제코드 : 2020010125542',
-                style: _orderInfoStyle,
-              ),
+              // Text(
+              //   '승인시간 : ' +
+              //       parseDateToString(order['orderTimes']['confirmTime']),
+              //   style: _orderTimeStyle,
+              // ),
+              // Text(
+              //   '준비완료 : ' + parseDateToString(order['orderTimes']['readyTime']),
+              //   style: _orderTimeStyle,
+              // ),
+              // Text(
+              //   '결제코드 : 2020010125542',
+              //   style: _orderInfoStyle,
+              // ),
             ],
           ));
     } else {

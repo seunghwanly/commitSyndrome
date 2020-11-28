@@ -140,6 +140,14 @@ class _OrderPageState extends State<OrderPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: unhandledOrders ? orange : pale,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1, 2),
+                      blurRadius: 2,
+                      spreadRadius: 0.1,
+                    ),
+                  ],
                 ),
                 alignment: Alignment.center,
                 child: Text(
@@ -165,6 +173,14 @@ class _OrderPageState extends State<OrderPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: handledOrders ? orange : pale,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1, 2),
+                      blurRadius: 2,
+                      spreadRadius: 0.1,
+                    ),
+                  ],
                 ),
                 alignment: Alignment.center,
                 child: Text(
