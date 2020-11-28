@@ -7,11 +7,13 @@ import 'dart:ui';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:provider/provider.dart';
 
 class ProfitList extends StatefulWidget {
   final selectedDate;
+  final mergedProfitData;
 
-  ProfitList({this.selectedDate});
+  ProfitList({this.selectedDate, this.mergedProfitData});
 
   @override
   _ProfitListState createState() => _ProfitListState();
@@ -34,8 +36,13 @@ class _ProfitListState extends State<ProfitList> {
   TextStyle _tableHeaderStyle =
       TextStyle(color: white, fontWeight: FontWeight.bold, fontSize: 18);
 
+  Future<Sales> providerSales() async {
+    return Sales();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Container(
         margin: EdgeInsets.only(top: 20),
         padding: EdgeInsets.all(20),
@@ -71,31 +78,9 @@ class _ProfitListState extends State<ProfitList> {
                 // check info is in the data
                 if (DateTime.parse(menuData.keys.last).month
                             .compareTo(widget.selectedDate.month) == 0) {
-                  var calculatedData =
-                      calculateMonthSales(menuData, widget.selectedDate);
-                  calculatedData.forEach((key, value) {
-                    calculatedData.update(key, (value) {
-                      if (key == "사이다" || key == "콜라") {
-                        return value * 2000;
-                      } else
-                        return value * 12900;
-                    });
-                  });
-                  var rangedProfitData;
-                  //additional information added
-                  if (profitData.keys.contains(
-                      "${widget.selectedDate.year}-${widget.selectedDate.month}")) {
-                    rangedProfitData = profitData[
-                        "${widget.selectedDate.year}-${widget.selectedDate.month}"];
-                  }
-
-                  var mergedProfitData = {
-                    ...calculatedData,
-                    ...rangedProfitData
-                  }; //...rangedProfitData
-
+                 
                   int totalAmount = 0;
-                  mergedProfitData.forEach((key, value) {
+                  widget.mergedProfitData.forEach((key, value) {
                     totalAmount += value;
                   });
 
@@ -115,7 +100,7 @@ class _ProfitListState extends State<ProfitList> {
                         ],
                       ),
                       tableHeader(),
-                      tableBody(mergedProfitData),
+                      tableBody(widget.mergedProfitData),
                     ],
                   );
                 } else {

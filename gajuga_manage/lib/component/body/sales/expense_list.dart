@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/model/sales_profit_model.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
 import 'dart:ui';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseList extends StatefulWidget {
   final selectedDate;
+  final rangeExpenseData;
 
-  ExpenseList({this.selectedDate});
+  ExpenseList({this.selectedDate, this.rangeExpenseData});
 
   @override
   _ExpenseListState createState() => _ExpenseListState();
@@ -30,6 +33,7 @@ class _ExpenseListState extends State<ExpenseList> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(20),
@@ -58,16 +62,10 @@ class _ExpenseListState extends State<ExpenseList> {
                 new Map<String, dynamic>.from(snapshot.data);
             if (expenseData.keys.contains(
                 "${widget.selectedDate.year}-${widget.selectedDate.month}")) {
-              Map<dynamic, dynamic> rangeExpenseData;
-
-              rangeExpenseData = expenseData[
-                  "${widget.selectedDate.year}-${widget.selectedDate.month}"];
-
               int totalAmount = 0;
-              rangeExpenseData.forEach((key, value) {
+              widget.rangeExpenseData.forEach((key, value) {
                 totalAmount += value;
               });
-
               return Column(
                 children: [
                   Row(
@@ -84,7 +82,7 @@ class _ExpenseListState extends State<ExpenseList> {
                     ],
                   ),
                   tableHeader(),
-                  tableBody(rangeExpenseData),
+                  tableBody(widget.rangeExpenseData),
                 ],
               );
             } else {
