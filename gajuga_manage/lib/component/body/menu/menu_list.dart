@@ -67,22 +67,6 @@ class _MenuListState extends State<MenuList> {
                       scrollDirection: Axis.horizontal,
                     ),
                   ),
-                  makeSubTitle('파스타', ' PASTA'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: beverage.length, // TODO: beverage => pasta
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(beverage, index,
-                            context); // TODO: beverage => pasta
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
                   makeSubTitle('음료', ' BEVERAGE'),
                   Container(
                     padding: EdgeInsets.only(
