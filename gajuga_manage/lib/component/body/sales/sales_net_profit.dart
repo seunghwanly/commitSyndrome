@@ -24,6 +24,8 @@ class SalesNetProfit extends StatefulWidget {
 class _SalesNetProfitState extends State<SalesNetProfit> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedDateString = DateFormat('yyyy년 MM월').format(DateTime.now());
+
+  // radioValue
   int _radioValue = -1;
   DateTime selectedDate;
 
