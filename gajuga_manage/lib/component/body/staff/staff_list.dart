@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_activity.dart';
@@ -249,17 +248,19 @@ class _StaffListState extends State<StaffList> {
             style: TextStyle(fontWeight: FontWeight.bold, color: orange),
             textAlign: TextAlign.center,
           ),
-          FlatButton(
-            color: orange,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            onPressed: () {
+          SizedBox(height: 10),
+          InkWell(
+            onTap: () {
               showStaffEditDialog(
                   context, name, address, phoneNumber, id, role);
             },
             child: Container(
+              padding: EdgeInsets.all(5),
               alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: orange,
+              ),
               child: Text(
                 "수정하기",
                 style: TextStyle(
@@ -326,7 +327,7 @@ class _StaffListState extends State<StaffList> {
                           ),
                         ),
                         staffImageView("images/default_profile.jpg"),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         Text(
                           id,
                           style: TextStyle(
