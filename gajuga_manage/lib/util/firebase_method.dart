@@ -11,12 +11,10 @@ class FirebaseMethod {
     1. State<T> 클래스 안에 먼저 사용할 DatabaseReference와 데이터를 넣을 변수를 선언해줍니다.
     2. initState() 안에 once() 로 변수에 값을 저장해줍니다.
     3. rendering 할 component를 StreamBuilder()로 선언해주시고, stream: 여기에 선언한 DataRefernece.onValue 를 작성해주시면됩니다.
-
     [코드 예시]
     class _MenuListState extends State<MenuList> {
       DatabaseReference menuReference = FirebaseDatabase.instance.reference().child(PATH);
       var _menuList;
-
       @override
       void initState() {
         super.initState();
@@ -31,14 +29,12 @@ class FirebaseMethod {
           }
         });
       }
-
       @override
       void dispose() {
         super.dispose();
         // database off
         menuReference.onDisconnect();
       }
-
       @override
       Widget build(BuildContext context) {
         return sth(
@@ -53,15 +49,12 @@ class FirebaseMethod {
         )
       }
     }
-
     => 이거는 제 추측인데 builder에서 사용한 괄호 안에있는 snapshot은 AsyncSnapshot으로 받아오는 Event 성 데이터라 snapshot의 data 까지 
     한번에 읽어오는 데이터로 판단되어서 snapshot.data 까지 접근을 해야 기존에 사용했던 once() 와 같은 접근법으로 사용할 수 있을 것 같습니다 !
-
     Firebase Realtime Database 구조 : 트리 구조
     - key 
       ㄴ key 
           ㄴ key : value
-
     작성자 : 이승환, 2020/11/19
   */
 
@@ -121,6 +114,7 @@ class FirebaseMethod {
     });
     return fetchedData;
   }
+
   // profit
   getTotalProfitData() async {
     var fetchedData;
