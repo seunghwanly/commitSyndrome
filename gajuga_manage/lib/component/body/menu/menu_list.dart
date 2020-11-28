@@ -105,8 +105,9 @@ class _MenuListState extends State<MenuList> {
         } else {
           return Expanded(
             child: Container(
-                alignment: Alignment.center,
-                child: customLoadingBouncingGrid(orange)),
+              alignment: Alignment.center,
+              child: customLoadingBouncingGrid(orange)
+            ),
           );
         }
       },
