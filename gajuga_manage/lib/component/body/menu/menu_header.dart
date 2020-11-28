@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/borders.dart';
+import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 
 class MenuHeader extends StatefulWidget {
@@ -10,6 +11,7 @@ class MenuHeader extends StatefulWidget {
 class _MenuHeaderState extends State<MenuHeader> {
   final TextEditingController _searchController = new TextEditingController();
   final FocusNode _searchFocus = FocusNode();
+  String query = '';
 
   @override
   void dispose() {
@@ -39,13 +41,18 @@ class _MenuHeaderState extends State<MenuHeader> {
                   isDense: true,
                   contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                 ),
+                onChanged: (text) {
+                  setState(() {
+                    query = text;
+                  });
+                },
               ),
             ),
             IconButton( // 검색
               icon: Icon(Icons.search),
               onPressed: () {
-                _searchFocus.dispose();
-                print('search');
+                _searchFocus.unfocus();
+                searchMenu(query);
               },
             ),
           ],
@@ -53,4 +60,22 @@ class _MenuHeaderState extends State<MenuHeader> {
       ],
     );
   }
+}
+
+Future<void> searchMenu(String searchQuery) async {
+  var menuDatabaseFetched = await FirebaseMethod().getMenuData();
+  List<dynamic> totalMenu = [];
+  List<dynamic> searchResult = [];
+
+  totalMenu.addAll(menuDatabaseFetched['pizza']);
+  totalMenu.addAll(menuDatabaseFetched['beverage']);
+
+  totalMenu.forEach((menu) {
+    if (menu['name'].toString().contains(searchQuery)) searchResult.add(menu);
+  });
+
+  print('검색 결과 ${searchResult.length}개');
+  print(searchResult);
+
+  return searchResult;
 }
