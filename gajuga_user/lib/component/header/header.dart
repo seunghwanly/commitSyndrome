@@ -12,6 +12,7 @@ import '../../util/to_text.dart';
 import '../../util/palette.dart';
 import 'package:provider/provider.dart';
 import 'package:gajuga_user/model/firebase_provider.dart';
+import '../body/auth_unAuth_modal.dart';
 
 class CustomHeader extends StatefulWidget {
   CustomHeader({@required this.body});
@@ -65,8 +66,12 @@ class _CustomHeaderState extends State<CustomHeader> {
     }
 
     void _gotoCart() {
-      if (ModalRoute.of(context).settings.name != '/shoppingCart') {
-        Navigator.pushNamed(context, '/shoppingCart');
+      if (MainScreen.userid != '') {
+        if (ModalRoute.of(context).settings.name != '/shoppingCart') {
+          Navigator.pushNamed(context, '/shoppingCart');
+        }
+      } else {
+        showAuthModal(context);
       }
     }
 
@@ -198,10 +203,14 @@ class _CustomHeaderState extends State<CustomHeader> {
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
                         Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OrderHistory()));
+                        if (MainScreen.userid != '') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderHistory()));
+                        } else {
+                          showAuthModal(context);
+                        }
                       },
                     ),
                   ],

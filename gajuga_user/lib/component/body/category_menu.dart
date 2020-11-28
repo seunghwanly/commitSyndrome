@@ -9,6 +9,7 @@ import '../../util/palette.dart';
 import '../../util/to_locale.dart';
 import '../header/header.dart';
 import 'package:gajuga_user/main.dart';
+import 'auth_unAuth_modal.dart';
 
 class CategoryMenu extends StatefulWidget {
   @override
@@ -25,10 +26,14 @@ class CategoryMenuState extends State<CategoryMenu> {
   var currentMenuList;
 
   void toShoppingCart(BuildContext context) async {
-    final result = await Navigator.pushNamed(context, '/shoppingCart');
-    //DBRef.child('menu').set(menudata);
-    if (result) {
-      setState(() {});
+    if (MainScreen.userid != '') {
+      final result = await Navigator.pushNamed(context, '/shoppingCart');
+      //DBRef.child('menu').set(menudata);
+      if (result) {
+        setState(() {});
+      }
+    } else {
+      showAuthModal(context);
     }
   }
 
@@ -262,7 +267,7 @@ class CategoryMenuState extends State<CategoryMenu> {
                                 // itemCount: currentMenuList.length == null
                                 //     ? 0
                                 //     : currentMenuList.length,
-                                itemCount: currentMenuList.length == null
+                                itemCount: currentMenuList == null
                                     ? 0
                                     : currentMenuList.length,
                                 shrinkWrap: true,
