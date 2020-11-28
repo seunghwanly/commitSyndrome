@@ -96,7 +96,7 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   searchMenu(String searchQuery) async {
-    searchResult = [];
+    searchResult.clear();
 
     totalMenu.forEach((menu) {
       if (menu['name'].toString().contains(searchQuery)) searchResult.add(Information.fromJson(menu));
@@ -108,6 +108,8 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   Future<void> getAllMenus() async {
+    totalMenu.clear();
+    
     var menuDatabaseFetched = await FirebaseMethod().getMenuData();
 
     totalMenu.addAll(menuDatabaseFetched['pizza']);

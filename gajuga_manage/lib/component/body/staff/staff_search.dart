@@ -1,5 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/model/staff_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
+import 'package:gajuga_manage/util/modal.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 class StaffSearch extends StatefulWidget {
@@ -11,6 +14,27 @@ class _StaffSearchState extends State<StaffSearch> {
   TextEditingController _searchController = new TextEditingController();
   final FocusNode _searchFocus = FocusNode();
   String query = '';
+  List<Staff> staffs = [];
+  List<Staff> searchResult = [];
+
+  final staffReference = FirebaseDatabase.instance.reference().child('manager/employee/staff');
+  final chefReference = FirebaseDatabase.instance.reference().child('manager/employee/chef');
+
+  void _staffNotFound() {
+    Scaffold.of(context).showSnackBar(SnackBar(content: new Text("해당하는 직원이 없습니다.")));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAllStaffs();
+  }
+
+  @override
+  void dispose() {
+    _searchFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +106,7 @@ class _StaffSearchState extends State<StaffSearch> {
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
+                  _searchFocus.unfocus();
                   search(query);
                 },
               ),
@@ -92,7 +117,84 @@ class _StaffSearchState extends State<StaffSearch> {
     );
   }
 
-  search(String query) {
-    print('search');
+  getAllStaffs() {
+    staffs.clear();
+
+    staffReference.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((k, v) {
+        staffs.add(Staff.fromJson(v));
+      });
+    });
+
+    chefReference.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((k, v) {
+        staffs.add(Staff.fromJson(v));
+      });
+    });
+  }
+
+  search(String searchQuery) {
+    searchResult.clear();
+
+    staffs.forEach((element) {
+      if (element.name.contains(searchQuery)) searchResult.add(element);
+    });
+
+    print('검색 결과 ${searchResult.length}개');
+    // if (searchResult.length == 0) Modal(modalText: '직원 정보가 없습니다.');
+    if (searchResult.length == 0) showModal();
+    else return searchResult;
+  }
+
+  showModal() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 16.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          backgroundColor: white,
+          child: Container(
+            width: MediaQuery.of(context).size.width / 3,
+            height: MediaQuery.of(context).size.height / 5,
+            padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '직원 정보가 없습니다.',
+                  style: TextStyle(
+                    color: darkblue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  color: orange,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width / 12,
+                    height: MediaQuery.of(context).size.height / 20,
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        color: white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
