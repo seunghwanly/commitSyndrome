@@ -8,19 +8,22 @@ import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 
 class MenuList extends StatefulWidget {
+  MenuList({this.type, this.searchResult});
+
+  final String type;
+  final List<Information> searchResult;
+
   @override
   _MenuListState createState() => _MenuListState();
 }
 
 class _MenuListState extends State<MenuList> {
-  // needed MenuList
+  // need MenuList
   var menuDatabaseFetched;
 
-  final List<String> data = <String>['A', 'B', 'C', 'D'];
   final _formKey = GlobalKey<FormState>();
   File _menuImage;
   final picker = ImagePicker();
@@ -38,29 +41,11 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // ------------------------------------------ DATABASE 에서 가져온 데이터
+    return this.widget.type == 'default' ? FutureBuilder(
       future: menuDatabaseFetched,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          /*
-              database : 
-              - manager
-                  ㄴ menu
-                      ㄴ category           -> this.menuDatabaseFetched로 받아온 데이터 덩어리
-                          ㄴ  pizza []
-                          ㄴ  beverage []
-           
-          ~ 2020/11/22
-           TODO : beverage 를 받아올 때 오류가 날 수 있습니다 ! 아직 데이터 베이스 수정을 안해서 하면 알려드릴게요 !
-            
-            주영님 꺼
-            TODO: 검색어 입력됐을 때 검색하면 수정할 메뉴를 띄워 주는 게 구현하기 편한가요? 아니면 해당 메뉴 색칠되는게 편한가요 ?
-            둘중에 편한 걸로 해주세요 !
-           */
-          // pizza []
           List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
-          // beverage []
           List<Information> beverage = Menu.fromJson(snapshot.data).beverage;
 
           return Expanded(
@@ -114,7 +99,7 @@ class _MenuListState extends State<MenuList> {
                     ),
                   ),
                 ],
-              ),
+              )
             ),
           );
         } else {
@@ -125,6 +110,24 @@ class _MenuListState extends State<MenuList> {
           );
         }
       },
+    )
+    : Expanded(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.03,
+          ),
+          height: MediaQuery.of(context).size.height * 0.35,
+          width: double.infinity,
+          child: ListView.builder(
+            itemCount: this.widget.searchResult.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _listItem(this.widget.searchResult, index, context);
+            },
+            scrollDirection: Axis.horizontal,
+          ),
+        ),
+      ),
     );
   }
 
@@ -339,47 +342,46 @@ class _MenuListState extends State<MenuList> {
                   : FileImage(_menuImage),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Color(0xFFe0e0e0)),
-                  borderRadius: BorderRadius.circular(50.0)),
-              padding: EdgeInsets.all(0),
-              alignment: Alignment.center,
-              child: IconButton(
-                onPressed: () {
-                  // getMenuImage();
-                },
-                icon: Icon(
-                  Icons.camera_alt,
-                  size: 20,
-                  color: Color(0xFFbbbbbb),
-                ),
-              ),
-            ),
-          )
+          // Positioned(
+          //   bottom: 0,
+          //   right: 0,
+          //   child: Container(
+          //     width: 40,
+          //     height: 40,
+          //     decoration: BoxDecoration(
+          //         color: Colors.white,
+          //         border: Border.all(color: Color(0xFFe0e0e0)),
+          //         borderRadius: BorderRadius.circular(50.0)),
+          //     padding: EdgeInsets.all(0),
+          //     alignment: Alignment.center,
+          //     child: IconButton(
+          //       onPressed: () {
+          //         // getMenuImage();
+          //       },
+          //       icon: Icon(
+          //         Icons.camera_alt,
+          //         size: 20,
+          //         color: Color(0xFFbbbbbb),
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
   }
 
-  Future getMenuImage() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery); // TODO: app crash 해결해야함
+  // Future getMenuImage() async {
+  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _menuImage = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _menuImage = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   Widget nameField(String _name) {
     return Row(
