@@ -70,30 +70,28 @@ class _StaffListState extends State<StaffList> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: '직원',
-                            style: TextStyle(color: darkgrey),
-                          ),
-                          TextSpan(
-                            text: ' 프로필 수정',
-                            style: TextStyle(color: orange),
-                          ),
-                        ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
+                      children: [
+                        TextSpan(
+                          text: '직원',
+                          style: TextStyle(color: darkgrey),
+                        ),
+                        TextSpan(
+                          text: ' 프로필 수정',
+                          style: TextStyle(color: orange),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(height: 10),
               FutureBuilder(
