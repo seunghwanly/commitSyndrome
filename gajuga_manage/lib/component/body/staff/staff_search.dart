@@ -43,15 +43,7 @@ class _StaffSearchState extends State<StaffSearch> {
                   style: TextStyle(color: darkgrey),
                 ),
                 TextSpan(
-                  text: ' 프로필 수정',
-                  style: TextStyle(color: orange),
-                ),
-                TextSpan(
-                  text: ' 및',
-                  style: TextStyle(color: darkgrey),
-                ),
-                TextSpan(
-                  text: ' 활동 확인',
+                  text: ' 검색',
                   style: TextStyle(color: orange),
                 ),
               ],
@@ -60,14 +52,6 @@ class _StaffSearchState extends State<StaffSearch> {
           SizedBox(height: 20),
           Row(
             children: [
-              Text(
-                '직원이름 검색',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),
-              ),
-              SizedBox(width: 10),
               Expanded(
                 child: Container(
                   width: MediaQuery.of(context).size.width / 5,
