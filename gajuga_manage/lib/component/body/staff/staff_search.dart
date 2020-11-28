@@ -10,7 +10,7 @@ class StaffSearch extends StatefulWidget {
 class _StaffSearchState extends State<StaffSearch> {
   TextEditingController _searchController = new TextEditingController();
   final FocusNode _searchFocus = FocusNode();
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(

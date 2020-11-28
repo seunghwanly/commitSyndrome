@@ -15,7 +15,8 @@ class UserManage {
         'address': "주소",
         'id': _email,
         'password': _password,
-        'phoneNumber': _phone
+        'phoneNumber': _phone,
+        'uid': uid
       });
     }
     //직원
@@ -30,7 +31,8 @@ class UserManage {
         'address': "주소",
         'id': _email,
         'password': _password,
-        'phoneNumber': _phone
+        'phoneNumber': _phone,
+        'uid': uid
       });
     }
     //셰프
@@ -45,7 +47,8 @@ class UserManage {
         'address': "주소",
         'id': _email,
         'password': _password,
-        'phoneNumber': _phone
+        'phoneNumber': _phone,
+        'uid': uid
       });
     }
   }
