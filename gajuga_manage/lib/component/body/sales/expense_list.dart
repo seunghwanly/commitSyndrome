@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/component/body/sales/sales_profit_modal.dart';
 import 'package:gajuga_manage/model/sales_profit_model.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
@@ -179,6 +180,10 @@ class _ExpenseListState extends State<ExpenseList> {
                   itemBuilder: (BuildContext context, int index) {
                     return Column(
                       children: [
+                        FlatButton(
+                          onPressed: () => print(""),
+                          onLongPress: () => showDeleteModal(context),
+                          child: 
                         Container(
                           margin: index == 0
                               ? EdgeInsets.only(top: 10.0)
@@ -220,7 +225,7 @@ class _ExpenseListState extends State<ExpenseList> {
                               ),
                             ],
                           ),
-                        ),
+                        )),
                         Divider(),
                       ],
                     );

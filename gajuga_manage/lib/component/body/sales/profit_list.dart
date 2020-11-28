@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/sales/sales_calculate.dart';
+import 'package:gajuga_manage/component/body/sales/sales_profit_modal.dart';
 import 'package:gajuga_manage/model/sales_profit_model.dart';
+import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
 import 'dart:ui';
@@ -42,7 +44,6 @@ class _ProfitListState extends State<ProfitList> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         margin: EdgeInsets.only(top: 20),
         padding: EdgeInsets.all(20),
@@ -76,9 +77,10 @@ class _ProfitListState extends State<ProfitList> {
                 Map<String, dynamic> menuData =
                     new Map<String, dynamic>.from(snapshot.data[1]);
                 // check info is in the data
-                if (DateTime.parse(menuData.keys.last).month
-                            .compareTo(widget.selectedDate.month) == 0) {
-                 
+                if (DateTime.parse(menuData.keys.last)
+                        .month
+                        .compareTo(widget.selectedDate.month) ==
+                    0) {
                   int totalAmount = 0;
                   widget.mergedProfitData.forEach((key, value) {
                     totalAmount += value;
@@ -190,45 +192,52 @@ class _ProfitListState extends State<ProfitList> {
             itemBuilder: (BuildContext context, int index) {
               return Column(
                 children: [
-                  Container(
-                    margin: index == 0
-                        ? EdgeInsets.only(top: 10.0)
-                        : EdgeInsets.only(top: 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  mergedProfitData.keys.elementAt(index),
-                                  style: _bodyTextStyle,
+                  FlatButton(
+                    onLongPress: () {
+                      if (index > 5) showDeleteModal(context);
+                    },
+                    onPressed: () {},
+                    child: Container(
+                        margin: index == 0
+                            ? EdgeInsets.only(top: 10.0)
+                            : EdgeInsets.only(top: 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      mergedProfitData.keys.elementAt(index),
+                                      style: _bodyTextStyle,
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  toLocaleString(mergedProfitData.values
-                                          .elementAt(index)) +
-                                      " 원",
-                                  style: _bodyTextStyle,
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      toLocaleString(mergedProfitData.values
+                                              .elementAt(index)) +
+                                          " 원",
+                                      style: _bodyTextStyle,
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
+                          ],
+                        )),
                   ),
                   Divider(),
                 ],
