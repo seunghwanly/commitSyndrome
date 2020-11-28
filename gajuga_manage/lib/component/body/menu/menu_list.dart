@@ -92,7 +92,8 @@ class _MenuListState extends State<MenuList> {
                     child: ListView.builder(
                       itemCount: beverage.length, // TODO: beverage => pasta
                       itemBuilder: (BuildContext context, int index) {
-                        return _listItem(beverage, index, context); // TODO: beverage => pasta
+                        return _listItem(beverage, index,
+                            context); // TODO: beverage => pasta
                       },
                       scrollDirection: Axis.horizontal,
                     ),
@@ -119,7 +120,7 @@ class _MenuListState extends State<MenuList> {
         } else {
           return Expanded(
             child: Container(
-              alignment: Alignment.center,
+                alignment: Alignment.center,
                 child: customLoadingBouncingGrid(orange)),
           );
         }
@@ -193,8 +194,10 @@ class _MenuListState extends State<MenuList> {
                 Provider.of<Information>(context, listen: false).name = title;
                 Provider.of<Information>(context, listen: false).cost = cost;
                 Provider.of<Information>(context, listen: false).desc = desc;
-                Provider.of<Information>(context, listen: false).engName = menu[index].engName;
-                Provider.of<Information>(context, listen: false).ingredients = menu[index].ingredients;
+                Provider.of<Information>(context, listen: false).engName =
+                    menu[index].engName;
+                Provider.of<Information>(context, listen: false).ingredients =
+                    menu[index].ingredients;
               });
               showMenuEditDialog(context);
             },
@@ -218,7 +221,8 @@ class _MenuListState extends State<MenuList> {
 
   Future showMenuEditDialog(BuildContext context) {
     String name = Provider.of<Information>(context, listen: false).name;
-    String imageTitle = Provider.of<Information>(context, listen: false).engName;
+    String imageTitle =
+        Provider.of<Information>(context, listen: false).engName;
     int cost = Provider.of<Information>(context, listen: false).cost;
     String desc = Provider.of<Information>(context, listen: false).desc;
 
@@ -283,9 +287,15 @@ class _MenuListState extends State<MenuList> {
                           onPressed: () {
                             // TODO: 데이터 저장
                             Map data = {
-                              'name': Provider.of<Information>(context, listen: false).name,
-                              'cost': Provider.of<Information>(context, listen: false).cost,
-                              'desc': Provider.of<Information>(context, listen: false).desc,
+                              'name': Provider.of<Information>(context,
+                                      listen: false)
+                                  .name,
+                              'cost': Provider.of<Information>(context,
+                                      listen: false)
+                                  .cost,
+                              'desc': Provider.of<Information>(context,
+                                      listen: false)
+                                  .desc,
                             };
                             print(data);
 
@@ -359,7 +369,8 @@ class _MenuListState extends State<MenuList> {
   }
 
   Future getMenuImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery); // TODO: app crash 해결해야함
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery); // TODO: app crash 해결해야함
 
     setState(() {
       if (pickedFile != null) {
@@ -416,7 +427,8 @@ class _MenuListState extends State<MenuList> {
             padding: EdgeInsets.all(8),
             child: TextFormField(
               onChanged: (text) {
-                Provider.of<Information>(context, listen: false).cost = int.parse(text);
+                Provider.of<Information>(context, listen: false).cost =
+                    int.parse(text);
               },
               keyboardType: TextInputType.number,
               initialValue: _cost.toString(),

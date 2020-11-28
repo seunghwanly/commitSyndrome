@@ -5,6 +5,9 @@ import 'package:gajuga_manage/component/body/staff/staff_search.dart';
 import 'package:gajuga_manage/util/main_container.dart';
 
 class StaffPage extends StatefulWidget {
+  static String selectedUid = '';
+  static int selectedRole = 0;
+
   @override
   _StaffPageState createState() => _StaffPageState();
 }
@@ -19,7 +22,8 @@ class _StaffPageState extends State<StaffPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SingleChildScrollView( // TODO: SingleChildScrollView로 keyboard overflow 해결하면 위쪽 shadow가 없어짐
+            SingleChildScrollView(
+              // TODO: SingleChildScrollView로 keyboard overflow 해결하면 위쪽 shadow가 없어짐
               child: Column(
                 children: [
                   StaffSearch(),
