@@ -7,6 +7,7 @@ import 'package:gajuga_user/model/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'auth_unAuth_modal.dart';
 import 'package:gajuga_user/main.dart';
+import 'package:intl/intl.dart';
 import '../header/header.dart';
 import '../../util/box_shadow.dart';
 import '../../util/box_button.dart';
@@ -33,6 +34,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
   //firebase
   final databaseReference = FirebaseDatabase.instance.reference();
   final DBRef = FirebaseDatabase.instance.reference();
+  int totalcost = 0;
 
   //--------------------------------------------------------------------------고정 옵션
   final contentSize = {
@@ -54,13 +56,35 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   //selected things
   int count = 1;
+  int lastIndex = 0;
+  String orderKey = '';
   Map<String, dynamic> dataForPush = {
     "cost": 0,
-    'count': 0,
+    'count': 1,
     "name": null,
     "option": {"size": "regualr", "dough": "standard"},
     'eng_name': null,
   };
+
+  void readOrderIndex() {
+    var now = DateTime.now();
+    DBRef.child('order')
+        .child(DateFormat('yyyy-MM-dd').format(now))
+        .once()
+        .then((DataSnapshot dataSnapshot) {
+      Map<dynamic, dynamic> values = dataSnapshot.value;
+      var orderList = new List<dynamic>();
+      // print(values.toString());
+      values.forEach((k, v) {
+        orderList.add(v);
+      });
+      if (values != null) {
+        setState(() {
+          this.lastIndex = orderList.length;
+        });
+      }
+    });
+  }
 
   void handleCount(bool isAdded) {
     setState(() {
@@ -72,6 +96,56 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         }
       }
     });
+  }
+
+  Order addOrder() {
+    var now = DateTime.now();
+    String key =
+        DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now)).push().key;
+
+    List<Content> items = List<Content>();
+
+    // print(cartList[i].cost);
+    // print(cartList[i].name);
+    // print(cartList[i].option.dough);
+    Content item = new Content(
+        cost: totalcost,
+        name: dataForPush['name'].toString(),
+        eng_name: dataForPush['eng_name'],
+        count: count,
+        option: Option(
+            dough: dataForPush['option']['dough'],
+            size: dataForPush['option']['size']));
+    items.add(item);
+
+    //print(items.length);
+    // String push =
+    // DBRef.child('user/userInfo/' + userid + '/shoppingCart').push().key;
+    Order currentOrder = Order(
+        customerInfo: MainScreen.userid,
+        content: items,
+        orderNumber: ('A-' + (lastIndex + 1).toString()),
+        orderState: 'request',
+        totalCost: totalcost,
+        orderTimes:
+            new OrderTimes(requestTime: now, confirmTime: now, readyTime: now));
+
+    //cartList[index]
+
+    DBRef.child('order/' + DateFormat('yyyy-MM-dd').format(now))
+        .child(key)
+        .set(currentOrder.toJson());
+
+    DBRef.child('user')
+        .child(MainScreen.userid)
+        .child('history')
+        .push()
+        .set(currentOrder.toJson());
+
+    setState(() {
+      orderKey = key;
+    });
+    return currentOrder;
   }
 
   void addShoppingCart(ShoppingCart menuItem) {
@@ -96,13 +170,15 @@ class SubmenuScreenState extends State<SubmenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    readOrderIndex();
     final optionSelected = Provider.of<StateProvider>(context);
     List<Map<String, dynamic>> parsedOptionList =
         optionSelected.getOptionList();
 
-    int totalCost = (widget.cost +
-        parsedOptionList[0]['addedCost'] +
-        parsedOptionList[1]['addedCost']);
+    totalcost = ((widget.cost +
+            parsedOptionList[0]['addedCost'] +
+            parsedOptionList[1]['addedCost']) *
+        count);
 
     //main build -----------------------------------------------------------------
     return CustomHeader(
@@ -114,7 +190,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
         countCard(context),
         optionCard(context, parsedOptionList, contentSize, contentDough),
         totalCostCard(context, parsedOptionList),
-        bottomCard(context, totalCost, parsedOptionList)
+        bottomCard(context, totalcost, parsedOptionList)
       ],
     ));
   }
@@ -290,7 +366,7 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     //장바구니 경로 user/basket
                     if (MainScreen.userid != '') {
                       setState(() {
-                        dataForPush['cost'] = totalCost;
+                        dataForPush['cost'] = totalcost;
                         dataForPush['name'] = widget.item;
                         dataForPush['eng_name'] = widget.engname;
                         dataForPush['option']['size'] = list[0]['selected'];
@@ -342,8 +418,22 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                 GestureDetector(
                   onTap: () {
                     // 결제 화면으로 넘기기
-                    Navigator.push(
-                        c, MaterialPageRoute(builder: (c) => Payment()));
+                    // Navigator.push(
+                    //     c, MaterialPageRoute(builder: (c) => Payment()));
+                    dataForPush['cost'] = totalcost;
+                    dataForPush['name'] = widget.item;
+                    dataForPush['eng_name'] = widget.engname;
+                    dataForPush['option']['size'] = list[0]['selected'];
+                    dataForPush['option']['dough'] = list[1]['selected'];
+                    Order currentOrder = addOrder();
+
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Payment(
+                                  currentOrder: currentOrder,
+                                  orderKey: orderKey,
+                                )));
                   },
                   child: Container(
                     alignment: Alignment.center,

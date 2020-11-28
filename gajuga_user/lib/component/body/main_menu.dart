@@ -42,7 +42,7 @@ class TotalMenuState extends State<TotalMenu> {
         });
         // print('사이즈' + currentMenuList.length.toString());
       } else {
-        print('데이터 없음');
+        // print('데이터 없음');
       }
       // fetchedData = dataSnapshot.value;
     });
@@ -54,7 +54,7 @@ class TotalMenuState extends State<TotalMenu> {
         .once()
         .then((DataSnapshot dataSnapshot) {
       if (dataSnapshot.value != null) {
-        print(dataSnapshot.value.length);
+        //print(dataSnapshot.value.length);
         // ppState.setState(() {
         //   ppState.shoppingCartCount = dataSnapshot.value.length;
         // });
@@ -161,7 +161,7 @@ class TotalMenuState extends State<TotalMenu> {
 
   @override
   Widget build(BuildContext context) {
-    print('메인 실행 ! ');
+    //print('메인 실행 ! ');
     if (this.currentMenuList == null) {
       return Container(
         alignment: Alignment.center,
@@ -441,12 +441,11 @@ class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
                   DateTime now = new DateTime.now();
                   DateTime selectedDate =
                       new DateTime(now.year, now.month - 1, now.day);
-                  print('입구컷');
+
                   // check info is in the data
                   if (DateTime.parse(menuData.keys.last)
                           .isAfter(selectedDate) ==
                       true) {
-                    print('통과쓰');
                     var calculatedResult =
                         calculateSales(menuData, selectedDate);
                     double totalCount = 0;
@@ -512,17 +511,17 @@ class FavoriteMenuWidgetState extends State<FavoriteMenuWidget> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => SubmenuScreen(
-                                                item: mainList[returnMenuIndex(newMap.entries.elementAt(index+1).key)]
+                                                item: mainList[returnMenuIndex(newMap.entries.elementAt(index + 1).key)]
                                                     ['name'],
                                                 cost: mainList[returnMenuIndex(
                                                     newMap.entries
-                                                        .elementAt(index+1)
+                                                        .elementAt(index + 1)
                                                         .key)]['cost'],
                                                 desc: mainList[
-                                                        returnMenuIndex(newMap.entries.elementAt(index+1).key)]
+                                                        returnMenuIndex(newMap.entries.elementAt(index + 1).key)]
                                                     ['desc'],
                                                 engname:
-                                                    mainList[returnMenuIndex(newMap.entries.elementAt(index+1).key)]
+                                                    mainList[returnMenuIndex(newMap.entries.elementAt(index + 1).key)]
                                                         ['eng_name'])));
                                   },
                                   child: Container(
