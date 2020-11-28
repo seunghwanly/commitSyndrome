@@ -10,6 +10,7 @@ class StaffSearch extends StatefulWidget {
 class _StaffSearchState extends State<StaffSearch> {
   TextEditingController _searchController = new TextEditingController();
   final FocusNode _searchFocus = FocusNode();
+  String query = '';
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,7 @@ class _StaffSearchState extends State<StaffSearch> {
                     controller: _searchController,
                     focusNode: _searchFocus,
                     keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
                     decoration: new InputDecoration(
                       enabledBorder: roundInputBorder,
                       focusedBorder: roundInputBorder,
@@ -66,13 +68,21 @@ class _StaffSearchState extends State<StaffSearch> {
                       isDense: true,
                       contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                     ),
+                    onChanged: (text) {
+                      setState(() {
+                        query = text;
+                      });
+                    },
+                    onSubmitted: (value) {
+                      search(value);
+                    },
                   ),
                 ),
               ),
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  print('search');
+                  search(query);
                 },
               ),
             ],
@@ -80,5 +90,9 @@ class _StaffSearchState extends State<StaffSearch> {
         ],
       ),
     );
+  }
+
+  search(String query) {
+    print('search');
   }
 }
