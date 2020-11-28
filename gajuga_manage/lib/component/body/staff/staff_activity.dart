@@ -132,7 +132,6 @@ class _StaffActivityState extends State<StaffActivity> {
                       }
                       return activityList(actList);
                     } else {
-                      //return printStatus('검색된 결과가 없습니다...');
                       return Container(
                           alignment: Alignment.center,
                           child: customLoadingBouncingGrid(orange));
@@ -158,30 +157,31 @@ class _StaffActivityState extends State<StaffActivity> {
 //   return activityList(uid);
 
 Widget activityList(List activity) {
-  return ListView.builder(
-      shrinkWrap: true,
-      itemCount: activity == null ? 0 : activity.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-            child: ListTile(
-          leading: Icon(Icons.check_circle_outline),
-          title: Text('주문 번호   ' + activity[index]["orderNumber"],
-              style: TextStyle(fontSize: 20)),
-          subtitle: Text('주문 승인 시간   ' + activity[index]["approvalTime"],
-              style: TextStyle(fontSize: 18)),
-        ));
-      });
-}
-
-Widget printStatus(String inputString) {
-  return Center(
-    child: Text(
-      inputString,
-      style: TextStyle(
-        color: Colors.grey,
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
+  if (activity.length == 0) {
+    return Container(
+        child: Center(
+      child: Text(
+        '검색된 결과가 없습니다...',
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-    ),
-  );
+    ));
+  } else {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: activity == null ? 0 : activity.length,
+        itemBuilder: (BuildContext context, int index) {
+          return InkWell(
+              child: ListTile(
+            leading: Icon(Icons.check_circle_outline),
+            title: Text('주문 번호   ' + activity[index]["orderNumber"],
+                style: TextStyle(fontSize: 20)),
+            subtitle: Text('주문 승인 시간   ' + activity[index]["approvalTime"],
+                style: TextStyle(fontSize: 18)),
+          ));
+        });
+  }
 }
