@@ -50,7 +50,7 @@ class UserManage {
     }
   }
 
-  int checkAuth(String uid) {
+  String checkAuth(String uid) {
     databaseReference
         .child("manager")
         .child("admin")
@@ -59,7 +59,7 @@ class UserManage {
         .then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
-        return authentification = 0;
+        return 'admin';
       }
     });
 
@@ -72,7 +72,7 @@ class UserManage {
         .then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
-        return authentification = 1;
+        return 'staff';
       }
     });
 
@@ -85,7 +85,7 @@ class UserManage {
         .then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
-        return authentification = 2;
+        return 'chef';
       }
     });
   }
