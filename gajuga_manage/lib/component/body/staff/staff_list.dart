@@ -50,6 +50,13 @@ class _StaffListState extends State<StaffList> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    s_isSelected.setAll(0, [false]);
+    c_isSelected.setAll(0, [false]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_start < 1) {
       return Container(
