@@ -13,6 +13,7 @@ import '../../util/to_text.dart';
 import '../body/approval_order.dart';
 import '../header/header.dart';
 import 'package:gajuga_user/main.dart';
+import '../../util/payment/iamport_payment.dart';
 
 class ShoppingCartRoute extends StatefulWidget {
   @override
@@ -271,10 +272,11 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                             child: GestureDetector(
                                 onTap: () {
                                   Order currentOrder = addOrder();
+                                  // deleteCurrentuserCartList();
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ApprovalOrder(
+                                          builder: (context) => Payment(
                                                 currentOrder: currentOrder,
                                                 orderKey: orderKey,
                                               )));
@@ -393,6 +395,12 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
         .remove();
     readData();
     setState(() {});
+  }
+
+  void deleteCurrentuserCartList() {
+    DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+        .remove();
+    readData();
   }
 
   void readOrderIndex() {

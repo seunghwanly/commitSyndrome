@@ -14,7 +14,8 @@ import '../../model/order_history_model.dart';
 class OrderStateList extends StatefulWidget {
   final Order currentOrder;
   final String orderKey;
-  OrderStateList({this.currentOrder, this.orderKey});
+  final DateTime confirmTime;
+  OrderStateList({this.currentOrder, this.orderKey, this.confirmTime});
   @override
   OrderState createState() => OrderState();
 }
@@ -99,62 +100,46 @@ class OrderState extends State<OrderStateList> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Container(
-                  //   margin: EdgeInsets.only(bottom: 10),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //     children: [
-                  //       // Text('이미지'),
-                  //       CircleAvatar(
-                  //         radius:
-                  //             MediaQuery.of(context).size.width * (15 / 375),
-                  //         backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
-                  //       ),
-                  //       makeWhiteText('결제완료', Colors.white, 0, 0,
-                  //           MediaQuery.of(context).size.width / 26),
-                  //       makeWhiteText(
-                  //           DateFormat('HH시mm분ss초').format(
-                  //               widget.currentOrder.orderTimes.requestTime),
-                  //           Colors.white,
-                  //           0,
-                  //           5,
-                  //           MediaQuery.of(context).size.width / 26),
-                  //     ],
-                  //   ),
-                  // ),
                   Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
+                      margin: EdgeInsets.only(bottom: 0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           StateCircle(currentState, 0, context),
+                          makeWhiteText('', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 25),
                           // CircleAvatar(
                           //   radius:
                           //       MediaQuery.of(context).size.width * (15 / 375),
                           //   backgroundColor:
                           //       Color.fromRGBO(0xff, 0xee, 0xe4, 1),
                           // ),
-                          makeWhiteText('주문요청', Colors.white, 0, 5,
-                              MediaQuery.of(context).size.width / 26),
-                          makeWhiteText(
-                              DateFormat('HH시mm분ss초').format(
-                                  widget.currentOrder.orderTimes.requestTime),
-                              Colors.white,
-                              0,
-                              5,
-                              MediaQuery.of(context).size.width / 26),
+                          StateCircle(currentState, 2, context),
+                          makeWhiteText('', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 25),
+
+                          StateCircle(currentState, 1, context),
                         ],
                       )),
                   Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
+                      margin: EdgeInsets.only(bottom: 0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          StateCircle(currentState, 1, context),
+                          makeWhiteText('주문요청', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 26),
+                          makeWhiteText('', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 17),
+                          makeWhiteText('주문승인', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 26),
+                          makeWhiteText('', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 17),
+                          makeWhiteText('준비완료', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 26),
                           // CircleAvatar(
                           //   radius:
                           //       MediaQuery.of(context).size.width * (15 / 375),
@@ -163,36 +148,32 @@ class OrderState extends State<OrderStateList> {
                           //   // backgroundColor:
                           //   //     Color.fromRGBO(0xce, 0x6d, 0x39, 1),
                           // ),
-                          makeWhiteText('주문승인', Colors.white, 0, 5,
-                              MediaQuery.of(context).size.width / 26),
-                          makeWhiteText(
-                              DateFormat('HH시mm분ss초').format(
-                                  widget.currentOrder.orderTimes.confirmTime),
-                              Colors.white,
-                              0,
-                              5,
-                              MediaQuery.of(context).size.width / 26),
                         ],
                       )),
                   Container(
                       margin: EdgeInsets.only(bottom: 0),
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          // CircleAvatar(
-                          //   radius:
-                          //       MediaQuery.of(context).size.width * (15 / 375),
-                          //   backgroundColor: Color.fromRGBO(133, 50, 15, 1),
-                          // ),
-                          StateCircle(currentState, 2, context),
-                          makeWhiteText('준비완료', Colors.white, 0, 5,
-                              MediaQuery.of(context).size.width / 26),
                           makeWhiteText(
-                              DateFormat('HH시mm분ss초').format(
-                                  widget.currentOrder.orderTimes.readyTime),
+                              DateFormat('HH시 mm분 ss초').format(
+                                  widget.currentOrder.orderTimes.requestTime),
                               Colors.white,
                               0,
                               5,
+                              MediaQuery.of(context).size.width / 26),
+                          makeWhiteText('', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 18),
+                          makeWhiteText(
+                              DateFormat('HH시 mm분 ss초')
+                                  .format(widget.confirmTime),
+                              Colors.white,
+                              0,
+                              5,
+                              MediaQuery.of(context).size.width / 26),
+                          makeWhiteText('', Colors.white, 0, 5,
+                              MediaQuery.of(context).size.width / 18),
+                          makeWhiteText('상품 준비중', Colors.white, 0, 5,
                               MediaQuery.of(context).size.width / 26),
                         ],
                       )),
@@ -291,17 +272,17 @@ Widget StateCircle(String currentState, int index, BuildContext context) {
   if (currentState == 'request') {
     if (index == 0) {
       return CircleAvatar(
-        radius: MediaQuery.of(context).size.width * (15 / 375),
+        radius: MediaQuery.of(context).size.width * (14 / 375),
         backgroundColor: Color.fromRGBO(247, 107, 51, 1),
       );
     } else if (index == 1) {
       return CircleAvatar(
-        radius: MediaQuery.of(context).size.width * (15 / 375),
+        radius: MediaQuery.of(context).size.width * (14 / 375),
         backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
       );
     } else {
       return CircleAvatar(
-        radius: MediaQuery.of(context).size.width * (15 / 375),
+        radius: MediaQuery.of(context).size.width * (14 / 375),
         backgroundColor: Color.fromRGBO(0xff, 0xee, 0xe4, 1),
       );
     }

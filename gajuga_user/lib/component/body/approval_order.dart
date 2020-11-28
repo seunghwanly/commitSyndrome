@@ -54,13 +54,16 @@ class ApprovalOrderState extends State<ApprovalOrder> {
       var snapshot = event.snapshot;
       var value = snapshot.value['orderState'].toString();
       if (value == 'confirm') {
+        DateTime now = DateTime.now();
         //set confirmTime 나중에 관리자에서 주문받는 곳에 넣으면 좋을듯
         // menuReference
         //     .child('orderTimes')
         //     .set(<String, String>{'confirmTime': DateTime.now().toString()});
         Route route = MaterialPageRoute(
             builder: (context) => OrderStateList(
-                currentOrder: widget.currentOrder, orderKey: widget.orderKey));
+                currentOrder: widget.currentOrder,
+                orderKey: widget.orderKey,
+                confirmTime: now));
 
         Navigator.pushReplacement(context, route);
       } else {
