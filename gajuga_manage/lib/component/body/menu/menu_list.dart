@@ -104,13 +104,24 @@ class _MenuListState extends State<MenuList> {
           ),
           height: MediaQuery.of(context).size.height * 0.35,
           width: double.infinity,
-          child: ListView.builder(
-            itemCount: this.widget.searchResult.length,
-            itemBuilder: (BuildContext context, int index) {
-              return _listItem(this.widget.searchResult, index, context);
-            },
-            scrollDirection: Axis.horizontal,
-          ),
+          child: this.widget.searchResult.length != 0
+            ? ListView.builder(
+                itemCount: this.widget.searchResult.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _listItem(this.widget.searchResult, index, context);
+                },
+                scrollDirection: Axis.horizontal,
+              )
+            : Center(
+                child: Text(
+                  '검색 결과가 없습니다.',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
         ),
       ),
     );
