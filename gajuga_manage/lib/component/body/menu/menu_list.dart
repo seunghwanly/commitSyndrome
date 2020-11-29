@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/main.dart';
 import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
@@ -6,6 +7,7 @@ import 'package:gajuga_manage/util/loading.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -41,79 +43,79 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    return this.widget.type == 'default' ? FutureBuilder(
-      future: menuDatabaseFetched,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
-          List<Information> beverage = Menu.fromJson(snapshot.data).beverage;
+    return this.widget.type == 'default'
+        ? FutureBuilder(
+            future: menuDatabaseFetched,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
+                List<Information> beverage =
+                    Menu.fromJson(snapshot.data).beverage;
 
-          return Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  makeSubTitle('피자', ' PIZZA'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: pizza.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(pizza, index, context);
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                  makeSubTitle('음료', ' BEVERAGE'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: beverage.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(beverage, index, context);
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                ],
-              )
-            ),
-          );
-        } else {
-          return Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: customLoadingBouncingGrid(orange)
-            ),
-          );
-        }
-      },
-    )
-    : Expanded(
-      child: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.03,
-          ),
-          height: MediaQuery.of(context).size.height * 0.35,
-          width: double.infinity,
-          child: ListView.builder(
-            itemCount: this.widget.searchResult.length,
-            itemBuilder: (BuildContext context, int index) {
-              return _listItem(this.widget.searchResult, index, context);
+                return Expanded(
+                  child: SingleChildScrollView(
+                      child: Column(
+                    children: [
+                      makeSubTitle('피자', ' PIZZA'),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: pizza.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(pizza, index, context);
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                      makeSubTitle('음료', ' BEVERAGE'),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: beverage.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(beverage, index, context);
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                    ],
+                  )),
+                );
+              } else {
+                return Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: customLoadingBouncingGrid(orange)),
+                );
+              }
             },
-            scrollDirection: Axis.horizontal,
-          ),
-        ),
-      ),
-    );
+          )
+        : Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.03,
+                ),
+                height: MediaQuery.of(context).size.height * 0.35,
+                width: double.infinity,
+                child: ListView.builder(
+                  itemCount: this.widget.searchResult.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _listItem(this.widget.searchResult, index, context);
+                  },
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
+            ),
+          );
   }
 
   Widget _listItem(List<Information> menu, int index, BuildContext context) {
@@ -178,16 +180,20 @@ class _MenuListState extends State<MenuList> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
-              setState(() {
-                Provider.of<Information>(context, listen: false).name = title;
-                Provider.of<Information>(context, listen: false).cost = cost;
-                Provider.of<Information>(context, listen: false).desc = desc;
-                Provider.of<Information>(context, listen: false).engName =
-                    menu[index].engName;
-                Provider.of<Information>(context, listen: false).ingredients =
-                    menu[index].ingredients;
-              });
-              showMenuEditDialog(context);
+              if (MainScreen.userAuth == 'admin') {
+                setState(() {
+                  Provider.of<Information>(context, listen: false).name = title;
+                  Provider.of<Information>(context, listen: false).cost = cost;
+                  Provider.of<Information>(context, listen: false).desc = desc;
+                  Provider.of<Information>(context, listen: false).engName =
+                      menu[index].engName;
+                  Provider.of<Information>(context, listen: false).ingredients =
+                      menu[index].ingredients;
+                });
+                showMenuEditDialog(context);
+              } else {
+                UserManage().showNoAuth(context);
+              }
             },
             child: Container(
               alignment: Alignment.center,

@@ -10,6 +10,7 @@ import 'package:gajuga_manage/component/body/sales/sales_page.dart';
 import 'package:gajuga_manage/component/body/staff/staff_page.dart';
 import 'package:gajuga_manage/component/body/stock/stock_page.dart';
 import 'package:gajuga_manage/component/body/authentification/login.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
 import 'package:gajuga_manage/component/body/authentification/firebase_provider.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
@@ -101,10 +102,14 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MenuPage()));
+                        if (MainScreen.userAuth == 'admin') {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MenuPage()));
+                        } else {
+                          UserManage().showNoAuth(context);
+                        }
                       },
                     ),
                     ListTile(
@@ -118,10 +123,14 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => StaffPage()));
+                        if (MainScreen.userAuth == 'admin') {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StaffPage()));
+                        } else {
+                          UserManage().showNoAuth(context);
+                        }
                       },
                     ),
                     ListTile(
@@ -136,10 +145,14 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SalesPage()));
+                        if (MainScreen.userAuth == 'admin') {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SalesPage()));
+                        } else {
+                          UserManage().showNoAuth(context);
+                        }
                       },
                     ),
                     ListTile(
@@ -153,10 +166,16 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => StockPage()));
+                        if (MainScreen.userAuth == 'admin' ||
+                            MainScreen.userAuth == 'staff' ||
+                            MainScreen.userAuth == 'chef') {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StockPage()));
+                        } else {
+                          UserManage().showNoAuth(context);
+                        }
                       },
                     ),
                     ListTile(
@@ -170,10 +189,15 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OrderPage()));
+                        if (MainScreen.userAuth == 'admin' ||
+                            MainScreen.userAuth == 'staff') {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderPage()));
+                        } else {
+                          UserManage().showNoAuth(context);
+                        }
                       },
                     ),
                     Divider(),
@@ -200,10 +224,15 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChefPage()));
+                        if (MainScreen.userAuth == 'admin' ||
+                            MainScreen.userAuth == 'chef') {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChefPage()));
+                        } else {
+                          UserManage().showNoAuth(context);
+                        }
                       },
                     ),
                   ],
