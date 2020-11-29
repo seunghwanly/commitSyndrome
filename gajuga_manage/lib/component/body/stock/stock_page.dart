@@ -209,7 +209,7 @@ class _StockPageState extends State<StockPage> {
       case 2:
         return Container(
           margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-          child: OrderStock(formKey: orderFormKey),
+          child: OrderStock(formKey: orderFormKey, onCancel: handleCancel, pageIdx: pageIndex),
         );
       default:
         return Container(

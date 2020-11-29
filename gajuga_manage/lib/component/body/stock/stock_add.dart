@@ -107,11 +107,13 @@ class AddStockState extends State<AddStock> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       color: superlight,
-                      child: Text(
-                        "취소",
-                        style: TextStyle(
-                            color: darkblue, fontWeight: FontWeight.bold),
-                      ),
+                      child: Container(
+                          height: 60,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "취소",
+                            style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),
+                          )),
                     )),
                 Expanded(
                   flex: 2,
@@ -125,11 +127,14 @@ class AddStockState extends State<AddStock> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       color: orange,
-                      child: Text(
-                        "저장",
-                        style: TextStyle(
-                            color: white, fontWeight: FontWeight.bold),
-                      ),
+                      child: Container(
+                          height: 60,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "저장",
+                            style: TextStyle(
+                                color: white,fontSize: 18.0, fontWeight: FontWeight.bold),
+                          )),
                     ))
               ],
             )),
@@ -639,7 +644,6 @@ class AddStockState extends State<AddStock> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        
         setHandle() {
           Navigator.of(context).pop();
           if (flag == 1) {
