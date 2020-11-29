@@ -48,6 +48,15 @@ class _MenuListState extends State<MenuList> {
           List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
           List<Information> beverage = Menu.fromJson(snapshot.data).beverage;
 
+          for (int i = 0; i < pizza.length; i++) {
+            pizza[i].category = 'pizza';
+            pizza[i].id = i;
+          }
+          for (int i = 0; i < beverage.length; i++) {
+            beverage[i].category = 'beverage';
+            beverage[i].id = i;
+          }
+
           return Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -128,6 +137,9 @@ class _MenuListState extends State<MenuList> {
   }
 
   Widget _listItem(List<Information> menu, int index, BuildContext context) {
+    String category = menu[index].category;
+    int id = menu[index].id;
+
     String title = menu[index].name;
     String imageTitle = menu[index].engName;
     String desc = menu[index].desc;
@@ -189,16 +201,18 @@ class _MenuListState extends State<MenuList> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
+              Information menuInfo;
+
               setState(() {
+                menuInfo = Information(
+                  category: category, id: id, cost: cost, desc: desc, name: title, engName: imageTitle
+                );
                 Provider.of<Information>(context, listen: false).name = title;
                 Provider.of<Information>(context, listen: false).cost = cost;
                 Provider.of<Information>(context, listen: false).desc = desc;
-                Provider.of<Information>(context, listen: false).engName =
-                    menu[index].engName;
-                Provider.of<Information>(context, listen: false).ingredients =
-                    menu[index].ingredients;
               });
-              showMenuEditDialog(context);
+
+              showMenuEditDialog(menuInfo, context);
             },
             child: Container(
               alignment: Alignment.center,
@@ -218,13 +232,7 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Future showMenuEditDialog(BuildContext context) {
-    String name = Provider.of<Information>(context, listen: false).name;
-    String imageTitle =
-        Provider.of<Information>(context, listen: false).engName;
-    int cost = Provider.of<Information>(context, listen: false).cost;
-    String desc = Provider.of<Information>(context, listen: false).desc;
-
+  Future showMenuEditDialog(Information _info, BuildContext context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -272,11 +280,11 @@ class _MenuListState extends State<MenuList> {
                             ],
                           ),
                         ),
-                        menuImageView(imageTitle),
+                        menuImageView(_info.engName),
                         SizedBox(height: 20),
-                        nameField(name),
-                        priceField(cost),
-                        descField(desc),
+                        nameField(_info.name),
+                        priceField(_info.cost),
+                        descField(_info.desc),
                         SizedBox(height: 10),
                         FlatButton(
                           color: orange,
@@ -284,22 +292,14 @@ class _MenuListState extends State<MenuList> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           onPressed: () {
-                            // TODO: 데이터 저장
-                            Map data = {
-                              'name': Provider.of<Information>(context,
-                                      listen: false)
-                                  .name,
-                              'cost': Provider.of<Information>(context,
-                                      listen: false)
-                                  .cost,
-                              'desc': Provider.of<Information>(context,
-                                      listen: false)
-                                  .desc,
-                            };
-                            print(data);
+                            String name = Provider.of<Information>(context, listen: false).name;
+                            int cost = Provider.of<Information>(context, listen: false).cost;
+                            String desc = Provider.of<Information>(context, listen: false).desc;
+
+                            Information().updateMenu(_info.category, _info.id, name, cost, desc);
+                            _menuUpdated();
 
                             Navigator.of(context).pop();
-                            _menuUpdated();
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -396,6 +396,7 @@ class _MenuListState extends State<MenuList> {
                 Provider.of<Information>(context, listen: false).name = text;
               },
               keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
               initialValue: _name,
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
@@ -404,6 +405,7 @@ class _MenuListState extends State<MenuList> {
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
+              onSaved: (value) => _name = value.trim(),
             ),
           ),
         ),
@@ -425,10 +427,10 @@ class _MenuListState extends State<MenuList> {
             padding: EdgeInsets.all(8),
             child: TextFormField(
               onChanged: (text) {
-                Provider.of<Information>(context, listen: false).cost =
-                    int.parse(text);
+                Provider.of<Information>(context, listen: false).cost = int.parse(text);
               },
               keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
               initialValue: _cost.toString(),
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
@@ -437,6 +439,7 @@ class _MenuListState extends State<MenuList> {
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
+              onSaved: (value) => _cost = int.parse(value),
             ),
           ),
         ),
@@ -462,6 +465,7 @@ class _MenuListState extends State<MenuList> {
                 Provider.of<Information>(context, listen: false).desc = text;
               },
               keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
               initialValue: _desc,
               minLines: 6,
               maxLines: 10,
@@ -472,6 +476,7 @@ class _MenuListState extends State<MenuList> {
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
+              onSaved: (value) => _desc = value.trim(),
             ),
           ),
         ),

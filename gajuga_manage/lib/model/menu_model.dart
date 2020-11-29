@@ -1,4 +1,7 @@
 // firebase menu model
+import 'package:gajuga_manage/util/firebase_method.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 class Menu {
   final List<Information> pizza;
   final List<Information> beverage;
@@ -28,6 +31,9 @@ class Menu {
 
 //common
 class Information {
+  String category;
+  int id;
+
   int cost;
   String desc;
   String engName;
@@ -35,7 +41,7 @@ class Information {
   Ingredients ingredients;
 
   Information(
-      {this.cost, this.desc, this.engName, this.ingredients, this.name});
+      {this.category, this.id, this.cost, this.desc, this.engName, this.ingredients, this.name});
 
   //parse from json data to Map<String, dynamic>
   factory Information.fromJson(Map<dynamic, dynamic> parsedJson) {
@@ -45,6 +51,11 @@ class Information {
         engName: parsedJson['eng_name'] as String,
         name: parsedJson['name'] as String,
         ingredients: Ingredients.fromJson(parsedJson['ingredients']));
+  }
+
+  void updateMenu(String _category, int _id, String _name, int _cost, String _desc) async {
+    final menuReference = FirebaseDatabase.instance.reference().child('manager/menu/category/$_category/$_id');
+    menuReference.update({'name': _name, 'cost': _cost, 'desc': _desc});
   }
 }
 
