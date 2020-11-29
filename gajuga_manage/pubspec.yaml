@@ -40,6 +40,7 @@ dependencies:
   sticky_headers: ^0.1.8
   loading_animations: "^2.1.0"
   provider: ^3.0.0+1 # Provider 패턴 사용
+  mailer: ^3.2.1
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +60,7 @@ flutter:
   assets:
     - images/
     - images/icon/
+    - credentials.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 //pages
@@ -9,6 +11,8 @@ import 'package:gajuga_manage/util/main_container.dart';
 import 'package:gajuga_manage/util/box_button.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 //date picker
 import 'stock_current.dart';
 
@@ -90,6 +94,12 @@ class _StockPageState extends State<StockPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      RaisedButton(
+                        onPressed: () {
+                          sendEmail(context);
+                        },
+                        child: Text('이메일 전송'),
+                      ),
                       this.pageIndex == 0
                           ? tapButton(
                               handleAdd,
@@ -167,6 +177,7 @@ class _StockPageState extends State<StockPage> {
                     setState(() {
                       this.pageIndex = 0;
                     });
+                    sendEmail(context);
                     Navigator.pop(context);
                   },
                   shape: RoundedRectangleBorder(
@@ -217,5 +228,32 @@ class _StockPageState extends State<StockPage> {
           child: CurrentStock(),
         );
     }
+  }
+}
+
+Future<String> getJson() {
+  return rootBundle.loadString('credentials.json');
+}
+
+Future<void> sendEmail(BuildContext context) async {
+  var loginData = json.decode(await getJson());
+
+  String username = loginData["email"];
+  String password = loginData["password"];
+
+  final smtpServer = gmail(username, password); // Create gmail server
+
+  // Create email message.
+  final message = Message()
+    ..from = Address(username)
+    ..recipients.add('2jy22@naver.com') // recipent email
+    ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}' // subject of the email
+    ..text = 'This is the plain text.\nThis is line 2 of the text part.'; // body of the email
+
+  try {
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString()); // print if the email is sent
+  } on MailerException catch (e) {
+    print('Message not sent. \n'+ e.toString()); // print if the email is not sent
   }
 }
