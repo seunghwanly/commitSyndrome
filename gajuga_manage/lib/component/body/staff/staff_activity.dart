@@ -171,7 +171,7 @@ Widget activityList(List activity) {
             leading: Icon(Icons.check_circle_outline),
             title: Text('주문 번호   ' + activity[index]["orderNumber"],
                 style: TextStyle(fontSize: 20)),
-            subtitle: Text('주문 승인 시간   ' + activity[index]["approvalTime"],
+            subtitle: Text(activity[index]["approvalTime"].toString().split('.')[0],
                 style: TextStyle(fontSize: 18)),
           ));
         });
