@@ -52,6 +52,7 @@ Flutter X Firebase
 ## Usage
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
 
+### :bulb: Running the app locally
 1. Clone this repository.
 ```terminal
 $ git clone https://github.com/seunghwanly/commitSyndrome.git
@@ -72,4 +73,17 @@ $ flutter packages get
 4. Run the app
 ```terminal
 $ flutter run
+```
+
+### :bulb: Mailer configuration for gajuga_manage
+1. Create **credentials.json** in root directory(`commitSyndrome/gajuga_manage/`)
+2. Copy & paste `credentials-sample.json` in `credentials.json`
+3. Add your gmail address and password
+
+example:
+```json
+{
+  "email": "example@gmail.com",
+  "password": "YOUR_PASSWORD"
+}
 ```
