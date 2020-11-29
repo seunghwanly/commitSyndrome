@@ -284,18 +284,6 @@ class LoginWidget extends StatelessWidget {
                                             BorderRadius.circular(30)),
                                     color: orange,
                                     onPressed: () async => {
-                                      //이거는 사용권한 적용 테스트(예시)
-                                      //이런 방식으로 사용하면 적용 가능 (이거는 일단 관리자 권한만 사용가능한 경우)
-                                      // if (UserManage()
-                                      //         .checkAuth(_auth.getUser().uid) ==
-                                      //     0)
-                                      //   {
-                                      //     logOut(_auth, context),
-                                      //   }
-                                      // else
-                                      //   {
-                                      //     UserManage().showNoAuth(context),
-                                      //   }
                                       logOut(_auth, context),
                                     },
                                     child: Container(
@@ -333,6 +321,8 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
         return false;
       }
       MainScreen.userid = auth.getUser().uid;
+      UserManage().checkAuth(MainScreen.userid);
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MenuPage()));
       return true;
@@ -349,6 +339,7 @@ Future<bool> _submit(FirebaseAuthService auth, String email, String password,
 Future<void> logOut(FirebaseAuthService auth, BuildContext context) async {
   auth.signOut();
   MainScreen.userid = '';
+  MainScreen.userAuth = '';
   Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
 }
 

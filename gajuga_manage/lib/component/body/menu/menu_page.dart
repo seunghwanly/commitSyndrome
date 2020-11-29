@@ -21,12 +21,6 @@ class _MenuPageState extends State<MenuPage> {
   Widget menus = MenuList(type: 'default');
 
   @override
-  void initState() {
-    super.initState();
-    getAllMenus();
-  }
-
-  @override
   void dispose() {
     _searchFocus.dispose();
     super.dispose();
@@ -96,10 +90,15 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   searchMenu(String searchQuery) async {
-    searchResult = [];
+    searchResult.clear();
+    await getAllMenus();
 
     totalMenu.forEach((menu) {
-      if (menu['name'].toString().contains(searchQuery)) searchResult.add(Information.fromJson(menu));
+      if (menu['name'].toString().contains(searchQuery)) {
+        searchResult.add(Information.fromJson(menu));
+        searchResult.last.category = menu['category'];
+        searchResult.last.id = menu['id'];
+      }
     });
 
     print('검색 결과 ${searchResult.length}개');
@@ -108,9 +107,23 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   Future<void> getAllMenus() async {
+    totalMenu.clear();
     var menuDatabaseFetched = await FirebaseMethod().getMenuData();
 
+    int i, j;
+
     totalMenu.addAll(menuDatabaseFetched['pizza']);
+    for(i = 0; i < totalMenu.length; i++) {
+      totalMenu[i]['category'] = 'pizza';
+      totalMenu[i]['id'] = i;
+    }
+
     totalMenu.addAll(menuDatabaseFetched['beverage']);
+    int id = 0;
+    for(j = i + 1; j < totalMenu.length; j++) {
+      totalMenu[j]['category'] = 'beverage';
+      totalMenu[j]['id'] = id;
+      id++;
+    }
   }
 }

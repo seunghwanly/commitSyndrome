@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/stock/stock_page.dart';
 import 'package:gajuga_manage/model/menu_model.dart';

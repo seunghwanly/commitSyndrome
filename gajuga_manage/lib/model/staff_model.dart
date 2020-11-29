@@ -1,9 +1,16 @@
 // firebase staff model
 import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
 
 class Staff {
+  String uid;
+  String id;
+  String name;
+  String phoneNumber;
+  String address;
+
+  Staff({this.uid, this.id, this.name, this.phoneNumber, this.address});
+
   final staffReference =
       FirebaseDatabase.instance.reference().child('manager/employee/staff');
 
@@ -39,5 +46,15 @@ class Staff {
         }
       });
     }
+  }
+
+  factory Staff.fromJson(Map<dynamic, dynamic> parsedJson) {
+    return Staff(
+      uid: parsedJson['uid'] as String,
+      id: parsedJson['id'] as String,
+      name: parsedJson['name'] as String,
+      phoneNumber: parsedJson['phoneNumber'] as String,
+      address: parsedJson['address'] as String,
+    );
   }
 }

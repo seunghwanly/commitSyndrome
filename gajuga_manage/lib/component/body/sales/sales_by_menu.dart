@@ -12,7 +12,7 @@ import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 //date picker
-import '../../../util/date_picker.dart';
+import 'package:gajuga_manage/util/date_picker.dart';
 
 class SalesByMenu extends StatefulWidget {
   SalesByMenu();
