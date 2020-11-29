@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
-
 import 'dart:math';
 
 class OrderStock extends StatefulWidget {

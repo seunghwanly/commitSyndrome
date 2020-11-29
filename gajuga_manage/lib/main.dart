@@ -18,6 +18,7 @@ void main() async {
 
 class MainScreen extends StatelessWidget {
   static String userid = '';
+  static String userAuth = '';
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

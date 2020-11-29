@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/main.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 //0 - 관리자, 1 - 직원, 2 - 셰프, 3 - 사용자
@@ -16,7 +17,7 @@ class UserManage {
         'id': _email,
         'password': _password,
         'phoneNumber': _phone,
-        'uid': uid
+        'uid': uid,
       });
     }
     //직원
@@ -32,7 +33,7 @@ class UserManage {
         'id': _email,
         'password': _password,
         'phoneNumber': _phone,
-        'uid': uid
+        'uid': uid,
       });
     }
     //셰프
@@ -48,7 +49,7 @@ class UserManage {
         'id': _email,
         'password': _password,
         'phoneNumber': _phone,
-        'uid': uid
+        'uid': uid,
       });
     }
   }
@@ -62,6 +63,7 @@ class UserManage {
         .then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
+        MainScreen.userAuth = 'admin';
         return 'admin';
       }
     });
@@ -75,6 +77,7 @@ class UserManage {
         .then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
+        MainScreen.userAuth = 'staff';
         return 'staff';
       }
     });
@@ -88,6 +91,7 @@ class UserManage {
         .then((DataSnapshot snapshot) {
       print('Data : ${snapshot.value}');
       if (snapshot.value != null) {
+        MainScreen.userAuth = 'chef';
         return 'chef';
       }
     });

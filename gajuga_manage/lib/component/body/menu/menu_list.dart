@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/main.dart';
 import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
@@ -6,6 +8,7 @@ import 'package:gajuga_manage/util/loading.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -23,10 +26,14 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   // need MenuList
   var menuDatabaseFetched;
+  DatabaseReference menuReference =
+      FirebaseDatabase.instance.reference().child('manager/menu/category');
 
   final _formKey = GlobalKey<FormState>();
   File _menuImage;
   final picker = ImagePicker();
+  List<Information> pizza;
+  List<Information> beverage;
 
   void _menuUpdated() {
     Scaffold.of(context)
@@ -41,93 +48,105 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    return this.widget.type == 'default' ? FutureBuilder(
-      future: menuDatabaseFetched,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
-          List<Information> beverage = Menu.fromJson(snapshot.data).beverage;
+    return this.widget.type == 'default'
+        ? StreamBuilder(
+            stream: menuReference.onValue,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                pizza = Menu.fromJson(snapshot.data.snapshot.value).pizza;
+                beverage = Menu.fromJson(snapshot.data.snapshot.value).beverage;
 
-          return Expanded(
+                for (int i = 0; i < pizza.length; i++) {
+                  pizza[i].category = 'pizza';
+                  pizza[i].id = i;
+                }
+                for (int i = 0; i < beverage.length; i++) {
+                  beverage[i].category = 'beverage';
+                  beverage[i].id = i;
+                }
+
+                return Expanded(
+                  child: SingleChildScrollView(
+                      child: Column(
+                    children: [
+                      makeSubTitle('피자', ' PIZZA'),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: pizza.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(pizza, index, context);
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                      makeSubTitle('음료', ' BEVERAGE'),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: beverage.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(beverage, index, context);
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                    ],
+                  )),
+                );
+              } else {
+                return Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: customLoadingBouncingGrid(orange)),
+                );
+              }
+            },
+          )
+        : Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  makeSubTitle('피자', ' PIZZA'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: pizza.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(pizza, index, context);
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                  makeSubTitle('음료', ' BEVERAGE'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: beverage.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(beverage, index, context);
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                ],
-              )
-            ),
-          );
-        } else {
-          return Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: customLoadingBouncingGrid(orange)
-            ),
-          );
-        }
-      },
-    )
-    : Expanded(
-      child: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.03,
-          ),
-          height: MediaQuery.of(context).size.height * 0.35,
-          width: double.infinity,
-          child: this.widget.searchResult.length != 0
-            ? ListView.builder(
-                itemCount: this.widget.searchResult.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listItem(this.widget.searchResult, index, context);
-                },
-                scrollDirection: Axis.horizontal,
-              )
-            : Center(
-                child: Text(
-                  '검색 결과가 없습니다.',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.03,
                 ),
+                height: MediaQuery.of(context).size.height * 0.35,
+                width: double.infinity,
+                child: this.widget.searchResult.length != 0
+                    ? ListView.builder(
+                        itemCount: this.widget.searchResult.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _listItem(
+                              this.widget.searchResult, index, context);
+                        },
+                        scrollDirection: Axis.horizontal,
+                      )
+                    : Center(
+                        child: Text(
+                          '검색 결과가 없습니다.',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
               ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   Widget _listItem(List<Information> menu, int index, BuildContext context) {
+    String category = menu[index].category;
+    int id = menu[index].id;
+
     String title = menu[index].name;
     String imageTitle = menu[index].engName;
     String desc = menu[index].desc;
@@ -189,16 +208,25 @@ class _MenuListState extends State<MenuList> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
-              setState(() {
-                Provider.of<Information>(context, listen: false).name = title;
-                Provider.of<Information>(context, listen: false).cost = cost;
-                Provider.of<Information>(context, listen: false).desc = desc;
-                Provider.of<Information>(context, listen: false).engName =
-                    menu[index].engName;
-                Provider.of<Information>(context, listen: false).ingredients =
-                    menu[index].ingredients;
-              });
-              showMenuEditDialog(context);
+              Information menuInfo;
+              if (MainScreen.userAuth == 'admin') {
+                setState(() {
+                  menuInfo = Information(
+                      category: category,
+                      id: id,
+                      cost: cost,
+                      desc: desc,
+                      name: title,
+                      engName: imageTitle);
+                  Provider.of<Information>(context, listen: false).name = title;
+                  Provider.of<Information>(context, listen: false).cost = cost;
+                  Provider.of<Information>(context, listen: false).desc = desc;
+                });
+
+                showMenuEditDialog(menuInfo, context);
+              } else {
+                UserManage().showNoAuth(context);
+              }
             },
             child: Container(
               alignment: Alignment.center,
@@ -218,13 +246,7 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
-  Future showMenuEditDialog(BuildContext context) {
-    String name = Provider.of<Information>(context, listen: false).name;
-    String imageTitle =
-        Provider.of<Information>(context, listen: false).engName;
-    int cost = Provider.of<Information>(context, listen: false).cost;
-    String desc = Provider.of<Information>(context, listen: false).desc;
-
+  Future showMenuEditDialog(Information _info, BuildContext context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -272,11 +294,11 @@ class _MenuListState extends State<MenuList> {
                             ],
                           ),
                         ),
-                        menuImageView(imageTitle),
+                        menuImageView(_info.engName),
                         SizedBox(height: 20),
-                        nameField(name),
-                        priceField(cost),
-                        descField(desc),
+                        nameField(_info.name),
+                        priceField(_info.cost),
+                        descField(_info.desc),
                         SizedBox(height: 10),
                         FlatButton(
                           color: orange,
@@ -284,22 +306,21 @@ class _MenuListState extends State<MenuList> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           onPressed: () {
-                            // TODO: 데이터 저장
-                            Map data = {
-                              'name': Provider.of<Information>(context,
-                                      listen: false)
-                                  .name,
-                              'cost': Provider.of<Information>(context,
-                                      listen: false)
-                                  .cost,
-                              'desc': Provider.of<Information>(context,
-                                      listen: false)
-                                  .desc,
-                            };
-                            print(data);
+                            String name =
+                                Provider.of<Information>(context, listen: false)
+                                    .name;
+                            int cost =
+                                Provider.of<Information>(context, listen: false)
+                                    .cost;
+                            String desc =
+                                Provider.of<Information>(context, listen: false)
+                                    .desc;
+
+                            Information().updateMenu(
+                                _info.category, _info.id, name, cost, desc);
+                            _menuUpdated();
 
                             Navigator.of(context).pop();
-                            _menuUpdated();
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -396,6 +417,7 @@ class _MenuListState extends State<MenuList> {
                 Provider.of<Information>(context, listen: false).name = text;
               },
               keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
               initialValue: _name,
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
@@ -404,6 +426,7 @@ class _MenuListState extends State<MenuList> {
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
+              onSaved: (value) => _name = value.trim(),
             ),
           ),
         ),
@@ -429,6 +452,7 @@ class _MenuListState extends State<MenuList> {
                     int.parse(text);
               },
               keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
               initialValue: _cost.toString(),
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
@@ -437,6 +461,7 @@ class _MenuListState extends State<MenuList> {
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
+              onSaved: (value) => _cost = int.parse(value),
             ),
           ),
         ),
@@ -462,6 +487,7 @@ class _MenuListState extends State<MenuList> {
                 Provider.of<Information>(context, listen: false).desc = text;
               },
               keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
               initialValue: _desc,
               minLines: 6,
               maxLines: 10,
@@ -472,6 +498,7 @@ class _MenuListState extends State<MenuList> {
                 isDense: true,
                 contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               ),
+              onSaved: (value) => _desc = value.trim(),
             ),
           ),
         ),
