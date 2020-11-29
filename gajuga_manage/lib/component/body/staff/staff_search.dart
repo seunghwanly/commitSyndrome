@@ -2,7 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/model/staff_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
-import 'package:gajuga_manage/util/modal.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
 class StaffSearch extends StatefulWidget {
