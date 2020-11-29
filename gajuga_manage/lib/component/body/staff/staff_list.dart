@@ -10,6 +10,7 @@ import 'package:gajuga_manage/util/palette.dart';
 
 List<bool> s_isSelected = List.filled(10, false);
 List<bool> c_isSelected = List.filled(10, false);
+List<bool> r_isSelected = List.filled(10, false);
 
 class StaffList extends StatefulWidget {
   StaffList({this.type, this.searchResult});
@@ -53,6 +54,22 @@ class _StaffListState extends State<StaffList> {
   final _phoneController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    s_isSelected.setAll(0, [false]);
+    c_isSelected.setAll(0, [false]);
+    r_isSelected.setAll(0, [false]);
+  }
+
+  @override
+  void dispose() {
+    s_isSelected.setAll(0, [false]);
+    c_isSelected.setAll(0, [false]);
+    r_isSelected.setAll(0, [false]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,13 +136,12 @@ class _StaffListState extends State<StaffList> {
                               onTap: () {
                                 StaffPage.selectedUid = staffList[index]["uid"];
                                 StaffPage.selectedRole = 1;
-                                for (int i = 0; i < staffList.length; i++)
-                                  s_isSelected[i] = false;
                                 setState(() {
+                                  for (int i = 0; i < staffList.length; i++) s_isSelected[i] = false;
                                   s_isSelected[index] = true;
+                                  for (int j = 0; j < chefList.length; j++) c_isSelected[j] = false;
+                                  for (int i = 0; i < r_isSelected.length; i++) r_isSelected[i] = false;
                                 });
-                                for (int j = 0; j < chefList.length; j++)
-                                  c_isSelected[j] = false;
                               },
                               child: _listItem(
                                   staffList,
@@ -165,13 +181,12 @@ class _StaffListState extends State<StaffList> {
                               onTap: () {
                                 StaffPage.selectedUid = chefList[index]["uid"];
                                 StaffPage.selectedRole = 2;
-                                for (int i = 0; i < chefList.length; i++)
-                                  c_isSelected[i] = false;
                                 setState(() {
+                                  for (int i = 0; i < chefList.length; i++) c_isSelected[i] = false;
                                   c_isSelected[index] = true;
+                                  for (int j = 0; j < staffList.length; j++) s_isSelected[j] = false;
+                                  for (int i = 0; i < r_isSelected.length; i++) r_isSelected[i] = false;
                                 });
-                                for (int j = 0; j < staffList.length; j++)
-                                  s_isSelected[j] = false;
                               },
                               child: _listItem(
                                   chefList,
@@ -200,14 +215,13 @@ class _StaffListState extends State<StaffList> {
                         return InkWell(
                           onTap: () {
                             StaffPage.selectedUid = this.widget.searchResult[index]['uid'];
-                            StaffPage.selectedRole = 2;
-                            for (int i = 0; i < this.widget.searchResult.length; i++)
-                              c_isSelected[i] = false;
+                            StaffPage.selectedRole = this.widget.searchResult[index]['role'];
+                            for (int i = 0; i < r_isSelected.length; i++) r_isSelected[i] = false;
                             setState(() {
-                              c_isSelected[index] = true;
+                              r_isSelected[index] = true;
+                              for (int i = 0; i < c_isSelected.length; i++) c_isSelected[i] = false;
+                              for (int j = 0; j < s_isSelected.length; j++) s_isSelected[j] = false;
                             });
-                            for (int j = 0; j < this.widget.searchResult.length; j++)
-                              s_isSelected[j] = false;
                           },
                           child: _listItem(
                             this.widget.searchResult,
@@ -259,7 +273,8 @@ class _StaffListState extends State<StaffList> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: (s_isSelected[index] && role == 1) ||
-                (c_isSelected[index] && role == 2)
+                (c_isSelected[index] && role == 2) ||
+                (r_isSelected[index] && this.widget.type == 'search')
             ? darkgrey
             : Colors.white,
         boxShadow: [
@@ -283,7 +298,8 @@ class _StaffListState extends State<StaffList> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: (s_isSelected[index] && role == 1) ||
-                      (c_isSelected[index] && role == 2)
+                      (c_isSelected[index] && role == 2) ||
+                      (r_isSelected[index] && this.widget.type == 'search')
                   ? Colors.white
                   : darkgrey,
               //color: Colors.white,

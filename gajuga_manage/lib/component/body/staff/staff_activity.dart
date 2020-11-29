@@ -86,9 +86,7 @@ class _StaffActivityState extends State<StaffActivity> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => StaffPage()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffPage()));
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -106,6 +104,41 @@ class _StaffActivityState extends State<StaffActivity> {
                 ],
               ),
             ),
+            Divider(thickness: 2),
+            StaffPage.selectedUid != ''
+                ? FutureBuilder(
+                    future: StaffPage.selectedRole == 1
+                        ? staffReference.child('manager/employee/staff/${StaffPage.selectedUid}').once()
+                        : staffReference.child('manager/employee/chef/${StaffPage.selectedUid}').once(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        Map<dynamic, dynamic> values = snapshot.data.value;
+
+                        return Container(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: values["name"],
+                                  style: TextStyle(color: orange),
+                                ),
+                                TextSpan(
+                                  text: '의 활동 내역',
+                                  style: TextStyle(color: darkgrey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      } else return SizedBox.shrink();
+                    }
+                  )
+                : SizedBox.shrink(),
             Expanded(
               child: FutureBuilder(
                   future: StaffPage.selectedRole == 1

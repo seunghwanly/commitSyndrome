@@ -125,7 +125,7 @@ class _StaffPageState extends State<StaffPage> {
                     onSubmitted: (value) {
                       search(value);
                       setState(() {
-                        staffs = StaffList(searchResult: searchResult);
+                        staffs = StaffList(type: 'search', searchResult: searchResult);
                       });
                     },
                   ),
@@ -137,7 +137,7 @@ class _StaffPageState extends State<StaffPage> {
                   _searchFocus.unfocus();
                   search(query);
                   setState(() {
-                    staffs = StaffList(searchResult: searchResult);
+                    staffs = StaffList(type: 'search', searchResult: searchResult);
                   });
                 },
               ),
