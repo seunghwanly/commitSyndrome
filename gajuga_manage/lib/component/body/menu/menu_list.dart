@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
@@ -23,6 +24,7 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   // need MenuList
   var menuDatabaseFetched;
+  DatabaseReference menuReference = FirebaseDatabase.instance.reference().child('manager/menu/category');
 
   final _formKey = GlobalKey<FormState>();
   File _menuImage;
@@ -41,12 +43,12 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    return this.widget.type == 'default' ? FutureBuilder(
-      future: menuDatabaseFetched,
+    return this.widget.type == 'default' ? StreamBuilder(
+      stream: menuReference.onValue,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Information> pizza = Menu.fromJson(snapshot.data).pizza;
-          List<Information> beverage = Menu.fromJson(snapshot.data).beverage;
+          List<Information> pizza = Menu.fromJson(snapshot.data.snapshot.value).pizza;
+          List<Information> beverage = Menu.fromJson(snapshot.data.snapshot.value).beverage;
 
           for (int i = 0; i < pizza.length; i++) {
             pizza[i].category = 'pizza';

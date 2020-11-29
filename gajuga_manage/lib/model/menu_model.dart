@@ -8,7 +8,7 @@ class Menu {
 
   Menu({this.pizza, this.beverage});
 
-  factory Menu.fromJson(Map<String, dynamic> parsedJson) {
+  factory Menu.fromJson(var parsedJson) {
     var pizzaDatalist = parsedJson['pizza'] as List;
     var beverageDatalist = parsedJson['beverage'] as List;
 
