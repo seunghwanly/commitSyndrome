@@ -37,7 +37,6 @@ dependencies:
   image_picker: ^0.6.7
   flutter_rounded_date_picker: ^1.0.5+1
   pie_chart: ^4.0.1
-  sticky_headers: ^0.1.8
   loading_animations: "^2.1.0"
   provider: ^3.0.0+1 # Provider 패턴 사용
   mailer: ^3.2.1

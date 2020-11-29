@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/main_container.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 import 'package:gajuga_manage/component/body/order_list.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:intl/intl.dart';
@@ -105,15 +104,10 @@ class _OrderPageState extends State<OrderPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            StickyHeader(
-              header: headerButtons(),
-              content: unhandledOrders
-                  ? OrderList(orderStatus: 'request', orderList: unhandledList)
-                  : OrderList(
-                      orderStatus: 'ready',
-                      orderList: handledList,
-                    ),
-            ),
+            headerButtons(),
+            unhandledOrders
+              ? OrderList(orderStatus: 'request', orderList: unhandledList)
+              : OrderList(orderStatus: 'ready', orderList: handledList),
           ],
         ),
       ),
