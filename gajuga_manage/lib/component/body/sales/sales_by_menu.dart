@@ -206,7 +206,7 @@ class _SalesByMenuState extends State<SalesByMenu> {
                                       ),
                                       TextSpan(
                                         text:
-                                            '${toLocaleString(calculatedResult[firstRank] * 12900)}',
+                                            '${toLocaleString(calculatedResult[firstRank])}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black,

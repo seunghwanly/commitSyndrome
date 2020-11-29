@@ -32,9 +32,8 @@ class PaymentState extends State<Payment> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: pale,
-        child: Text(
-          'Loading .. . ..',
-          style: TextStyle(color: white),
+        child: new Center(
+          child: LoadingBouncingGrid.circle(borderColor: white,),
         ),
       ),
 

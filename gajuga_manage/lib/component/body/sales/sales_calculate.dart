@@ -22,16 +22,16 @@ Map<String, int> calculateSales(
           contentList.forEach((element) {
             switch (element['name']) {
               case "고르곤졸라피자":
-                ggz += element['count'];
+                ggz += element['count'] * element['cost'];
                 break;
               case "포테이토피자":
-                ptt += element['count'];
+                ptt += element['count'] * element['cost'];
                 break;
               case "페퍼로니피자":
-                ppr += element['count'];
+                ppr += element['count'] * element['cost'];
                 break;
               case "불고기피자":
-                bgg += element['count'];
+                bgg += element['count'] * element['cost'];
                 break;
               default:
             }
@@ -76,22 +76,22 @@ Map<String, int> calculateMonthSales(
           contentList.forEach((element) {
             switch (element['name']) {
               case "고르곤졸라피자":
-                ggz += element['count'];
+                ggz += element['count'] * element['cost'];
                 break;
               case "포테이토피자":
-                ptt += element['count'];
+                ptt += element['count'] * element['cost'];
                 break;
               case "페퍼로니피자":
-                ppr += element['count'];
+                ppr += element['count'] * element['cost'];
                 break;
               case "불고기피자":
-                bgg += element['count'];
+                bgg += element['count'] * element['cost'];
                 break;
               case "사이다":
-                cdr += element['count'];
+                cdr += element['count'] * element['cost'];
                 break;
               case "콜라":
-                cke += element['count'];
+                cke += element['count'] * element['cost'];
                 break;
               default:
             }

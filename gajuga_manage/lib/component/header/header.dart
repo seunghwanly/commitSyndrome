@@ -144,14 +144,18 @@ class _CustomHeaderState extends State<CustomHeader> {
                       selected: true,
                       contentPadding: EdgeInsets.only(left: 20.0),
                       onTap: () {
-                        if (MainScreen.userAuth == 'admin') {
-                          Navigator.pushReplacement(
+                        // if (MainScreen.userAuth == 'admin') {
+                        //   Navigator.pushReplacement(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => SalesPage()));
+                        // } else {
+                        //   UserManage().showNoAuth(context);
+                        // }
+                        Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SalesPage()));
-                        } else {
-                          UserManage().showNoAuth(context);
-                        }
                       },
                     ),
                     ListTile(

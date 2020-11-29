@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/sales/sales_calculate.dart';
+import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/box_shadow.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/palette.dart';
@@ -18,13 +19,15 @@ class _SalesPopularityState extends State<SalesPopularity> {
   // set State DateTime :- datePicker
   DateTime selectedDate;
   //firebase
-  var salesDatabaseFetched;
+  Future<dynamic> salesDatabaseFetched;
+  Future<dynamic> menuDatabaseFetched;
   // LIFE CYCLE
   @override
   void initState() {
     super.initState();
     selectedDate = new DateTime.now();
     salesDatabaseFetched = FirebaseMethod().getTotalSalesData();
+    menuDatabaseFetched = FirebaseMethod().getMenuData();
   }
 
   void setDate(DateTime newDate) {
@@ -77,15 +80,9 @@ class _SalesPopularityState extends State<SalesPopularity> {
           Expanded(
             flex: 8,
             child: FutureBuilder(
-              future: salesDatabaseFetched,
+              future: Future.wait([salesDatabaseFetched, menuDatabaseFetched]),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  // data length
-                  int ggz = 0;
-                  int ptt = 0;
-                  int ppr = 0;
-                  int bgg = 0;
-
                   Map<String, double> todayData = {
                     "고르곤졸라피자": 0,
                     "포테이토피자": 0,
@@ -94,16 +91,37 @@ class _SalesPopularityState extends State<SalesPopularity> {
                   };
 
                   //data
+                  Map<String, dynamic> salesData =
+                      new Map<String, dynamic>.from(snapshot.data[0]);
                   Map<String, dynamic> menuData =
-                      new Map<String, dynamic>.from(snapshot.data);
+                      new Map<String, dynamic>.from(snapshot.data[1]);
+
+                  /*
+                      menu
+                      key : pizza, beverage
+                   */
+                  Map<String, int> currentMenuMap = {
+                    "고르곤졸라피자": 0,
+                    "포테이토피자": 0,
+                    "페퍼로니피자": 0,
+                    "불고기피자": 0
+                  };
+                  Menu fromJsonMenu = Menu.fromJson(menuData);
+                  fromJsonMenu.pizza.forEach((element) {
+                    currentMenuMap.forEach((key, value) {
+                      if (key == element.name) {
+                        currentMenuMap.update(key, (value) => value = element.cost);
+                      }
+                    });
+                  });
 
                   // check info is in the data
-                  if (DateTime.parse(menuData.keys.last)
+                  if (DateTime.parse(salesData.keys.last)
                               .compareTo(selectedDate) <=
                           0 &&
                       selectedDate.compareTo(DateTime.now()) <= 0) {
                     var calculatedResult =
-                        calculateSales(menuData, selectedDate);
+                        calculateSales(salesData, selectedDate);
                     double totalCount = 0;
 
                     calculatedResult.forEach((key, value) {
@@ -153,7 +171,10 @@ class _SalesPopularityState extends State<SalesPopularity> {
                               changeImage(newMap.entries.elementAt(2).key),
                               newMap.entries.elementAt(2).key,
                               "두 번째로 가장 많이 팔린 메뉴입니다.",
-                              showSecondSales? calculatedResult[newMap.entries.elementAt(2).key] * 12900 : 12900,
+                              showSecondSales
+                                  ? calculatedResult[
+                                      newMap.entries.elementAt(2).key]
+                                  : currentMenuMap[newMap.entries.elementAt(2).key],
                               2,
                               handleOnPressed),
                           itemWithIcon(
@@ -161,15 +182,21 @@ class _SalesPopularityState extends State<SalesPopularity> {
                               changeImage(newMap.entries.elementAt(3).key),
                               newMap.entries.elementAt(3).key,
                               "첫 번째로 가장 많이 팔린 메뉴입니다.",
-                              showFirstSales? calculatedResult[newMap.entries.elementAt(3).key] * 12900 : 12900,
+                              showFirstSales
+                                  ? calculatedResult[
+                                      newMap.entries.elementAt(3).key]
+                                  : currentMenuMap[newMap.entries.elementAt(3).key],
                               1,
                               handleOnPressed),
                           itemWithIcon(
                               context,
                               changeImage(newMap.entries.elementAt(1).key),
-                              newMap.entries.elementAt(2).key,
+                              newMap.entries.elementAt(1).key,
                               "세 번째로 가장 많이 팔린 메뉴입니다.",
-                              showThirdSales? calculatedResult[newMap.entries.elementAt(1).key] * 12900 : 12900,
+                              showThirdSales
+                                  ? calculatedResult[
+                                      newMap.entries.elementAt(1).key]
+                                  : currentMenuMap[newMap.entries.elementAt(1).key],
                               3,
                               handleOnPressed),
                         ],
@@ -194,8 +221,8 @@ class _SalesPopularityState extends State<SalesPopularity> {
   }
 }
 
-Widget itemWithIcon(BuildContext context, String menuTitle, String korTitle, String menuDesc,
-    int menuCost, int rank, Function onPress) {
+Widget itemWithIcon(BuildContext context, String menuTitle, String korTitle,
+    String menuDesc, int menuCost, int rank, Function onPress) {
   String imagePath = '';
   if (rank == 2)
     imagePath = imagePath + '_silver';
@@ -221,28 +248,25 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String korTitle, Str
                   Text(
                     korTitle,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: darkblue,
-                      fontSize: 18
-                    ),
+                        fontWeight: FontWeight.bold,
+                        color: darkblue,
+                        fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     menuDesc,
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: lightgrey,
-                      fontSize: 14
-                    ),
+                        fontWeight: FontWeight.w600,
+                        color: lightgrey,
+                        fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     toLocaleString(menuCost) + " 원",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: darkblue,
-                      fontSize: 18
-                    ),
+                        fontWeight: FontWeight.bold,
+                        color: darkblue,
+                        fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                 ],

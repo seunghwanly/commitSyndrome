@@ -14,8 +14,9 @@ import 'package:provider/provider.dart';
 class ProfitList extends StatefulWidget {
   final selectedDate;
   final mergedProfitData;
+  final dataReferenceKey;
 
-  ProfitList({this.selectedDate, this.mergedProfitData});
+  ProfitList({this.selectedDate, this.mergedProfitData, this.dataReferenceKey});
 
   @override
   _ProfitListState createState() => _ProfitListState();
@@ -194,7 +195,12 @@ class _ProfitListState extends State<ProfitList> {
                 children: [
                   FlatButton(
                     onLongPress: () {
-                      if (index > 5) showDeleteModal(context);
+                      if (index > 5)
+                        showDeleteModal(
+                            context,
+                            'profit',
+                            widget.dataReferenceKey,
+                            mergedProfitData.keys.elementAt(index));
                     },
                     onPressed: () {},
                     child: Container(

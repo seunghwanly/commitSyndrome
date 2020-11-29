@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/sales/expense_list.dart';
 import 'package:gajuga_manage/component/body/sales/profit_list.dart';
 import 'package:gajuga_manage/component/body/sales/sales_calculate.dart';
-import 'package:gajuga_manage/model/sales_profit_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/date_picker.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
@@ -12,7 +12,7 @@ import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import '../../../util/firebase_method.dart';
 
 class SalesNetProfit extends StatefulWidget {
   SalesNetProfit();
@@ -24,16 +24,30 @@ class SalesNetProfit extends StatefulWidget {
 class _SalesNetProfitState extends State<SalesNetProfit> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedDateString = DateFormat('yyyy년 MM월').format(DateTime.now());
-
-  // radioValue
-  int _radioValue = -1;
   DateTime selectedDate;
+
+  // radioValue & Form
+  int _radioValue = -1;
+  TextEditingController addedDesc = new TextEditingController();
+  TextEditingController addedAmount = new TextEditingController();
 
   //firebase reference
   // read 3 buckets !
   Future<dynamic> totalSales;
   Future<dynamic> totalProfit;
   Future<dynamic> totalExpense;
+
+  // //Stream Controller
+  // StreamController _streamController;
+
+  // // change to realtime data
+  // var totalSalesReference = FirebaseMethod().salesReference;
+  // var totalProfitReference = FirebaseMethod().profitReference;
+  // var totalExpenseReference = FirebaseMethod().expenseReference;
+  // // data to save
+  // var menuData;
+  // var profitData;
+  // var expenseData;
 
   @override
   void initState() {
@@ -44,6 +58,80 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
     totalExpense = FirebaseMethod().getTotalExpenseData();
     totalSales = FirebaseMethod().getTotalSalesData();
     totalProfit = FirebaseMethod().getTotalProfitData();
+    // order
+    FirebaseMethod().orderReference.onChildAdded.listen((event) {
+      totalSales = FirebaseMethod().getTotalSalesData();
+      setState(() {});
+    });
+    FirebaseMethod().orderReference.onChildChanged.listen((event) {
+      totalSales = FirebaseMethod().getTotalSalesData();
+      setState(() {});
+    });
+    FirebaseMethod().orderReference.onChildRemoved.listen((event) {
+      totalSales = FirebaseMethod().getTotalSalesData();
+      setState(() {});
+    });
+    // profit
+    FirebaseMethod().profitReference.onChildAdded.listen((event) {
+      totalProfit = FirebaseMethod().getTotalProfitData();
+      setState(() {});
+    });
+    FirebaseMethod().profitReference.onChildChanged.listen((event) {
+      totalProfit = FirebaseMethod().getTotalProfitData();
+      setState(() {});
+    });
+    FirebaseMethod().profitReference.onChildRemoved.listen((event) {
+      totalProfit = FirebaseMethod().getTotalProfitData();
+      setState(() {});
+    });
+    // expense
+    FirebaseMethod().expenseReference.onChildAdded.listen((event) {
+      totalExpense = FirebaseMethod().getTotalExpenseData();
+      setState(() {});
+    });
+    FirebaseMethod().expenseReference.onChildChanged.listen((event) {
+      totalExpense = FirebaseMethod().getTotalExpenseData();
+      setState(() {});
+    });
+    FirebaseMethod().expenseReference.onChildRemoved.listen((event) {
+      totalExpense = FirebaseMethod().getTotalExpenseData();
+      setState(() {});
+    });
+
+    // //init
+    // _streamController = new StreamController.broadcast(onListen: () {
+    //   totalProfitReference.onValue;
+    //   totalSalesReference.onValue;
+    //   totalExpenseReference.onValue;
+    // });
+
+    // totalProfitReference.once().then((DataSnapshot snapshot) {
+    //   if(snapshot.value != null) {
+    //     profitData = new Map<String, dynamic>.from(snapshot.value);
+    //   } else print("profitData is null");
+    // });
+    // totalSalesReference.once().then((DataSnapshot snapshot) {
+    //   if(snapshot.value != null) {
+    //     menuData = new Map<String, dynamic>.from(snapshot.value);
+    //   } else print("menuData is null");
+    // });
+    // totalExpenseReference.once().then((DataSnapshot snapshot) {
+    //   if(snapshot.value != null) {
+    //     expenseData = new Map<String, dynamic>.from(snapshot.value);
+    //   } else print("expenseData is null");
+    // });
+
+    // _streamController.add(totalProfitReference.onValue);
+    // _streamController.add(totalSalesReference.onValue);
+    // _streamController.add(totalExpenseReference.onValue);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    FirebaseMethod().orderReference.onDisconnect();
+    FirebaseMethod().profitReference.onDisconnect();
+    FirebaseMethod().expenseReference.onDisconnect();
   }
 
   void setDate(DateTime newDate) {
@@ -59,19 +147,23 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext rootContext) {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
         padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
         child: SingleChildScrollView(
           child: FutureBuilder(
+              // stream: _streamController.stream,
+              // // [totalProfitReference.onValue, totalSalesReference.onValue, totalExpenseReference.onValue]
               future: Future.wait([totalProfit, totalSales, totalExpense]),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
+                  print("waiting...");
                   return new Center(child: customLoadingBouncingGrid(orange));
                 } else {
                   if (!snapshot.hasData) {
+                    // must be not null !
                     print("no data");
                     return new Center(child: customLoadingBouncingGrid(orange));
                   } else if (snapshot.hasError) {
@@ -92,28 +184,32 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                     String selectedDateKey =
                         "${selectedDate.year}-${selectedDate.month}";
 
-                    String lastYearKey = menuData.keys.last.substring(0,4);
-                    String lastMonthKey = menuData.keys.last.substring(5,7);
+                    String lastYearKey = menuData.keys.last.substring(0, 4);
+                    String lastMonthKey = menuData.keys.last.substring(5, 7);
 
-                    String firstYearKey = menuData.keys.first.substring(0,4);
-                    String firstMonthKey = menuData.keys.first.substring(5,7);
+                    String firstYearKey = menuData.keys.first.substring(0, 4);
+                    String firstMonthKey = menuData.keys.first.substring(5, 7);
 
-                    if (
-                      selectedDate.month.compareTo(DateTime.parse(lastYearKey+'-'+lastMonthKey+'-01').month) <= 0 
-                      && selectedDate.month.compareTo(DateTime.parse(firstYearKey+'-'+firstMonthKey+'-01').month) >= 0 
-                      ) {
+                    if (selectedDate.month.compareTo(DateTime.parse(
+                                    lastYearKey + '-' + lastMonthKey + '-01')
+                                .month) <=
+                            0 &&
+                        selectedDate.month.compareTo(DateTime.parse(
+                                    firstYearKey + '-' + firstMonthKey + '-01')
+                                .month) >=
+                            0) {
                       // essentail
                       var totalSalesThisMonth =
                           calculateMonthSales(menuData, selectedDate);
                       // tranform to money
-                      totalSalesThisMonth.forEach((key, value) {
-                        totalSalesThisMonth.update(key, (value) {
-                          if (key == "사이다" || key == "콜라") {
-                            return value * 2000;
-                          } else
-                            return value * 12900;
-                        });
-                      });
+                      // totalSalesThisMonth.forEach((key, value) {
+                      //   totalSalesThisMonth.update(key, (value) {
+                      //     if (key == "사이다" || key == "콜라") {
+                      //       return value * 2000;
+                      //     } else
+                      //       return value * 12900;
+                      //   });
+                      // });
                       // optional
                       // 1. profit
                       var totalProfitThisMonth;
@@ -232,11 +328,12 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                               ProfitList(
                                 mergedProfitData: mergedProfitData,
                                 selectedDate: selectedDate,
+                                dataReferenceKey: selectedDateKey,
                               ),
                               ExpenseList(
-                                rangeExpenseData: totalExpenseThisMonth,
-                                selectedDate: selectedDate,
-                              ),
+                                  rangeExpenseData: totalExpenseThisMonth,
+                                  selectedDate: selectedDate,
+                                  dataReferenceKey: selectedDateKey),
                             ],
                           ),
                         ],
@@ -303,14 +400,14 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                             ],
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Center(
-                              child: Text(
-                                  "${selectedDate.year}년${selectedDate.month}월에는 데이터가 없습니다 !",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                      color: darkblue))))
+                              height: MediaQuery.of(context).size.height / 2,
+                              child: Center(
+                                  child: Text(
+                                      "${selectedDate.year}년 ${selectedDate.month}월에는 데이터가 없습니다 !",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 24,
+                                          color: darkblue))))
                         ],
                       );
                     }
@@ -380,6 +477,12 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                         _dataUpdated();
                         _radioValue = -1;
                         print("onPress");
+                        FirebaseMethod().addSpecificData(
+                            rootKey: _radioValue == 0 ? 'profit' : 'expense',
+                            parentKey:
+                                "${selectedDate.year}-${selectedDate.month}",
+                            name: addedDesc.text.trim(),
+                            amount: int.parse(addedAmount.text.trim()));
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -482,6 +585,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
           child: Container(
             padding: EdgeInsets.all(8),
             child: TextFormField(
+              controller: addedDesc,
               keyboardType: TextInputType.text,
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,
@@ -510,6 +614,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
           child: Container(
             padding: EdgeInsets.all(8),
             child: TextFormField(
+              controller: addedAmount,
               keyboardType: TextInputType.number,
               decoration: new InputDecoration(
                 enabledBorder: roundInputBorder,

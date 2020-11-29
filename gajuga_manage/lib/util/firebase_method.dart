@@ -67,7 +67,7 @@ class FirebaseMethod {
       FirebaseDatabase.instance.reference().child('manager/stock/currentStock');
 
   // order
-  DatabaseReference salesReference =
+  DatabaseReference orderReference =
       FirebaseDatabase.instance.reference().child('order');
   // expense
   DatabaseReference expenseReference =
@@ -75,6 +75,9 @@ class FirebaseMethod {
   // profit
   DatabaseReference profitReference =
       FirebaseDatabase.instance.reference().child('manager/sales/profit');
+  // salesRoot
+  DatabaseReference salesReference =
+      FirebaseDatabase.instance.reference().child('manager/sales/');
 
   // menu
   getMenuData() async {
@@ -98,7 +101,7 @@ class FirebaseMethod {
   // sales
   getTotalSalesData() async {
     var fetchedData;
-    await salesReference.once().then((DataSnapshot snapshot) {
+    await orderReference.once().then((DataSnapshot snapshot) {
       // print(snapshot.value.runtimeType);
       // print(snapshot.value.toString());
       fetchedData = new Map<String, dynamic>.from(snapshot.value);
@@ -122,5 +125,42 @@ class FirebaseMethod {
       fetchedData = new Map<String, dynamic>.from(snapshot.value);
     });
     return fetchedData;
+  }
+
+  // net profit || expense remove
+  removeSpecificData(
+      String rootKey, String parentKey, String childKey) async {
+    await salesReference
+        .child(rootKey)
+        .child(parentKey)
+        .child(childKey)
+        .once()
+        .then((DataSnapshot snapshot) => snapshot.value != null ? true : false)
+        .then((value) {
+      //check the path has the value
+      if (value) {
+        // remove
+        salesReference
+            .child(rootKey)
+            .child(parentKey)
+            .child(childKey)
+            .remove()
+            .then((value) => print("removed from expense bucket!"))
+            .catchError(() => print("expense bucket remove error"));
+      } else {
+        print("wrong information about the path ! Please check the path again");
+      }
+    });
+  }
+
+  addSpecificData(
+      {String rootKey, String parentKey, String name, int amount}) async {
+    await salesReference
+        .child(rootKey)
+        .child(parentKey)
+        .child(name)
+        .set(amount)
+        .then((value) => print('added to sales successfully !'))
+        .catchError(() => print("error on sales added !"));
   }
 }

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/component/body/sales/sales_profit_modal.dart';
-import 'package:gajuga_manage/model/sales_profit_model.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
 import 'dart:ui';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseList extends StatefulWidget {
   final selectedDate;
   final rangeExpenseData;
+  final dataReferenceKey;
 
-  ExpenseList({this.selectedDate, this.rangeExpenseData});
+  ExpenseList(
+      {this.selectedDate,
+      this.rangeExpenseData,
+      this.dataReferenceKey,});
 
   @override
   _ExpenseListState createState() => _ExpenseListState();
@@ -34,7 +36,6 @@ class _ExpenseListState extends State<ExpenseList> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(20),
@@ -167,71 +168,63 @@ class _ExpenseListState extends State<ExpenseList> {
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(238, 238, 238, 1.0)),
           ),
-          child: FutureBuilder(
-            future: fetchedExpenseData,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
-                return customLoadingBouncingGrid(orange);
-              } else if (snapshot.hasError) {
-                return Text("DATA FETCH ERROR !");
-              } else {
-                return ListView.builder(
-                  itemCount: rangeExpenseData.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: [
-                        FlatButton(
-                          onPressed: () => print(""),
-                          onLongPress: () => showDeleteModal(context),
-                          child: 
-                        Container(
-                          margin: index == 0
-                              ? EdgeInsets.only(top: 10.0)
-                              : EdgeInsets.only(top: 0.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                flex: 5,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(
-                                      30.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        rangeExpenseData.keys.elementAt(index),
-                                        style: _bodyTextStyle,
-                                      ),
-                                    ],
-                                  ),
+          child: ListView.builder(
+            itemCount: rangeExpenseData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  FlatButton(
+                      onPressed: () => print(""),
+                      onLongPress: () => showDeleteModal(
+                          context,
+                          'expense',
+                          widget.dataReferenceKey,
+                          rangeExpenseData.keys.elementAt(index)),
+                      child: Container(
+                        margin: index == 0
+                            ? EdgeInsets.only(top: 10.0)
+                            : EdgeInsets.only(top: 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      rangeExpenseData.keys.elementAt(index),
+                                      style: _bodyTextStyle,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                flex: 5,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(
-                                      30.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        toLocaleString(rangeExpenseData.values
-                                                .elementAt(index)) +
-                                            " 원",
-                                        style: _bodyTextStyle,
-                                      ),
-                                    ],
-                                  ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 10.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      toLocaleString(rangeExpenseData.values
+                                              .elementAt(index)) +
+                                          " 원",
+                                      style: _bodyTextStyle,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        )),
-                        Divider(),
-                      ],
-                    );
-                  },
-                );
-              }
+                            ),
+                          ],
+                        ),
+                      )),
+                  Divider(),
+                ],
+              );
             },
           )),
     );

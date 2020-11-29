@@ -1,5 +1,4 @@
 // firebase menu model
-import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class Menu {
