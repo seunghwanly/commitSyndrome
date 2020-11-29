@@ -5,7 +5,7 @@ import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 // date picker
-import '../../../util/date_picker.dart';
+import 'package:gajuga_manage/util/date_picker.dart';
 
 class SalesPopularity extends StatefulWidget {
   SalesPopularity();

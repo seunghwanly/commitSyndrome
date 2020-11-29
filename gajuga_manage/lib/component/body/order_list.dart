@@ -4,26 +4,12 @@ import 'package:gajuga_manage/model/order_model.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:intl/intl.dart';
 import 'authentification/user_manage.dart';
-import '../../model/manageEmployee_model.dart';
+import 'package:gajuga_manage/model/manageEmployee_model.dart';
 import 'dart:ui';
 //firebase database
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-// class OrderMenu {
-//   String orderNumber;
-//   String name;
-//   String additional;
-//   int quantity;
-//   String status; // 0: 미처리, 1: 주문승인(조리중), 2: 준비완료
-
-//   OrderMenu(
-//       {this.orderNumber,
-//       this.name,
-//       this.additional = '없음',
-//       this.quantity = 1,
-//       this.status = 'request'});
-// }
 
 class OrderList extends StatefulWidget {
   final String orderStatus;

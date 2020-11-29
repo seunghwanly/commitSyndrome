@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:firebase_database/firebase_database.dart';
