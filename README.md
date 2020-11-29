@@ -77,8 +77,7 @@ $ flutter run
 
 ### :bulb: Mailer configuration for gajuga_manage
 1. Create **credentials.json** in root directory(`commitSyndrome/gajuga_manage/`)
-2. Copy & paste `credentials-sample.json` in `credentials.json`
-3. Add your gmail address and password
+2. Add your gmail address and password
 
 example:
 ```json
