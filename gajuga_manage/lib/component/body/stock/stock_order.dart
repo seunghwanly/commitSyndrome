@@ -415,15 +415,15 @@ class OrderStockState extends State<OrderStock> {
       ..text =
           '\n [ 재료 ] \n \t 재료A : ${sendTextController["재료A"].text.trim()} \n\t 재료B : ${sendTextController["재료B"].text.trim()} \n\t 재료C : ${sendTextController["재료C"].text.trim()} \n\t 재료E : ${sendTextController["재료E"].text.trim()} \n\t 재료E : ${sendTextController["재료E"].text.trim()} \n\t 재료F : ${sendTextController["재료F"].text.trim()} \n' // body of the email
       ..html = "<h2>재료</h2>" +
-          "<p>재료A : ${sendTextController["재료A"].text.trim()}</p>" +
-          "<p>재료A : ${sendTextController["재료B"].text.trim()}</p>" +
-          "<p>재료B : ${sendTextController["재료C"].text.trim()}</p>" +
-          "<p>재료D : ${sendTextController["재료D"].text.trim()}</p>" +
-          "<p>재료E : ${sendTextController["재료E"].text.trim()}</p>" +
-          "<p>재료F : ${sendTextController["재료F"].text.trim()}</p>" + "<br>" +
+          "<p>&nbsp&nbsp재료A : ${sendTextController["재료A"].text.trim()}</p>" +
+          "<p>&nbsp&nbsp재료B : ${sendTextController["재료B"].text.trim()}</p>" +
+          "<p>&nbsp&nbsp재료C : ${sendTextController["재료C"].text.trim()}</p>" +
+          "<p>&nbsp&nbsp재료D : ${sendTextController["재료D"].text.trim()}</p>" +
+          "<p>&nbsp&nbsp재료E : ${sendTextController["재료E"].text.trim()}</p>" +
+          "<p>&nbsp&nbsp재료F : ${sendTextController["재료F"].text.trim()}</p>" + "<br>" +
           "<h2>음료</h2>" +
-          "<p>사이다 : ${sendTextController["사이다"].text.trim()}</p>" +
-          "<p>콜라 : ${sendTextController["콜라"].text.trim()}</p>" + "<br>";
+          "<p>&nbsp&nbsp사이다 : ${sendTextController["사이다"].text.trim()}</p>" +
+          "<p>&nbsp&nbsp콜라 : ${sendTextController["콜라"].text.trim()}</p>" + "<br>";
 
     try {
       final sendReport = await send(message, smtpServer);
