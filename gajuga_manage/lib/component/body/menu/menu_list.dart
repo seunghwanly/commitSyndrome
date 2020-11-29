@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:gajuga_manage/main.dart';
 import 'package:gajuga_manage/model/menu_model.dart';
 import 'package:gajuga_manage/util/borders.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
@@ -7,6 +8,7 @@ import 'package:gajuga_manage/util/loading.dart';
 import 'package:gajuga_manage/util/palette.dart';
 import 'package:gajuga_manage/util/to_locale.dart';
 import 'package:gajuga_manage/util/to_text.dart';
+import 'package:gajuga_manage/component/body/authentification/user_manage.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,8 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   // need MenuList
   var menuDatabaseFetched;
-  DatabaseReference menuReference = FirebaseDatabase.instance.reference().child('manager/menu/category');
+  DatabaseReference menuReference =
+      FirebaseDatabase.instance.reference().child('manager/menu/category');
 
   final _formKey = GlobalKey<FormState>();
   File _menuImage;
@@ -45,99 +48,99 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    return this.widget.type == 'default' ? StreamBuilder(
-      stream: menuReference.onValue,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          pizza = Menu.fromJson(snapshot.data.snapshot.value).pizza;
-          beverage = Menu.fromJson(snapshot.data.snapshot.value).beverage;
+    return this.widget.type == 'default'
+        ? StreamBuilder(
+            stream: menuReference.onValue,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                pizza = Menu.fromJson(snapshot.data.snapshot.value).pizza;
+                beverage = Menu.fromJson(snapshot.data.snapshot.value).beverage;
 
-          for (int i = 0; i < pizza.length; i++) {
-            pizza[i].category = 'pizza';
-            pizza[i].id = i;
-          }
-          for (int i = 0; i < beverage.length; i++) {
-            beverage[i].category = 'beverage';
-            beverage[i].id = i;
-          }
+                for (int i = 0; i < pizza.length; i++) {
+                  pizza[i].category = 'pizza';
+                  pizza[i].id = i;
+                }
+                for (int i = 0; i < beverage.length; i++) {
+                  beverage[i].category = 'beverage';
+                  beverage[i].id = i;
+                }
 
-          return Expanded(
+                return Expanded(
+                  child: SingleChildScrollView(
+                      child: Column(
+                    children: [
+                      makeSubTitle('피자', ' PIZZA'),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: pizza.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(pizza, index, context);
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                      makeSubTitle('음료', ' BEVERAGE'),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: beverage.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(beverage, index, context);
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                    ],
+                  )),
+                );
+              } else {
+                return Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: customLoadingBouncingGrid(orange)),
+                );
+              }
+            },
+          )
+        : Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  makeSubTitle('피자', ' PIZZA'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: pizza.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(pizza, index, context);
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                  makeSubTitle('음료', ' BEVERAGE'),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: beverage.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _listItem(beverage, index, context);
-                      },
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  ),
-                ],
-              )
-            ),
-          );
-        } else {
-          return Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: customLoadingBouncingGrid(orange)
-            ),
-          );
-        }
-      },
-    )
-    : Expanded(
-      child: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.03,
-          ),
-          height: MediaQuery.of(context).size.height * 0.35,
-          width: double.infinity,
-          child: this.widget.searchResult.length != 0
-            ? ListView.builder(
-                itemCount: this.widget.searchResult.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listItem(this.widget.searchResult, index, context);
-                },
-                scrollDirection: Axis.horizontal,
-              )
-            : Center(
-                child: Text(
-                  '검색 결과가 없습니다.',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.03,
                 ),
+                height: MediaQuery.of(context).size.height * 0.35,
+                width: double.infinity,
+                child: this.widget.searchResult.length != 0
+                    ? ListView.builder(
+                        itemCount: this.widget.searchResult.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _listItem(
+                              this.widget.searchResult, index, context);
+                        },
+                        scrollDirection: Axis.horizontal,
+                      )
+                    : Center(
+                        child: Text(
+                          '검색 결과가 없습니다.',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
               ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   Widget _listItem(List<Information> menu, int index, BuildContext context) {
@@ -206,17 +209,24 @@ class _MenuListState extends State<MenuList> {
             ),
             onPressed: () {
               Information menuInfo;
+              if (MainScreen.userAuth == 'admin') {
+                setState(() {
+                  menuInfo = Information(
+                      category: category,
+                      id: id,
+                      cost: cost,
+                      desc: desc,
+                      name: title,
+                      engName: imageTitle);
+                  Provider.of<Information>(context, listen: false).name = title;
+                  Provider.of<Information>(context, listen: false).cost = cost;
+                  Provider.of<Information>(context, listen: false).desc = desc;
+                });
 
-              setState(() {
-                menuInfo = Information(
-                  category: category, id: id, cost: cost, desc: desc, name: title, engName: imageTitle
-                );
-                Provider.of<Information>(context, listen: false).name = title;
-                Provider.of<Information>(context, listen: false).cost = cost;
-                Provider.of<Information>(context, listen: false).desc = desc;
-              });
-
-              showMenuEditDialog(menuInfo, context);
+                showMenuEditDialog(menuInfo, context);
+              } else {
+                UserManage().showNoAuth(context);
+              }
             },
             child: Container(
               alignment: Alignment.center,
@@ -296,11 +306,18 @@ class _MenuListState extends State<MenuList> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           onPressed: () {
-                            String name = Provider.of<Information>(context, listen: false).name;
-                            int cost = Provider.of<Information>(context, listen: false).cost;
-                            String desc = Provider.of<Information>(context, listen: false).desc;
+                            String name =
+                                Provider.of<Information>(context, listen: false)
+                                    .name;
+                            int cost =
+                                Provider.of<Information>(context, listen: false)
+                                    .cost;
+                            String desc =
+                                Provider.of<Information>(context, listen: false)
+                                    .desc;
 
-                            Information().updateMenu(_info.category, _info.id, name, cost, desc);
+                            Information().updateMenu(
+                                _info.category, _info.id, name, cost, desc);
                             _menuUpdated();
 
                             Navigator.of(context).pop();
@@ -431,7 +448,8 @@ class _MenuListState extends State<MenuList> {
             padding: EdgeInsets.all(8),
             child: TextFormField(
               onChanged: (text) {
-                Provider.of<Information>(context, listen: false).cost = int.parse(text);
+                Provider.of<Information>(context, listen: false).cost =
+                    int.parse(text);
               },
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,

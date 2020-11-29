@@ -148,12 +148,6 @@ class _StaffActivityState extends State<StaffActivity> {
   }
 }
 
-//                    return printStatus('검색된 결과가 없습니다...');
-// else if (snapshot.hasError)
-//   return printStatus('오류가 발생했습니다.');
-// else
-//   return activityList(uid);
-
 Widget activityList(List activity) {
   if (activity.length == 0) {
     return Container(
