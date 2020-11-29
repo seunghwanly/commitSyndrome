@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:gajuga_manage/util/firebase_method.dart';
 import 'package:gajuga_manage/util/loading.dart';
 import 'package:gajuga_manage/util/palette.dart';
 
+// email
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class OrderStock extends StatefulWidget {
   final formKey, onCancel, pageIdx;
@@ -38,18 +41,14 @@ class OrderStockState extends State<OrderStock> {
       Map<String, dynamic> getPizza =
           Map<String, dynamic>.from(getLengthfromMap['pizza']);
       getPizza.forEach((key, value) {
-        var push = {
-          key : new TextEditingController()
-        };
+        var push = {key: new TextEditingController()};
         sendTextController.addAll(push);
       });
 
       Map<String, dynamic> getBeverage =
           Map<String, dynamic>.from(getLengthfromMap['beverage']);
       getBeverage.forEach((key, value) {
-        var push = {
-          key : new TextEditingController()
-        };
+        var push = {key: new TextEditingController()};
         sendTextController.addAll(push);
       });
     });
@@ -365,11 +364,11 @@ class OrderStockState extends State<OrderStock> {
                                                                                 10.0),
                                                                             child:
                                                                                 TextFormField(
-                                                                              controller: sendTextController[mergedList
-                                                                              .elementAt(index)
-                                                                              .key],
+                                                                              controller: sendTextController[mergedList.elementAt(index).key],
                                                                               textAlign: TextAlign.center,
                                                                               decoration: InputDecoration(focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: mandarin, width: 2)), errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: mandarin, width: 2)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: lightgrey, width: 2)), focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide(color: orange, width: 2)), errorStyle: TextStyle(color: mandarin, fontSize: 10.0, fontWeight: FontWeight.w600), labelText: "개수", labelStyle: TextStyle(color: lightgrey, fontSize: 14.0, fontWeight: FontWeight.w600)),
+                                                                              textInputAction: TextInputAction.next,
+                                                                              keyboardType: TextInputType.numberWithOptions(),
                                                                             ),
                                                                           )),
                                                                       Expanded(
@@ -395,34 +394,45 @@ class OrderStockState extends State<OrderStock> {
                 })));
   }
 
-  Future<void> send(
-      {String body,
-      String subject,
-      String recipients,
-      List<String> attachmentPaths,
-      bool isHTML}) async {
-    final Email email = Email(
-      body: body,
-      subject: subject,
-      recipients: [recipients],
-      attachmentPaths: attachmentPaths,
-      isHTML: isHTML,
-    );
+  Future<String> getJson() {
+    return rootBundle.loadString('credentials.json');
+  }
 
-    String platformResponse;
+  Future<void> sendEmail(BuildContext context) async {
+    var loginData = jsonDecode(await getJson());
+
+    String username = loginData["email"];
+    String password = loginData["password"];
+
+    final smtpServer = gmail(username, password); // Create gmail server
+
+    // Create email message.
+    final message = Message()
+      ..from = Address(username, "GAJUGA")
+      ..recipients.add('sunjm96@naver.com') // recipent email
+      ..subject =
+          '< ${DateTime.now().year}년 ${DateTime.now().month}월 ${DateTime.now().day}일 GAJUGA 발주신청건 >' // subject of the email
+      ..text =
+          '\n [ 재료 ] \n \t 재료A : ${sendTextController["재료A"].text.trim()} \n\t 재료B : ${sendTextController["재료B"].text.trim()} \n\t 재료C : ${sendTextController["재료C"].text.trim()} \n\t 재료E : ${sendTextController["재료E"].text.trim()} \n\t 재료E : ${sendTextController["재료E"].text.trim()} \n\t 재료F : ${sendTextController["재료F"].text.trim()} \n' // body of the email
+      ..html = "<h2>재료</h2>" +
+          "<p>재료A : ${sendTextController["재료A"].text.trim()}</p>" +
+          "<p>재료A : ${sendTextController["재료B"].text.trim()}</p>" +
+          "<p>재료B : ${sendTextController["재료C"].text.trim()}</p>" +
+          "<p>재료D : ${sendTextController["재료D"].text.trim()}</p>" +
+          "<p>재료E : ${sendTextController["재료E"].text.trim()}</p>" +
+          "<p>재료F : ${sendTextController["재료F"].text.trim()}</p>" + "<br>" +
+          "<h2>음료</h2>" +
+          "<p>사이다 : ${sendTextController["사이다"].text.trim()}</p>" +
+          "<p>콜라 : ${sendTextController["콜라"].text.trim()}</p>" + "<br>";
 
     try {
-      await FlutterEmailSender.send(email);
-      platformResponse = 'success';
-    } catch (error) {
-      platformResponse = error.toString();
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' +
+          sendReport.toString()); // print if the email is sent
+    } on MailerException catch (e) {
+      print('Message not sent. \n' +
+          e.toString()); // print if the email is not sent
     }
-
-    if (!mounted) return;
-
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(platformResponse),
-    ));
   }
 
   showModal(String title, int flag) {
@@ -431,8 +441,9 @@ class OrderStockState extends State<OrderStock> {
       builder: (BuildContext context) {
         setHandle() {
           sendTextController.forEach((key, value) {
-              print(key + " > " + value.text.trim());
-            });
+            print(key + " > " + value.text.trim());
+          });
+          sendEmail(context);
           Navigator.of(context).pop();
           if (flag == 1) {
             widget.onCancel();
