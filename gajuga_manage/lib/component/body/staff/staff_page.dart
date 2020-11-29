@@ -154,12 +154,14 @@ class _StaffPageState extends State<StaffPage> {
     staffReference.once().then((DataSnapshot snapshot) {
       snapshot.value.forEach((k, v) {
         allStaffs.add(v);
+        allStaffs.last['role'] = 1;
       });
     });
 
     chefReference.once().then((DataSnapshot snapshot) {
       snapshot.value.forEach((k, v) {
         allStaffs.add(v);
+        allStaffs.last['role'] = 0;
       });
     });
   }
