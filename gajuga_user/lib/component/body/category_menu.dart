@@ -38,40 +38,44 @@ class CategoryMenuState extends State<CategoryMenu> {
   }
 
   void addShoppingCart(dynamic menuItem) {
-    // print('이름' + menuItem['name']);
-    String push =
-        DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
-            .push()
-            .key;
+    if (MainScreen.userid != '') {
+      // print('이름' + menuItem['name']);
+      String push =
+          DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+              .push()
+              .key;
 
-    if (currentState == 'pizza') {
-      DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
-          .child(push)
-          .set({
-        'cost': menuItem['cost'],
-        'name': menuItem['name'],
-        'count': 1,
-        'option': {
-          'dough': '기본',
-          'size': '레귤러',
-        },
-        'eng_name': menuItem['eng_name'],
-      });
-      setState(() {
-        tmp += 1;
-      });
-    } else if (currentState == 'beverage') {
-      DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
-          .child(push)
-          .set({
-        'cost': menuItem['cost'],
-        'name': menuItem['name'],
-        'count': 1,
-        'eng_name': menuItem['eng_name'],
-      });
-      setState(() {
-        tmp += 1;
-      });
+      if (currentState == 'pizza') {
+        DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+            .child(push)
+            .set({
+          'cost': menuItem['cost'],
+          'name': menuItem['name'],
+          'count': 1,
+          'option': {
+            'dough': '기본',
+            'size': '레귤러',
+          },
+          'eng_name': menuItem['eng_name'],
+        });
+        setState(() {
+          tmp += 1;
+        });
+      } else if (currentState == 'beverage') {
+        DBRef.child('user/userInfo/' + MainScreen.userid + '/shoppingCart')
+            .child(push)
+            .set({
+          'cost': menuItem['cost'],
+          'name': menuItem['name'],
+          'count': 1,
+          'eng_name': menuItem['eng_name'],
+        });
+        setState(() {
+          tmp += 1;
+        });
+      }
+    } else {
+      showAuthModal(context);
     }
   }
 
