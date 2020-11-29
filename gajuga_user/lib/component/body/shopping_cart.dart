@@ -9,6 +9,7 @@ import '../../model/shoppingcart_model.dart';
 import '../../util/box_shadow.dart';
 import '../../util/palette.dart';
 import '../../util/to_locale.dart';
+import 'auth_unAuth_modal.dart';
 import '../../util/to_text.dart';
 import '../body/approval_order.dart';
 import '../header/header.dart';
@@ -97,8 +98,10 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                       '/ ' + cartList[index].name.toString(),
                                       context),
                               makeTextSize(
-                                  '크기 : ' +
-                                      cartList[index].option.size.toString(),
+                                  '옵션 : ' +
+                                      cartList[index].option.size.toString() +
+                                      ' / ' +
+                                      cartList[index].option.dough.toString(),
                                   // menus['size'].toString(),
 
                                   Color.fromRGBO(119, 119, 119, 1.0),
@@ -271,15 +274,19 @@ class ShoppingCartState extends State<ShoppingCartRoute> {
                                 color: Color.fromRGBO(247, 230, 0, 1.0)),
                             child: GestureDetector(
                                 onTap: () {
-                                  Order currentOrder = addOrder();
-                                  // deleteCurrentuserCartList();
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Payment(
-                                                currentOrder: currentOrder,
-                                                orderKey: orderKey,
-                                              )));
+                                  if (MainScreen.userid != '') {
+                                    Order currentOrder = addOrder();
+                                    // deleteCurrentuserCartList();
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Payment(
+                                                  currentOrder: currentOrder,
+                                                  orderKey: orderKey,
+                                                )));
+                                  } else {
+                                    showAuthModal(context);
+                                  }
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,

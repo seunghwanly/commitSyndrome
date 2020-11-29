@@ -383,10 +383,12 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                       //   }
                       //   );
                       ShoppingCart menuitem = ShoppingCart(
-                          dataForPush['cost'],
+                          dataForPush['cost'] ~/ count,
                           count,
                           dataForPush['name'],
-                          Option(size: '라지', dough: '치즈'),
+                          Option(
+                              size: dataForPush['option']['size'],
+                              dough: dataForPush['option']['dough']),
                           dataForPush['eng_name']);
 
                       addShoppingCart(menuitem);
@@ -420,20 +422,24 @@ class SubmenuScreenState extends State<SubmenuScreen> {
                     // 결제 화면으로 넘기기
                     // Navigator.push(
                     //     c, MaterialPageRoute(builder: (c) => Payment()));
-                    dataForPush['cost'] = totalcost;
-                    dataForPush['name'] = widget.item;
-                    dataForPush['eng_name'] = widget.engname;
-                    dataForPush['option']['size'] = list[0]['selected'];
-                    dataForPush['option']['dough'] = list[1]['selected'];
-                    Order currentOrder = addOrder();
+                    if (MainScreen.userid != '') {
+                      dataForPush['cost'] = totalcost;
+                      dataForPush['name'] = widget.item;
+                      dataForPush['eng_name'] = widget.engname;
+                      dataForPush['option']['size'] = list[0]['selected'];
+                      dataForPush['option']['dough'] = list[1]['selected'];
+                      Order currentOrder = addOrder();
 
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Payment(
-                                  currentOrder: currentOrder,
-                                  orderKey: orderKey,
-                                )));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Payment(
+                                    currentOrder: currentOrder,
+                                    orderKey: orderKey,
+                                  )));
+                    } else {
+                      showAuthModal(context);
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
