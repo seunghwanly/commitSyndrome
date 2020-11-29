@@ -29,6 +29,8 @@ class _MenuListState extends State<MenuList> {
   final _formKey = GlobalKey<FormState>();
   File _menuImage;
   final picker = ImagePicker();
+  List<Information> pizza;
+  List<Information> beverage;
 
   void _menuUpdated() {
     Scaffold.of(context)
@@ -47,8 +49,8 @@ class _MenuListState extends State<MenuList> {
       stream: menuReference.onValue,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Information> pizza = Menu.fromJson(snapshot.data.snapshot.value).pizza;
-          List<Information> beverage = Menu.fromJson(snapshot.data.snapshot.value).beverage;
+          pizza = Menu.fromJson(snapshot.data.snapshot.value).pizza;
+          beverage = Menu.fromJson(snapshot.data.snapshot.value).beverage;
 
           for (int i = 0; i < pizza.length; i++) {
             pizza[i].category = 'pizza';

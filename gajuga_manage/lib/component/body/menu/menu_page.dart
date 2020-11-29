@@ -21,12 +21,6 @@ class _MenuPageState extends State<MenuPage> {
   Widget menus = MenuList(type: 'default');
 
   @override
-  void initState() {
-    super.initState();
-    getAllMenus();
-  }
-
-  @override
   void dispose() {
     _searchFocus.dispose();
     super.dispose();
@@ -97,6 +91,7 @@ class _MenuPageState extends State<MenuPage> {
 
   searchMenu(String searchQuery) async {
     searchResult.clear();
+    await getAllMenus();
 
     totalMenu.forEach((menu) {
       if (menu['name'].toString().contains(searchQuery)) searchResult.add(Information.fromJson(menu));
