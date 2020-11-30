@@ -2,14 +2,13 @@
   GAJUGA
 </h1>
 <h3 align="center">
-2020-2 소프트웨어공학개론 팀 프로젝트 - 커밋증후군
+  2020-2 소프트웨어공학개론 팀 프로젝트 - 커밋증후군
 </h3>
 <h4 align="center">
-Flutter X Firebase 
+  Flutter X Firebase 
 </h4>
 <p align="center">
-<img src="https://user-images.githubusercontent.com/22142225/100584993-3248a300-3330-11eb-9e4e-983fe013d709.gif" width="200"/>
-<!-- 이미지 들어갈 자리 -->
+  <img src="https://user-images.githubusercontent.com/22142225/100584993-3248a300-3330-11eb-9e4e-983fe013d709.gif" width="200"/>
 </p>
 
 <p align="center">
@@ -46,9 +45,23 @@ Flutter X Firebase
 
 ## Screenshots
 ### User
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/33684401/100653225-6d2bf480-338b-11eb-91a9-fbaaa2d3a1a2.png" width="180"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653247-7321d580-338b-11eb-9de7-c16e9b528f07.png" width="180"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653545-f0e5e100-338b-11eb-8cb6-10ba217849f6.png" width="180"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653249-73ba6c00-338b-11eb-910c-547701eeff9c.png" width="180"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653251-74530280-338b-11eb-80c6-5e3cd8be8505.png" width="180"/>
+</p>
 
 ### Manager
-
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/33684401/100654499-3d7dec00-338d-11eb-9120-5e476f3ae460.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100654504-4242a000-338d-11eb-89e5-e391f78977bb.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653759-39050380-338c-11eb-83cf-30b0c02907a9.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653760-399d9a00-338c-11eb-9699-21890a74b084.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653761-3a363080-338c-11eb-8e74-6133c516cb31.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653762-3acec700-338c-11eb-9657-bf93b3f921b0.png" width="300"/>
+</p>
 
 ## Usage
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
