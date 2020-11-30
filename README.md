@@ -8,6 +8,7 @@
 Flutter X Firebase 
 </h4>
 <p align="center">
+<img src="https://user-images.githubusercontent.com/22142225/100584993-3248a300-3330-11eb-9e4e-983fe013d709.gif" width="200"/>
 <!-- 이미지 들어갈 자리 -->
 </p>
 
