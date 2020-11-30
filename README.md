@@ -87,7 +87,7 @@ example:
   "password": "YOUR_PASSWORD"
 }
 ```
-### :bulb: Mailer configuration for gajuga_manage
+### :bulb: IAMPORT X KAKAOPAY configuration for gajuga_manage
 1. Create <a href="https://admin.iamport.kr/users/login">**'iamport'** account</a>
 2. Set PG company for your payment
 ```
