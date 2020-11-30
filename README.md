@@ -46,11 +46,10 @@
 ## Screenshots
 ### User
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/33684401/100653225-6d2bf480-338b-11eb-91a9-fbaaa2d3a1a2.png" width="180"/>
-  <img src="https://user-images.githubusercontent.com/33684401/100653247-7321d580-338b-11eb-9de7-c16e9b528f07.png" width="180"/>
-  <img src="https://user-images.githubusercontent.com/33684401/100653545-f0e5e100-338b-11eb-8cb6-10ba217849f6.png" width="180"/>
-  <img src="https://user-images.githubusercontent.com/33684401/100653249-73ba6c00-338b-11eb-910c-547701eeff9c.png" width="180"/>
-  <img src="https://user-images.githubusercontent.com/33684401/100653251-74530280-338b-11eb-80c6-5e3cd8be8505.png" width="180"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653225-6d2bf480-338b-11eb-91a9-fbaaa2d3a1a2.png" width="150"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653247-7321d580-338b-11eb-9de7-c16e9b528f07.png" width="150"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653249-73ba6c00-338b-11eb-910c-547701eeff9c.png" width="150"/>
+  <img src="https://user-images.githubusercontent.com/33684401/100653251-74530280-338b-11eb-80c6-5e3cd8be8505.png" width="150"/>
 </p>
 
 ### Manager
