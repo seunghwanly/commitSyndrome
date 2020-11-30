@@ -414,16 +414,23 @@ class OrderStockState extends State<OrderStock> {
           '< ${DateTime.now().year}년 ${DateTime.now().month}월 ${DateTime.now().day}일 GAJUGA 발주신청건 >' // subject of the email
       ..text =
           '\n [ 재료 ] \n \t 재료A : ${sendTextController["재료A"].text.trim()} \n\t 재료B : ${sendTextController["재료B"].text.trim()} \n\t 재료C : ${sendTextController["재료C"].text.trim()} \n\t 재료E : ${sendTextController["재료E"].text.trim()} \n\t 재료E : ${sendTextController["재료E"].text.trim()} \n\t 재료F : ${sendTextController["재료F"].text.trim()} \n' // body of the email
-      ..html = "<h2>재료</h2>" +
-          "<p>&nbsp&nbsp재료A : ${sendTextController["재료A"].text.trim()}</p>" +
-          "<p>&nbsp&nbsp재료B : ${sendTextController["재료B"].text.trim()}</p>" +
-          "<p>&nbsp&nbsp재료C : ${sendTextController["재료C"].text.trim()}</p>" +
-          "<p>&nbsp&nbsp재료D : ${sendTextController["재료D"].text.trim()}</p>" +
-          "<p>&nbsp&nbsp재료E : ${sendTextController["재료E"].text.trim()}</p>" +
-          "<p>&nbsp&nbsp재료F : ${sendTextController["재료F"].text.trim()}</p>" + "<br>" +
-          "<h2>음료</h2>" +
-          "<p>&nbsp&nbsp사이다 : ${sendTextController["사이다"].text.trim()}</p>" +
-          "<p>&nbsp&nbsp콜라 : ${sendTextController["콜라"].text.trim()}</p>" + "<br>";
+      ..html = 
+          "<h1 align='center'> GAJUGA - ${DateTime.now().year}년 ${DateTime.now().month}월 ${DateTime.now().day}일 </h1>"
+          "<p align='center'>" + '<img src="https://user-images.githubusercontent.com/22142225/100584993-3248a300-3330-11eb-9e4e-983fe013d709.gif" width="200"/>' + "</p>"
+          "<h2 align='center'>재료 신청 목록</h2>" +
+          "<p align='center'>" +
+          "<p align='center'>재료A : ${sendTextController["재료A"].text.trim()}</p>" +
+          "<p align='center'>재료B : ${sendTextController["재료B"].text.trim()}</p>" +
+          "<p align='center'>재료C : ${sendTextController["재료C"].text.trim()}</p>" +
+          "<p align='center'>재료D : ${sendTextController["재료D"].text.trim()}</p>" +
+          "<p align='center'>재료E : ${sendTextController["재료E"].text.trim()}</p>" +
+          "<p align='center'>재료F : ${sendTextController["재료F"].text.trim()}</p>" + 
+          "</p>" +
+          "<br>" +
+          "<h2 align='center'>음료 신청 목록</h2>" +
+          "<p align='center'>사이다 : ${sendTextController["사이다"].text.trim()}</p>" +
+          "<p align='center'>콜라 : ${sendTextController["콜라"].text.trim()}</p>" + "<br>" + 
+          "<p align='center'> 오늘 하루도 좋은 하루 보내세요 !</p>";
 
     try {
       final sendReport = await send(message, smtpServer);
