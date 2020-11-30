@@ -71,11 +71,11 @@ class _StaffActivityState extends State<StaffActivity> {
                       children: [
                         TextSpan(
                           text: '직원',
-                          style: TextStyle(color: darkgrey),
+                          style: TextStyle(color: darkgrey, fontSize: 26),
                         ),
                         TextSpan(
                           text: ' 활동 확인',
-                          style: TextStyle(color: orange),
+                          style: TextStyle(color: orange, fontSize: 26),
                         ),
                       ],
                     ),
@@ -85,6 +85,7 @@ class _StaffActivityState extends State<StaffActivity> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
+                    padding: EdgeInsets.all(10),
                     onPressed: () {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffPage()));
                     },
@@ -95,7 +96,7 @@ class _StaffActivityState extends State<StaffActivity> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 18,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -125,11 +126,11 @@ class _StaffActivityState extends State<StaffActivity> {
                               children: [
                                 TextSpan(
                                   text: values["name"],
-                                  style: TextStyle(color: orange),
+                                  style: TextStyle(color: orange, fontSize: 24),
                                 ),
                                 TextSpan(
                                   text: '의 활동 내역',
-                                  style: TextStyle(color: darkgrey),
+                                  style: TextStyle(color: darkgrey, fontSize: 24),
                                 ),
                               ],
                             ),
@@ -201,11 +202,11 @@ Widget activityList(List activity) {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
               child: ListTile(
-            leading: Icon(Icons.check_circle_outline),
+            leading: Icon(Icons.check_circle_outline, size: 28),
             title: Text('주문 번호   ' + activity[index]["orderNumber"],
-                style: TextStyle(fontSize: 20)),
+                style: TextStyle(fontSize: 22)),
             subtitle: Text(activity[index]["approvalTime"].toString().split('.')[0],
-                style: TextStyle(fontSize: 18)),
+                style: TextStyle(fontSize: 20)),
           ));
         });
   }

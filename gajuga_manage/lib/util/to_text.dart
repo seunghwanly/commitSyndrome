@@ -57,7 +57,7 @@ Widget makeTitle(String left, String right) {
           style: TextStyle(
             color: Color.fromRGBO(33, 33, 31, 1.0),
             fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontSize: 26,
           ),
           textAlign: TextAlign.left,
         ),
@@ -66,7 +66,7 @@ Widget makeTitle(String left, String right) {
           style: TextStyle(
             color: Color.fromRGBO(218, 155, 104, 1.0),
             fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontSize: 26,
           ),
           textAlign: TextAlign.left,
         ),
@@ -184,7 +184,7 @@ Widget makeSubTitle(String left, String right) {
           style: TextStyle(
             color: Color.fromRGBO(33, 33, 31, 1.0),
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 25,
           ),
           textAlign: TextAlign.left,
         ),
@@ -193,7 +193,7 @@ Widget makeSubTitle(String left, String right) {
           style: TextStyle(
             color: Color.fromRGBO(218, 155, 104, 1.0),
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 25,
           ),
           textAlign: TextAlign.left,
         ),

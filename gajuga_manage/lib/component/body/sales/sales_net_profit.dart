@@ -364,7 +364,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                                             Text(
                                               _selectedDateString,
                                               style: TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 28,
                                                 fontWeight: FontWeight.bold,
                                                 color: orange,
                                               ),
@@ -377,7 +377,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                                       Text(
                                         '순이익 분석',
                                         style: TextStyle(
-                                          fontSize: 24,
+                                          fontSize: 28,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -406,8 +406,8 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                                       "${selectedDate.year}년 ${selectedDate.month}월에는 데이터가 없습니다 !",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 24,
-                                          color: darkblue))))
+                                          fontSize: 30,
+                                          color: Colors.grey))))
                         ],
                       );
                     }
@@ -436,7 +436,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                makeTitleSize(_selectedDateString, ' 매출관리', 10, 20, false),
+                makeTitleSize(_selectedDateString, ' 매출관리', 10, 28, false),
                 Column(
                   children: [
                     choiceField(),
@@ -466,7 +466,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                           style: TextStyle(
                             color: darkgrey,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
+                            fontSize: 20.0,
                           ),
                         ),
                       ),
@@ -497,7 +497,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                           style: TextStyle(
                             color: white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
+                            fontSize: 20.0,
                           ),
                         ),
                       ),
@@ -521,13 +521,17 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
             '분       류',
             style: TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize: 26,
             ),
           ),
           Flexible(
             child: Row(
               children: [
                 FlatButton.icon(
-                  label: Text('영업수익'),
+                  label: Text(
+                    '영업수익',
+                    style: TextStyle(fontSize: 22),
+                  ),
                   icon: Radio(
                     value: 0,
                     groupValue: _radioValue,
@@ -546,7 +550,10 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                   },
                 ),
                 FlatButton.icon(
-                  label: Text('영업비용'),
+                  label: Text(
+                    '영업비용',
+                    style: TextStyle(fontSize: 22),
+                  ),
                   icon: Radio(
                     value: 1,
                     groupValue: _radioValue,
@@ -579,6 +586,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
           '항목이름',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
         ),
         Flexible(
@@ -608,6 +616,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
           '금       액',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
         ),
         Flexible(

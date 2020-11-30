@@ -160,7 +160,7 @@ class _StockPageState extends State<StockPage> {
                   style: TextStyle(
                     color: darkblue,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                    fontSize: 24.0,
                   ),
                 ),
                 RaisedButton(
@@ -182,7 +182,7 @@ class _StockPageState extends State<StockPage> {
                       style: TextStyle(
                         color: white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                        fontSize: 18.0,
                       ),
                     ),
                   ),

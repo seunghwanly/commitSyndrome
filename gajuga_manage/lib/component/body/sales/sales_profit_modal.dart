@@ -21,7 +21,7 @@ showDeleteModal(BuildContext cc, String rootKey, String dataReferenceKey,
                   children: [
                     Text(
                       "삭제하시겠습니까?",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -31,9 +31,10 @@ showDeleteModal(BuildContext cc, String rootKey, String dataReferenceKey,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
                           color: superlight,
+                          padding: EdgeInsets.all(10),
                           child: Text(
                             "취소",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                           ),
                         ),
                         RaisedButton(
@@ -45,9 +46,10 @@ showDeleteModal(BuildContext cc, String rootKey, String dataReferenceKey,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
                           color: orange,
+                          padding: EdgeInsets.all(10),
                           child: Text(
                             "삭제",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                           ),
                         )
                       ],

@@ -33,7 +33,7 @@ datePicker(BuildContext c, Function onPressed, DateTime selectedDate) {
                   .toIso8601String()
                   .substring(0, 10)
                   .replaceAll('-', '/'),
-              style: TextStyle(color: lightgrey),
+              style: TextStyle(color: lightgrey, fontSize: 20),
             ),
             Icon(
               Icons.keyboard_arrow_down,

@@ -204,13 +204,26 @@ class _SalesPopularityState extends State<SalesPopularity> {
                     );
                   } else {
                     return Center(
-                        child: Text(
-                            '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.'));
+                      child: Text(
+                        '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.',
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
                   }
                 }
                 return Center(
                   child: Text(
-                      '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.'),
+                    '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 );
               },
             ),
@@ -248,41 +261,46 @@ Widget itemWithIcon(BuildContext context, String menuTitle, String korTitle,
                   Text(
                     korTitle,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: darkblue,
-                        fontSize: 18),
+                      fontWeight: FontWeight.bold,
+                      color: darkblue,
+                      height: 1.5,
+                      fontSize: 24,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     menuDesc,
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: lightgrey,
-                        fontSize: 14),
+                      fontWeight: FontWeight.w600,
+                      color: lightgrey,
+                      height: 1.5,
+                      fontSize: 20,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     toLocaleString(menuCost) + " 원",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: darkblue,
-                        fontSize: 18),
+                      fontWeight: FontWeight.bold,
+                      color: darkblue,
+                      height: 1.5,
+                      fontSize: 22,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
               FlatButton(
                 onPressed: () => onPress(rank),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                 color: orange,
-                padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                 child: Text(
                   "누적판매량보기",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 20,
                   ),
                   textAlign: TextAlign.center,
                 ),

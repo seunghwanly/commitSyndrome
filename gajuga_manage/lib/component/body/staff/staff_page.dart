@@ -90,11 +90,11 @@ class _StaffPageState extends State<StaffPage> {
               children: [
                 TextSpan(
                   text: '직원',
-                  style: TextStyle(color: darkgrey),
+                  style: TextStyle(color: darkgrey, fontSize: 26),
                 ),
                 TextSpan(
                   text: ' 검색',
-                  style: TextStyle(color: orange),
+                  style: TextStyle(color: orange, fontSize: 26),
                 ),
               ],
             ),

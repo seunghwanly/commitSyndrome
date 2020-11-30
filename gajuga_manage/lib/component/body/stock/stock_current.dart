@@ -39,13 +39,13 @@ class CurrentStockState extends State<CurrentStock> {
 
             return Column(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: makeTitleSize("피자", "PIZZA", 10.0, 20.0, false),
+                Container(
+                  child: makeTitleSize("피자", " PIZZA", 10.0, 24.0, false),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
                 ),
                 Expanded(
                     ///////////////////////////////////////////////////////////////////// PIZZA
-                    flex: 4,
+                    flex: 3,
                     child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.0),
@@ -198,9 +198,9 @@ class CurrentStockState extends State<CurrentStock> {
                           ],
                         ))),
                 ///////////////////////////////////////////////////////////////////// END OF PIZZA
-                Expanded(
-                  flex: 1,
-                  child: makeTitleSize("음료", "BEVERAGE", 10.0, 20.0, false),
+                Container(
+                  child: makeTitleSize("음료", " BEVERAGE", 10.0, 24.0, false),
+                  padding: EdgeInsets.fromLTRB(0, 40, 0, 40),
                 ),
                 //////////////////////////////////////////////////////////////////////// BEVERAGE
                 Expanded(
@@ -213,7 +213,7 @@ class CurrentStockState extends State<CurrentStock> {
                         child: Column(
                           children: [
                             Expanded(
-                                flex: 3,
+                                flex: 2,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

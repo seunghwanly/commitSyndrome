@@ -175,11 +175,11 @@ class AddStockState extends State<AddStock> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: makeTitleSize("피자", "PIZZA", 10.0, 20.0, false),
+                      child: makeTitleSize("피자", " PIZZA", 10.0, 24.0, false),
                     ),
                     Expanded(
                         ///////////////////////////////////////////////////////////////////// PIZZA
-                        flex: 4,
+                        flex: 3,
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -409,7 +409,7 @@ class AddStockState extends State<AddStock> {
                     ///////////////////////////////////////////////////////////////////// END OF PIZZA
                     Expanded(
                       flex: 1,
-                      child: makeTitleSize("음료", "BEVERAGE", 10.0, 20.0, false),
+                      child: makeTitleSize("음료", " BEVERAGE", 10.0, 24.0, false),
                     ),
                     //////////////////////////////////////////////////////////////////////// BEVERAGE
                     Expanded(

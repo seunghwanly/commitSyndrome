@@ -78,7 +78,7 @@ class _ExpenseListState extends State<ExpenseList> {
                         "- " + toLocaleString(totalAmount) + "원",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 20,
                             color: darkblue),
                       )
                     ],
@@ -161,7 +161,7 @@ class _ExpenseListState extends State<ExpenseList> {
 
   Widget tableBody(final rangeExpenseData) {
     TextStyle _bodyTextStyle =
-        TextStyle(color: darkblue, fontWeight: FontWeight.w600, fontSize: 16);
+        TextStyle(color: darkblue, fontWeight: FontWeight.w600, fontSize: 18);
 
     return Expanded(
       child: Container(

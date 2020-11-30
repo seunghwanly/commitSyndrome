@@ -74,7 +74,7 @@ class _MenuListState extends State<MenuList> {
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.03,
                         ),
-                        height: MediaQuery.of(context).size.height * 0.35,
+                        height: MediaQuery.of(context).size.height * 0.38,
                         width: double.infinity,
                         child: ListView.builder(
                           itemCount: pizza.length,
@@ -117,7 +117,7 @@ class _MenuListState extends State<MenuList> {
                 padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.03,
                 ),
-                height: MediaQuery.of(context).size.height * 0.35,
+                height: MediaQuery.of(context).size.height * 0.38,
                 width: double.infinity,
                 child: this.widget.searchResult.length != 0
                     ? ListView.builder(
@@ -152,11 +152,9 @@ class _MenuListState extends State<MenuList> {
     String desc = menu[index].desc;
     int cost = menu[index].cost;
     double itemWidth = MediaQuery.of(context).size.width * 0.18;
-    double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
     return Container(
       width: itemWidth,
-      height: itemHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -175,7 +173,7 @@ class _MenuListState extends State<MenuList> {
         children: <Widget>[
           CircleAvatar(
             backgroundImage: AssetImage('images/$imageTitle.png'),
-            radius: 35,
+            radius: 50,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -183,7 +181,7 @@ class _MenuListState extends State<MenuList> {
               Text(
                 title,
                 style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -191,22 +189,20 @@ class _MenuListState extends State<MenuList> {
                 style: TextStyle(
                     fontWeight: FontWeight.normal,
                     color: lightgrey,
-                    fontSize: 11.0),
+                    fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               Text(
                 '${toLocaleString(cost)} 원',
-                style:
-                    TextStyle(fontWeight: FontWeight.normal, color: darkblue),
+                style: TextStyle(fontWeight: FontWeight.normal, color: darkblue, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ],
           ),
           FlatButton(
             color: orange,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            padding: EdgeInsets.all(10),
             onPressed: () {
               Information menuInfo;
               if (MainScreen.userAuth == 'admin') {
@@ -235,7 +231,7 @@ class _MenuListState extends State<MenuList> {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -280,7 +276,7 @@ class _MenuListState extends State<MenuList> {
                           text: TextSpan(
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 28,
                             ),
                             children: [
                               TextSpan(
@@ -305,6 +301,7 @@ class _MenuListState extends State<MenuList> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
+                          padding: EdgeInsets.all(10),
                           onPressed: () {
                             String name =
                                 Provider.of<Information>(context, listen: false)
@@ -329,7 +326,7 @@ class _MenuListState extends State<MenuList> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                fontSize: 18,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -407,6 +404,7 @@ class _MenuListState extends State<MenuList> {
           '이       름',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Flexible(
@@ -441,6 +439,7 @@ class _MenuListState extends State<MenuList> {
           '가       격',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Flexible(
@@ -476,6 +475,7 @@ class _MenuListState extends State<MenuList> {
           '메뉴설명',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Flexible(

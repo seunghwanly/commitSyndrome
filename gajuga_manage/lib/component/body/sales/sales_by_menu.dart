@@ -138,7 +138,6 @@ class _SalesByMenuState extends State<SalesByMenu> {
                   Expanded(
                     flex: 2,
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
                       alignment: Alignment.center,
                       child: datePicker(context, setDate, selectedDate),
                     ),
@@ -154,14 +153,18 @@ class _SalesByMenuState extends State<SalesByMenu> {
                           child: PieChart(
                             dataMap: todayData,
                             colorList: todayDataColor,
-                            legendOptions: LegendOptions(legendTextStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                            legendOptions: LegendOptions(
+                              legendTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, height: 1.5),
+                            ),
                             chartValuesOptions: ChartValuesOptions(
                               showChartValueBackground: false,
-                                chartValueStyle: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    color: white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold)),
+                              chartValueStyle: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                color: white,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -189,32 +192,34 @@ class _SalesByMenuState extends State<SalesByMenu> {
                                       TextSpan(
                                         text:
                                             '${selectedDate.month}월 ${selectedDate.day}일 까지 ',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(color: Colors.black, fontSize: 24, height: 1.5),
                                       ),
                                       TextSpan(
                                         text: '${firstRank}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: white,
-                                            fontSize: 20,
+                                            fontSize: 24,
                                             backgroundColor: todayDataColor[
                                                 mapIndex[firstRank]]),
                                       ),
                                       TextSpan(
-                                        text: ' 가 제일 많은 판매량을 기록했네요 !\n 매출은 ',
-                                        style: TextStyle(color: Colors.black),
+                                        text: ' 가\n제일 많은 판매량을 기록했네요 !\n매출은 ',
+                                        style: TextStyle(color: Colors.black, fontSize: 24, height: 1.5),
                                       ),
                                       TextSpan(
                                         text:
                                             '${toLocaleString(calculatedResult[firstRank])}',
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                            fontSize: 18),
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 24,
+                                          height: 1.5,
+                                        ),
                                       ),
                                       TextSpan(
                                         text: ' 원 입니다 ! ',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(color: Colors.black, fontSize: 24, height: 1.5),
                                       ),
                                     ],
                                   ),

@@ -34,6 +34,7 @@ class MainScreen extends StatelessWidget {
                 ChangeNotifierProvider<Sales>(create: (_) => Sales())
               ],
               child: MaterialApp(
+                debugShowCheckedModeBanner: false,
                 localizationsDelegates: [
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,

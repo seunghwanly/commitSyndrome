@@ -104,11 +104,11 @@ class _StaffListState extends State<StaffList> {
                       children: [
                         TextSpan(
                           text: '직원',
-                          style: TextStyle(color: darkgrey),
+                          style: TextStyle(color: darkgrey, fontSize: 26),
                         ),
                         TextSpan(
                           text: ' 프로필 수정',
-                          style: TextStyle(color: orange),
+                          style: TextStyle(color: orange, fontSize: 26),
                         ),
                       ],
                     ),
@@ -264,11 +264,9 @@ class _StaffListState extends State<StaffList> {
     String phoneNumber = staff[index]["phoneNumber"];
     String id = staff[index]["id"];
     double itemWidth = MediaQuery.of(context).size.width * 0.12;
-    double itemHeight = MediaQuery.of(context).size.width * 0.35;
 
     return Container(
       width: itemWidth,
-      height: itemHeight,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -302,13 +300,13 @@ class _StaffListState extends State<StaffList> {
                       (r_isSelected[index] && this.widget.type == 'search')
                   ? Colors.white
                   : darkgrey,
-              //color: Colors.white,
+              fontSize: 20,
             ),
             textAlign: TextAlign.center,
           ),
           Text(
             name,
-            style: TextStyle(fontWeight: FontWeight.bold, color: orange),
+            style: TextStyle(fontWeight: FontWeight.bold, color: orange, fontSize: 20),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 10),
@@ -318,7 +316,7 @@ class _StaffListState extends State<StaffList> {
                   context, name, address, phoneNumber, id, role);
             },
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.fromLTRB(5, 8, 5, 8),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -329,7 +327,7 @@ class _StaffListState extends State<StaffList> {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -375,7 +373,7 @@ class _StaffListState extends State<StaffList> {
                           text: TextSpan(
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 28,
                             ),
                             children: [
                               TextSpan(
@@ -391,10 +389,14 @@ class _StaffListState extends State<StaffList> {
                         ),
                         staffImageView("images/default_profile.jpg"),
                         SizedBox(height: 10),
-                        Text(
-                          id,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            id,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                         nameField(name),
@@ -406,6 +408,7 @@ class _StaffListState extends State<StaffList> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
+                          padding: EdgeInsets.all(10),
                           onPressed: () {
                             Navigator.of(context).pop();
                             Staff().updateStaff(id, role, _nameController.text,
@@ -423,7 +426,7 @@ class _StaffListState extends State<StaffList> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                fontSize: 18,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -462,6 +465,7 @@ class _StaffListState extends State<StaffList> {
           '이       름',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Flexible(
@@ -493,6 +497,7 @@ class _StaffListState extends State<StaffList> {
           '주       소',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Flexible(
@@ -524,6 +529,7 @@ class _StaffListState extends State<StaffList> {
           '전화번호',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Flexible(

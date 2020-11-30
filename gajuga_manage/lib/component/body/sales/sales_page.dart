@@ -31,7 +31,7 @@ class _SalesPageState extends State<SalesPage> {
         Expanded(
           flex: 1,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               tapButton(
                   () => handlePage(0),
@@ -39,7 +39,7 @@ class _SalesPageState extends State<SalesPage> {
                   orange,
                   "메뉴별 매출분석",
                   white,
-                  20.0,
+                  28.0,
                   MediaQuery.of(context).size.width * 0.2,
                   MediaQuery.of(context).size.width * 0.05,
                   MediaQuery.of(context).size.height * 0.01,
@@ -51,7 +51,7 @@ class _SalesPageState extends State<SalesPage> {
                   orange,
                   "순이익 분석",
                   white,
-                  20.0,
+                  28.0,
                   MediaQuery.of(context).size.width * 0.2,
                   MediaQuery.of(context).size.width * 0.05,
                   MediaQuery.of(context).size.height * 0.01,
@@ -63,7 +63,7 @@ class _SalesPageState extends State<SalesPage> {
                   orange,
                   "메뉴인기도분석",
                   white,
-                  20.0,
+                  28.0,
                   MediaQuery.of(context).size.width * 0.2,
                   MediaQuery.of(context).size.width * 0.05,
                   MediaQuery.of(context).size.height * 0.01,
