@@ -87,3 +87,38 @@ example:
   "password": "YOUR_PASSWORD"
 }
 ```
+### :bulb: Mailer configuration for gajuga_manage
+1. Create <a href="https://admin.iamport.kr/users/login">**'iamport'** account</a>
+2. Set PG company for your payment
+```
+System Settings > PG Settings > PG compnay
+시스템설정 > PG설정(일반결제 및 정기결제) > PG사
+```
+- [x] Please select **TESTMODE(Sandbox) ON**, for testing
+3. Copy your merchant identification code
+```
+My Info > merchant identification code
+내정보 > 가맹점 식별코드
+```
+4. edit the code at **lib/util/payment/iamport_payment.dart
+```dart
+      /* [Essential] merchant identification code | [필수입력] 가맹점 식별코드 */
+      userCode: MERCHANT_IDENTIFICATION_CODE,
+      /* [Essential] Payment Data | [필수입력] 결제 데이터 */
+      data: PaymentData.fromJson({
+        'pg': 'kakaopay', // PG사
+        'payMethod': 'card', // method | 결제수단
+        'name': APPLICATION_NAME, // this will be printed when user is ready for payemnt | 주문명
+        'merchantUid': ORDER_NUMBER, // 주문번호
+        'amount': TOTAL_COST, // 결제금액
+        'buyerName': BUYER_NAME, // 구매자 이름
+        'buyerTel': BUYER_PHONE_NUMBER, // 구매자 연락처
+        'buyerEmail': BUYER_EMAIL, // 구매자 이메일
+        'buyerAddr': BUYER_ADDRESS, // 구매자 주소
+        'buyerPostcode': BUYER_POST_CODE, // 구매자 우편번호
+        'appScheme': APPLICATION_URL_SCHEME, // 앱 URL scheme
+        'display': {
+          'cardQuota': INSTALLMENT_MONTHLY_LIMIT //결제창 UI 내 할부개월수 제한
+        }
+      }),
+```
