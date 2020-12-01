@@ -33,7 +33,7 @@ class PaymentState extends State<Payment> {
         height: MediaQuery.of(context).size.height,
         color: pale,
         child: new Center(
-          child: LoadingBouncingGrid.circle(borderColor: white,),
+          child: LoadingBouncingGrid.circle(borderColor: white,backgroundColor: Colors.transparent,),
         ),
       ),
 
