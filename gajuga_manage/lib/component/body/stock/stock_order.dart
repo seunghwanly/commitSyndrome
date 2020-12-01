@@ -410,7 +410,7 @@ class OrderStockState extends State<OrderStock> {
     final message = Message()
       ..from = Address(username, "GAJUGA")
       ..recipients.add('sunjm96@naver.com') // recipent email
-      ..recipients.add('seunghwanly@gmail.com') // recipent email
+      ..recipients.add('emchoi@dongguk.edu') // professor
       ..subject =
           '< ${DateTime.now().year}년 ${DateTime.now().month}월 ${DateTime.now().day}일 GAJUGA 발주신청건 >' // subject of the email
       ..text =
