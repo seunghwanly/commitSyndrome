@@ -213,7 +213,7 @@ class OrderState extends State<OrderStateList> {
                                           MediaQuery.of(context).size.height *
                                               (40 / 812),
                                       backgroundImage:
-                                          AssetImage('images/potato.png'),
+                                          AssetImage('images/${widget.currentOrder.content[0].eng_name}.png'),
                                     ),
                                   ],
                                 ),

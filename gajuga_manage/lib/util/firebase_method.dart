@@ -101,7 +101,7 @@ class FirebaseMethod {
   // sales
   getTotalSalesData() async {
     var fetchedData;
-    await orderReference.once().then((DataSnapshot snapshot) {
+    await orderReference.orderByKey().once().then((DataSnapshot snapshot) {
       // print(snapshot.value.runtimeType);
       // print(snapshot.value.toString());
       fetchedData = new Map<String, dynamic>.from(snapshot.value);

@@ -180,24 +180,50 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                     Map<String, dynamic> expenseData =
                         new Map<String, dynamic>.from(snapshot.data[2]);
 
+                    var sortedMenuData = menuData.entries.toList()
+                      ..sort((a, b) => DateTime.parse(a.key)
+                          .compareTo(DateTime.parse(b.key)));
+
+                    var lasyKey = sortedMenuData.last.key;
+                    var firstKey = sortedMenuData.first.key;
+
                     // only check this month
                     String selectedDateKey =
                         "${selectedDate.year}-${selectedDate.month}";
 
-                    String lastYearKey = menuData.keys.last.substring(0, 4);
-                    String lastMonthKey = menuData.keys.last.substring(5, 7);
+                    // String lastYearKey = menuData.keys.last.substring(0, 4);
+                    // String lastMonthKey = menuData.keys.last.substring(5, 7);
+                    String lastYearKey = lasyKey.substring(0, 4);
+                    String lastMonthKey = lasyKey.substring(5, 7);
 
-                    String firstYearKey = menuData.keys.first.substring(0, 4);
-                    String firstMonthKey = menuData.keys.first.substring(5, 7);
+                    // String firstYearKey = menuData.keys.first.substring(0, 4);
+                    // String firstMonthKey = menuData.keys.first.substring(5, 7);
+                    String firstYearKey = firstKey.substring(0, 4);
+                    String firstMonthKey = firstKey.substring(5, 7);
 
-                    if (selectedDate.month.compareTo(DateTime.parse(
-                                    lastYearKey + '-' + lastMonthKey + '-01')
-                                .month) <=
-                            0 &&
-                        selectedDate.month.compareTo(DateTime.parse(
-                                    firstYearKey + '-' + firstMonthKey + '-01')
-                                .month) >=
-                            0) {
+                    print(selectedDateKey +
+                        " " +
+                        lastYearKey +
+                        "-" +
+                        lastMonthKey +
+                        '\t' +
+                        firstYearKey +
+                        '-' +
+                        firstMonthKey);
+
+                    // if (
+                    //   // selectedDate
+                    //   //   .month
+                    //   //   .(DateTime
+                    //   //   .parse(lastYearKey + '-' + lastMonthKey + '-01')
+                    //   //   .month) <=
+                    //   //       0 &&
+                    //   //   selectedDate.month.compareTo(DateTime.parse(
+                    //   //               firstYearKey + '-' + firstMonthKey + '-01')
+                    //   //           .month) >=
+                    //   //       0
+                    //   selectedDate.isAtSameMomentAs(DateTime.parse(lasykey.toString()))
+                    //         ) {
                       // essentail
                       var totalSalesThisMonth =
                           calculateMonthSales(menuData, selectedDate);
@@ -338,79 +364,79 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                           ),
                         ],
                       );
-                    } else {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                  flex: 6,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          DateTime newDateTime =
-                                              await customDatePicker(
-                                                  context, selectedDate);
-                                          if (newDateTime != null) {
-                                            setDate(newDateTime);
-                                          }
-                                        },
-                                        child: Flex(
-                                          direction: Axis.horizontal,
-                                          children: [
-                                            Text(
-                                              _selectedDateString,
-                                              style: TextStyle(
-                                                fontSize: 28,
-                                                fontWeight: FontWeight.bold,
-                                                color: orange,
-                                              ),
-                                            ),
-                                            Icon(Icons.keyboard_arrow_down,
-                                                size: 30),
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        '순이익 분석',
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          showModal();
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Icon(
-                                            Icons.add_circle,
-                                            color: orange,
-                                            size: 35,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                              Expanded(flex: 4, child: SizedBox())
-                            ],
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height / 2,
-                              child: Center(
-                                  child: Text(
-                                      "${selectedDate.year}년 ${selectedDate.month}월에는 데이터가 없습니다 !",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30,
-                                          color: Colors.grey))))
-                        ],
-                      );
-                    }
+                    // } else {
+                    //   return Column(
+                    //     children: [
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //         children: [
+                    //           Expanded(
+                    //               flex: 6,
+                    //               child: Row(
+                    //                 mainAxisAlignment: MainAxisAlignment.start,
+                    //                 children: [
+                    //                   InkWell(
+                    //                     onTap: () async {
+                    //                       DateTime newDateTime =
+                    //                           await customDatePicker(
+                    //                               context, selectedDate);
+                    //                       if (newDateTime != null) {
+                    //                         setDate(newDateTime);
+                    //                       }
+                    //                     },
+                    //                     child: Flex(
+                    //                       direction: Axis.horizontal,
+                    //                       children: [
+                    //                         Text(
+                    //                           _selectedDateString,
+                    //                           style: TextStyle(
+                    //                             fontSize: 28,
+                    //                             fontWeight: FontWeight.bold,
+                    //                             color: orange,
+                    //                           ),
+                    //                         ),
+                    //                         Icon(Icons.keyboard_arrow_down,
+                    //                             size: 30),
+                    //                       ],
+                    //                     ),
+                    //                   ),
+                    //                   Text(
+                    //                     '순이익 분석',
+                    //                     style: TextStyle(
+                    //                       fontSize: 28,
+                    //                       fontWeight: FontWeight.bold,
+                    //                     ),
+                    //                   ),
+                    //                   InkWell(
+                    //                     onTap: () {
+                    //                       showModal();
+                    //                     },
+                    //                     child: Padding(
+                    //                       padding: EdgeInsets.only(left: 10),
+                    //                       child: Icon(
+                    //                         Icons.add_circle,
+                    //                         color: orange,
+                    //                         size: 35,
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               )),
+                    //           Expanded(flex: 4, child: SizedBox())
+                    //         ],
+                    //       ),
+                    //       SizedBox(
+                    //           height: MediaQuery.of(context).size.height / 2,
+                    //           child: Center(
+                    //               child: Text(
+                    //                   "${selectedDate.year}년 ${selectedDate.month}월에는 데이터가 없습니다 !",
+                    //                   style: TextStyle(
+                    //                       fontWeight: FontWeight.bold,
+                    //                       fontSize: 30,
+                    //                       color: Colors.grey))))
+                    //     ],
+                    //   );
+                    // }
                   }
                 }
               }),
@@ -475,7 +501,6 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                       onTap: () {
                         Navigator.pop(context);
                         _dataUpdated();
-                        _radioValue = -1;
                         print("onPress");
                         FirebaseMethod().addSpecificData(
                             rootKey: _radioValue == 0 ? 'profit' : 'expense',
@@ -483,6 +508,7 @@ class _SalesNetProfitState extends State<SalesNetProfit> {
                                 "${selectedDate.year}-${selectedDate.month}",
                             name: addedDesc.text.trim(),
                             amount: int.parse(addedAmount.text.trim()));
+                        _radioValue = -1;
                       },
                       child: Container(
                         alignment: Alignment.center,

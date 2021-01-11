@@ -115,11 +115,11 @@ class _SalesPopularityState extends State<SalesPopularity> {
                     });
                   });
 
-                  // check info is in the data
-                  if (DateTime.parse(salesData.keys.last)
-                              .compareTo(selectedDate) <=
-                          0 &&
-                      selectedDate.compareTo(DateTime.now()) <= 0) {
+                  // // check info is in the data
+                  // if (DateTime.parse(salesData.keys.last)
+                  //             .compareTo(selectedDate) <=
+                  //         0 &&
+                  //     selectedDate.compareTo(DateTime.now()) <= 0) {
                     var calculatedResult =
                         calculateSales(salesData, selectedDate);
                     double totalCount = 0;
@@ -202,18 +202,18 @@ class _SalesPopularityState extends State<SalesPopularity> {
                         ],
                       ),
                     );
-                  } else {
-                    return Center(
-                      child: Text(
-                        '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.',
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
-                  }
+                  // } else {
+                  //   return Center(
+                  //     child: Text(
+                  //       '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.',
+                  //       style: TextStyle(
+                  //         fontSize: 30,
+                  //         color: Colors.grey,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //   );
+                  // }
                 }
                 return Center(
                   child: Text(

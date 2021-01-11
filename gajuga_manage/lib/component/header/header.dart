@@ -152,10 +152,6 @@ class _CustomHeaderState extends State<CustomHeader> {
                         } else {
                           UserManage().showNoAuth(context);
                         }
-                        Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SalesPage()));
                       },
                     ),
                     ListTile(
@@ -179,10 +175,6 @@ class _CustomHeaderState extends State<CustomHeader> {
                         } else {
                           UserManage().showNoAuth(context);
                         }
-                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StockPage()));
                       },
                     ),
                     ListTile(

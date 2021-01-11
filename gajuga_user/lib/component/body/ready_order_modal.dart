@@ -49,12 +49,10 @@ showReadyModal(BuildContext c) {
                                 ])),
                         GestureDetector(
                             onTap: () {
-                              Navigator.pushAndRemoveUntil(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MainScreen()),
-                                  ModalRoute.withName('/main'));
+                                      builder: (context) => mainBody()));
                             },
                             child: Container(
                                 alignment: Alignment.center,

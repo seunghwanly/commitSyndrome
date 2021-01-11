@@ -77,11 +77,20 @@ class _ProfitListState extends State<ProfitList> {
                 // sales data
                 Map<String, dynamic> menuData =
                     new Map<String, dynamic>.from(snapshot.data[1]);
+
+                var sortedMenuData = menuData.entries.toList()
+                  ..sort((a, b) =>
+                      DateTime.parse(a.key).compareTo(DateTime.parse(b.key)));
+
+                var lasyKey = sortedMenuData.last.key;
+                var firstKey = sortedMenuData.first.key;
+
                 // check info is in the data
-                if (DateTime.parse(menuData.keys.last)
-                        .month
-                        .compareTo(widget.selectedDate.month) ==
-                    0) {
+                // if (DateTime.parse(lasyKey)
+                //         .month
+                //         .compareTo(widget.selectedDate.month) ==
+                //     0) {
+
                   int totalAmount = 0;
                   widget.mergedProfitData.forEach((key, value) {
                     totalAmount += value;
@@ -106,16 +115,16 @@ class _ProfitListState extends State<ProfitList> {
                       tableBody(widget.mergedProfitData),
                     ],
                   );
-                } else {
-                  return Center(
-                      child: Text(
-                    "이번 달은 데이터가 없네요 !",
-                    style: TextStyle(
-                        color: darkblue,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16),
-                  ));
-                }
+                // } else {
+                //   return Center(
+                //       child: Text(
+                //     "이번 달은 데이터가 없네요 !",
+                //     style: TextStyle(
+                //         color: darkblue,
+                //         fontWeight: FontWeight.w600,
+                //         fontSize: 16),
+                //   ));
+                // }
               }
             }));
   }

@@ -78,13 +78,19 @@ class _SalesByMenuState extends State<SalesByMenu> {
           Map<String, dynamic> menuData =
               new Map<String, dynamic>.from(snapshot.data);
 
+           var sortedMenuData = menuData.entries.toList()..sort((a,b) => DateTime.parse(a.key).compareTo(DateTime.parse(b.key)));
+                    
+          var lasyKey = sortedMenuData.last.key;
+          var firstKey = sortedMenuData.first.key;
+
+            print(lasyKey);
+
+            // 기록 첫번째 < 1.선택한 날짜 < 기록 마지막 < 2.선택한 날짜 <= 오늘날짜
+
           // check info is in the data
           // "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}"
-          if (
-              // DateTime.parse(menuData.keys.first).compareTo(selectedDate) <= 0 &&
-              DateTime.parse(menuData.keys.last).compareTo(selectedDate) <= 0 &&
-              selectedDate.compareTo(DateTime.now()) <= 0
-              ) {
+          // if (
+          //     ) {
             /*
               예를 들어서 날짜 선택을 11/27 로 했으면 해당 날짜까지 매출 합을 구해야함
               >> key 값이랑 선택할 날짜를 비교
@@ -234,32 +240,32 @@ class _SalesByMenuState extends State<SalesByMenu> {
                 ],
               ),
             );
-          } else {
-            return Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height / 2,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 20, bottom: 20),
-                padding: EdgeInsets.only(left: 20),
-                decoration: customBoxDecoration(),
-                child: Column(children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
-                      alignment: Alignment.center,
-                      child: datePicker(context, setDate, selectedDate),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Center(
-                      child: Text(
-                          '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.'),
-                    ),
-                  )
-                ]));
-          }
+          // } else {
+          //   return Container(
+          //       alignment: Alignment.center,
+          //       height: MediaQuery.of(context).size.height / 2,
+          //       width: MediaQuery.of(context).size.width,
+          //       margin: EdgeInsets.only(top: 20, bottom: 20),
+          //       padding: EdgeInsets.only(left: 20),
+          //       decoration: customBoxDecoration(),
+          //       child: Column(children: [
+          //         Expanded(
+          //           flex: 2,
+          //           child: Container(
+          //             margin: EdgeInsets.symmetric(vertical: 10.0),
+          //             alignment: Alignment.center,
+          //             child: datePicker(context, setDate, selectedDate),
+          //           ),
+          //         ),
+          //         Expanded(
+          //           flex: 8,
+          //           child: Center(
+          //             child: Text(
+          //                 '${selectedDate.toString().substring(0, 10)} 에 데이터가 존재하지 않습니다.'),
+          //           ),
+          //         )
+          //       ]));
+          // }
         } else {
           return Center(child: customLoadingBouncingGrid(orange));
         }

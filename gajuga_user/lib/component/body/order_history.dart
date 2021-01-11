@@ -204,13 +204,27 @@ class OrderHistoryState extends State<OrderHistory> {
         .child('history')
         .once()
         .then((DataSnapshot dataSnapshot) {
-      Map<dynamic, dynamic> values = dataSnapshot.value;
-      var orderList = new List<dynamic>();
-      // print(values.toString());
-      values.forEach((k, v) {
-        orderList.add(v);
+      var historyData = new Map<dynamic, dynamic>.from(dataSnapshot.value);
+            
+      List<Map<dynamic, dynamic>> orderList = new List<Map<dynamic, dynamic>>();
+
+      historyData.forEach((key, value) {
+        orderList.add(value);
       });
-      // print('0' + orderList.length.toString());
+
+      orderList.sort(
+        (a, b) =>
+            (
+              DateTime.parse(b['orderTimes']['confirmTime'].toString())
+                .compareTo(
+                  DateTime
+                  .parse(
+                    a['orderTimes']['confirmTime'].toString()
+                    )
+                    )
+                    )
+      );
+
       setState(() {
         //print('여기는 ? ' + (dataSnapshot.value).toString());
         this.fetchedData = orderList;
